@@ -1,0 +1,16 @@
+dist/
+lib/*
+!lib/click-dev-tasks-1.1.jar
+
+build/deployed.html
+documentation/docs/click-api/
+documentation/docs/extras-api/
+documentation/docs/mock-api/
+examples/webapp/WEB-INF/classes/
+examples/webapp/WEB-INF/lib/
+examples/webapp/click/
+examples/webapp/images/
+examples/webapp/javadoc/
+extras/classes/
+framework/classes/
+mock/classes/

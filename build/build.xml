@@ -8,7 +8,7 @@
    "License"); you may not use this file except in compliance
    with the License.  You may obtain a copy of the License at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+     https://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing,
    software distributed under the License is distributed on an
@@ -28,7 +28,7 @@
    <property name="click-mock" value="click-mock-${version}"/>
 
    <property name="jar.cayenne" value="cayenne-server-${cayenne.version}.jar"/>
-   <property name="jar.checkstyle" value="checkstyle-all-${checkstyle.version}.jar"/>
+   <property name="jar.checkstyle" value="checkstyle-${checkstyle.version}-all.jar"/>
    <property name="jar.codec" value="commons-codec-${commons-codec.version}.jar"/>
    <property name="jar.collections" value="commons-collections-${commons-collections.version}.jar"/>
    <property name="jar.freemarker" value="freemarker-${freemarker.version}.jar"/>
@@ -44,8 +44,8 @@
    <property name="jar.spring" value="spring-${spring.version}.jar"/>
    <property name="jar.upload" value="commons-fileupload-${commons-fileupload.version}.jar"/>
    <property name="jar.velocity" value="velocity-${velocity.version}.jar"/>
-   <property name="javac.source" value="1.5"/>
-   <property name="repository" value="http://repo1.maven.org"/>
+   <property name="javac.source" value="1.8"/>
+   <property name="repository" value="https://repo1.maven.org"/>
    <property name="maven-bundle" value="../maven-upload"/>
 
 
@@ -604,8 +604,8 @@
    </target>
 
 
-   <target name="download-checkstyle" if="checkstyle.true">
-     <get src="http://clickclick.googlecode.com/svn/trunk/checkstyle/${jar.checkstyle}"
+   <target name="download-checkstyle" if="checkstyle.true">      
+     <get src="https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${checkstyle.version}/${jar.checkstyle}"
            dest="lib/${jar.checkstyle}"
            verbose="true"
            usetimestamp="true"/>
@@ -876,12 +876,12 @@ Please ensure you have configured build.properties</echo>
                charset="UTF-8"
                excludepackagenames="@{excludes}">
             <classpath refid="@{classpath}"/>
-            <link href="http://download.oracle.com/javase/1,5.0/docs/api/"/>
-            <link href="http://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
-            <link href="http://jakarta.apache.org/commons/fileupload/apidocs/"/>
-            <link href="http://click.apache.org/docs/click-api/"/>
-            <link href="http://docs.jboss.org/hibernate/orm/3.2/api/"/>
-            <link href="http://static.springframework.org/spring/docs/2.5.x/api/"/>
+            <link href="https://docs.oracle.com/javase/8/docs/api/"/>
+            <link href="https://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+            <link href="https://jakarta.apache.org/commons/fileupload/apidocs/"/>
+            <link href="https://click.apache.org/docs/click-api/"/>
+            <link href="https://docs.jboss.org/hibernate/orm/3.2/api/"/>
+            <link href="https://static.springframework.org/spring/docs/2.5.x/api/"/>
          </javadoc>
 
          <!-- Add syntax highlighter to each javadoc page -->
