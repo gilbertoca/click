@@ -8,7 +8,7 @@
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+   https://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
@@ -42,7 +42,7 @@
    <property name="jar.servlet" value="servlet-api-${servlet-api.version}.jar"/>
    <property name="jar.spring" value="spring-${spring.version}.jar"/>
    <property name="jar.standard" value="standard-${standard.version}.jar"/>
-   <property name="javac.source" value="1.5"/>
+   <property name="javac.source" value="1.8"/>
      
    <property name="dir.deploy" value="../dist"/>
    <property name="dir.webapp" value="webapp"/>
@@ -104,9 +104,9 @@
                doctitle="Click Example API">
          <classpath refid="classpath"/>
          <packageset dir="src"/>
-         <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-         <link href="http://click.apache.org/docs/click-api/"/>
-         <link href="http://static.springframework.org/spring/docs/2.5.x/api/"/>
+         <link href="https://java.sun.com/j2se/1.5.0/docs/api/"/>
+         <link href="https://click.apache.org/docs/click-api/"/>
+         <link href="https://static.springframework.org/spring/docs/2.5.x/api/"/>
       </javadoc>
       <copy file="../documentation/docs/javadoc-stylesheet.css"  
       	    overwrite="true"
@@ -174,7 +174,7 @@
     
    <target name="get-deps" description="download JAR dependencies">
       <mkdir dir="${dir.weblib}"/>
-      <property name="repository" value="http://repo1.maven.org"/>
+      <property name="repository" value="https://repo1.maven.org"/>
       <webDownloadMacro name="${jar.spring-security}" path="org/springframework/security/spring-security-core/${spring-security.version}"/>
       <webDownloadMacro name="${jar.annotation}" path="org/apache/geronimo/specs/geronimo-annotation_1.0_spec/${geronimo-common-annotations.version}"/>
       <webDownloadMacro name="${jar.ashwood}" path="org/objectstyle/ashwood/ashwood/${ashwood.version}"/>
