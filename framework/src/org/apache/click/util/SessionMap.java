@@ -56,7 +56,7 @@ public class SessionMap implements Map<String, Object> {
     protected HttpSession session;
 
     /**
-     * Create a <tt>HttpSession</tt> <tt>Map</tt> adaptor.
+     * Create a <code>HttpSession</code> <code>Map</code> adaptor.
      *
      * @param value the http session
      */
@@ -168,7 +168,7 @@ public class SessionMap implements Map<String, Object> {
 
     /**
      * This method is not supported and will throw
-     * <tt>UnsupportedOperationException</tt> if invoked.
+     * <code>UnsupportedOperationException</code> if invoked.
      *
      * @see java.util.Map#containsValue(Object)
      */

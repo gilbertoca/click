@@ -26,7 +26,7 @@ import org.apache.click.examples.page.BorderPage;
 import org.apache.click.util.ClickUtils;
 
 /**
- * Provides an <tt>onSecurityCheck</tt> example secure Page for handling Ajax
+ * Provides an <code>onSecurityCheck</code> example secure Page for handling Ajax
  * requests. Two links are presented to the user. Clicking on the first link will
  * redirect the user to this page and show an error message. Clicking on the
  * second link will show an error message without redirecting to another page.

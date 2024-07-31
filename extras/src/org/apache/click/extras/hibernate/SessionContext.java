@@ -33,7 +33,7 @@ import org.hibernate.cfg.Configuration;
  *
  * Or alternatively by using System properties.
  * <p/>
- * The Hibernate initialization code used by <tt>SessionContext</tt> is:
+ * The Hibernate initialization code used by <code>SessionContext</code> is:
  *
  * <pre class="prettyprint">
  * Configuration configuration = createConfiguration();
@@ -88,7 +88,7 @@ public class SessionContext {
         try {
             // Try to instantiate AnnotationConfiguration by reflection
             Class<?> clazz = ClickUtils.classForName("org.hibernate.cfg.AnnotationConfiguration");
-            Configuration configuration = (Configuration) clazz.newInstance();
+            Configuration configuration = (Configuration) clazz.getDeclaredConstructor().newInstance();
             return configuration;
         } catch (ClassNotFoundException e) {
             // Fall back to normal configuration

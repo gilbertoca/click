@@ -62,7 +62,7 @@ import org.apache.commons.lang.Validate;
  * This method registers the Control's action listener with the
  * ActionEventDispatcher. The ClickServlet will subsequently invoke the registered
  * {@link ActionListener#onAction(Control)} method after all the Page controls
- * <tt>onProcess()</tt> method have been invoked.
+ * <code>onProcess()</code> method have been invoked.
  */
 public class ActionEventDispatcher {
 

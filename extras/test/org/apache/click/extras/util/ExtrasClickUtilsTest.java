@@ -41,7 +41,7 @@ public class ExtrasClickUtilsTest extends TestCase {
 
     private static final java.util.Date DATE_OF_BIRTH;
     private static final String NAME = "john smith";
-    private static final Integer ID = new Integer(1234);
+    private static final Integer ID = Integer.valueOf(1234);
     private static final int INT = 98;
     private static final boolean BOOLEAN = true;
     private static final double DOUBLE = -87.23;

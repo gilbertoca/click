@@ -42,7 +42,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * <p/>
  *
  * The FieldColumn class is used to define the table cell data
- * <tt>&lt;td&gt;</tt> editors. Each FieldColumn should include a {@link Field}
+ * <code>&lt;td&gt;</code> editors. Each FieldColumn should include a {@link Field}
  * instance.
  * <p/>
  * If the FieldColumn is contained in a standard Table it will render the all
@@ -156,7 +156,7 @@ public class FieldColumn extends Column {
      * row based on the property name. Property names can be specified using a
      * path expression e.g: "person.address.city".
      * <p/>
-     * If the row object is a <tt>Map</tt> this method will attempt to set the
+     * If the row object is a <code>Map</code> this method will attempt to set the
      * map's key/value pair based on the property name and value. The key
      * of the map is matched against the property name. If a key matches the
      * property name, the value will be copied to the map.

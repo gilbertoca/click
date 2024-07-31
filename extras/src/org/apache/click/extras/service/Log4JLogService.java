@@ -26,11 +26,11 @@ import org.apache.log4j.Logger;
 
 /**
  * Provides a <a target="_blank" href="http://logging.apache.org/log4j/1.2/index.html">Log4J</a>
- * LogService adapter class. This logger will use the category name of "<tt>Click</tt>".
+ * LogService adapter class. This logger will use the category name of "<code>Click</code>".
  *
  * <h3>Configuration</h3>
  * To configure the Log4J LoggingService add the following element to your
- * <tt>click.xml</tt> configuration file.
+ * <code>click.xml</code> configuration file.
  *
  * <pre class="codeConfig">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -47,7 +47,7 @@ public class Log4JLogService implements LogService {
     /** The wrapped Log4J logger instance. */
     protected Logger logger;
 
-    /** The logger category name. The default value is "<tt>Click</tt>". */
+    /** The logger category name. The default value is "<code>Click</code>". */
     protected String name = "Click";
 
     /**
@@ -198,7 +198,7 @@ public class Log4JLogService implements LogService {
     }
 
     /**
-     * The logger category name. Setting the name after the <tt>onInit()</tt>
+     * The logger category name. Setting the name after the <code>onInit()</code>
      * method has bee invoked will have no effect on the Log4J loggers name.
      *
      * @param name the logger category name to set

@@ -68,9 +68,9 @@ import org.apache.commons.lang.StringUtils;
  * resources such as CSS style sheets imports, JavaScript imports, and images.
  * This will ensure these resources are cached in the users browser and will not
  * have to be requested again. With Click, static resources are automatically
- * deployed on startup to the web directory <tt style="color:blue;">/click</tt>.
+ * deployed on startup to the web directory <tt style="color:blue;">/click</code>.
  * <p/>
- * When the PerformanceFilter is active Click will add a <tt>version</tt> number
+ * When the PerformanceFilter is active Click will add a <code>version</code> number
  * to the static resource filenames and the long expiry header will be applied to
  * these versioned files. When you upgrade the the next version of Click, this
  * version number will increment, and the new static resources will be requested
@@ -88,13 +88,13 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * This filter will automatically add long expiry headers to configured
  * resources. The default expiry header is 1 year, but can be changed through
- * the <tt>init-param</tt> <span class="blue">"cacheable-max-age"</span>.
+ * the <code>init-param</code> <span class="blue">"cacheable-max-age"</span>.
  * This ensures the resources are cached in the users browser and will not
  * have to be requested again.
  * <p/>
- * The PerformanceFilter provides the ability to add <tt>versioning</tt>
+ * The PerformanceFilter provides the ability to add <code>versioning</code>
  * to application specific resources through the
- * <tt>init-param</tt> <span class="blue">"application-version"</span>. For example
+ * <code>init-param</code> <span class="blue">"application-version"</span>. For example
  * to set the <span class="blue">"application-version"</span> to <span class="red">1.0</span>
  * you can define the filter as follows:
  *
@@ -111,27 +111,27 @@ import org.apache.commons.lang.StringUtils;
  * Application versioning is supported by {@link org.apache.click.element.ResourceElement resource elements}
  * such as {@link org.apache.click.element.JsImport JsImport} and
  * {@link org.apache.click.element.CssImport CssImport}. When the
- * <tt>application version</tt> is set, {@link org.apache.click.element.ResourceElement ResourceElements}
- * will add the <tt>application version</tt> number to their filenames
+ * <code>application version</code> is set, {@link org.apache.click.element.ResourceElement ResourceElements}
+ * will add the <code>application version</code> number to their filenames
  * and PerformanceFilter will apply the long expiry header to these versioned files.
- * When you increment the <tt>application version</tt>, the resource path will
+ * When you increment the <code>application version</code>, the resource path will
  * change and the static resources will be requested again and cached by the
  * browser.
  * <p/>
  * PerformanceFilter provides GZIP compression to compress HTML ServletResponse
  * content. The content will only be compressed if it is bigger than a
  * configurable threshold. The default threshold is 384 bytes but can be changed
- * through the <tt>init-param</tt> <span class="blue">"compression-threshold"</span>.
+ * through the <code>init-param</code> <span class="blue">"compression-threshold"</span>.
  * <p/>
  * Click *.htm pages are automatically compressed by the filter.
  * <p/>
  * It is also possible to disable GZIP compression by setting the
- * <tt>init-param</tt> <span class="blue">"compression-enabled"</span> to false.
+ * <code>init-param</code> <span class="blue">"compression-enabled"</span> to false.
  *
  * <h3>Page Template Import References</h3>
  *
  * To import static control references in your page template you simply reference
- * the <tt class="blue">$headElements</tt> and <tt class="blue">$jsElements</tt>.
+ * the <tt class="blue">$headElements</code> and <tt class="blue">$jsElements</code>.
  * For example:
  *
  * <pre class="codeHtml">
@@ -153,7 +153,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * To configure your application to use the PerformanceFilter include the
  * click-extras.jar in your application and add the following filter elements to
- * your <tt>/WEB-INF/web.xml</tt> file:
+ * your <code>/WEB-INF/web.xml</code> file:
  * <pre class="codeConfig">
  * &lt;filter&gt;
  *  &lt;filter-name&gt;<span class="blue">PerformanceFilter</span>&lt;/filter-name&gt;
@@ -193,10 +193,10 @@ import org.apache.commons.lang.StringUtils;
  *  &lt;servlet-name&gt;<span class="green">ClickServlet</span>&lt;/servlet-name&gt;
  * .. </pre>
  *
- * The <tt>init-param</tt> <span class="blue">"cacheable-paths"</span>, allows
+ * The <code>init-param</code> <span class="blue">"cacheable-paths"</span>, allows
  * you to specify paths for resources such as JavaScript, CSS and images to be
- * <tt>cached</tt> by the browser. (Caching here means setting the
- * "Expires" and "Cache-Control" headers). The <tt>param-value</tt> accepts a
+ * <code>cached</code> by the browser. (Caching here means setting the
+ * "Expires" and "Cache-Control" headers). The <code>param-value</code> accepts a
  * comma separated list of directories and files to match against.
  * To differentiate between directory and file values the following convention
  * is used:
@@ -204,16 +204,16 @@ import org.apache.commons.lang.StringUtils;
  * <li>To specify a directory, the value must <b>end</b> with the asterisk
  * character (*). When a resource is requested, the filter will only cache
  * the resource if the resource path starts with the specified value. For example
- * if the specified value is <tt>&lt;param-value&gt;<span class="red">/assets/*</span>&lt;/param-value&gt;</tt>,
- * the resource <tt>"<span class="red">/assets/</span>library.js"</tt> will be
- * cached while <tt>"/public/library.js"</tt> will not be.
+ * if the specified value is <code>&lt;param-value&gt;<span class="red">/assets/*</span>&lt;/param-value&gt;</code>,
+ * the resource <code>"<span class="red">/assets/</span>library.js"</code> will be
+ * cached while <code>"/public/library.js"</code> will not be.
  * </li>
  * <li>To specify a file, the value must <b>start</b> with the asterisk character
  * (*). When a resource is requested, the filter will only cache the resource
  * if the resource path ends with the specified value. For example if the specified
- * value is <tt>&lt;param-value&gt;<span class="red">*.css</span>&lt;/param-value&gt;</tt>,
- * the resource <tt>"/public/table<span class="red">.css</span>"</tt> will be
- * cached while <tt>"/public/table.js"</tt> will not be.
+ * value is <code>&lt;param-value&gt;<span class="red">*.css</span>&lt;/param-value&gt;</code>,
+ * the resource <code>"/public/table<span class="red">.css</span>"</code> will be
+ * cached while <code>"/public/table.js"</code> will not be.
  * </li>
  * </ul>
  *
@@ -244,7 +244,7 @@ import org.apache.commons.lang.StringUtils;
  * resource expires, the browser will request a new copy from the server.
  *
  * <h4>Does PerformanceFilter work in development, debug or trace modes?</h4>
- * PerformanceFilter is only applied in <tt>production</tt> and <tt>profile</tt>
+ * PerformanceFilter is only applied in <code>production</code> and <code>profile</code>
  * modes. In the development modes, this filter will simply pass through to
  * ClickServlet without adding expiry headers or compressing content.
  * <p/>
@@ -615,7 +615,7 @@ public class PerformanceFilter implements Filter {
     }
 
     /**
-     * Return the <tt>version indicator</tt> for the specified path.
+     * Return the <code>version indicator</code> for the specified path.
      *
      * @param path the resource path
      * @return a version indicator for web resources
@@ -625,7 +625,7 @@ public class PerformanceFilter implements Filter {
     }
 
     /**
-     * Return the application <tt>version indicator</tt> for the specified path.
+     * Return the application <code>version indicator</code> for the specified path.
      *
      * @param path the resource path
      * @return an application version indicator for web resources
@@ -646,9 +646,9 @@ public class PerformanceFilter implements Filter {
     /**
      * Removes the version indicator from the specified path.
      * <p/>
-     * For example, given the path <tt>'/example/control_1.4.js'</tt>, where
-     * <tt>'_1.4'</tt> is the <tt>version indicator</tt>, this method will
-     * return <tt>'/example/control.js'</tt>.
+     * For example, given the path <code>'/example/control_1.4.js'</code>, where
+     * <code>'_1.4'</code> is the <code>version indicator</code>, this method will
+     * return <code>'/example/control.js'</code>.
      *
      * @see #getResourceVersionIndicator(String)
      * @see #getApplicationResourceVersionIndicator(java.lang.String)

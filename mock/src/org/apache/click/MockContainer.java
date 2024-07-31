@@ -38,17 +38,17 @@ import org.apache.commons.lang.StringUtils;
  * Provides a mock container for testing Click Pages.
  * <p/>
  * Use the {@link #start()} and {@link #stop()} methods to control the life cycle
- * of the container. Each call to <tt>start / stop</tt> instantiates new
+ * of the container. Each call to <code>start / stop</code> instantiates new
  * mock instances for the container.
  * <p/>
  * To instantiate a container you must specify a web application directory
  * where your page templates and other resources like images, javascript and
  * stylesheets are available.
  * <p/>
- * You can set the <tt>web application root</tt> to refer to your actual live
+ * You can set the <code>web application root</code> to refer to your actual live
  * project's web directory.<p/>
  * For  example if you are busy developing a web  application located under
- * <tt>'c:\dev\myapp\web'</tt>, you can start the MockContainerTest as follows:
+ * <code>'c:\dev\myapp\web'</code>, you can start the MockContainerTest as follows:
  *
  * <pre class="prettyprint">
  * public class MyTest extends junit.framework.TestCase {
@@ -70,12 +70,12 @@ import org.apache.commons.lang.StringUtils;
  * classpath.
  * <p/>
  * Taking the above example further, if your application is developed under
- * <tt>'c:\dev\myapp\web'</tt>, click.xml would be available at <tt>'WEB-INF\click.xml'</tt>.
- * The full path would be <tt>'c:\dev\myapp\web\WEB-INF\click.xml'</tt>.
+ * <code>'c:\dev\myapp\web'</code>, click.xml would be available at <code>'WEB-INF\click.xml'</code>.
+ * The full path would be <code>'c:\dev\myapp\web\WEB-INF\click.xml'</code>.
  * <p/>
  * Alternatively click.xml can also be specified on the classpath. For example
- * you can save click.xml in your <tt>src</tt> folder eg:
- * <tt>'c:\dev\myapp\web\src\click.xml'</tt>.
+ * you can save click.xml in your <code>src</code> folder eg:
+ * <code>'c:\dev\myapp\web\src\click.xml'</code>.
  * Below is an example click.xml to get up and running quickly:
  * <pre class="prettyprint">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -277,14 +277,14 @@ public class MockContainer {
      * </ul>
      * <p/>
      * You can provide your own Mock implementations and set them on the
-     * container using the appropriate <tt>setter</tt> method for example:
+     * container using the appropriate <code>setter</code> method for example:
      * {@link #setRequest(org.apache.click.servlet.MockRequest)}.
      * <p/>
      * <b>Please note</b> that you must set the mock objects on the container
-     * <tt>before</tt> calling <tt>start()</tt>.
+     * <code>before</code> calling <code>start()</code>.
      * <p/>
      * You also have full access to the mock objects after starting the container
-     * by using the appropriate <tt>getter</tt> method for example:
+     * by using the appropriate <code>getter</code> method for example:
      * {@link #getRequest()}.
      * <p/>
      * Below is an example of how to start the container:
@@ -313,8 +313,8 @@ public class MockContainer {
      * Stops the container. The container cannot be used until {@link #start}
      * is called again.
      * <p/>
-     * <b>Please note</b> that after each <tt>start / stop</tt> cycle the
-     * container is reconfigured with <tt>new</tt> mock instances. The mock
+     * <b>Please note</b> that after each <code>start / stop</code> cycle the
+     * container is reconfigured with <code>new</code> mock instances. The mock
      * instances from the previous test run is discarded.
      *
      * @see #start()
@@ -327,7 +327,7 @@ public class MockContainer {
      * Convenience method for setting the {@link org.apache.click.servlet.MockRequest}
      * attribute.
      * <p/>
-     * <b>Note</b> this method returns <tt>this</tt> so you can easily chain
+     * <b>Note</b> this method returns <code>this</code> so you can easily chain
      * calls to this method.
      * <p/>
      * For example:
@@ -351,7 +351,7 @@ public class MockContainer {
      * Convenience method for setting the {@link org.apache.click.servlet.MockRequest}
      * parameter.
      * <p/>
-     * <b>Note</b> this method returns <tt>this</tt> so you can easily chain
+     * <b>Note</b> this method returns <code>this</code> so you can easily chain
      * calls to this method.
      * <p/>
      * For example:
@@ -376,7 +376,7 @@ public class MockContainer {
      * Convenience method for setting multi-valued {@link org.apache.click.servlet.MockRequest}
      * parameters.
      * <p/>
-     * <b>Note</b> this method returns <tt>this</tt> so you can easily chain
+     * <b>Note</b> this method returns <code>this</code> so you can easily chain
      * calls to this method.
      * <p/>
      * For example:
@@ -401,7 +401,7 @@ public class MockContainer {
     /**
      * Convenience method for setting files to be uploaded.
      * <p/>
-     * <b>Note</b> this method returns <tt>this</tt> so you can easily chain
+     * <b>Note</b> this method returns <code>this</code> so you can easily chain
      * calls to this method.
      * <p/>
      * For example:
@@ -538,12 +538,12 @@ public class MockContainer {
      * Returns the html output that was generated by
      * {@link javax.servlet.http.HttpServletResponse}.
      * <p/>
-     * <b>Please note:</b> if the <tt>Page</tt> invokes
+     * <b>Please note:</b> if the <code>Page</code> invokes
      * {@link org.apache.click.Page#setForward(Class)} or
      * {@link org.apache.click.Page#setRedirect(Class)}, this method will
      * return blank.
      * </p/>
-     * The reason for this is that <tt>forward</tt> and <tt>redirect</tt> calls
+     * The reason for this is that <code>forward</code> and <code>redirect</code> calls
      * are only recorded, <b>not</b> executed.
      * <p/>
      * The forward and redirect path's are only used for assertion purposes.

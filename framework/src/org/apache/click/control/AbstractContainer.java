@@ -34,7 +34,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * <p/>
  * Subclasses can override {@link #getTag()} to return a specific HTML element.
  * <p/>
- * The following example shows how to create an HTML <tt>div</tt> element:
+ * The following example shows how to create an HTML <code>div</code> element:
  *
  * <pre class="prettyprint">
  * public class Div extends AbstractContainer {
@@ -118,7 +118,7 @@ public abstract class AbstractContainer extends AbstractControl implements
      * and container is the same instance
      *
      * @throws IndexOutOfBoundsException if index is out of range
-     * <tt>(index &lt; 0 || index &gt; getControls().size())</tt>
+     * <code>(index &lt; 0 || index &gt; getControls().size())</code>
      */
     public Control insert(Control control, int index) {
         // Check if panel already contains the control
@@ -174,6 +174,7 @@ public abstract class AbstractContainer extends AbstractControl implements
      * @throws IllegalStateException if the currentControl is not contained in
      * the container
      */
+    @Deprecated
     public Control replace(Control currentControl, Control newControl) {
         int controlIndex = getControls().indexOf(currentControl);
         return ContainerUtils.replace(this, currentControl, newControl,

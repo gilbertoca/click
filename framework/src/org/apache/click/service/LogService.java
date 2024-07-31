@@ -27,7 +27,7 @@ import javax.servlet.ServletContext;
  * The default {@link LogService} implementation is {@link ConsoleLogService}.
  * <p/>
  * You can instruct Click to use a different implementation by adding
- * the following element to your <tt>click.xml</tt> configuration file.
+ * the following element to your <code>click.xml</code> configuration file.
  *
  * <pre class="codeConfig">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -39,7 +39,7 @@ import javax.servlet.ServletContext;
  *
  * &lt;/click-app&gt; </pre>
  *
- * The class <tt>com.mycorp.CustomLogService</tt> might be defined as follows:
+ * The class <code>com.mycorp.CustomLogService</code> might be defined as follows:
  *
  * <pre class="prettyprint">
  * package com.mycorp;

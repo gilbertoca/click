@@ -104,8 +104,8 @@ import org.apache.commons.lang.StringUtils;
  * {@link #renderActionLink(org.apache.click.util.HtmlStringBuffer, org.apache.click.control.AbstractLink, org.apache.click.Context, java.lang.Object, java.lang.Object) renderActionLink}
  * or {@link #renderActionButton(org.apache.click.util.HtmlStringBuffer, org.apache.click.control.ActionButton, org.apache.click.Context, java.lang.Object, java.lang.Object) renderActionButton}.
  * <p/>
- * In the example below we want to send both the <tt>state</tt> and <tt>postCode</tt>
- * parameters to the <tt>AddressPage</tt>:
+ * In the example below we want to send both the <code>state</code> and <code>postCode</code>
+ * parameters to the <code>AddressPage</code>:
  * <pre class="prettyprint">
  * public class SelectPostCode extends BorderPage {
  *
@@ -147,7 +147,7 @@ import org.apache.commons.lang.StringUtils;
  * </pre>
  *
  * <p/>
- * This class was inspired by Richardo Lecheta's <tt>ViewDecorator</tt> design
+ * This class was inspired by Richardo Lecheta's <code>ViewDecorator</code> design
  * pattern.
  *
  * @see org.apache.click.control.ActionLink
@@ -166,7 +166,7 @@ public class LinkDecorator implements Decorator, Serializable {
     /** The array of ActionButtons to render. */
     protected ActionButton[] buttonsArray;
 
-    /** The link separator string, default value is <tt>" | "</tt>. */
+    /** The link separator string, default value is <code>" | "</code>. */
     protected String linkSeparator = " | ";
 
     /** The table to render the links for. */
@@ -205,7 +205,7 @@ public class LinkDecorator implements Decorator, Serializable {
      * In the above example the LinkDecorator will extract the idProperty value
      * ("state") from each PostCode instance in the table.
      * <p/>
-     * The idProperty value will also be used as the <tt>name</tt> of the
+     * The idProperty value will also be used as the <code>name</code> of the
      * request parameter. In this example the idProperty value is "state" thus
      * the request parameter name will also be "state".
      * <p/>
@@ -265,11 +265,11 @@ public class LinkDecorator implements Decorator, Serializable {
 
     /**
      * Create a new AbstractLink table column Decorator with the given
-     * AbstractLinks array, <tt>row object identifier</tt> property name and
-     * <tt>parameter name</tt>.
+     * AbstractLinks array, <code>row object identifier</code> property name and
+     * <code>parameter name</code>.
      * <p/>
-     * When the link is rendered, the <tt>parameter name</tt> is set as the
-     * <tt>row object identifier</tt> parameter. For example:
+     * When the link is rendered, the <code>parameter name</code> is set as the
+     * <code>row object identifier</code> parameter. For example:
      *
      * <pre class="prettyprint">
      *   // PageLink links to a Page where customers can be edited -> EditCustomerPage
@@ -279,14 +279,14 @@ public class LinkDecorator implements Decorator, Serializable {
      *   table.addColumn(column);
      *   column.setDecorator(new LinkDecorator(table, actions, "id", "idParam")); </pre>
      *
-     * If the table displayed a list of customers, the customer with <tt>id</tt>,
-     * <tt>"123"</tt>, will render the following editLink:
+     * If the table displayed a list of customers, the customer with <code>id</code>,
+     * <code>"123"</code>, will render the following editLink:
      *
      * <pre class="codeHtml">
      * &lt;a href="/mycorp/edit-customer.htm?<span class="red">idParam=123</span>"&gt;edit&lt;/a&gt; </pre>
      *
-     * If the <tt>parameter name</tt> was not specified the <tt>row object identifier</tt>
-     * parameter will default to the given <tt>idProperty</tt>, in this case <tt>"id"</tt>:
+     * If the <code>parameter name</code> was not specified the <code>row object identifier</code>
+     * parameter will default to the given <code>idProperty</code>, in this case <code>"id"</code>:
      *
      * <pre class="codeHtml">
      * &lt;a href="/mycorp/edit-customer.htm?<span class="red">id=123</span>"&gt;edit&lt;/a&gt; </pre>
@@ -308,7 +308,7 @@ public class LinkDecorator implements Decorator, Serializable {
     /**
      * Create a new AbstractLink table column Decorator with the given
      * ActionButton and row object identifier property name.
-     * The default linkSeparator for buttons is <tt>" "</tt>.
+     * The default linkSeparator for buttons is <code>" "</code>.
      *
      * @see LinkDecorator#LinkDecorator(org.apache.click.control.Table, org.apache.click.control.AbstractLink, java.lang.String)
      *
@@ -337,11 +337,11 @@ public class LinkDecorator implements Decorator, Serializable {
 
     /**
      * Create a new ActionButton table column Decorator with the given
-     * ActionButton array, <tt>row object identifier</tt> property name and
-     * <tt>parameter name</tt>.
+     * ActionButton array, <code>row object identifier</code> property name and
+     * <code>parameter name</code>.
      * <p/>
-     * When the button is rendered, the <tt>parameter name</tt> is set as the
-     * <tt>row object identifier</tt> parameter. For example:
+     * When the button is rendered, the <code>parameter name</code> is set as the
+     * <code>row object identifier</code> parameter. For example:
      *
      * <pre class="prettyprint">
      *   // PageButton links to a Page where customers can be edited -> EditCustomerPage
@@ -351,13 +351,13 @@ public class LinkDecorator implements Decorator, Serializable {
      *   table.addColumn(column);
      *   column.setDecorator(new LinkDecorator(table, actions, "id", "idParam")); </pre>
      *
-     * If the table displayed a list of customers, the customer with <tt>id</tt>,
-     * <tt>"123"</tt>, will render the following editButton:
+     * If the table displayed a list of customers, the customer with <code>id</code>,
+     * <code>"123"</code>, will render the following editButton:
      *
      * <pre class="codeHtml">
      * &lt;input onclick="javascript:document.location.href='/mycorp/edit-customer.htm?actionButton=edit&value=123&<span class="red">idParam=123</span>';"/&gt; </pre>
      *
-     * If the <tt>parameter name</tt> was not specified the <tt>row object identifier</tt>
+     * If the <code>parameter name</code> was not specified the <code>row object identifier</code>
      * parameter will default to {@value org.apache.click.control.ActionButton#VALUE}:
      *
      * <pre class="codeHtml">
@@ -380,7 +380,7 @@ public class LinkDecorator implements Decorator, Serializable {
     /**
      * Create a new ActionButton table column Decorator with the given
      * ActionButtons array and row object identifier property name.
-     * The default linkSeparator for buttons is <tt>" "</tt>.
+     * The default linkSeparator for buttons is <code>" "</code>.
      *
      * @see LinkDecorator#LinkDecorator(org.apache.click.control.Table, org.apache.click.control.AbstractLink, java.lang.String)
      *
@@ -409,7 +409,7 @@ public class LinkDecorator implements Decorator, Serializable {
     /**
      * Create a new table column Decorator with the given list of AbstractLinks
      * or ActionButtons and row object identifier property name.
-     * The default linkSeparator for buttons are <tt>" "</tt>.
+     * The default linkSeparator for buttons are <code>" "</code>.
      * <p/>
      * Please note you must provide either AbstractLink objects or ActionButton
      * objects in the controls array, but not a mixture of both.
@@ -476,7 +476,7 @@ public class LinkDecorator implements Decorator, Serializable {
     // ------------------------------------------------------ Public Properties
 
     /**
-     * Return the link separator string. The default value is <tt>" | "</tt>.
+     * Return the link separator string. The default value is <code>" | "</code>.
      *
      * @return the link separator string.
      */
@@ -621,7 +621,7 @@ public class LinkDecorator implements Decorator, Serializable {
      * Render the link to the specified buffer.
      * <p/>
      * If this method is overridden to add extra parameters to the link,
-     * remember to invoke <tt>super.renderActionLink</tt> so default rendering
+     * remember to invoke <code>super.renderActionLink</code> so default rendering
      * can continue.
      *
      * @param buffer the specified buffer to render the link output to
@@ -639,7 +639,7 @@ public class LinkDecorator implements Decorator, Serializable {
      * Render the button to the specified buffer.
      * <p/>
      * If this method is overridden to add extra parameters to the button,
-     * remember to invoke <tt>super.renderActionButton</tt> so default rendering
+     * remember to invoke <code>super.renderActionButton</code> so default rendering
      * can continue.
      *
      * @see #renderActionLink(org.apache.click.util.HtmlStringBuffer, org.apache.click.control.AbstractLink, org.apache.click.Context, java.lang.Object, java.lang.Object)

@@ -572,7 +572,7 @@ public class MockRequest implements HttpServletRequest {
     /**
      * Get the method.
      * <p/>
-     * The returned string will be in upper case eg. <tt>POST</tt>.
+     * The returned string will be in upper case eg. <code>POST</code>.
      *
      * @return The method
      */
@@ -721,6 +721,7 @@ public class MockRequest implements HttpServletRequest {
      *
      * @deprecated Use ServletContext.getRealPath(String) instead.
      */
+    @Deprecated
     public String getRealPath(String name) {
         return servletContext.getRealPath(name);
     }
@@ -820,7 +821,7 @@ public class MockRequest implements HttpServletRequest {
 
     /**
      * Returns context path and servlet path concatenated, typically
-     * <tt>/applicationClassName/applicationClassName</tt>.
+     * <code>/applicationClassName/applicationClassName</code>.
      *
      * @return The path value
      * @see javax.servlet.http.HttpServletRequest#getRequestURI()

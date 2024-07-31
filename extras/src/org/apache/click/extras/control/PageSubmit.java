@@ -40,7 +40,7 @@ import org.apache.click.util.ClickUtils;
  *
  * <h3>PageSubmit Example</h3>
  *
- * The example code below will redirect the request to the <tt>HomePage</tt> if
+ * The example code below will redirect the request to the <code>HomePage</code> if
  * the cancel button is pressed.
  *
  * <pre class="javaCode">

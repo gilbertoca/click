@@ -70,11 +70,11 @@ Example JSP customers table.
 
 <p>&nbsp;</p>
 
-The <tt>CustomerTable</tt> page is automatically mapped to the request:
+The <code>CustomerTable</code> page is automatically mapped to the request:
 
 <pre class="codeConfig">
 GET customer-table.htm </pre>
 
-When pages are configured to use automapping the <tt>ClickServlet</tt>
-will automatically associated the file path <tt>customer-table.jsp</tt>
-with the page class <tt>CustomerTable</tt>. 
+When pages are configured to use automapping the <code>ClickServlet</code>
+will automatically associated the file path <code>customer-table.jsp</code>
+with the page class <code>CustomerTable</code>. 

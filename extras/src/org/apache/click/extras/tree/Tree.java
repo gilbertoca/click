@@ -120,12 +120,12 @@ import org.apache.commons.lang.StringUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The Tree control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click/tree</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click/tree</code>):
  *
  * <ul>
- * <li><tt>click/tree/tree.css</tt></li>
- * <li><tt>click/tree/tree.js</tt></li>
- * <li><tt>click/tree/cookie-helper.js</tt></li>
+ * <li><code>click/tree/tree.css</code></li>
+ * <li><code>click/tree/tree.js</code></li>
+ * <li><code>click/tree/cookie-helper.js</code></li>
  * </ul>
  *
  * To import these Tree files simply reference the variables
@@ -149,7 +149,7 @@ import org.apache.commons.lang.StringUtils;
  * <h3>Tree customization</h3>
  *
  * The following list of stylesheet classes are used to render the tree
- * icons. One can easily change the <tt>tree.css</tt> to use a different set of
+ * icons. One can easily change the <code>tree.css</code> to use a different set of
  * icons. Note: all CSS classes are set inline in &lt;span&gt; elements.
  * <ul>
  * <li>&lt;span class=<span class="blue">"leafIcon"</span>&gt; - renders the leaf node of the tree</li>
@@ -169,10 +169,10 @@ public class Tree extends AbstractControl {
 
     // Constants --------------------------------------------------------------
 
-    /** The tree's expand/collapse parameter name: <tt>"expandTreeNode"</tt>. */
+    /** The tree's expand/collapse parameter name: <code>"expandTreeNode"</code>. */
     public static final String EXPAND_TREE_NODE_PARAM = "expandTreeNode";
 
-    /** The tree's select/deselect parameter name: <tt>"selectTreeNode"</tt>. */
+    /** The tree's select/deselect parameter name: <code>"selectTreeNode"</code>. */
     public static final String SELECT_TREE_NODE_PARAM = "selectTreeNode";
 
     /** Indicator for using cookies to implement client side behavior. */
@@ -181,13 +181,13 @@ public class Tree extends AbstractControl {
     /** Indicator for using the session to implement client side behavior. */
     public final static int JAVASCRIPT_SESSION_POLICY = 2;
 
-    /** The tree's expand icon name: <tt>"expandedIcon"</tt>. */
+    /** The tree's expand icon name: <code>"expandedIcon"</code>. */
     protected static final String EXPAND_ICON = "expandedIcon";
 
-    /** The tree's collapsed icon name: <tt>"collapsedIcon"</tt>. */
+    /** The tree's collapsed icon name: <code>"collapsedIcon"</code>. */
     protected static final String COLLAPSE_ICON = "collapsedIcon";
 
-    /** The tree's leaf icon name: <tt>"leafIcon"</tt>. */
+    /** The tree's leaf icon name: <code>"leafIcon"</code>. */
     protected static final String LEAF_ICON = "leafIcon";
 
     /** default serial version id. */
@@ -237,10 +237,10 @@ public class Tree extends AbstractControl {
      * Create an Tree control for the given name.
      * <p/>
      * The constructor also sets the id attribute to
-     * <tt>"tree"</tt> and the css class to <tt>"treestyle"</tt>
+     * <code>"tree"</code> and the css class to <code>"treestyle"</code>
      * to qualify the tree control when styled by tree.css. If the
      * css class value is changed, ensure to also change the
-     * tree.css selectors that still reference <tt>"treestyle"</tt>.
+     * tree.css selectors that still reference <code>"treestyle"</code>.
      *
      * @param name the tree name
      * @throws IllegalArgumentException if the name is null
@@ -255,10 +255,10 @@ public class Tree extends AbstractControl {
      * Create a Tree with no name defined.
      * <p/>
      * The constructor also sets the id attribute to
-     * <tt>"tree"</tt> and the css class to <tt>"treestyle"</tt>
+     * <code>"tree"</code> and the css class to <code>"treestyle"</code>
      * to qualify the tree control when styled by tree.css. If the
      * css class value is changed, ensure to also change the
-     * tree.css selectors that still reference <tt>"treestyle"</tt>.
+     * tree.css selectors that still reference <code>"treestyle"</code>.
      * <p/>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
@@ -400,7 +400,7 @@ public class Tree extends AbstractControl {
      * tree is rendered even if some nodes are in a collapsed state. This
      * enables the tree to still be fully navigable in the browser. However
      * nodes that are in a collapsed state are still displayed as collapsed
-     * using the style <tt>"display:none"</tt>.
+     * using the style <code>"display:none"</code>.
      *
      * @see #setJavascriptEnabled(boolean, int)
      *
@@ -490,9 +490,9 @@ public class Tree extends AbstractControl {
      * Return the Tree HTML HEAD elements for the following resources:
      * <p/>
      * <ul>
-     * <li><tt>click/tree/tree.css</tt></li>
-     * <li><tt>click/tree/tree.js</tt></li>
-     * <li><tt>click/tree/cookie-helper.js</tt></li>
+     * <li><code>click/tree/tree.css</code></li>
+     * <li><code>click/tree/tree.js</code></li>
+     * <li><code>click/tree/cookie-helper.js</code></li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()
@@ -1598,7 +1598,7 @@ public class Tree extends AbstractControl {
     /**
      * Return an anchor &lt;a&gt; tag href attribute for the given parameters.
      * This method will encode the URL with the session ID
-     * if required using <tt>HttpServletResponse.encodeURL()</tt>.
+     * if required using <code>HttpServletResponse.encodeURL()</code>.
      *
      * @param parameters the href parameters
      * @return the HTML href attribute
@@ -1747,7 +1747,7 @@ public class Tree extends AbstractControl {
         /**
          * Remove operation is not supported.
          *
-         * @exception UnsupportedOperationException <tt>remove</tt> operation is
+         * @exception UnsupportedOperationException <code>remove</code> operation is
          * not supported by this Iterator.
          */
         public void remove() {
@@ -2462,7 +2462,7 @@ public class Tree extends AbstractControl {
      * <p/>
      * <strong>Note:</strong> this class stores information between requests
      * in the javax.servlet.http.HttpSession as a attribute. The attributes prefix
-     * is <tt>js_path_handler_</tt> followed by the name of the tree
+     * is <code>js_path_handler_</code> followed by the name of the tree
      * {@link Tree#name}. If two tree's in the same session have the same name they
      * will <strong>overwrite</strong> each others session attribute!
      */
@@ -2471,7 +2471,7 @@ public class Tree extends AbstractControl {
 
         /**
          * The reserved session key prefix for the selected paths
-         * <tt>js_path_handler_</tt>.
+         * <code>js_path_handler_</code>.
          */
         private static final String JS_HANDLER_SESSION_KEY = "js_path_handler_";
 
@@ -2561,7 +2561,7 @@ public class Tree extends AbstractControl {
         }
 
         /**
-         * Adds all node's that are part of the <tt>selected path</tt> to
+         * Adds all node's that are part of the <code>selected path</code> to
          * the tracker.
          *
          * @see TreeListener#nodeSelected(Tree, TreeNode, Context, boolean)
@@ -2619,7 +2619,7 @@ public class Tree extends AbstractControl {
         }
 
         /**
-         * Removes all node's that are part of the <tt>selected path</tt> from
+         * Removes all node's that are part of the <code>selected path</code> from
          * the tracker.
          *
          * @see TreeListener#nodeDeselected(Tree, TreeNode, Context, boolean)

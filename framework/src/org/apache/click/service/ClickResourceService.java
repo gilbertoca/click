@@ -132,7 +132,7 @@ public class ClickResourceService implements ResourceService {
     /**
      * Return the list of directories that contains cacheable resources.
      * <p/>
-     * By default only resource packaged under the "<tt>/click</tt>" directory
+     * By default only resource packaged under the "<code>/click</code>" directory
      * will be processed. To serve resources from other directories you need to
      * override this method and return a list of directories to process.
      * <p/>
@@ -152,7 +152,7 @@ public class ClickResourceService implements ResourceService {
      *     }
      * } </pre>
      *
-     * You also need to add a mapping in your <tt>web.xml</tt> to forward
+     * You also need to add a mapping in your <code>web.xml</code> to forward
      * requests for these resources on to Click:
      *
      * <pre class="prettyprint">

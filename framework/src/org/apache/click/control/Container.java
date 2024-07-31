@@ -68,6 +68,7 @@ public interface Container extends Control {
      * the container
      * @return the new control that replaced the current control
      */
+    @Deprecated
     Control replace(Control currentControl, Control newControl);
 
     /**

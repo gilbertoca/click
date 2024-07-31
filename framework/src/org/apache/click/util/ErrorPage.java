@@ -106,9 +106,9 @@ public class ErrorPage extends Page {
      * error page template:
      *
      * <ul style="margin-top: 0.5em;">
-     * <li><tt>errorReport</tt> &nbsp; - &nbsp; the detailed error report
+     * <li><code>errorReport</code> &nbsp; - &nbsp; the detailed error report
      * &lt;div&gt; element, with an id of 'errorReport'</li>
-     * <li><tt>mode</tt> &nbsp; - &nbsp; the application mode</li>
+     * <li><code>mode</code> &nbsp; - &nbsp; the application mode</li>
      * </ul>
      *
      * @see Page#onInit()
@@ -150,8 +150,8 @@ public class ErrorPage extends Page {
     }
 
     /**
-     * Return the application mode: <tt>["production", "profile", "development",
-     * debug", "trace"]</tt>.
+     * Return the application mode: <code>["production", "profile", "development",
+     * debug", "trace"]</code>.
      *
      * @return the application mode
      */
@@ -160,8 +160,8 @@ public class ErrorPage extends Page {
     }
 
     /**
-     * Set the application mode: <tt>["production", "profile", "development",
-     * debug", "trace"]</tt>
+     * Set the application mode: <code>["production", "profile", "development",
+     * debug", "trace"]</code>
      * <p/>
      * The application mode is added to the model by the {@link #onInit()} method.
      * This property is used to determines whether the error page template

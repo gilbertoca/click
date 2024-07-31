@@ -49,10 +49,10 @@ import org.apache.click.util.Format;
  * For Click to recognize your custom service class you must set the
  * context initialization parameter,
  * {@link org.apache.click.ClickServlet#CONFIG_SERVICE_CLASS config-service-class}
- * in your <tt>web.xml</tt> file.
+ * in your <code>web.xml</code> file.
  * <p/>
  * Below is an example of a custom service class
- * <tt>com.mycorp.service.CustomConfigService</tt>:
+ * <code>com.mycorp.service.CustomConfigService</code>:
  *
  * <pre class="prettyprint">
  * package com.mycorp.service;
@@ -75,7 +75,7 @@ import org.apache.click.util.Format;
  * <b>Please note</b> that the custom ConfigService implementation must have a
  * no-argument constructor so Click can instantiate the service.
  * <p/>
- * Also define the new service in your <tt>web.xml</tt> as follows:
+ * Also define the new service in your <code>web.xml</code> as follows:
  *
  * <pre class="prettyprint">
  * {@code
@@ -112,10 +112,10 @@ public interface ConfigService {
     /** The profile application mode. */
     public static final String MODE_PRODUCTION = "production";
 
-    /** The error page file path: &nbsp; "<tt>/click/error.htm</tt>". */
+    /** The error page file path: &nbsp; "<code>/click/error.htm</code>". */
     static final String ERROR_PATH = "/click/error.htm";
 
-    /** The page not found file path: &nbsp; "<tt>/click/not-found.htm</tt>". */
+    /** The page not found file path: &nbsp; "<code>/click/not-found.htm</code>". */
     public static final String NOT_FOUND_PATH = "/click/not-found.htm";
 
     /** The page auto binding mode. */
@@ -140,9 +140,9 @@ public interface ConfigService {
 
     /**
      * Destroy the ConfigurationService. This method will also invoke the
-     * <tt>onDestroy()</tt> methods on the <tt>FileUploadService</tt>,
-     * <tt>TemplateService</tt>, <tt>ResourceService</tt> and the
-     * <tt>LogService</tt> in that order.
+     * <code>onDestroy()</code> methods on the <code>FileUploadService</code>,
+     * <code>TemplateService</code>, <code>ResourceService</code> and the
+     * <code>LogService</code> in that order.
      */
     public void onDestroy();
 
@@ -191,7 +191,7 @@ public interface ConfigService {
 
     /**
      * Return the Click application mode value: &nbsp;
-     * <tt>["production", "profile", "development", "debug", "trace"]</tt>.
+     * <code>["production", "profile", "development", "debug", "trace"]</code>.
      *
      * @return the application mode value
      */
@@ -205,9 +205,9 @@ public interface ConfigService {
     public String getCharset();
 
     /**
-     * Return the error handling page <tt>Page</tt> <tt>Class</tt>.
+     * Return the error handling page <code>Page</code> <code>Class</code>.
      *
-     * @return the error handling page <tt>Page</tt> <tt>Class</tt>
+     * @return the error handling page <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getErrorPageClass();
 
@@ -230,7 +230,7 @@ public interface ConfigService {
      * Return true if the given resource is a Page class template, false
      * otherwise.
      * <p/>
-     * Below is an example showing how to map <tt>.htm</tt> and <tt>.jsp</tt>
+     * Below is an example showing how to map <code>.htm</code> and <code>.jsp</code>
      * files as Page class templates.
      *
      * <pre class="prettyprint">
@@ -295,8 +295,8 @@ public interface ConfigService {
     public String getPagePath(Class<? extends Page> pageClass);
 
     /**
-     * Return the page <tt>Class</tt> for the given path. The path must start
-     * with a <tt>"/"</tt>.
+     * Return the page <code>Class</code> for the given path. The path must start
+     * with a <code>"/"</code>.
      *
      * @param path the page path
      * @return the page class for the given path
@@ -354,9 +354,9 @@ public interface ConfigService {
     public List<PageInterceptor> getPageInterceptors();
 
     /**
-     * Return the page not found <tt>Page</tt> <tt>Class</tt>.
+     * Return the page not found <code>Page</code> <code>Class</code>.
      *
-     * @return the page not found <tt>Page</tt> <tt>Class</tt>
+     * @return the page not found <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getNotFoundPageClass();
 

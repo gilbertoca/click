@@ -691,6 +691,7 @@ public class MockResponse implements HttpServletResponse {
      * @param msg The message
      * @deprecated
      */
+    @Deprecated
     public void setStatus(final int status, final String msg) {
         setStatus(status);
     }

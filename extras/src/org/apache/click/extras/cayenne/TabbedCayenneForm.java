@@ -48,10 +48,10 @@ import org.apache.click.util.HtmlStringBuffer;
  *
  * In addition to <a href="../../../../../../click-api/org/apache/click/control/Form.html#resources">Form's resources</a>,
  * the TabbedCayenneForm control makes use of the following resources (which Click
- * automatically deploys to the application directory, <tt>/click</tt>):
+ * automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.css</tt></li>
+ * <li><code>click/extras-control.css</code></li>
  * </ul>
  *
  * To import these TabbedCayenneForm files simply reference the variables
@@ -87,7 +87,7 @@ public class TabbedCayenneForm extends CayenneForm {
     /**
      * The path of the tabbed form Velocity template to render. The
      * default template path is
-     * <tt>"/org/apache/click/extras/control/TabbedForm.htm"</tt>.
+     * <code>"/org/apache/click/extras/control/TabbedForm.htm"</code>.
      */
     protected String template = "/org/apache/click/extras/control/TabbedForm.htm";
 
@@ -95,10 +95,10 @@ public class TabbedCayenneForm extends CayenneForm {
 
     /**
      * Create a Tabbed Cayenne Form with the given form name and
-     * <tt>DataObject</tt> class.
+     * <code>DataObject</code> class.
      *
      * @param name the form name
-     * @param dataClass the <tt>DataObject</tt> class
+     * @param dataClass the <code>DataObject</code> class
      */
     public TabbedCayenneForm(String name, Class dataClass) {
         super(name, dataClass);
@@ -107,9 +107,9 @@ public class TabbedCayenneForm extends CayenneForm {
     }
 
     /**
-     * Create a Tabbed Cayenne Form with the given <tt>DataObject</tt> class.
+     * Create a Tabbed Cayenne Form with the given <code>DataObject</code> class.
      *
-     * @param dataClass the <tt>DataObject</tt> class
+     * @param dataClass the <code>DataObject</code> class
      */
     public TabbedCayenneForm(Class dataClass) {
         super(dataClass);
@@ -175,8 +175,8 @@ public class TabbedCayenneForm extends CayenneForm {
      * Return the TabbedCayenneForm HTML HEAD elements for the following resources:
      *
      * <ul>
-     * <li><tt>click/extras-control.js</tt></li>
-     * <li><tt>click/extras-control.css</tt></li>
+     * <li><code>click/extras-control.js</code></li>
+     * <li><code>click/extras-control.css</code></li>
      * </ul>
      *
      * Additionally all the {@link org.apache.click.control.Form#getHeadElements()
@@ -293,7 +293,7 @@ public class TabbedCayenneForm extends CayenneForm {
 
     /**
      * Process the Form request. In addition to the normal Form
-     * <tt>onProcess()</tt> processing, if the Form is invalid this method
+     * <code>onProcess()</code> processing, if the Form is invalid this method
      * will display the tab sheet with the first field error.
      *
      * @return true to continue Page event processing or false otherwise

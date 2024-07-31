@@ -34,7 +34,7 @@ import org.apache.commons.fileupload.FileItemFactory;
  * doesn't allow Web Application access to disk.
  * <p/>
  * To use this service in your GAE applications, add the following to your
- * <tt>click.xml</tt> config:
+ * <code>click.xml</code> config:
  *
  * <pre class="prettyprint">
  * &lt;file-upload-service classname="org.apache.click.extras.gae.MemoryFileUploadService"&gt;

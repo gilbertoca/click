@@ -39,13 +39,13 @@ import org.apache.commons.lang.StringUtils;
  * SubmitLink can be added to a Form and it will submit the Form when clicked.
  * All SubmitLink parameters will be submitted to the server as hidden fields.
  * <p/>
- * <b>Please note:</b> SubmitLink uses a <tt>JavaScript</tt> function to submit
- * the Form. This JavaScript function also creates <tt>hidden fields</tt>
+ * <b>Please note:</b> SubmitLink uses a <code>JavaScript</code> function to submit
+ * the Form. This JavaScript function also creates <code>hidden fields</code>
  * for each SubmitLink parameter, to ensure the link's parameters are
  * submitted. See {@link #getSubmitScript(java.lang.String)} for more details on
  * the JavaScript used to submit the Form.
  * <p/>
- * <b>Also note:</b> if SubmitLink is <tt>not</tt> added to a Form, it behaves
+ * <b>Also note:</b> if SubmitLink is <code>not</code> added to a Form, it behaves
  * like an {@link org.apache.click.control.ActionLink ActionLink} control.
  * <p/>
  * Here is an example:
@@ -66,9 +66,9 @@ import org.apache.commons.lang.StringUtils;
  *
  * <h3>Custom Popup Message</h3>
  *
- * The SubmitLink uses the <tt>"onclick"</tt> event handler to submit the Form.
+ * The SubmitLink uses the <code>"onclick"</code> event handler to submit the Form.
  * <p/>
- * If you would like to customize the <tt>"onclick"</tt> event handler, for
+ * If you would like to customize the <code>"onclick"</code> event handler, for
  * example to show a confirmation popup message, you can retrieve the link's
  * submit script through the {@link #getSubmitScript(java.lang.String)} method.
  * <p/>
@@ -96,7 +96,7 @@ import org.apache.commons.lang.StringUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * When SubmitLink is added to a Form it makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
  * <li>/click/extras-control.js</li>
@@ -309,9 +309,9 @@ public class SubmitLink extends ActionLink {
      * <pre class="prettyprint">
      * "return Click.submitLinkAction(this, 'formId');" </pre>
      *
-     * The <tt>Click.submitLinkAction</tt> function takes as parameters a reference
+     * The <code>Click.submitLinkAction</code> function takes as parameters a reference
      * to the SubmitLink and the id of the Form to submit. (The
-     * Click.submitLinkAction is defined in <tt>/click/extras-control.js</tt>)
+     * Click.submitLinkAction is defined in <code>/click/extras-control.js</code>)
      *
      * @param formId the id of the Form to submit
      *
@@ -342,7 +342,7 @@ public class SubmitLink extends ActionLink {
     /**
      * Return the SubmitLink anchor &lt;a&gt; tag href attribute for the
      * given value. This method will encode the URL with the session ID
-     * if required using <tt>HttpServletResponse.encodeURL()</tt>.
+     * if required using <code>HttpServletResponse.encodeURL()</code>.
      *
      * @param value the SubmitLink value parameter
      * @return the SubmitLink HTML href attribute

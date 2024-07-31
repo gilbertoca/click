@@ -66,7 +66,7 @@ public class OptionGroup implements Serializable {
     // -------------------------------------------------- Public Attributes
 
    /**
-     * Return the OptionGroup's html tag: <tt>optgroup</tt>.
+     * Return the OptionGroup's html tag: <code>optgroup</code>.
      *
      * @return the OptionGroup's html tag
      */
@@ -145,6 +145,7 @@ public class OptionGroup implements Serializable {
      * @param select the parent Select
      * @return a rendered HTML OptionGroup string
      */
+    @Deprecated
     public String renderHTML(Select select) {
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         render(select, buffer);

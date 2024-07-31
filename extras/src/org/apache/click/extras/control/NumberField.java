@@ -52,7 +52,7 @@ import org.apache.click.util.ClickUtils;
  * (@link org.apache.click.control.Field#getValue()} is set to the formatted value
  * of the input.
  * <p/>
- * For example if you define an integer pattern of <tt>"#,##0"</tt> and the
+ * For example if you define an integer pattern of <code>"#,##0"</code> and the
  * users enters "2.54" then the resulting Number is 3. For all such cases the
  * NumberFormat does recognize the input as valid and does <b>not</b> mark the
  * field as invalid.
@@ -68,16 +68,16 @@ import org.apache.click.util.ClickUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The NumberField control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.js</tt></li>
+ * <li><code>click/extras-control.js</code></li>
  * </ul>
  *
  * The NumberField uses a JavaScript onkeypress() doubleFilter() method to prevent
  * users from entering invalid characters.  To enable number key filtering
- * reference the variables <tt class="blue">$jsElements</tt> and
- * <tt class="blue">$headElements</tt> in your page template. For example:
+ * reference the variables <tt class="blue">$jsElements</code> and
+ * <tt class="blue">$headElements</code> in your page template. For example:
  *
  * <pre class="codeHtml">
  * &lt;html&gt;
@@ -406,7 +406,7 @@ public class NumberField extends TextField {
 
     /**
      * Returns the NumberField HTML HEAD elements for the
-     * <tt>click/extras-control.js</tt> resource.
+     * <code>click/extras-control.js</code> resource.
      *
      * @see org.apache.click.Control#getHeadElements()
      *
@@ -428,7 +428,7 @@ public class NumberField extends TextField {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

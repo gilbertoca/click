@@ -34,7 +34,7 @@ import org.apache.commons.fileupload.ParameterParser;
 
 /**
  * Provides an In-Memory FileItem implementation which represents a file or
- * form item that was received within a <tt>multipart/form-data</tt> POST
+ * form item that was received within a <code>multipart/form-data</code> POST
  * request.
  * <p/>
  * This FileItem implementation can safely be used with Google App Engine (GAE)
@@ -156,7 +156,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
     }
 
     /**
-     * Determines whether or not a <tt>FileItem</tt> instance represents
+     * Determines whether or not a <code>FileItem</code> instance represents
      * a simple form field.
      *
      * @return true if the instance represents a simple form field; false if it
@@ -167,7 +167,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
     }
 
     /**
-     * Specifies whether or not a <tt>FileItem</tt> instance represents
+     * Specifies whether or not a <code>FileItem</code> instance represents
      * a simple form field.
      *
      * @param isFormField true if the instance represents a simple form field;

@@ -34,7 +34,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * <p/>
  * When a Page request event is processed Controls may perform server side event
  * processing through their {@link #onProcess()} method. Controls are generally
- * rendered in a Page by calling their <tt>toString()</tt> method.
+ * rendered in a Page by calling their <code>toString()</code> method.
  * <p/>
  * The Control execution sequence is illustrated below:
  * <p/>
@@ -46,7 +46,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * {@link #getHeadElements()} method.
  * <p/>
  * Below is an example of a custom TextField control specifying that the
- * <tt>custom.js</tt> file should be included in the HTML HEADer:
+ * <code>custom.js</code> file should be included in the HTML HEADer:
  *
  * <pre class="prettyprint">
  * public class CustomField extends TextField {
@@ -68,17 +68,17 @@ import org.apache.click.util.HtmlStringBuffer;
  * <a name="on-deploy"></a>
  * <h4>Deploying Resources</h4>
  *
- * The Click framework uses the Velocity Tools <tt>WebappResourceLoader</tt> for loading templates.
- * This avoids issues associate with using the Velocity <tt>ClasspathResourceLoader</tt> and
- * <tt>FileResourceLoader</tt> on J2EE application servers.
+ * The Click framework uses the Velocity Tools <code>WebappResourceLoader</code> for loading templates.
+ * This avoids issues associate with using the Velocity <code>ClasspathResourceLoader</code> and
+ * <code>FileResourceLoader</code> on J2EE application servers.
  * To make preconfigured resources (templates, JavaScript, stylesheets, etc.)
  * available to web applications Click automatically deploys configured classpath
- * resources to the <tt class="blue">/click</tt> directory at startup
+ * resources to the <tt class="blue">/click</code> directory at startup
  * (existing files will not be overwritten).
  * <p/>
  * Click supports two ways of deploying pre-configured resources. The recommended
  * deployment strategy (which also the simplest) relies on packaging resources
- * into a special folder of the JAR, called <tt>'META-INF/resources'</tt>. At
+ * into a special folder of the JAR, called <code>'META-INF/resources'</code>. At
  * startup time Click will scan this folder for resources and deploy them to the
  * web application. This deployment strategy is the same approach taken by the
  * Servlet 3.0 specification. Please see the section
@@ -88,8 +88,8 @@ import org.apache.click.util.HtmlStringBuffer;
  * An alternative approach to deploying static resources on startup is provided
  * by the Control interface through the {@link #onDeploy(ServletContext)} method.
  * <p/>
- * Continuing our example, the <tt>CustomField</tt> control deploys its
- * <tt>custom.js</tt> file to the <tt>/click</tt> directory:
+ * Continuing our example, the <code>CustomField</code> control deploys its
+ * <code>custom.js</code> file to the <code>/click</code> directory:
  *
  * <pre class="codeJava">
  * <span class="kw">public class</span> CustomField <span class="kw">extends</span> TextField {
@@ -101,8 +101,8 @@ import org.apache.click.util.HtmlStringBuffer;
  *     }
  * } </pre>
  *
- * Controls using the <tt>onDeploy()</tt> method must be registered in the
- * application <tt>WEB-INF/click.xml</tt> for them to be invoked.
+ * Controls using the <code>onDeploy()</code> method must be registered in the
+ * application <code>WEB-INF/click.xml</code> for them to be invoked.
  * For example:
  *
  * <pre class="codeConfig">
@@ -117,9 +117,9 @@ import org.apache.click.util.HtmlStringBuffer;
  * When the Click application starts up it will deploy any control elements
  * defined in the following files in sequential order:
  * <ul>
- *  <li><tt>/click-controls.xml</tt>
- *  <li><tt>/extras-controls.xml</tt>
- *  <li><tt>WEB-INF/click.xml</tt>
+ *  <li><code>/click-controls.xml</code>
+ *  <li><code>/extras-controls.xml</code>
+ *  <li><code>WEB-INF/click.xml</code>
  * </ul>
  *
  * <b>Please note</b> {@link org.apache.click.control.AbstractControl} provides
@@ -131,7 +131,7 @@ import org.apache.click.util.HtmlStringBuffer;
 public interface Control extends Serializable {
  
     /**
-     * The global control messages bundle name: &nbsp; <tt>click-control</tt>.
+     * The global control messages bundle name: &nbsp; <code>click-control</code>.
      */
     public static final String CONTROL_MESSAGES = "click-control";
 
@@ -144,6 +144,7 @@ public interface Control extends Serializable {
      *
      * @return the Page request Context
      */
+    @Deprecated
     public Context getContext();
 
     /**
@@ -158,8 +159,8 @@ public interface Control extends Serializable {
      * this method.
      * <p/>
      * The recommended approach when implementing this method is to use
-     * <tt>lazy loading</tt> to ensure the HEAD elements are only added
-     * <tt>once</tt> and when <tt>needed</tt>. For example:
+     * <code>lazy loading</code> to ensure the HEAD elements are only added
+     * <code>once</code> and when <code>needed</code>. For example:
      *
      * <pre class="prettyprint">
      * public MyControl extends AbstractControl {
@@ -249,12 +250,13 @@ public interface Control extends Serializable {
      * will still be available on AbstractControl:
      * {@link org.apache.click.control.AbstractControl#setListener(java.lang.Object, java.lang.String)}
      */
+    @Deprecated
     public void setListener(Object listener, String method);
 
     /**
-     * Return the localized messages <tt>Map</tt> of the Control.
+     * Return the localized messages <code>Map</code> of the Control.
      *
-     * @return the localized messages <tt>Map</tt> of the Control
+     * @return the localized messages <code>Map</code> of the Control
      */
     public Map<String, String> getMessages();
 
@@ -435,11 +437,11 @@ public interface Control extends Serializable {
     public void render(HtmlStringBuffer buffer);
 
     /**
-     * Returns <tt>true</tt> if this control has any
-     * <tt>Behavior</tt>s registered, <tt>false</tt> otherwise.
+     * Returns <code>true</code> if this control has any
+     * <code>Behavior</code>s registered, <code>false</code> otherwise.
      *
-     * @return <tt>true</tt> if this control has any
-     * <tt>Behavior</tt>s registered, <tt>false</tt> otherwise
+     * @return <code>true</code> if this control has any
+     * <code>Behavior</code>s registered, <code>false</code> otherwise
      */
     public boolean hasBehaviors();
 
@@ -451,7 +453,7 @@ public interface Control extends Serializable {
     public Set<Behavior> getBehaviors();
 
     /**
-     * Returns <tt>true</tt> if this control is an Ajax target, <tt>false</tt>
+     * Returns <code>true</code> if this control is an Ajax target, <code>false</code>
      * otherwise.
      * <p/>
      * In order for a Control to be considered as an Ajax target it must be
@@ -460,7 +462,7 @@ public interface Control extends Serializable {
      * When the Click handles an Ajax request it iterates the Controls
      * registered with the {@link org.apache.click.ControlRegistry ControlRegistry}
      * and checks if one of them is the Ajax target by calling
-     * {@link #isAjaxTarget(org.apache.click.Context) isAjaxTarget}. If <tt>isAjaxTarget</tt>
+     * {@link #isAjaxTarget(org.apache.click.Context) isAjaxTarget}. If <code>isAjaxTarget</code>
      * returns true, Click will process that Control's {@link #getBehaviors() behaviors}.
      * <p/>
      * <b>Please note:</b> there can only be one target control, so the first
@@ -485,10 +487,10 @@ public interface Control extends Serializable {
      * ID attribute, as that would lead to duplicate IDs, which isn't allowed by
      * the HTML specification. Control implementations has to cater for how the
      * control will be targeted. In the case of ActionLink it might check against
-     * its <tt>id</tt>, and if that isn't available check against its <tt>name</tt>.
+     * its <code>id</code>, and if that isn't available check against its <code>name</code>.
      *
      * @param context the request context
-     * @return <tt>true</tt> if this control is an Ajax target, <tt>false</tt>
+     * @return <code>true</code> if this control is an Ajax target, <code>false</code>
      * otherwise
      */
     public boolean isAjaxTarget(Context context);

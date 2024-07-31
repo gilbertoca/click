@@ -830,7 +830,7 @@ public void onPost() {
         if (transId != null) {
 
             // Get order details
-            Order order = OrderDAO.findOrderByPK(new Long(transId));
+            Order order = OrderDAO.findOrderByPK(Long.valueOf(transId));
             if (order != null) {
                 addModel("order", order);
             }

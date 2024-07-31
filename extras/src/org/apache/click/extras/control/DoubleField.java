@@ -157,7 +157,7 @@ public class DoubleField extends NumberField {
         Number number = getNumber();
 
         if (number != null) {
-            return new Double(number.doubleValue());
+            return Double.valueOf(number.doubleValue());
 
         } else {
             return null;
@@ -182,7 +182,7 @@ public class DoubleField extends NumberField {
     public Float getFloat() {
         Double value = getDouble();
         if (value != null) {
-            return new Float(value.floatValue());
+            return Float.valueOf(value.floatValue());
         } else {
             return null;
         }

@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Provides a
  * <a target="_blank" href="http://www.slf4j.org/">SLF4J</a> LogService adapter
- * class with a logger name of "<tt>Click</tt>".
+ * class with a logger name of "<code>Click</code>".
  *
  * <h3>Configuration</h3>
  * To configure the JDK LoggingService add the following element to your
- * <tt>click.xml</tt> configuration file.
+ * <code>click.xml</code> configuration file.
  *
  * <pre class="codeConfig">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -49,7 +49,7 @@ public class Slf4jLogService implements LogService {
     /** The wrapped JDK logger instance. */
     protected Logger logger;
 
-    /** The logger category name. The default value is "<tt>Click</tt>". */
+    /** The logger category name. The default value is "<code>Click</code>". */
     protected String name = "Click";
 
     /**
@@ -200,7 +200,7 @@ public class Slf4jLogService implements LogService {
     }
 
     /**
-     * The logger category name. Setting the name after the <tt>onInit()</tt>
+     * The logger category name. Setting the name after the <code>onInit()</code>
      * method has bee invoked will have no effect on the Log4J loggers name.
      *
      * @param name the logger category name to set

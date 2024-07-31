@@ -62,12 +62,12 @@ import org.apache.click.util.HtmlStringBuffer;
  * <p/>
  * The ColorPicker control makes use of the following resources
  * (which Click automatically deploys to the application directories,
- * <tt>/click/colorpicker</tt> and <tt>/click/prototype</tt>):
+ * <code>/click/colorpicker</code> and <code>/click/prototype</code>):
  *
  * <ul>
- * <li><tt>click/colorpicker/colorpicker.css</tt></li>
- * <li><tt>click/prototype/prototype.js</tt></li>
- * <li><tt>click/colorpicker/colorpicker.js</tt></li>
+ * <li><code>click/colorpicker/colorpicker.css</code></li>
+ * <li><code>click/prototype/prototype.js</code></li>
+ * <li><code>click/colorpicker/colorpicker.js</code></li>
  * </ul>
  *
  * To import these ColorPicker files simply reference the variables
@@ -195,9 +195,9 @@ public class ColorPicker extends Field {
      * resources:
      * <p/>
      * <ul>
-     * <li><tt>click/colorpicker/colorpicker.css</tt></li>
-     * <li><tt>click/prototype/prototype.js</tt></li>
-     * <li><tt>click/colorpicker/colorpicker.js</tt></li>
+     * <li><code>click/colorpicker/colorpicker.css</code></li>
+     * <li><code>click/prototype/prototype.js</code></li>
+     * <li><code>click/colorpicker/colorpicker.js</code></li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()
@@ -261,7 +261,7 @@ public class ColorPicker extends Field {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

@@ -103,14 +103,14 @@ public class Format implements Serializable {
     }
 
     /**
-     * Returns the format empty string value: &nbsp; <tt>""</tt>.
+     * Returns the format empty string value: &nbsp; <code>""</code>.
      * <p/>
      * This method is designed to be overridden. If you need a different
      * empty string value simply override this method.
      * <p/>
      * Note the IE browser does not fully support CSS attribute: &nbsp;
-     * <tt>table { empty-cells: show }</tt>. Also note returning
-     * <tt>&amp;nbsp;</tt>
+     * <code>table { empty-cells: show }</code>. Also note returning
+     * <code>&amp;nbsp;</code>
      * value will prevent AJAX XML responses being rendered in browsers.
      *
      * @return the formatter methods empty string value
@@ -348,7 +348,7 @@ public class Format implements Serializable {
      * number pattern character and will throw a parsing exception. When using
      * this method substitute the '#' decimal pattern character
      * (Digit, zero shows as absent) with 'N'. Internally this method will
-     * reverse the substitution before invoking <tt>DecimalFormat</tt>.
+     * reverse the substitution before invoking <code>DecimalFormat</code>.
      * For example:
      *
      * <pre class="codeHtml">
@@ -599,7 +599,7 @@ public class Format implements Serializable {
      * is null.
      * <p>
      * Implementation is provided by Jakarta Commons Lang utility:
-     * <tt>StringEscapeUtils.escapeJavaScript(String)</tt>
+     * <code>StringEscapeUtils.escapeJavaScript(String)</code>
      *
      * @param value unescaped JavaScript
      * @return the JavaScript escaped string

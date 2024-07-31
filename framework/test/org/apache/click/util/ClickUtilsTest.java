@@ -51,7 +51,7 @@ public class ClickUtilsTest extends TestCase {
      */
     private static final java.util.Date DATE_OF_BIRTH;
     private static final String NAME = "john smith";
-    private static final Integer ID = new Integer(1234);
+    private static final Integer ID = Integer.valueOf(1234);
     private static final int INT = 98;
     private static final boolean BOOLEAN = true;
     private static final double DOUBLE = -87.23;
@@ -124,7 +124,7 @@ public class ClickUtilsTest extends TestCase {
         ClickUtils.copyFormToObject(form, sampleObject, true);
 
         // has the object been configured correctly?
-        assertEquals(new Integer(idField.getValue()), sampleObject.getId());
+        assertEquals(Integer.valueOf(idField.getValue()), sampleObject.getId());
         assertEquals(nameField.getValue(), sampleObject.getName());
 
         //NOTE the dateField was NOT copied to the sampleObject's Date property.
@@ -132,8 +132,8 @@ public class ClickUtilsTest extends TestCase {
         //copy a Date property.
         assertEquals(null, sampleObject.getDateOfBirth());
         assertEquals(telephoneField.getValueObject().toString(), sampleObject.getTelephone());
-        assertEquals(new Integer(intField.getValue()).intValue(), sampleObject.getInt());
-        assertEquals(new Double(doubleField.getValue()).doubleValue(), sampleObject.getDouble());
+        assertEquals(Integer.valueOf(intField.getValue()).intValue(), sampleObject.getInt());
+        assertEquals(Double.valueOf(doubleField.getValue()).doubleValue(), sampleObject.getDouble());
         assertEquals(checkBox.isChecked(), sampleObject.isBoolean());
         assertSame(fileField.getFileItem(), sampleObject.getFile());
 
@@ -199,11 +199,11 @@ public class ClickUtilsTest extends TestCase {
         ClickUtils.copyObjectToForm(sampleObject, form, true);
 
         // has the form been configured correctly?
-        assertEquals(sampleObject.getId(), new Integer(idField.getValue()));
+        assertEquals(sampleObject.getId(), Integer.valueOf(idField.getValue()));
         assertEquals(sampleObject.getName(), nameField.getValue());
         assertEquals(sampleObject.getDateOfBirth().toString(), dateField.getValue());
-        assertEquals(new Integer(intField.getValue()).intValue(), sampleObject.getInt());
-        assertEquals(new Double(doubleField.getValue()).doubleValue(), sampleObject.getDouble());
+        assertEquals(Integer.valueOf(intField.getValue()).intValue(), sampleObject.getInt());
+        assertEquals(Double.valueOf(doubleField.getValue()).doubleValue(), sampleObject.getDouble());
         assertEquals(checkBox.isChecked(), sampleObject.isBoolean());
         assertNull(fileField.getValueObject());
 
@@ -236,9 +236,9 @@ public class ClickUtilsTest extends TestCase {
      */
     public void testCopyMapToForm() {
 
-        Integer id = new Integer(9876);
+        Integer id = Integer.valueOf(9876);
         String name = "Rocky Balboa";
-        Integer age = new Integer(61);
+        Integer age = Integer.valueOf(61);
         String stateCode = "NSW";
         String street = "12 Short street";
 
@@ -272,9 +272,9 @@ public class ClickUtilsTest extends TestCase {
         form.copyFrom(map, true);
 
         // Test that values were copied
-        assertEquals(id, new Integer(idField.getValue()));
+        assertEquals(id, Integer.valueOf(idField.getValue()));
         assertEquals(name, nameField.getValue());
-        assertEquals(age, new Integer(ageField.getValue()));
+        assertEquals(age, Integer.valueOf(ageField.getValue()));
         assertEquals(street, streetField.getValue());
         assertEquals(stateCode, stateCodeField.getValue());
     }
@@ -286,9 +286,9 @@ public class ClickUtilsTest extends TestCase {
      */
     public void testCopyFormToMap() {
 
-        Integer id = new Integer(9876);
+        Integer id = Integer.valueOf(9876);
         String name = "Rocky Balboa";
-        Integer age = new Integer(61);
+        Integer age = Integer.valueOf(61);
         String stateCode = "NSW";
         String street = "12 Short street";
 
@@ -328,10 +328,10 @@ public class ClickUtilsTest extends TestCase {
 
         // Test that values were copied
         String copiedId = map.get("id").toString();
-        assertEquals(id, new Integer(copiedId));
+        assertEquals(id, Integer.valueOf(copiedId));
         assertEquals(name, map.get("name"));
         String copiedAge = map.get("age").toString();
-        assertEquals(age, new Integer(copiedAge));
+        assertEquals(age, Integer.valueOf(copiedAge));
         assertEquals(street, map.get("address.street"));
         assertEquals(stateCode, map.get("address.state.code"));
     }

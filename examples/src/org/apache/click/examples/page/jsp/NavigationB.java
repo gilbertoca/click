@@ -40,7 +40,7 @@ public class NavigationB extends NavigationA {
     }
 
     /**
-     * Returns the name of the border template: &nbsp; <tt>"/border-template.jsp"</tt>
+     * Returns the name of the border template: &nbsp; <code>"/border-template.jsp"</code>
      *
      * @see org.apache.click.Page#getTemplate()
      */

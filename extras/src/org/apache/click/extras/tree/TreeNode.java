@@ -142,6 +142,7 @@ public class TreeNode implements Serializable {
      * @param id the nodes id
      * @param parent specifies the parent of this node
      */
+    @Deprecated
     public TreeNode(Object value, String id, TreeNode parent) {
         setValue(value);
         setId(id);
@@ -175,6 +176,7 @@ public class TreeNode implements Serializable {
      * @param childrenSupported indicates if the treeNode supports child nodes
      * or not.
      */
+    @Deprecated
     public TreeNode(Object value, String id, TreeNode parent, boolean childrenSupported) {
         setValue(value);
         setId(id);
@@ -318,7 +320,7 @@ public class TreeNode implements Serializable {
     /**
      * Set a custom icon for this TreeNode.
      * <p/>
-     * The icon will be set as the <tt>src</tt> attribute of an HTML <tt>img</tt>
+     * The icon will be set as the <code>src</code> attribute of an HTML <code>img</code>
      * element. Ensure the icon value specifies the full path to the actual
      * icon resource.
      * <p/>

@@ -331,7 +331,7 @@ public class MockServletContext implements ServletContext {
      * <b>Note:</b> this method will also set the web application's temporary
      * directory to the value {@link #getTempPath()}. If {@link #getTempPath()}
      * is not set, this method will default tempPath to:
-     * <tt>System.getProperty("java.io.tmpdir")</tt>.
+     * <code>System.getProperty("java.io.tmpdir")</code>.
      *
      * @param webappPath set the context web application path
      */

@@ -212,7 +212,7 @@ public class TextArea extends Field {
     // ------------------------------------------------------- Public Attributes
 
     /**
-     * Return the textarea's html tag: <tt>textarea</tt>.
+     * Return the textarea's html tag: <code>textarea</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -291,10 +291,10 @@ public class TextArea extends Field {
      * If the placeholder value is null, this method will attempt to find a
      * localized placeholder message in the parent messages using the key:
      * <blockquote>
-     * <tt>getName() + ".placeholder"</tt>
+     * <code>getName() + ".placeholder"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key. If still
+     * <code>/click-control.properties</code> file using the same key. If still
      * not found the placeholder will be left as null and will not be rendered.
      *
      * @return the textarea field HTML5 placeholder attribute
@@ -450,7 +450,7 @@ public class TextArea extends Field {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

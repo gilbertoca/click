@@ -25,7 +25,7 @@ import org.apache.click.util.HtmlStringBuffer;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Provides a Css HEAD element for including <tt>inline</tt> Cascading
+ * Provides a Css HEAD element for including <code>inline</code> Cascading
  * Stylesheets using the &lt;style&gt; tag.
  * <p/>
  * Example usage:
@@ -47,7 +47,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *     }
  * } </pre>
  *
- * The <tt>cssStyle</tt> instance will render as follows:
+ * The <code>cssStyle</code> instance will render as follows:
  *
  * <pre class="prettyprint">
  * &lt;style type="text/css"&gt;
@@ -57,9 +57,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * Below is an example showing how to render inline CSS from a Velocity
  * template.
  * <p/>
- * First we create a Velocity template <tt>(/css/style-template.css)</tt> which
- * contains the variable <tt>$context</tt> that must be replaced at runtime with
- * the application <tt>context path</tt>:
+ * First we create a Velocity template <code>(/css/style-template.css)</code> which
+ * contains the variable <code>$context</code> that must be replaced at runtime with
+ * the application <code>context path</code>:
  *
  * <pre class="prettyprint">
  * .blue {
@@ -94,8 +94,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *     }
  * } </pre>
  *
- * The <tt>Css</tt> above will render as follows (assuming the context path is
- * <tt>myApp</tt>):
+ * The <code>Css</code> above will render as follows (assuming the context path is
+ * <code>myApp</code>):
  *
  * <pre class="prettyprint">
  * &lt;style type="text/css"&gt;
@@ -106,7 +106,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *
  * <h3>Character data (CDATA) support</h3>
  *
- * Sometimes it is necessary to wrap <tt>inline</tt> {@link CssStyle Css} in
+ * Sometimes it is necessary to wrap <code>inline</code> {@link CssStyle Css} in
  * CDATA tags. Two use cases are common for doing this:
  * <ul>
  * <li>For XML parsing: When using Ajax one often send back partial
@@ -439,7 +439,7 @@ public class CssStyle extends ResourceElement {
     /**
      * Render the CDATA tag prefix to the specified buffer if
      * {@link #isCharacterData()} returns true. The default value is
-     * <tt>/&lowast;&lt;![CDATA[&lowast;/</tt>.
+     * <code>/&lowast;&lt;![CDATA[&lowast;/</code>.
      *
      * @param buffer buffer to append the conditional comment prefix
      */
@@ -453,7 +453,7 @@ public class CssStyle extends ResourceElement {
     /**
      * Render the CDATA tag suffix to the specified buffer if
      * {@link #isCharacterData()} returns true. The default value is
-     * <tt>/&lowast;]]&gt;&lowast;/</tt>.
+     * <code>/&lowast;]]&gt;&lowast;/</code>.
      *
      * @param buffer buffer to append the conditional comment prefix
      */

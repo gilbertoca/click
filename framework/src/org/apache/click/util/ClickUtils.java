@@ -91,13 +91,13 @@ public class ClickUtils {
     // ------------------------------------------------------- Public Constants
 
     /**
-     * The resource <tt>versioning</tt> request attribute: key: &nbsp;
-     * <tt>enable-resource-version</tt>.
+     * The resource <code>versioning</code> request attribute: key: &nbsp;
+     * <code>enable-resource-version</code>.
      * <p/>
-     * If this attribute is set to <tt>true</tt> and Click is running in
-     * <tt>production</tt> or <tt>profile</tt> mode, Click resources returned
+     * If this attribute is set to <code>true</code> and Click is running in
+     * <code>production</code> or <code>profile</code> mode, Click resources returned
      * from {@link org.apache.click.Control#getHeadElements()} will have a
-     * <tt>version indicator</tt> added to their path.
+     * <code>version indicator</code> added to their path.
      *
      * @see org.apache.click.Control#getHeadElements()
      * @see org.apache.click.util.ClickUtils#getResourceVersionIndicator(Context)
@@ -106,7 +106,7 @@ public class ClickUtils {
 
     /**
      * The default Click configuration filename: &nbsp;
-     * "<tt>/WEB-INF/click.xml</tt>".
+     * "<code>/WEB-INF/click.xml</code>".
      */
     public static final String DEFAULT_APP_CONFIG = "/WEB-INF/click.xml";
 
@@ -146,14 +146,14 @@ public class ClickUtils {
     private static final char[] HEXADECIMAL = { '0', '1', '2', '3', '4', '5',
         '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-    /** Ajax request header or parameter: "<tt>X-Requested-With</tt>". */
+    /** Ajax request header or parameter: "<code>X-Requested-With</code>". */
     private static final String X_REQUESTED_WITH = "X-Requested-With";
 
     /**
      * The array of escaped HTML character values, indexed on char value.
      * <p/>
      * HTML entities values were derived from Jakarta Commons Lang
-     * <tt>org.apache.commons.lang.Entities</tt> class.
+     * <code>org.apache.commons.lang.Entities</code> class.
      */
     private static final String[] HTML_ENTITIES = new String[9999];
 
@@ -445,7 +445,7 @@ public class ClickUtils {
      * The array of escaped XML character values, indexed on char value.
      * <p/>
      * XML entities values were derived from Jakarta Commons Lang
-     * <tt>org.apache.commons.lang.Entities</tt> class.
+     * <code>org.apache.commons.lang.Entities</code> class.
      */
     private static final String[] XML_ENTITIES = new String[63];
 
@@ -555,13 +555,13 @@ public class ClickUtils {
 
     /**
      * A helper method that binds the submitted request value to the Field's
-     * value. Since Field values are only bound during the <tt>"onProcess"</tt>
+     * value. Since Field values are only bound during the <code>"onProcess"</code>
      * event, this method can be used to bind a submitted Field value during
-     * the <tt>"onInit"</tt> event, which occurs <b>before</b> the
-     * <tt>"onProcess"</tt> event.
+     * the <code>"onInit"</code> event, which occurs <b>before</b> the
+     * <code>"onProcess"</code> event.
      * <p/>
      * This is especially useful for dynamic Form and Page behavior where Field
-     * values are inspected during the <tt>"onInit"</tt> event to add or remove
+     * values are inspected during the <code>"onInit"</code> event to add or remove
      * specific Fields.
      * <p/>
      * <b>Please note</b>: this method won't bind disabled fields, unless the
@@ -861,7 +861,7 @@ public class ClickUtils {
      * class loader.
      *
      * @param classname the name of the class to load
-     * @return the <tt>Class</tt> object
+     * @return the <code>Class</code> object
      * @throws ClassNotFoundException if the class cannot be located
      */
     public static Class classForName(String classname)
@@ -903,7 +903,7 @@ public class ClickUtils {
      * <li>messages - the {@link MessagesMap} adaptor for the
      * {@link org.apache.click.Page#getMessages()} method.
      * </li>
-     * <li>path - the {@link org.apache.click.Page#path path} of the <tt>page</tt>
+     * <li>path - the {@link org.apache.click.Page#path path} of the <code>page</code>
      * template.
      * </li>
      * <li>request - the page {@link javax.servlet.http.HttpServletRequest}
@@ -1011,7 +1011,7 @@ public class ClickUtils {
     /**
      * Invalidate the specified cookie and delete it from the response object.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param request the servlet request
@@ -1028,17 +1028,17 @@ public class ClickUtils {
     /**
      * Return true is this is an Ajax request, false otherwise.
      * <p/>
-     * An Ajax request is identified by the presence of the request <tt>header</tt>
-     * or request <tt>parameter</tt>: "<tt>X-Requested-With</tt>".
-     * "<tt>X-Requested-With</tt>" is the de-facto standard identifier used by
+     * An Ajax request is identified by the presence of the request <code>header</code>
+     * or request <code>parameter</code>: "<code>X-Requested-With</code>".
+     * "<code>X-Requested-With</code>" is the de-facto standard identifier used by
      * Ajax libraries.
      * <p/>
-     * <b>Note:</b> incoming requests that contains a request <tt>parameter</tt>
-     * "<tt>X-Requested-With</tt>" will result in this method returning true, even
-     * though the request itself was not initiated through a <tt>XmlHttpRequest</tt>
+     * <b>Note:</b> incoming requests that contains a request <code>parameter</code>
+     * "<code>X-Requested-With</code>" will result in this method returning true, even
+     * though the request itself was not initiated through a <code>XmlHttpRequest</code>
      * object. This allows one to programmatically enable Ajax requests. A common
      * use case for this feature is when uploading files through an IFrame element.
-     * By specifying "<tt>X-Requested-With</tt>" as a request parameter the IFrame
+     * By specifying "<code>X-Requested-With</code>" as a request parameter the IFrame
      * request will be handled like a normal Ajax request.
      *
      * @param request the servlet request
@@ -1064,7 +1064,7 @@ public class ClickUtils {
      * against the root "/" path. Otherwise use
      * {@link #invalidateCookie(HttpServletRequest, HttpServletResponse, String, String)}
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @see #invalidateCookie(HttpServletRequest, HttpServletResponse, String, String)
@@ -1147,9 +1147,9 @@ public class ClickUtils {
     }
 
     /**
-     * Return the InputStream for the Click configuration file <tt>click.xml</tt>.
-     * This method will first lookup the <tt>click.xml</tt> under the
-     * applications <tt>WEB-INF</tt> directory, and then if not found it will
+     * Return the InputStream for the Click configuration file <code>click.xml</code>.
+     * This method will first lookup the <code>click.xml</code> under the
+     * applications <code>WEB-INF</code> directory, and then if not found it will
      * attempt to find the configuration file on the classpath root.
      *
      * @param servletContext the servlet context to obtain the Click configuration
@@ -1222,7 +1222,7 @@ public class ClickUtils {
     /**
      * Returns the specified Cookie object, or null if the cookie does not exist.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param request the servlet request
@@ -1255,7 +1255,7 @@ public class ClickUtils {
      * <p/>
      * The cookie secure flag is set if the request is secure.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param request the servlet request
@@ -1284,7 +1284,7 @@ public class ClickUtils {
      * Returns the value of the specified cookie as a String. If the cookie
      * does not exist, the method returns null.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param request the servlet request
@@ -1339,13 +1339,13 @@ public class ClickUtils {
      * conditions:
      * <ul>
      * <li>the {@link #ENABLE_RESOURCE_VERSION} request attribute must be set
-     * to <tt>true</tt></li>
+     * to <code>true</code></li>
      * <li>the application mode must be either "production" or "profile"</li>
      * </ul>
      *
      * The version indicator is based on the current Click release version.
      * For example when using Click 1.4 this method will return the string
-     * <tt>"_1.4"</tt>.
+     * <code>"_1.4"</code>.
      *
      * @param context the request context
      * @return a version indicator for web resources
@@ -1380,13 +1380,13 @@ public class ClickUtils {
      * conditions:
      * <ul>
      * <li>the {@link #ENABLE_RESOURCE_VERSION} request attribute must be set
-     * to <tt>true</tt></li>
+     * to <code>true</code></li>
      * <li>the application mode must be either "production" or "profile"</li>
      * </ul>
      *
      * The version indicator is based on the application version.
      * For example if the application version is 1.2 this method will
-     * return the string <tt>"_1.2"</tt>.
+     * return the string <code>"_1.2"</code>.
      * <p/>
      * The application version can be set through the static method
      * {@link #setApplicationVersion(java.lang.String)}.
@@ -1429,21 +1429,21 @@ public class ClickUtils {
      * The CSS selector is calculated as follows:
      * <ol>
      *   <li>if control.getId() is set, prepend it with a '#' char
-     *       and return the value. An example selector will be: <tt>#field-id</tt>
+     *       and return the value. An example selector will be: <code>#field-id</code>
      *   </li>
      *
      *   <li>if control.getName() is set do the following:
      *     <ol>
      *       <li>if the control is of type {@link org.apache.click.control.ActionLink},
-     *       it's "<tt>class</tt>" attribute selector will be returned. For example:
-     *       <tt>a[class=red]</tt>. <b>Please note:</b> if the link class attribute is
+     *       it's "<code>class</code>" attribute selector will be returned. For example:
+     *       <code>a[class=red]</code>. <b>Please note:</b> if the link class attribute is
      *       not set, the class attribute will be set to its name, prefixed with
-     *       a dash, '-'. For example: <tt>a[class=-my-link]</tt>.
+     *       a dash, '-'. For example: <code>a[class=-my-link]</code>.
      *       </li>
      *
      *       <li>if the control is not an ActionLink, it is assumed the control
-     *       will render its "<tt>name</tt>" attribute and the name attribute
-     *       selector will be returned. For example: <tt>input[name=my-button]</tt>.
+     *       will render its "<code>name</code>" attribute and the name attribute
+     *       selector will be returned. For example: <code>input[name=my-button]</code>.
      *       </li>
      *     </ol>
      *   </li>
@@ -1735,7 +1735,7 @@ public class ClickUtils {
     }
 
     /**
-     * Return an encoded version of the <tt>Serializable</tt> object. The object
+     * Return an encoded version of the <code>Serializable</code> object. The object
      * will be serialized, compressed and Base 64 encoded.
      *
      * @param object the object to encode
@@ -1831,7 +1831,7 @@ public class ClickUtils {
      * from snooping the cookie file of others and by changing the XOR mask and
      * character offsets, you can easily tweak results.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param username the username
@@ -1855,7 +1855,7 @@ public class ClickUtils {
      * from snooping the cookie file of others and by changing the XOR mask and
      * character offsets, you can easily tweak results.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param username the username
@@ -1893,7 +1893,7 @@ public class ClickUtils {
     /**
      * Decodes a cookie string containing a username and password.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param cookieVal the encoded cookie username and password value
@@ -1912,7 +1912,7 @@ public class ClickUtils {
     /**
      * Decodes a cookie string containing a username and password.
      * <p/>
-     * This method was derived from Atlassian <tt>CookieUtils</tt> method of
+     * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
      * @param cookieVal the encoded cookie username and password value
@@ -1961,8 +1961,8 @@ public class ClickUtils {
     /**
      * URL encode the specified value using the "UTF-8" encoding scheme.
      * <p/>
-     * For example <tt>(http://host?name=value with spaces)</tt> will become
-     * <tt>(http://host?name=value+with+spaces)</tt>.
+     * For example <code>(http://host?name=value with spaces)</code> will become
+     * <code>(http://host?name=value+with+spaces)</code>.
      * <p/>
      * This method uses {@link URLEncoder#encode(java.lang.String, java.lang.String)}
      * internally.
@@ -1985,8 +1985,8 @@ public class ClickUtils {
     /**
      * URL decode the specified value using the "UTF-8" encoding scheme.
      * <p/>
-     * For example <tt>(http://host?name=value+with+spaces)</tt> will become
-     * <tt>(http://host?name=value with spaces)</tt>.
+     * For example <code>(http://host?name=value+with+spaces)</code> will become
+     * <code>(http://host?name=value with spaces)</code>.
      * <p/>
      * This method uses {@link URLDecoder#decode(java.lang.String, java.lang.String)}
      * internally.
@@ -2011,8 +2011,8 @@ public class ClickUtils {
      * request character encoding or "UTF-8" if the request character encoding
      * is not specified.
      * <p/>
-     * For example <tt>(http://host?name=value with spaces)</tt> will become
-     * <tt>(http://host?name=value+with+spaces)</tt>.
+     * For example <code>(http://host?name=value with spaces)</code> will become
+     * <code>(http://host?name=value+with+spaces)</code>.
      * <p/>
      * This method uses
      * {@link URLEncoder#encode(java.lang.String, java.lang.String)} internally.
@@ -2224,7 +2224,7 @@ public class ClickUtils {
     /**
      * Return the list of Fields for the given Form, including any Fields
      * contained in FieldSets. The list of returned fields will exclude any
-     * <tt>Button</tt>, <tt>FieldSet</tt> or <tt>Label</tt> fields.
+     * <code>Button</code>, <code>FieldSet</code> or <code>Label</code> fields.
      *
      * @param form the form to obtain the fields from
      * @return the list of contained form fields
@@ -2357,18 +2357,18 @@ public class ClickUtils {
      * }
      * </pre>
      *
-     * The first (1.) println statement above will output <tt>Form</tt> because
+     * The first (1.) println statement above will output <code>Form</code> because
      * at that stage MyForm is the highest level parent of field.
-     * <tt>getParentMessage</tt> will find the property <tt>myfield.label</tt>
-     * in the MyForm message properties and return <tt>Form</tt>
+     * <code>getParentMessage</code> will find the property <code>myfield.label</code>
+     * in the MyForm message properties and return <code>Form</code>
      * <p/>
-     * The second (2.) println statement will output <tt>Page</tt> as now
+     * The second (2.) println statement will output <code>Page</code> as now
      * MyPage is the highest level parent. On its first pass up the hierarchy,
-     * <tt>getParentMessage</tt> will find the property <tt>myfield.label</tt>
+     * <code>getParentMessage</code> will find the property <code>myfield.label</code>
      * in the MyForm message properties and on its second pass will find the
      * same property in MyPage message properties. As MyPage is higher up the
      * hierarchy than MyForm, MyPage will override MyForm and the property value
-     * will be <tt>Page</tt>.
+     * will be <code>Page</code>.
      *
      * @param control the control to get the parent message for
      * @param name the specific property name to find
@@ -2542,13 +2542,13 @@ public class ClickUtils {
      * Finds a resource with a given name. This method returns null if no
      * resource with this name is found.
      * <p>
-     * This method uses the current <tt>Thread</tt> context <tt>ClassLoader</tt> to find
+     * This method uses the current <code>Thread</code> context <code>ClassLoader</code> to find
      * the resource. If the resource is not found the class loader of the given
      * class is then used to find the resource.
      *
      * @param name the name of the resource
      * @param aClass the class lookup the resource against, if the resource is
-     *     not found using the current <tt>Thread</tt> context <tt>ClassLoader</tt>.
+     *     not found using the current <code>Thread</code> context <code>ClassLoader</code>.
      * @return the input stream of the resource if found or null otherwise
      */
     public static InputStream getResourceAsStream(String name, Class<?> aClass) {
@@ -2569,13 +2569,13 @@ public class ClickUtils {
      * Finds a resource with a given name. This method returns null if no
      * resource with this name is found.
      * <p>
-     * This method uses the current <tt>Thread</tt> context <tt>ClassLoader</tt> to find
+     * This method uses the current <code>Thread</code> context <code>ClassLoader</code> to find
      * the resource. If the resource is not found the class loader of the given
      * class is then used to find the resource.
      *
      * @param name the name of the resource
      * @param aClass the class lookup the resource against, if the resource is
-     *     not found using the current <tt>Thread</tt> context <tt>ClassLoader</tt>.
+     *     not found using the current <code>Thread</code> context <code>ClassLoader</code>.
      * @return the URL of the resource if found or null otherwise
      */
     public static URL getResource(String name, Class<?> aClass) {
@@ -2740,7 +2740,7 @@ public class ClickUtils {
      * <pre class="codeHtml">
      * <span class="blue">faxNumber</span> &nbsp; -&gt; &nbsp; <span class="red">Fax Number</span> </pre>
      * <p/>
-     * <b>Note</b> toLabel will return an empty String ("") if a <tt>null</tt>
+     * <b>Note</b> toLabel will return an empty String ("") if a <code>null</code>
      * String name is specified.
      *
      * @param name the field name
@@ -2788,7 +2788,7 @@ public class ClickUtils {
      * Return an 32 char MD5 encoded string from the given plain text.
      * The returned value is MD5 hash compatible with Tomcat catalina Realm.
      * <p/>
-     * Adapted from <tt>org.apache.catalina.util.MD5Encoder</tt>
+     * Adapted from <code>org.apache.catalina.util.MD5Encoder</code>
      *
      * @param plaintext the plain text value to encode
      * @return encoded MD5 string
@@ -2823,10 +2823,10 @@ public class ClickUtils {
     /**
      * Return a field name string from the given field label.
      * <p/>
-     * A label of <tt>" OK do it!"</tt> is returned as <tt>"okDoIt"</tt>. Any <tt>&amp;nbsp;</tt>
+     * A label of <code>" OK do it!"</code> is returned as <code>"okDoIt"</code>. Any <code>&amp;nbsp;</code>
      * characters will also be removed.
      * <p/>
-     * A label of <tt>"customerSelect"</tt> is returned as <tt>"customerSelect"</tt>.
+     * A label of <code>"customerSelect"</code> is returned as <code>"customerSelect"</code>.
      *
      * @param label the field label or caption
      * @return a field name string from the given field label

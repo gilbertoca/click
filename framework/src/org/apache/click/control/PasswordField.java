@@ -121,9 +121,9 @@ public class PasswordField extends TextField {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the input type: '<tt>password</tt>'.
+     * Return the input type: '<code>password</code>'.
      *
-     * @return the input type: '<tt>password</tt>'
+     * @return the input type: '<code>password</code>'
      */
     @Override
     public String getType() {

@@ -64,8 +64,8 @@ The following topics are covered:
 
 <a name="web" class="heading"></a><h2>1.&nbsp; Web Application Structure</h2>
 
-First up add a <tt>click.xml</tt> and <tt>web.xml</tt> configuration file to 
-your applications <tt>WEB-INF</tt> directory:
+First up add a <code>click.xml</code> and <code>web.xml</code> configuration file to 
+your applications <code>WEB-INF</code> directory:
 <table style="margin: 1em">
 <tr valign="top">
   <td>
@@ -88,7 +88,7 @@ your applications <tt>WEB-INF</tt> directory:
 
 <h3>click.xml</h3>
 
-Your <tt>click.xml</tt> file should contain:
+Your <code>click.xml</code> file should contain:
 
 <pre class="codeConfig">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt; 
@@ -100,7 +100,7 @@ Your <tt>click.xml</tt> file should contain:
 
 <h3>web.xml</h3>
 
-Your <tt>web.xml</tt> file should contain:
+Your <code>web.xml</code> file should contain:
 
 <pre class="codeConfig">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -128,23 +128,23 @@ Your <tt>web.xml</tt> file should contain:
 
 <a name="jars" class="heading"></a><h2>2.&nbsp; JAR Files</h2>
 
-Add the following JAR files to your application <tt>WEB-INF/lib</tt>:
+Add the following JAR files to your application <code>WEB-INF/lib</code>:
 
 <ul>
 <li>click-x.x.x.jar</li>
 <li>click-extras-x.x.x.jar</li>
 </ul>
 
-where <tt>x.x.x</tt> is the version of Click.
+where <code>x.x.x</code> is the version of Click.
 
 <p/>
-You can obtain these files from the Click distribution <tt>dist</tt> directory.
+You can obtain these files from the Click distribution <code>dist</code> directory.
 
 <a name="welcome" class="heading"></a><h2>3.&nbsp; Welcome File</h2>
 
 To ensure default application requests 
 (e.g. <span class="blue">http://localhost:8080/quickstart/</span>)
-are sent to your applications home page we will add a <tt>redirect.html</tt> file
+are sent to your applications home page we will add a <code>redirect.html</code> file
 to the web root directory. This file should contain:
 
 <pre class="codeHtml">
@@ -152,23 +152,23 @@ to the web root directory. This file should contain:
 &lt;head&gt;&lt;meta http-equiv="Refresh" content="0;URL=<span class="blue">home.htm</span>"&gt;&lt;/head&gt;
 &lt;/html&gt;  </pre>
 
-This <tt>redirect.html</tt> file is configured in our <tt>web.xml</tt>, and any
+This <code>redirect.html</code> file is configured in our <code>web.xml</code>, and any
 default requests will be served this file:
 <p/>
-When the browser processes the <tt>redirect.html</tt> it will redirect to the
+When the browser processes the <code>redirect.html</code> it will redirect to the
 applications <span class="blue">home.htm</span> page.
 <p/>
 This trick is required because many servlet containers including Tomcat, don't dispatch the URLs specified
-in the <tt>welcome-files-list</tt> to the servlets, so to overcome this problem a redirect is required form a static
-file like <tt>redirect.htm</tt> or from and unmapped JSP file.
+in the <code>welcome-files-list</code> to the servlets, so to overcome this problem a redirect is required form a static
+file like <code>redirect.htm</code> or from and unmapped JSP file.
 
 <a name="home" class="heading"></a><h2>4.&nbsp; Home Page</h2>
 
 Now we are ready to add our first Click page which will be our applications home page.
 <p/>
 
-First we define a <tt>HomePage</tt> class, and ensure the class file is published
-to our web applications <tt>WEB-INF/classes</tt> directory:
+First we define a <code>HomePage</code> class, and ensure the class file is published
+to our web applications <code>WEB-INF/classes</code> directory:
 
 <pre class="codeJava">
 <span class="kw">package</span> com.quickstart.page;
@@ -249,7 +249,7 @@ you should now be able to make the request:
  <span class="blue">http://localhost:8080/quickstart/</span>
 </blockquote>
 
-Your browser should be redirected to your <tt>HomePage</tt> and you should see your page
+Your browser should be redirected to your <code>HomePage</code> and you should see your page
 rendered as:
  
 <table class="htmlExample" cellspacing="12" width="100%">
@@ -265,8 +265,8 @@ rendered as:
 </tr>
 </table>
 
-In this example the Click automatically maps the <tt>home.htm</tt> request to
-our <tt>HomePage</tt> class and uses this class to process the request.
+In this example the Click automatically maps the <code>home.htm</code> request to
+our <code>HomePage</code> class and uses this class to process the request.
 
 
 <a name="border" class="heading"></a><h2>5.&nbsp; Border Template</h2>
@@ -297,8 +297,8 @@ root directory. In this file include the HTML content:
 &lt;/body&gt;
 &lt;/html&gt; </pre>
 
-Now we define a <tt>BorderPage</tt> class which specifies its template as the
-new <tt>border-template.htm</tt> file:
+Now we define a <code>BorderPage</code> class which specifies its template as the
+new <code>border-template.htm</code> file:
 
 <pre class="codeJava">
 <span class="kw">package</span> com.quickstart.page;
@@ -313,12 +313,12 @@ new <tt>border-template.htm</tt> file:
 
 } </pre>
 
-Note we named the template file <tt>border-template.htm</tt> so that it is not
-automatically mapped by Click to our <tt>BorderPage</tt> class. 
+Note we named the template file <code>border-template.htm</code> so that it is not
+automatically mapped by Click to our <code>BorderPage</code> class. 
 
 <p/>
 
-Now we are going to modify our <tt>HomePage</tt> class to extend <tt>BorderPage</tt> 
+Now we are going to modify our <code>HomePage</code> class to extend <code>BorderPage</code> 
 and define a <span class="blue">title</span> value.
 
 <pre class="prettyprint">
@@ -369,7 +369,7 @@ HTML content being rendered.
 
 Click has some handy logging features which will show you how your page
 templates are being automatically mapped to you page classes. To enable debug
-logging add a mode value of "debug" to your <tt>click.xml</tt> file:
+logging add a mode value of "debug" to your <code>click.xml</code> file:
 
 <pre class="codeConfig">
 &lt;?xml version="1.0" encoding="UTF-8"?&gt; 
@@ -389,10 +389,10 @@ When the Click application starts up it will write out the following logging mes
 [Click] [debug] /home.htm -> com.quickstart.page.HomePage
 [Click] [info ] initialized in debug mode  </pre>
 
-Click is telling us here that the <tt>border-template.htm</tt> template is not
-mapped to any Page class, while the <tt>home.htm</tt> template is mapped to
-our <tt>HomePage</tt> class. We are also informed that Click is running in 
-<tt>debug</tt> mode.
+Click is telling us here that the <code>border-template.htm</code> template is not
+mapped to any Page class, while the <code>home.htm</code> template is mapped to
+our <code>HomePage</code> class. We are also informed that Click is running in 
+<code>debug</code> mode.
 <p/>
 
 When making a request to our home page we may get the following output:  
@@ -403,14 +403,14 @@ When making a request to our home page we may get the following output:
 [Click] [info ] handleRequest:  /home.htm - 62 ms  </pre>
 
 This is telling us the HTTP request that the ClickServlet received. Then we
-can see that it is rendering the page path <tt>home.htm</tt> and template 
-<tt>border-template.htm</tt> files in 46 milliseconds. Finally we can see that the total
+can see that it is rendering the page path <code>home.htm</code> and template 
+<code>border-template.htm</code> files in 46 milliseconds. Finally we can see that the total
 time to handle this request was 62 milliseconds
 
 <p/>
 
 If you need more detailed debugging information change the application mode to
-<tt>trace</tt>. Now if we make the browser request:
+<code>trace</code>. Now if we make the browser request:
 
 <blockquote>
  <span class="blue">http://localhost:8080/quickstart/home.htm?user=malcolm&amp;password=secret</span>
@@ -458,7 +458,7 @@ where do I go from here? At this point you are recommended to:
 <a name="ant" class="heading"></a><h2>8.&nbsp; Quick Start Project Builder</h2>
 
 The fastest way to get a Click web application up and running is to use the
-Ant task <tt>project-quick-start</tt>. This ant task will build you a functional
+Ant task <code>project-quick-start</code>. This ant task will build you a functional
 application which includes:
 <ul>
 <li>JEE container security integration, with login screen</li>
@@ -467,18 +467,18 @@ application which includes:
 </ul>
 
 <h3>8.1&nbsp; Prerequisites</h3>
-To run the <tt>project-quick-start</tt> ant task please ensure the following 
+To run the <code>project-quick-start</code> ant task please ensure the following 
 requirements are met:
 <ol>
-  <li>Ensure <tt>JAVA_HOME</tt> environment variable is set and points to
+  <li>Ensure <code>JAVA_HOME</code> environment variable is set and points to
   a JDK installation (1.4 or later).<p/>
   </li>
   
-  <li>Ensure <tt>ANT_HOME</tt> environment variable is set and points to
+  <li>Ensure <code>ANT_HOME</code> environment variable is set and points to
   an Ant installation (1.7.0 or later).<p/>
   </li>
   
-  <li>Ensure you have run the <tt>ant get-deps</tt> task to download any library 
+  <li>Ensure you have run the <code>ant get-deps</code> task to download any library 
   dependencies.<p/>
   </li>
 </ol>
@@ -557,8 +557,8 @@ like the one below.
 <h3>8.3&nbsp; Deploying to Tomcat</h3>
 
 To run the quickstart application on Tomcat you need to configure
-<tt>user</tt> and <tt>admin</tt> security roles and add some users. To do this add a 
-<tt>tomcat-users.xml</tt> file to the <tt>$TOMCAT\conf</tt> directory. For example:
+<code>user</code> and <code>admin</code> security roles and add some users. To do this add a 
+<code>tomcat-users.xml</code> file to the <code>$TOMCAT\conf</code> directory. For example:
 
 <pre class="codeConfig">
 &lt;?xml version='1.0' encoding='utf-8'?&gt;
@@ -573,8 +573,8 @@ To run the quickstart application on Tomcat you need to configure
 For other JEE application server you will need to study their specific security
 configuration.
 <p/>
-Next copy the quickstart.war file to the <tt>$TOMCAT\webapps</tt> directory and
-login to your application as the user: <tt>admin1 / password</tt>
+Next copy the quickstart.war file to the <code>$TOMCAT\webapps</code> directory and
+login to your application as the user: <code>admin1 / password</code>
 
 <table style="margin: 1em;border:1px solid #c0c0c0;">
 <tr valign="top">

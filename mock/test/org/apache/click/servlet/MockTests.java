@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 /**

@@ -105,17 +105,17 @@ import org.apache.commons.lang.math.NumberUtils;
  * In the example above a {@link org.apache.click.dataprovider.DataProvider}
  * is used to populate the Table {@link #setRowList(java.util.List) row list}
  * from. DataProviders are used to provide data on demand to controls. For very
- * <tt>large data sets</tt> use a {@link org.apache.click.dataprovider.PagingDataProvider}
+ * <code>large data sets</code> use a {@link org.apache.click.dataprovider.PagingDataProvider}
  * instead. See the section <a href="#large-datasets">large data sets</a> for
  * details.
  *
  * <h3><a name="resources"></a>CSS and JavaScript resources</h3>
  *
  * The Table control makes use of the following resources (which Click automatically
- * deploys to the application directory, <tt>/click</tt>):
+ * deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/table.css</tt></li>
+ * <li><code>click/table.css</code></li>
  * </ul>
  *
  * To import the Table CSS styles and any control JavaScript simply reference
@@ -137,7 +137,7 @@ import org.apache.commons.lang.math.NumberUtils;
  *
  * <h3><a name="styles"></a>Table Styles</h3>
  *
- * The table CSS style sheet is adapted from the DisplayTag <tt>screen.css</tt>
+ * The table CSS style sheet is adapted from the DisplayTag <code>screen.css</code>
  * style sheet and includes the styles:
  *
  * <ul style="margin-top:0.5em;">
@@ -165,8 +165,8 @@ import org.apache.commons.lang.math.NumberUtils;
  * } </pre>
  *
  * An alternative method of specifying the table class to use globally for your
- * application is to define a <tt>table-default-class</tt> message property
- * in your applications <tt>click-pages.properties</tt> file. For example:
+ * application is to define a <code>table-default-class</code> message property
+ * in your applications <code>click-pages.properties</code> file. For example:
  *
  * <pre class="codeConfig">
  * table-default-class=blue2 </pre>
@@ -236,7 +236,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * <p/>
  * A PagingDataProvider has two responsibilities. First, it must load
  * only those rows to be displayed on the current page e.g. rows 50 - 59.
- * Second, it must return the <tt>total number of rows</tt> represented by the
+ * Second, it must return the <code>total number of rows</code> represented by the
  * PagingDataProvider.
  * <p/>
  * The Table methods {@link #getFirstRow()}, {@link #getLastRow()}
@@ -325,49 +325,49 @@ public class Table extends AbstractControl implements Stateful {
     /** The table top and bottom pagination banner position. */
     public static final int POSITION_BOTH = 3;
 
-    /** The control ActionLink page number parameter name: <tt>"ascending"</tt>. */
+    /** The control ActionLink page number parameter name: <code>"ascending"</code>. */
     public static final String ASCENDING = "ascending";
 
-    /** The control ActionLink sorted column parameter name: <tt>"column"</tt>. */
+    /** The control ActionLink sorted column parameter name: <code>"column"</code>. */
     public static final String COLUMN = "column";
 
-    /** The control ActionLink page number parameter name: <tt>"page"</tt>. */
+    /** The control ActionLink page number parameter name: <code>"page"</code>. */
     public static final String PAGE = "page";
 
-    /** The control ActionLink sort number parameter name: <tt>"sort"</tt>. */
+    /** The control ActionLink sort number parameter name: <code>"sort"</code>. */
     public static final String SORT = "sort";
 
-    /** The table CSS style: <tt>"blue1"</tt>. */
+    /** The table CSS style: <code>"blue1"</code>. */
     public static final String CLASS_BLUE1 = "blue1";
 
-    /** The table CSS style: <tt>"blue2"</tt>. */
+    /** The table CSS style: <code>"blue2"</code>. */
     public static final String CLASS_BLUE2 = "blue2";
 
-    /** The table CSS style: <tt>"complex"</tt>. */
+    /** The table CSS style: <code>"complex"</code>. */
     public static final String CLASS_COMPLEX = "complex";
 
-    /** The table CSS style: <tt>"isi"</tt>. */
+    /** The table CSS style: <code>"isi"</code>. */
     public static final String CLASS_ISI = "isi";
 
-    /** The table CSS style: <tt>"its"</tt>. */
+    /** The table CSS style: <code>"its"</code>. */
     public static final String CLASS_ITS = "its";
 
-    /** The table CSS style: <tt>"mars"</tt>. */
+    /** The table CSS style: <code>"mars"</code>. */
     public static final String CLASS_MARS = "mars";
 
-    /** The table CSS style: <tt>"nocol"</tt>. */
+    /** The table CSS style: <code>"nocol"</code>. */
     public static final String CLASS_NOCOL = "nocol";
 
-    /** The table CSS style: <tt>"orange1"</tt>. */
+    /** The table CSS style: <code>"orange1"</code>. */
     public static final String CLASS_ORANGE1 = "orange1";
 
-    /** The table CSS style: <tt>"orange2"</tt>. */
+    /** The table CSS style: <code>"orange2"</code>. */
     public static final String CLASS_ORANGE2 = "orange2";
 
-    /** The table CSS style: <tt>"report"</tt>. */
+    /** The table CSS style: <code>"report"</code>. */
     public static final String CLASS_REPORT = "report";
 
-    /** The table CSS style: <tt>"simple"</tt>. */
+    /** The table CSS style: <code>"simple"</code>. */
     public static final String CLASS_SIMPLE = "simple";
 
     /** The array of pre-defined table CSS class styles. */
@@ -382,8 +382,8 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * The table pagination banner position:
-     * <tt>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</tt>.
-     * The default position is <tt>POSITION_BOTTOM</tt>.
+     * <code>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</code>.
+     * The default position is <code>POSITION_BOTTOM</code>.
      */
     protected int bannerPosition = POSITION_BOTTOM;
 
@@ -423,15 +423,16 @@ public class Table extends AbstractControl implements Stateful {
     protected boolean hoverRows;
 
     /**
-     * Flag indicating if <tt>rowList</tt> is nullified when
-     * <tt>onDestroy()</tt> is invoked, default is true. This flag only applies
-     * to <tt>stateful</tt> pages.
+     * Flag indicating if <code>rowList</code> is nullified when
+     * <code>onDestroy()</code> is invoked, default is true. This flag only applies
+     * to <code>stateful</code> pages.
      *
      * @see #setNullifyRowListOnDestroy(boolean)
      *
      * @deprecated stateful pages are not supported anymore, use stateful
      * Controls instead
      */
+    @Deprecated
     protected boolean nullifyRowListOnDestroy = true;
 
     /**
@@ -451,8 +452,8 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * The paginator attachment style:
-     * <tt>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</tt>.
-     * The default paginator attachment type is <tt>PAGINATOR_ATTACHED</tt>.
+     * <code>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</code>.
+     * The default paginator attachment type is <code>PAGINATOR_ATTACHED</code>.
      */
     protected int paginatorAttachment = PAGINATOR_ATTACHED;
 
@@ -517,7 +518,7 @@ public class Table extends AbstractControl implements Stateful {
     // Public Attributes ------------------------------------------------------
 
     /**
-     * Return the table's html tag: <tt>table</tt>.
+     * Return the table's html tag: <code>table</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -536,7 +537,7 @@ public class Table extends AbstractControl implements Stateful {
      * @param parent the parent of the Table
      * @throws IllegalStateException if {@link #name} is not defined
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     @Override
     public void setParent(Object parent) {
@@ -551,8 +552,8 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * Return the Table pagination banner position. Banner position values:
-     * <tt>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</tt>.
-     * The default banner position is <tt>POSITION_BOTTOM</tt>.
+     * <code>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</code>.
+     * The default banner position is <code>POSITION_BOTTOM</code>.
      *
      * @return the table pagination banner position
      */
@@ -562,7 +563,7 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * Set Table pagination banner position. Banner position values:
-     * <tt>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</tt>.
+     * <code>[ POSITION_TOP | POSITION_BOTTOM | POSITION_BOTH ]</code>.
      *
      * @param value the table pagination banner position
      */
@@ -571,10 +572,10 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * Return the content of the table <tt>&lt;caption&gt;</tt> element, or null
+     * Return the content of the table <code>&lt;caption&gt;</code> element, or null
      * if not defined.
      *
-     * @return the content of the table caption element, or <tt>null</tt> if not
+     * @return the content of the table caption element, or <code>null</code> if not
      * defined.
      */
     public String getCaption() {
@@ -582,7 +583,7 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * Set the content of the table <tt>&lt;caption&gt;</tt> element.
+     * Set the content of the table <code>&lt;caption&gt;</code> element.
      *
      * @param caption the content of the caption element.
      */
@@ -593,7 +594,7 @@ public class Table extends AbstractControl implements Stateful {
     /**
      * Set the HTML class attribute.
      * <p/>
-     * <b>Note:</b> this method will replace the existing <tt>"class"</tt>
+     * <b>Note:</b> this method will replace the existing <code>"class"</code>
      * attribute value.
      * <p/>
      * Predefined table CSS classes include:
@@ -679,8 +680,8 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * Return true if the Table will nullify the <tt>rowList</tt> when the
-     * <tt>onDestroy()</tt> method is invoked.
+     * Return true if the Table will nullify the <code>rowList</code> when the
+     * <code>onDestroy()</code> method is invoked.
      *
      * @return true if the rowList is nullified when onDestroy is invoked
      */
@@ -689,13 +690,13 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * Set the flag to nullify the <tt>rowList</tt> when the <tt>onDestroy()</tt>
+     * Set the flag to nullify the <code>rowList</code> when the <code>onDestroy()</code>
      * method is invoked.
      * <p/>
-     * This option only applies to <tt>stateful</tt> pages.
+     * This option only applies to <code>stateful</code> pages.
      * <p/>
      * If this option is false, the rowList will be persisted between requests.
-     * If this option is true (<tt>the default</tt>), the rowList must be set
+     * If this option is true (<code>the default</code>), the rowList must be set
      * each request.
      *
      * @param value the flag value to nullify the table rowList when onDestroy
@@ -742,6 +743,7 @@ public class Table extends AbstractControl implements Stateful {
      * @param control the Control to add to the table
      * @return the added control
      */
+    @Deprecated
     public Control addControl(Control control) {
         return add(control);
     }
@@ -941,7 +943,7 @@ public class Table extends AbstractControl implements Stateful {
      * Return the Table HTML HEAD elements for the following resource:
      *
      * <ul>
-     * <li><tt>click/table.css</tt></li>
+     * <li><code>click/table.css</code></li>
      * </ul>
      *
      * Additionally, the HEAD elements of the {@link #getControlLink()} will
@@ -1102,8 +1104,8 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * Return the paginator attachment style. Renderable attachment style values:
-     * <tt>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</tt>.
-     * The default paginator attachment type is <tt>PAGINATOR_ATTACHED</tt>.
+     * <code>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</code>.
+     * The default paginator attachment type is <code>PAGINATOR_ATTACHED</code>.
      *
      * @return the paginator attachment style
      */
@@ -1113,7 +1115,7 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * Set Table pagination attachment style. Renderable attachment style values:
-     * <tt>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</tt>.
+     * <code>[ PAGINATOR_ATTACHED | PAGINATOR_DETACHED | PAGINATOR_INLINE ]</code>.
      *
      * @param value the table pagination attachment style
      */
@@ -1170,7 +1172,7 @@ public class Table extends AbstractControl implements Stateful {
 
     /**
      * Set the list of table rows. Each row can either be a value object
-     * (JavaBean) or an instance of a <tt>Map</tt>.
+     * (JavaBean) or an instance of a <code>Map</code>.
      * <p/>
      * Although possible to set the table rows directly with this method, best
      * practice is to use a {@link #setDataProvider(org.apache.click.dataprovider.DataProvider)}
@@ -1526,8 +1528,8 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * This method will clear the <tt>rowList</tt>, if the property
-     * <tt>nullifyRowListOnDestroy</tt> is true, set the sorted flag to false and
+     * This method will clear the <code>rowList</code>, if the property
+     * <code>nullifyRowListOnDestroy</code> is true, set the sorted flag to false and
      * will invoke the onDestroy() method of any child controls.
      *
      * @see org.apache.click.Control#onDestroy()
@@ -1779,7 +1781,7 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
-     * Render the table body rows for each of the rows in <tt>getRowList</tt>.
+     * Render the table body rows for each of the rows in <code>getRowList</code>.
      *
      * @param buffer the StringBuffer to render the table body rows in
      */
@@ -1929,8 +1931,8 @@ public class Table extends AbstractControl implements Stateful {
      * } </pre>
      *
      * <b>Please note</b> that in order to enable alternate background colors
-     * for rows, Click will automatically add a CSS <tt>class</tt> attribute
-     * to each row with a value of either <tt>odd</tt> or <tt>even</tt>. You are
+     * for rows, Click will automatically add a CSS <code>class</code> attribute
+     * to each row with a value of either <code>odd</code> or <code>even</code>. You are
      * free to add other CSS class attributes as illustrated in the example
      * above.
      *
@@ -1974,7 +1976,7 @@ public class Table extends AbstractControl implements Stateful {
      *     }
      *
      *     String format = "&lt;b&gt;Total Holdings&lt;/b&gt;: &nbsp; ${0,number,#,##0.00}";
-     *     String totalDisplay = MessageFormat.format(format, new Object[] { new Double(total) });
+     *     String totalDisplay = MessageFormat.format(format, new Object[] { Double.valueOf(total) });
      *
      *     buffer.append("&lt;foot&gt;&lt;tr&gt;&lt;td colspan='4' style='text-align:right'&gt");
      *     buffer.append(totalDisplay);
@@ -2032,8 +2034,8 @@ public class Table extends AbstractControl implements Stateful {
     /**
      * Render the table banner detailing number of rows and number displayed.
      * <p/>
-     * See the <tt>/click-controls.properties</tt> for the HTML templates:
-     * <tt>table-page-banner</tt> and <tt>table-page-banner-nolinks</tt>
+     * See the <code>/click-controls.properties</code> for the HTML templates:
+     * <code>table-page-banner</code> and <code>table-page-banner-nolinks</code>
      *
      * @deprecated use {@link #renderPaginator(HtmlStringBuffer)} instead, this
      * method is provided to support backward compatibility older Click 1.4
@@ -2042,6 +2044,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @param buffer the StringBuffer to render the paging controls to
      */
+    @Deprecated
     protected void renderTableBanner(HtmlStringBuffer buffer) {
         if (getShowBanner()) {
             int rowCount = getRowCount();
@@ -2074,8 +2077,8 @@ public class Table extends AbstractControl implements Stateful {
     /**
      * Render the table paging action link controls.
      * <p/>
-     * See the <tt>/click-controls.properties</tt> for the HTML templates:
-     * <tt>table-page-links</tt> and <tt>table-page-links-nobanner</tt>
+     * See the <code>/click-controls.properties</code> for the HTML templates:
+     * <code>table-page-links</code> and <code>table-page-links-nobanner</code>
      *
      * @deprecated use {@link #renderPaginator(HtmlStringBuffer)} instead, this
      * method is provided to support backward compatibility older Click 1.4
@@ -2084,6 +2087,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @param buffer the StringBuffer to render the paging controls to
      */
+    @Deprecated
     protected void renderPagingControls(HtmlStringBuffer buffer) {
         if (getPageSize() > 0) {
             String firstLabel = getMessage("table-first-label");

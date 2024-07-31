@@ -22,7 +22,7 @@ import org.apache.click.Page;
 import org.apache.click.examples.page.BorderPage;
 
 /**
- * Provides an <tt>onSecurityCheck</tt> example secure Page, which other secure
+ * Provides an <code>onSecurityCheck</code> example secure Page, which other secure
  * pages can extend.
  */
 public class Secure extends BorderPage {

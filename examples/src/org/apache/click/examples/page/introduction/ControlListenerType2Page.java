@@ -50,7 +50,7 @@ public class ControlListenerType2Page extends BorderPage {
 
             public boolean onAction(Control control) {
                  String msg = "ControlListenerPage#" + hashCode()
-                 + " object method <tt>onAction()</tt> invoked.";
+                 + " object method <code>onAction()</code> invoked.";
                  addModel("msg", msg);
 
              return true;

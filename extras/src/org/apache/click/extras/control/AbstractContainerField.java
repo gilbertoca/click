@@ -39,7 +39,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * instances by the {@link org.apache.click.control.Form}.
  * <p/>
  * Here is an example of a FieldBorder which wraps Fields in a
- * <tt>&lt;div&gt;</tt> element. The FieldBorder container can be passed to the
+ * <code>&lt;div&gt;</code> element. The FieldBorder container can be passed to the
  * Form and will be treated as a normal Field.
  *
  * <pre class="prettyprint">
@@ -190,6 +190,7 @@ public abstract class AbstractContainerField extends Field implements Container 
      * @throws IllegalStateException if the currentControl is not contained in
      * the container
      */
+    @Deprecated
     public Control replace(Control currentControl, Control newControl) {
         int controlIndex = getControls().indexOf(currentControl);
         return ContainerUtils.replace(this, currentControl, newControl,
@@ -205,6 +206,7 @@ public abstract class AbstractContainerField extends Field implements Container 
      *
      * @return the internal container instance
      */
+    @Deprecated
     public Container getContainer() {
         return this;
     }
@@ -262,7 +264,7 @@ public abstract class AbstractContainerField extends Field implements Container 
      *
      * @param parent the parent of the Control
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     @Override
     public void setParent(Object parent) {
@@ -438,7 +440,7 @@ public abstract class AbstractContainerField extends Field implements Container 
 
     /**
      * Render the Container tag and common attributes including {@link #getId() id},
-     * <tt>class</tt> and <tt>style</tt>. The {@link #getName() name} attribute
+     * <code>class</code> and <code>style</code>. The {@link #getName() name} attribute
      * is <em>not</em> rendered by this container.
      *
      * @see org.apache.click.control.AbstractControl#renderTagBegin(java.lang.String, org.apache.click.util.HtmlStringBuffer)

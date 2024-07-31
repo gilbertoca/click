@@ -75,13 +75,13 @@ import org.apache.commons.lang.StringUtils;
  * automatically apply the given data objects required and max length validation
  * constraints to the form fields.
  * <p/>
- * The CayenneForm uses the thread local <tt>DataContext</tt> obtained via
- * <tt>DataContext.getThreadDataContext()</tt> for all object for persistence
+ * The CayenneForm uses the thread local <code>DataContext</code> obtained via
+ * <code>DataContext.getThreadDataContext()</code> for all object for persistence
  * operations.
  *
  * <h3>CayenneForm Examples</h3>
  *
- * The example below provides a <tt>Department</tt> data object creation
+ * The example below provides a <code>Department</code> data object creation
  * and editing page. To edit an existing department object, the object is passed
  * to the page as a request parameter. Otherwise a new department object will
  * be created when {@link #saveChanges()} is called.
@@ -136,7 +136,7 @@ import org.apache.commons.lang.StringUtils;
  *    }
  * } </pre>
  *
- * Note the <tt>getDataObject(false)</tt> method is used to obtain the
+ * Note the <code>getDataObject(false)</code> method is used to obtain the
  * DataObject from the Form without applying the field values to the data object.
  * This is very important when dealing with already persistent objects and you
  * don't want to apply any form changes.
@@ -165,9 +165,9 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * If you don't commit the changes at this point they will still be present in
  * the session {@link DataContext} and will be applied in the next
- * <tt>commitChanges()</tt> call, which may happen in a subsequent request.
+ * <code>commitChanges()</code> call, which may happen in a subsequent request.
  * In these exceptional situations the object should be removed from the cache
- * DataContext using <tt>invalidateObjects()</tt> method or by reloading the
+ * DataContext using <code>invalidateObjects()</code> method or by reloading the
  * object from the database.
  * <p/>
  * <b>Alternatively</b> use the {@link DataContextFilter} which will
@@ -203,11 +203,11 @@ public class CayenneForm extends Form {
     // ----------------------------------------------------------- Constructors
 
     /**
-     * Create a new CayenneForm with the given form name and <tt>DataObject</tt>
+     * Create a new CayenneForm with the given form name and <code>DataObject</code>
      * class.
      *
      * @param name the form name
-     * @param dataObjectClass the <tt>DataObject</tt> class
+     * @param dataObjectClass the <code>DataObject</code> class
      */
     public CayenneForm(String name, Class dataObjectClass) {
         super(name);
@@ -219,9 +219,9 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Create a new CayenneForm with the given <tt>DataObject</tt> class.
+     * Create a new CayenneForm with the given <code>DataObject</code> class.
      *
-     * @param dataObjectClass the <tt>DataObject</tt> class
+     * @param dataObjectClass the <code>DataObject</code> class
      */
     public CayenneForm(Class dataObjectClass) {
         add(oidField);
@@ -265,17 +265,17 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Return the thread local <tt>DataContext</tt> obtained via
-     * <tt>DataContext.getThreadDataContext()</tt>.
+     * Return the thread local <code>DataContext</code> obtained via
+     * <code>DataContext.getThreadDataContext()</code>.
      *
-     * @return the thread local <tt>DataContext</tt>
+     * @return the thread local <code>DataContext</code>
      */
     public DataContext getDataContext() {
         return (DataContext) BaseContext.getThreadObjectContext();
     }
 
     /**
-     * Return a <tt>DataObject</tt> from the form, with the form field values
+     * Return a <code>DataObject</code> from the form, with the form field values
      * set on the object if the copyTo parameter is true.
      * <p/>
      * Once the data object has been obtained it will be cached for the duration
@@ -313,7 +313,7 @@ public class CayenneForm extends Form {
                         dataObject = getDataContext().newObject(dataClass);
 
                     } else {
-                        dataObject = dataClass.newInstance();
+                        dataObject = dataClass.getDeclaredConstructor().newInstance();
                     }
                 }
 
@@ -333,14 +333,14 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Return a <tt>DataObject</tt> from the form with the form field values
+     * Return a <code>DataObject</code> from the form with the form field values
      * set on the object's properties.
      * <p/>
      * Once the data object has been obtained it will be cached for the duration
      * of the request so that subsequent calls to this method will return the
      * same instance rather than creating new data object instances.
      *
-     * @return the <tt>DataObject</tt> with the Form field values applied to
+     * @return the <code>DataObject</code> with the Form field values applied to
      *      the object
      */
     public DataObject getDataObject() {
@@ -348,11 +348,11 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Set the given <tt>DataObject</tt> in the form, copying the object's
+     * Set the given <code>DataObject</code> in the form, copying the object's
      * properties into the form field values. If the given data object is null
      * any form field values will be cleared, excluding hidden fields.
      *
-     * @param dataObject the <tt>DataObject</tt> to set
+     * @param dataObject the <code>DataObject</code> to set
      */
     public void setDataObject(DataObject dataObject) {
 
@@ -389,9 +389,9 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Return the Class of the form <tt>DataObject</tt>.
+     * Return the Class of the form <code>DataObject</code>.
      *
-     * @return the Class of the form <tt>DataObject</tt>.
+     * @return the Class of the form <code>DataObject</code>.
      */
     public Class<? extends DataObject> getDataObjectClass() {
         String className = null;
@@ -411,9 +411,9 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Set the <tt>DataObject</tt> class.
+     * Set the <code>DataObject</code> class.
      *
-     * @param dataObjectClass the <tt>DataObject</tt> class
+     * @param dataObjectClass the <code>DataObject</code> class
      */
     public void setDataObjectClass(Class dataObjectClass) {
         if (dataObjectClass == null) {
@@ -428,9 +428,9 @@ public class CayenneForm extends Form {
     }
 
     /**
-     * Return the <tt>DataObject</tt> primary key.
+     * Return the <code>DataObject</code> primary key.
      *
-     * @return the <tt>DataObject</tt> primary key
+     * @return the <code>DataObject</code> primary key
      */
     public Object getDataObjectPk() {
         String value = oidField.getValue();
@@ -445,10 +445,10 @@ public class CayenneForm extends Form {
                 return value;
 
             } else if (pkClass.isAssignableFrom(Integer.class)) {
-                return new Integer(value);
+                return Integer.valueOf(value);
 
             } else if (pkClass.isAssignableFrom(Long.class)) {
-                return new Long(value);
+                return Long.valueOf(value);
 
             } else if (pkClass.isAssignableFrom(BigDecimal.class)) {
                 return new BigDecimal(value);
@@ -487,28 +487,28 @@ public class CayenneForm extends Form {
 
     /**
      * Save the object to the database committing all changes in the
-     * <tt>DataContext</tt> and return true.
-     * If a <tt>ValidationException</tt>
-     * occurred then all <tt>DataContext</tt> changes will be rolled back,
+     * <code>DataContext</code> and return true.
+     * If a <code>ValidationException</code>
+     * occurred then all <code>DataContext</code> changes will be rolled back,
      * the validation error will be set as the Form's error and the method will
      * return false.
      * <p/>
-     * If no <tt>DataObject</tt> is added to the form using <tt>setDataObject()</tt>
+     * If no <code>DataObject</code> is added to the form using <code>setDataObject()</code>
      * then this method will: <ul>
      * <li>create and register a new object instance with the
-     *    <tt>DataContext</tt></li>
+     *    <code>DataContext</code></li>
      * <li>copy the form's field values to the objects properties</li>
      * <li>insert a new object record in the database</li>
      * </ul>
      * <p/>
-     * If an existing persistent <tt>DataObject</tt> is added to the form using
-     * <tt>setDataObject()</tt> then this method will: <ul>
+     * If an existing persistent <code>DataObject</code> is added to the form using
+     * <code>setDataObject()</code> then this method will: <ul>
      * <li>load the persistent object record from the database</li>
      * <li>copy the form's field values to the objects properties</li>
      * <li>update the object record in the database</li>
      * </ul>
      *
-     * @return true if the <tt>DataObject</tt> was saved or false otherwise
+     * @return true if the <code>DataObject</code> was saved or false otherwise
      */
     public boolean saveChanges() {
         // Load data object into data context
@@ -541,7 +541,7 @@ public class CayenneForm extends Form {
 
     /**
      * This method applies the object meta data to the form fields and then
-     * invokes the <tt>super.onProcess()</tt> method.
+     * invokes the <code>super.onProcess()</code> method.
      *
      * @see Form#onProcess()
      *
@@ -568,7 +568,7 @@ public class CayenneForm extends Form {
      * Render the HTML representation of the CayenneForm.
      * <p/>
      * This method applies the object meta data to the form fields and then
-     * invokes the <tt>super.toString()</tt> method.
+     * invokes the <code>super.toString()</code> method.
      *
      * @see #toString()
      *
@@ -592,7 +592,7 @@ public class CayenneForm extends Form {
     // ------------------------------------------------------ Protected Methods
 
     /**
-     * Applies the <tt>DataObject</tt> validation database meta data to the
+     * Applies the <code>DataObject</code> validation database meta data to the
      * form fields.
      * <p/>
      * The field validation attributes include:

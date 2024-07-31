@@ -31,7 +31,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * Provides a HTML Rich TextArea editor control using the
  * <a href="http://developer.yahoo.com/yui/editor/">YUI editor</a>.
  * <p/>
- * To utilize this control in your application include <tt>YUI editor</tt>
+ * To utilize this control in your application include <code>YUI editor</code>
  * JavaScript libraries in the web apps root directory.
  *
  * @see TextArea
@@ -41,14 +41,14 @@ public class RichTextArea extends TextArea {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The textarea YUI editor theme [<tt>yui-skin-sam</tt>].
+     * The textarea YUI editor theme [<code>yui-skin-sam</code>].
      */
     protected String theme = "yui-skin-sam";
 
     /**
      * The textarea YUI editor configuration. Default values are:
-     * <tt>height: '300px', width: '530px', dompath: true, focusAtStart: true,
-     * handleSubmit: true, titlebar:'Rich Editor'</tt>.
+     * <code>height: '300px', width: '530px', dompath: true, focusAtStart: true,
+     * handleSubmit: true, titlebar:'Rich Editor'</code>.
      */
     private String config = "height: '200px', width: '600px',"
         + "dompath: true, focusAtStart: true, handleSubmit: true, titlebar:'Rich Editor'";
@@ -140,7 +140,7 @@ public class RichTextArea extends TextArea {
     /**
      * Render the HTML representation of the RichTextArea.
      * <p/>
-     * This method wraps the <tt>textarea</tt> in a <tt>&lt;span&gt;</tt> element
+     * This method wraps the <code>textarea</code> in a <code>&lt;span&gt;</code> element
      * which is used to specify the {@link #getTheme()} of the textarea.
      *
      * @see #toString()

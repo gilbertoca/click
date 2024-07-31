@@ -27,7 +27,7 @@ import org.apache.cayenne.access.DataContext;
  * child of the DataContext bound to the current Thread.
  * <p/>
  * Using a nested DataContext allows the form to keep its state across multiple
- * requests even if <tt>org.apache.click.extras.cayenne.DataContextFilter</tt> is
+ * requests even if <code>org.apache.click.extras.cayenne.DataContextFilter</code> is
  * configured to rollback changes after each request, which is the case for
  * click-examples.
  */

@@ -78,7 +78,7 @@ import org.apache.click.util.ClickUtils;
  * } </pre>
  *
  * <b>Please note:</b> using MockContext to run performance tests over a large
- * number of Controls could lead to <tt>out of memory</tt> errors. If you run
+ * number of Controls could lead to <code>out of memory</code> errors. If you run
  * into memory issues, you can either re-recreate a MockContext or invoke
  * {@link #reset()}, which removes all references to Controls,
  * ActionListeners and Behaviors.
@@ -94,6 +94,7 @@ public class MockContext extends Context {
      *
      * @param request the servlet request
      */
+    @Deprecated
      MockContext(HttpServletRequest request) {
         super(request, null);
     }
@@ -179,6 +180,7 @@ public class MockContext extends Context {
      * @param request the mock request
      * @return new Context instance
      */
+    @Deprecated
     public static MockContext initContext(HttpServletRequest request) {
         MockContext mockContext = new MockContext(request);
 
@@ -370,13 +372,14 @@ public class MockContext extends Context {
      *
      * @return true if all listeners returned true, false otherwise
      */
+    @Deprecated
     public boolean fireActionEventsAndClearRegistry() {
         return executeActionListeners();
     }
 
     /**
      * Reset mock internal state. Running a large number of tests using the same
-     * MockContext could lead to <tt>out of memory</tt> errors. Calling this
+     * MockContext could lead to <code>out of memory</code> errors. Calling this
      * method will remove any references to objects, thus freeing up memory.
      */
     public void reset() {

@@ -97,7 +97,7 @@ public class Button extends Field {
     // Public Attributes ------------------------------------------------------
 
     /**
-     * Return the button's html tag: <tt>input</tt>.
+     * Return the button's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -131,9 +131,9 @@ public class Button extends Field {
     }
 
     /**
-     * Return the input type: '<tt>button</tt>'.
+     * Return the input type: '<code>button</code>'.
      *
-     * @return the input type: '<tt>button</tt>'
+     * @return the input type: '<code>button</code>'
      */
     public String getType() {
         return "button";

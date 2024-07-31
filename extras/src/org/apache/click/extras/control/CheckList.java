@@ -159,17 +159,17 @@ import org.apache.commons.lang.StringUtils;
  *
  * The CheckList control makes use of the following resources
  * (which Click automatically deploys to the application directories,
- * <tt>/click/checklist</tt> and <tt>/click/prototype</tt>):
+ * <code>/click/checklist</code> and <code>/click/prototype</code>):
  *
  * <ul>
- * <li><tt>click/checklist/checklist.css</tt></li>
- * <li><tt>click/checklist/checklist.js</tt></li>
- * <li><tt>click/prototype/builder.js</tt></li>
- * <li><tt>click/prototype/controls.js</tt></li>
- * <li><tt>click/prototype/dragdrop.js</tt></li>
- * <li><tt>click/prototype/effects.js</tt></li>
- * <li><tt>click/prototype/prototype.js</tt></li>
- * <li><tt>click/prototype/slider.js</tt></li>
+ * <li><code>click/checklist/checklist.css</code></li>
+ * <li><code>click/checklist/checklist.js</code></li>
+ * <li><code>click/prototype/builder.js</code></li>
+ * <li><code>click/prototype/controls.js</code></li>
+ * <li><code>click/prototype/dragdrop.js</code></li>
+ * <li><code>click/prototype/effects.js</code></li>
+ * <li><code>click/prototype/prototype.js</code></li>
+ * <li><code>click/prototype/slider.js</code></li>
  * </ul>
  *
  * To import these CheckList files simply reference the variables
@@ -378,7 +378,7 @@ public class CheckList extends Field {
      * entry key will be used as the option value and the Map entry value will
      * be used as the option label.
      * <p/>
-     * It is recommended that <tt>LinkedHashMap</tt> is used as the Map
+     * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the option vales.
      *
      * @param options the Map of option values and labels to add
@@ -424,13 +424,13 @@ public class CheckList extends Field {
      *   list.addAll(getCustomerService().getCustomerTypes(), "id", "name");
      *   form.add(select); </pre>
      *
-     * For example given the Collection of CustomerType <tt>objects</tt>,
-     * <tt>optionValueProperty</tt> "id" and <tt>optionLabelProperty</tt> "name",
-     * the <tt>id</tt> and <tt>name</tt> properties of each CustomerType will be
+     * For example given the Collection of CustomerType <code>objects</code>,
+     * <code>optionValueProperty</code> "id" and <code>optionLabelProperty</code> "name",
+     * the <code>id</code> and <code>name</code> properties of each CustomerType will be
      * retrieved. For each CustomerType in the Collection a new
      * {@link org.apache.click.control.Option} instance is created and its
-     * <tt>value</tt> and <tt>label</tt> is set to the <tt>id</tt> and
-     * <tt>name</tt> retrieved from the CustomerType instance.
+     * <code>value</code> and <code>label</code> is set to the <code>id</code> and
+     * <code>name</code> retrieved from the CustomerType instance.
      *
      * @param objects the collection of objects to render as options
      * @param optionValueProperty the name of the object property to render as
@@ -548,6 +548,7 @@ public class CheckList extends Field {
      *
      * @deprecated use @{link #setStyle(String, String)}
      */
+    @Deprecated
     public void addStyle(String style) {
         if (StringUtils.isBlank(style)) {
             throw new IllegalArgumentException("The style is empty");
@@ -614,6 +615,7 @@ public class CheckList extends Field {
      *
      * @param clazz the class to set or null
      */
+    @Deprecated
     public void setHtmlClass(String clazz) {
         addStyleClass(clazz);
     }
@@ -627,6 +629,7 @@ public class CheckList extends Field {
      *
      * @return the class or null (default null)
      */
+    @Deprecated
     public String getHtmlClass() {
         return getAttribute("class");
     }
@@ -635,14 +638,14 @@ public class CheckList extends Field {
      * Return the CheckList HEAD elements to be included in the page.
      * The following resources are returned:
      * <ul>
-     * <li><tt>click/checklist/checklist.css</tt></li>
-     * <li><tt>click/checklist/checklist.js</tt></li>
-     * <li><tt>click/prototype/builder.js</tt></li>
-     * <li><tt>click/prototype/controls.js</tt></li>
-     * <li><tt>click/prototype/dragdrop.js</tt></li>
-     * <li><tt>click/prototype/effects.js</tt></li>
-     * <li><tt>click/prototype/prototype.js</tt></li>
-     * <li><tt>click/prototype/slider.js</tt></li>
+     * <li><code>click/checklist/checklist.css</code></li>
+     * <li><code>click/checklist/checklist.js</code></li>
+     * <li><code>click/prototype/builder.js</code></li>
+     * <li><code>click/prototype/controls.js</code></li>
+     * <li><code>click/prototype/dragdrop.js</code></li>
+     * <li><code>click/prototype/effects.js</code></li>
+     * <li><code>click/prototype/prototype.js</code></li>
+     * <li><code>click/prototype/slider.js</code></li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()
@@ -793,19 +796,20 @@ public class CheckList extends Field {
     }
 
     /**
-     * Return the list of selected values as a <tt>List</tt> of Strings. The
+     * Return the list of selected values as a <code>List</code> of Strings. The
      * returned List will contain the values of the Options selected.
      *
      * @deprecated use {@link #getSelectedValues()} instead
      *
      * @return a list of Strings
      */
+    @Deprecated
     public List<String> getValues() {
         return getSelectedValues();
     }
 
     /**
-     * Return the list of selected values as a <tt>List</tt> of Strings. The
+     * Return the list of selected values as a <code>List</code> of Strings. The
      * returned List will contain the values of the Options selected.
      *
      * @return the list of selected values
@@ -827,6 +831,7 @@ public class CheckList extends Field {
      *
      * @param values a list of strings or null
      */
+    @Deprecated
     public void setValues(List<String> values) {
         this.selectedValues = values;
     }
@@ -864,7 +869,7 @@ public class CheckList extends Field {
 
     /**
      * This method delegates to {@link #getSelectedValues()} to return the
-     * selected values as a <tt>java.util.List</tt> of Strings.
+     * selected values as a <code>java.util.List</code> of Strings.
      *
      * @see org.apache.click.control.Field#getValueObject()
      * @see #getSelectedValues()
@@ -879,7 +884,7 @@ public class CheckList extends Field {
     /**
      * This method delegates to {@link #setSelectedValues(java.util.List)}
      * to set the selected values of the CheckList. The given object parameter
-     * must be a <tt>java.util.List</tt> of Strings, otherwise it is ignored.
+     * must be a <code>java.util.List</code> of Strings, otherwise it is ignored.
      * <p/>
      * The List of values match the values of the Options.
      *

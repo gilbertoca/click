@@ -48,7 +48,7 @@ public class TableInlinePaginator extends TablePaginator {
 
         /**
          * Messages are defined in the resource bundle:
-         * <tt>org/apache/click/extras/control/TableInlinePaginator.properties</tt>.
+         * <code>org/apache/click/extras/control/TableInlinePaginator.properties</code>.
          */
         @Override
         public Map<String, String> getMessages() {

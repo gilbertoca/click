@@ -51,7 +51,7 @@ public class Context {
 
     // -------------------------------------------------------------- Constants
 
-    /** The user's session Locale key: &nbsp; <tt>locale</tt>. */
+    /** The user's session Locale key: &nbsp; <code>locale</code>. */
     public static final String LOCALE = "locale";
 
     /**
@@ -293,17 +293,17 @@ public class Context {
     /**
      * Return true is this is an Ajax request, false otherwise.
      * <p/>
-     * An Ajax request is identified by the presence of the request <tt>header</tt>
-     * or request <tt>parameter</tt>: "<tt>X-Requested-With</tt>".
-     * "<tt>X-Requested-With</tt>" is the de-facto standard identifier used by
+     * An Ajax request is identified by the presence of the request <code>header</code>
+     * or request <code>parameter</code>: "<code>X-Requested-With</code>".
+     * "<code>X-Requested-With</code>" is the de-facto standard identifier used by
      * Ajax libraries.
      * <p/>
-     * <b>Note:</b> incoming requests that contains a request <tt>parameter</tt>
-     * "<tt>X-Requested-With</tt>" will result in this method returning true, even
-     * though the request itself was not initiated through a <tt>XmlHttpRequest</tt>
+     * <b>Note:</b> incoming requests that contains a request <code>parameter</code>
+     * "<code>X-Requested-With</code>" will result in this method returning true, even
+     * though the request itself was not initiated through a <code>XmlHttpRequest</code>
      * object. This allows one to programmatically enable Ajax requests. A common
      * use case for this feature is when uploading files through an IFrame element.
-     * By specifying "<tt>X-Requested-With</tt>" as a request parameter the IFrame
+     * By specifying "<code>X-Requested-With</code>" as a request parameter the IFrame
      * request will be handled like a normal Ajax request.
      *
      * @return true if this is an Ajax request, false otherwise
@@ -360,9 +360,9 @@ public class Context {
 
     /**
      * Return the named request parameter. This method supports
-     * <tt>"multipart/form-data"</tt> POST requests and should be used in
-     * preference to the <tt>HttpServletRequest</tt> method
-     * <tt>getParameter()</tt>.
+     * <code>"multipart/form-data"</code> POST requests and should be used in
+     * preference to the <code>HttpServletRequest</code> method
+     * <code>getParameter()</code>.
      *
      * @see org.apache.click.control.Form#onProcess()
      * @see #isMultipartRequest()
@@ -385,9 +385,9 @@ public class Context {
      * Returns an array of String objects containing all of the values the given
      * request parameter has, or null if the parameter does not exist.
      *
-     * @param name a <tt>String</tt> containing the name of the parameter whose
+     * @param name a <code>String</code> containing the name of the parameter whose
      *     value is requested
-     * @return an array of <tt>String</tt> objects containing the parameter's values
+     * @return an array of <code>String</code> objects containing the parameter's values
      */
     public String[] getRequestParameterValues(String name) {
         if (name == null) {
@@ -549,7 +549,7 @@ public class Context {
      *
      * setForward(userEdit); </pre>
      *
-     * The given page path must start with a <tt>'/'</tt>.
+     * The given page path must start with a <code>'/'</code>.
      *
      * @param path the Page path as configured in the click.xml file
      * @return a new Page object
@@ -601,7 +601,7 @@ public class Context {
     }
 
     /**
-     * Return the page <tt>Class</tt> for the given path.
+     * Return the page <code>Class</code> for the given path.
      *
      * @param path the page path
      * @return the page class for the given path
@@ -614,7 +614,7 @@ public class Context {
 
     /**
      * Return the Click application mode value: &nbsp;
-     * <tt>["production", "profile", "development", "debug", "trace"]</tt>.
+     * <code>["production", "profile", "development", "debug", "trace"]</code>.
      *
      * @return the application mode value
      */
@@ -660,11 +660,11 @@ public class Context {
     }
 
     /**
-     * Returns a map of <tt>FileItem arrays</tt> keyed on request parameter
+     * Returns a map of <code>FileItem arrays</code> keyed on request parameter
      * name for "multipart" POST requests (file uploads). Thus each map entry
-     * will consist of one or more <tt>FileItem</tt> objects.
+     * will consist of one or more <code>FileItem</code> objects.
      *
-     * @return map of <tt>FileItem arrays</tt> keyed on request parameter name
+     * @return map of <code>FileItem arrays</code> keyed on request parameter name
      * for "multipart" POST requests
      */
     public Map<String, FileItem[]> getFileItemMap() {
@@ -761,7 +761,7 @@ public class Context {
      * Return a rendered Velocity template and model for the given
      * class and model data.
      * <p/>
-     * This method will merge the class <tt>.htm</tt> Velocity template and
+     * This method will merge the class <code>.htm</code> Velocity template and
      * model data using the applications Velocity Engine.
      * <p/>
      * An example of the class template resolution is provided below:

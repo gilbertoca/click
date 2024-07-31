@@ -21,7 +21,7 @@ package org.apache.click;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 import org.apache.click.control.Form;
 import org.apache.click.pages.BorderTestPage;

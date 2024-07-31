@@ -346,7 +346,7 @@
 /com/mycorp/pages/Login_en.properties
 /com/mycorp/pages/Login_fr.properties </pre>
 
-   In your Login Page class you can use the <tt>getMessage()</tt> method
+   In your Login Page class you can use the <code>getMessage()</code> method
    to lookup request localized message strings. 
    
 <pre class="codeJava">
@@ -403,14 +403,14 @@
   </dt>
   <dd>
   To encode pages in the UTF-8 character set you need to create a
-  <tt>WEB-INF/velocity.properties</tt> file with the properties:
+  <code>WEB-INF/velocity.properties</code> file with the properties:
 <pre class="codeConfig">
 <span class="red">input.encoding</span>=<span class="blue">UTF-8</span> </pre>
   This will configure the Velocity runtime to use UTF-8.
   <p/>  
   You will also need to set the page headers content type to UTF-8. You can do this globally for all
-  your applications pages using the <tt>headers</tt> element in your 
-  <tt>WEB-INF/click.xml</tt> file:
+  your applications pages using the <code>headers</code> element in your 
+  <code>WEB-INF/click.xml</code> file:
 <pre class="codeConfig">
 &lt;click&gt;
  ..
@@ -419,7 +419,7 @@
  &lt;/headers&gt;
  ..
 &lt;/click&gt; </pre>
-  This will set the pages <tt>HttpServletResponse</tt> "Content-Type" header to be 
+  This will set the pages <code>HttpServletResponse</code> "Content-Type" header to be 
   "text/html;charset=UTF-8". Alternatively you can override the Page 
   <a href="click-api/org/apache/click/Page.html#getContentType()">getContentType()</a> method
   to this content type.
@@ -431,7 +431,7 @@
   </dt>
   <dd>
   
-  You can specify your application character set in <tt>WEB-INF/click.xml</tt>:
+  You can specify your application character set in <code>WEB-INF/click.xml</code>:
 
 <pre class="codeConfig">
 &lt;click charset="<span class="blue">UTF-8</span>"&gt;
@@ -439,11 +439,11 @@
 &lt;/click&gt; </pre>
 
   This character set is used for Velocity input encoding, and response Content-Type. 
-  So if you specify the character set in <tt>WEB-INF/click.xml</tt>, 
-  you don't have to create <tt>WEB-INF/velocity.properties</tt>.
+  So if you specify the character set in <code>WEB-INF/click.xml</code>, 
+  you don't have to create <code>WEB-INF/velocity.properties</code>.
   <p/>
   If you want to use the other character set in your Velocity templates, 
-  you can override input encoding by <tt>WEB-INF/velocity.properties</tt>. 
+  you can override input encoding by <code>WEB-INF/velocity.properties</code>. 
   See <a href="#utf8-encoding">the previous topic</a>.
 
   </dd>
@@ -522,8 +522,8 @@ public class Purchase extends Page {
   By default Click supports *.htm and *.jsp extensions.
   <p/>
   However you can map templates with different extensions, for example *.xml, by
-  subclassing <tt>XmlConfigService</tt> and specify extra mappings by overriding
-  <tt>isTemplate(String path)</tt>. You can read more details
+  subclassing <code>XmlConfigService</code> and specify extra mappings by overriding
+  <code>isTemplate(String path)</code>. You can read more details
   <a href="click-api/org/apache/click/service/XmlConfigService.html#isTemplate(java.lang.String)">here</a>.
 
   <p/>
@@ -576,8 +576,8 @@ public class Purchase extends Page {
    <p/>
    The Spring MVC Framework however, is not compatible with Click. The Spring framework
    uses a low level command pattern design like Struts and WebWork.
-   Spring uses a <tt>DispatcherServlet</tt> to route requests to <tt>Controller</tt> 
-   objects and then passes the <tt>ModelAndView</tt> results to the rendering layer.
+   Spring uses a <code>DispatcherServlet</code> to route requests to <code>Controller</code> 
+   objects and then passes the <code>ModelAndView</code> results to the rendering layer.
 
 <pre class="prettyprint">
 public interface Controller {
@@ -588,7 +588,7 @@ public interface Controller {
   In Spring MVC the integration plugin points are the Controllers.
   <p/>
   Click uses higher level design constructs focusing on Pages and Controls. Click uses its
-  own <tt>ClickServlet</tt> for dispatching requests to <tt>Pages</tt> and <tt>Control</tt>s, 
+  own <code>ClickServlet</code> for dispatching requests to <code>Pages</code> and <code>Control</code>s, 
   which are Click's plugin points.
   </dd> 
 
@@ -600,7 +600,7 @@ public interface Controller {
    Click fully supports JSP pages. 
    <p/>
    JSP Pages can be automatically loaded, like Velocity templates, or
-   can be explicitly defined in the <tt>click.xml</tt> file.
+   can be explicitly defined in the <code>click.xml</code> file.
 
  <pre class="codeConfig">
 &lt;pages package="com.mycorp.pages"/&gt;
@@ -644,7 +644,7 @@ public interface Controller {
    template rendering.
    <p/>
    In order to bypass the Page template rendering you <strong>must</strong> set
-   the <tt>Page path</tt> to <tt>null</tt>. If Click does not know the location of the
+   the <code>Page path</code> to <code>null</code>. If Click does not know the location of the
    Page template, it won't render it. If you do not set the Page path to null,
    Click will attempt to render the Page template which can lead to undesirable results.
    <p/>
@@ -741,10 +741,10 @@ public MyPage extends Page {
   <p/>
   The amount of actual work Click does is pretty small. 
   <p/>
-  The <tt>onProcess()</tt> methods traverse a list of Controls and do simple 
+  The <code>onProcess()</code> methods traverse a list of Controls and do simple 
   operations.  
   <p/>
-  The Control <tt>toString()</tt> methods can allocate large StringBuffers when 
+  The Control <code>toString()</code> methods can allocate large StringBuffers when 
   rendering tables, but forms rarely get larger than 4,000 characters.  
   When Click creates a new StringBuffer it attempts to determine the
   maximum likely size to avoid additional memory allocation and arraycopy
@@ -753,7 +753,7 @@ public MyPage extends Page {
   There is not much reflection in Click at all. With reflection only really used by
   the Control call back listeners:
   <blockquote> 
-  <tt style="white-space:nowrap">okButton.setListener(<span class="kw">this</span>, <span class="st">"onOkClicked"</span>);</tt>
+  <tt style="white-space:nowrap">okButton.setListener(<span class="kw">this</span>, <span class="st">"onOkClicked"</span>);</code>
   </blockquote>
   The next step in processing the request is rendering the response.
   Velocity is largely responsible for this step. 
@@ -813,10 +813,10 @@ public MyPage extends Page {
   <dd>
    Click by default does not use Commons Logging / Log4J to avoid the class 
    loader and configuration issues which often occur with these framework, and
-   instead default to System.out using the <tt>ConsoleLogger</tt>.
+   instead default to System.out using the <code>ConsoleLogger</code>.
    <p/>
-   Click provides support for configurable <tt>LogService</tt>s and provides
-   <tt>JdkLogService</tt> and <tt>Log4JLogService</tt> classes in Click Extras.
+   Click provides support for configurable <code>LogService</code>s and provides
+   <code>JdkLogService</code> and <code>Log4JLogService</code> classes in Click Extras.
   </dd>
 
 
@@ -830,7 +830,7 @@ public MyPage extends Page {
    it is easier to learn and doesn't use an XML style markup syntax.
    <p/>
    Please note however that Click provides support for FreeMarker with the 
-   <tt>FreemarkerTemplateService</tt> in Click Extras.
+   <code>FreemarkerTemplateService</code> in Click Extras.
   </dd>
 
 

@@ -374,7 +374,7 @@ public class ContainerUtils {
      * Return a list of container fields which are not valid, not hidden and not
      * disabled.
      * <p/>
-     * The list of returned fields will exclude any <tt>Button</tt> fields.
+     * The list of returned fields will exclude any <code>Button</code> fields.
      *
      * @param container the container to obtain the invalid fields from
      * @return list of container fields which are not valid, not hidden and not
@@ -429,7 +429,7 @@ public class ContainerUtils {
     /**
      * Return the list of Fields for the given Container, recursively including
      * any Fields contained in child containers. The list of returned fields
-     * will exclude any <tt>Button</tt> and <tt>FieldSet</tt> fields.
+     * will exclude any <code>Button</code> and <code>FieldSet</code> fields.
      *
      * @param container the container to obtain the fields from
      * @return the list of contained fields
@@ -447,7 +447,7 @@ public class ContainerUtils {
     /**
      * Return the list of hidden Fields for the given Container, recursively including
      * any Fields contained in child containers. The list of returned fields
-     * will exclude any <tt>Button</tt>, <tt>FieldSet</tt> and <tt>Label</tt>
+     * will exclude any <code>Button</code>, <code>FieldSet</code> and <code>Label</code>
      * fields.
      *
      * @param container the container to obtain the fields from
@@ -467,7 +467,7 @@ public class ContainerUtils {
      * Return the list of input Fields (TextField, Select, Radio, Checkbox etc).
      * for the given Container, recursively including any Fields contained in
      * child containers. The list of returned fields will exclude any
-     * <tt>Button</tt>, <tt>FieldSet</tt> and <tt>Label</tt> fields.
+     * <code>Button</code>, <code>FieldSet</code> and <code>Label</code> fields.
      *
      * @param container the container to obtain the fields from
      * @return the list of contained fields
@@ -497,14 +497,14 @@ public class ContainerUtils {
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <tt>Control</tt>
-     * such as a <tt>Field</tt>, it won't be possible to extend
-     * <tt>AbstractContainer</tt> as well. In such scenarios instead of
+     * For example if the Container already extends from an existing <code>Control</code>
+     * such as a <code>Field</code>, it won't be possible to extend
+     * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#insert(org.apache.click.Control, int) insert},
      * one can delegate to this method.
      * <p/>
-     * For example, a custom Container that extends <tt>Field</tt> and
-     * implements <tt>Container</tt> could implement the <tt>insert</tt> method
+     * For example, a custom Container that extends <code>Field</code> and
+     * implements <code>Container</code> could implement the <code>insert</code> method
      * as follows:
      * <pre class="prettyprint">
      * public class MyContainer extends Field implements Container {
@@ -526,7 +526,7 @@ public class ContainerUtils {
      * and container is the same instance
      *
      * @throws IndexOutOfBoundsException if index is out of range
-     * <tt>(index &lt; 0 || index &gt; container.getControls().size())</tt>
+     * <code>(index &lt; 0 || index &gt; container.getControls().size())</code>
      */
     public static Control insert(Container container, Control control, int index,
         Map<String, Control> controlMap) {
@@ -592,14 +592,14 @@ public class ContainerUtils {
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <tt>Control</tt>
-     * such as a <tt>Field</tt>, it won't be possible to extend
-     * <tt>AbstractContainer</tt> as well. In such scenarios instead of
+     * For example if the Container already extends from an existing <code>Control</code>
+     * such as a <code>Field</code>, it won't be possible to extend
+     * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#replace(org.apache.click.Control, org.apache.click.Control) replace},
      * one can delegate to this method.
      * <p/>
-     * For example, a custom Container that extends <tt>Field</tt> and
-     * implements <tt>Container</tt> could implement the <tt>replace</tt> method
+     * For example, a custom Container that extends <code>Field</code> and
+     * implements <code>Container</code> could implement the <code>replace</code> method
      * as follows:
      *
      * <pre class="prettyprint">
@@ -628,6 +628,7 @@ public class ContainerUtils {
      * null
      * @throws IllegalStateException if the controlIndex = -1
      */
+    @Deprecated
     public static Control replace(Container container, Control currentControl,
         Control newControl, int controlIndex, Map<String, Control> controlMap) {
 
@@ -691,21 +692,21 @@ public class ContainerUtils {
     }
 
     /**
-     * Remove the given control from the container, returning <tt>true</tt> if
-     * the control was found in the container and removed, or <tt>false</tt> if
+     * Remove the given control from the container, returning <code>true</code> if
+     * the control was found in the container and removed, or <code>false</code> if
      * the control was not found.
      * <p/>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <tt>Control</tt>
-     * such as a <tt>Field</tt>, it won't be possible to extend
-     * <tt>AbstractContainer</tt> as well. In such scenarios instead of
+     * For example if the Container already extends from an existing <code>Control</code>
+     * such as a <code>Field</code>, it won't be possible to extend
+     * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#remove(org.apache.click.Control) remove},
      * one can delegate to this method.
      * <p/>
-     * For example, a custom Container that extends <tt>Field</tt> and
-     * implements <tt>Container</tt> could implement the <tt>remove</tt> method
+     * For example, a custom Container that extends <code>Field</code> and
+     * implements <code>Container</code> could implement the <code>remove</code> method
      * as follows:
      * <pre class="prettyprint">
      * public class MyContainer extends Field implements Container {
@@ -1112,7 +1113,7 @@ public class ContainerUtils {
     /**
      * Add buttons for the given Container to the specified buttons list,
      * recursively including any Fields contained in child containers. The list
-     * of returned buttons will exclude any <tt>Button</tt> or <tt>Label</tt>
+     * of returned buttons will exclude any <code>Button</code> or <code>Label</code>
      * fields.
      *
      * @param container the container to obtain the fields from
@@ -1163,7 +1164,7 @@ public class ContainerUtils {
      * Add input fields (TextField, TextArea, Select, Radio, Checkbox etc.) for
      * the given Container to the specified field list, recursively including
      * any Fields contained in child containers. The list of returned fields
-     * will exclude any <tt>Button</tt>, <tt>FieldSet</tt> and <tt>Label</tt>
+     * will exclude any <code>Button</code>, <code>FieldSet</code> and <code>Label</code>
      * fields.
      *
      * @param container the container to obtain the fields from
@@ -1193,8 +1194,8 @@ public class ContainerUtils {
     /**
      * Add hidden fields for the given Container to the specified field list,
      * recursively including any Fields contained in child containers. The list
-     * of returned fields will exclude any <tt>Button</tt>, <tt>FieldSet</tt>
-     * and <tt>Label</tt> fields.
+     * of returned fields will exclude any <code>Button</code>, <code>FieldSet</code>
+     * and <code>Label</code> fields.
      *
      * @param container the container to obtain the hidden fields from
      * @param fields the list of contained fields
@@ -1230,7 +1231,7 @@ public class ContainerUtils {
     /**
      * Add fields for the container to the specified field list, recursively
      * including any Fields contained in child containers. The list
-     * of returned fields will exclude any <tt>Button</tt> and <tt>FieldSet</tt>
+     * of returned fields will exclude any <code>Button</code> and <code>FieldSet</code>
      * fields.
      *
      * @param container the container to obtain the fields from
@@ -1287,7 +1288,7 @@ public class ContainerUtils {
      * Add the list of container fields to the specified list of fields, which
      * are not valid, not hidden and not disabled.
      * <p/>
-     * The list of returned invalid fields will exclude any <tt>Button</tt>
+     * The list of returned invalid fields will exclude any <code>Button</code>
      * fields.
      *
      * @param container the container to obtain the fields from

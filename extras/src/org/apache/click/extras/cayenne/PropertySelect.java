@@ -101,7 +101,7 @@ import org.apache.commons.lang.StringUtils;
  * In this example no query is specified and the control will create a
  * simple {@link SelectQuery} based on the property class. However,
  * generally you should use a named query (configured in the Cayenne Modeler)
- * or an explicitly set <tt>SelectQuery</tt>.
+ * or an explicitly set <code>SelectQuery</code>.
  * <p/>
  * Note when using a named query ensure that it will return DataObjects and not
  * DataRows.
@@ -136,7 +136,7 @@ public class PropertySelect extends Select {
     /** The name of the configured select query. */
     protected String queryName;
 
-    /** The option list Cayenne <tt>NamedQuery</tt>. */
+    /** The option list Cayenne <code>NamedQuery</code>. */
     protected NamedQuery namedQuery;
 
     /**
@@ -157,7 +157,7 @@ public class PropertySelect extends Select {
     /** The data object property to render as the option label. */
     protected String optionLabel;
 
-    /** The option list Cayenne <tt>SelectQuery</tt>. */
+    /** The option list Cayenne <code>SelectQuery</code>. */
     protected SelectQuery selectQuery;
 
     /** The property value object. */
@@ -285,16 +285,16 @@ public class PropertySelect extends Select {
         throw new UnsupportedOperationException(msg);
     }
     /**
-     * Return the <tt>NamedQuery</tt> to populate the options list with.
+     * Return the <code>NamedQuery</code> to populate the options list with.
      *
-     * @return the <tt>NamedQuery</tt> to populate the options list with
+     * @return the <code>NamedQuery</code> to populate the options list with
      */
     public NamedQuery getNamedQuery() {
         return namedQuery;
     }
 
     /**
-     * Set the <tt>NamedQuery</tt> to populate the options list with.
+     * Set the <code>NamedQuery</code> to populate the options list with.
      *
      * @param namedQuery to populate the options list with
      */
@@ -321,9 +321,9 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Return the <tt>DataObject</tt> property to render as the option label.
+     * Return the <code>DataObject</code> property to render as the option label.
      *
-     * @return optionLabel the <tt>DataObject</tt> property to render as the
+     * @return optionLabel the <code>DataObject</code> property to render as the
      *  option label
      */
     public String getOptionLabel() {
@@ -331,9 +331,9 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Set the <tt>DataObject</tt> property to render as the option label.
+     * Set the <code>DataObject</code> property to render as the option label.
      *
-     * @param optionLabel the <tt>DataObject</tt> property to render as the
+     * @param optionLabel the <code>DataObject</code> property to render as the
      *  option label
      */
     public void setOptionLabel(String optionLabel) {
@@ -341,9 +341,9 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Return the <tt>SelectQuery</tt> to populate the options list with.
+     * Return the <code>SelectQuery</code> to populate the options list with.
      *
-     * @return the <tt>SelectQuery</tt> to populate the options list with
+     * @return the <code>SelectQuery</code> to populate the options list with
      */
     public SelectQuery getSelectQuery() {
         return selectQuery;
@@ -375,9 +375,9 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Set the <tt>SelectQuery</tt> to populate the options list with.
+     * Set the <code>SelectQuery</code> to populate the options list with.
      *
-     * @param selectQuery the <tt>SelectQuery</tt> to populate the options
+     * @param selectQuery the <code>SelectQuery</code> to populate the options
      *  list with
      */
     public void setSelectQuery(SelectQuery selectQuery) {
@@ -385,12 +385,12 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Return the property <tt>DataObject</tt> value, or null if value was not
+     * Return the property <code>DataObject</code> value, or null if value was not
      * defined.
      *
      * @see org.apache.click.control.Field#getValueObject()
      *
-     * @return the property <tt>DataObject</tt> value
+     * @return the property <code>DataObject</code> value
      */
     @Override
     public Object getValueObject() {
@@ -398,8 +398,8 @@ public class PropertySelect extends Select {
     }
 
     /**
-     * Set the valueObject with the given <tt>DataObject</tt> and the select
-     * value to the <tt>DataObject</tt> primary key value.
+     * Set the valueObject with the given <code>DataObject</code> and the select
+     * value to the <code>DataObject</code> primary key value.
      *
      * @see org.apache.click.control.Field#setValueObject(Object)
      *
@@ -430,7 +430,7 @@ public class PropertySelect extends Select {
      * otherwise.
      * <p/>
      * This method delegates to {@link #loadDataObject()} to load the
-     * <tt>DataObject</tt>.
+     * <code>DataObject</code>.
      *
      * @see org.apache.click.control.Select#onProcess()
      * @return true to continue Page event processing or false otherwise
@@ -516,8 +516,8 @@ public class PropertySelect extends Select {
     // Protected Methods ------------------------------------------------------
 
     /**
-     * Load the <tt>DataObject</tt> based on the submitted primary key value and
-     * setting this object as the Select <tt>valueObject</tt>.
+     * Load the <code>DataObject</code> based on the submitted primary key value and
+     * setting this object as the Select <code>valueObject</code>.
      */
     protected void loadDataObject() {
         CayenneForm cayenneForm = (CayenneForm) getForm();
@@ -555,9 +555,9 @@ public class PropertySelect extends Select {
      * Load the Select options list. This method will attempt to select the
      * options using the following techniques.
      * <ol>
-     * <li>if a <tt>SelectQuery</tt> is defined load options from SelectQuery</li>
+     * <li>if a <code>SelectQuery</code> is defined load options from SelectQuery</li>
      * <li>if a query name is defined load options from configured named query</li>
-     * <li>else create a <tt>SelectQuery</tt> based on the property class</li>
+     * <li>else create a <code>SelectQuery</code> based on the property class</li>
      * </ol>
      */
     protected void loadOptionList() {

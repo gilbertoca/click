@@ -51,7 +51,7 @@ public class PageActionPage extends BorderPage {
         // Formatted date instance that will be returned to the browser
         String now = format.currentDate("MMM, yyyy dd HH:mm:ss");
 
-        String msg = "PageAction method <tt>onLinkClicked()</tt> invoked at: " + now;
+        String msg = "PageAction method <code>onLinkClicked()</code> invoked at: " + now;
 
         // Return an action result containing the message
         return new ActionResult(msg, ActionResult.HTML);

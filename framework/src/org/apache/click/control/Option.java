@@ -145,7 +145,7 @@ public class Option implements Serializable {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the Option's html tag: <tt>option</tt>.
+     * Return the Option's html tag: <code>option</code>.
      *
      * @return the Option's html tag
      */
@@ -221,6 +221,7 @@ public class Option implements Serializable {
      * @param select the parent Select
      * @return rendered HTML Option string
      */
+    @Deprecated
     public String renderHTML(Select select) {
         HtmlStringBuffer buffer = new HtmlStringBuffer(48);
         render(select, buffer);

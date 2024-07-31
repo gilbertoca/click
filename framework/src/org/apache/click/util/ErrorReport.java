@@ -632,7 +632,7 @@ public class ErrorReport {
             = new HtmlStringBuffer(sw.toString().length() + 80);
         buffer.append("<pre><tt style='font-size:10pt;'>");
         buffer.append(ClickUtils.escapeHtml(sw.toString().trim()));
-        buffer.append("</tt></pre>");
+        buffer.append("</code></pre>");
 
         return buffer.toString();
     }

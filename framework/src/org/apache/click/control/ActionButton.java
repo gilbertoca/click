@@ -56,7 +56,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * <b>Please Note</b> do not add ActionButton instances to the Form object, as
  * the GET request it generates will never be processed by the Form, and in turn
- * the Form will not invoke the ActionButton's <tt>onProcess()</tt> method.
+ * the Form will not invoke the ActionButton's <code>onProcess()</code> method.
  *
  * @see org.apache.click.control.ActionLink
  */
@@ -66,10 +66,10 @@ public class ActionButton extends Button {
 
     private static final long serialVersionUID = 1L;
 
-    /** The action button parameter name: &nbsp; <tt>actionButton</tt>. */
+    /** The action button parameter name: &nbsp; <code>actionButton</code>. */
     public static final String ACTION_BUTTON = "actionButton";
 
-    /** The value parameter name: &nbsp; <tt>value</tt>. */
+    /** The value parameter name: &nbsp; <code>value</code>. */
     public static final String VALUE = "value";
 
     // ----------------------------------------------------- Instance Variables
@@ -229,7 +229,7 @@ public class ActionButton extends Button {
      * @param parent the parent of the Control
      * @throws IllegalStateException if {@link #name} is not defined
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     @Override
     public void setParent(Object parent) {
@@ -246,7 +246,7 @@ public class ActionButton extends Button {
     /**
      * Return the ActionButton onclick attribute for the given value.
      * This method will encode the URL with the session ID if required using
-     * <tt>HttpServletResponse.encodeURL()</tt>.
+     * <code>HttpServletResponse.encodeURL()</code>.
      *
      * @param value the ActionButton value parameter
      * @return the ActionButton JavaScript href attribute
@@ -362,13 +362,13 @@ public class ActionButton extends Button {
      * implicitly defines a parameter as well.
      * <p/>
      * <b>Please note:</b> parameters need only be defined for Ajax requests.
-     * For non-Ajax requests, <tt>all</tt> incoming request parameters
+     * For non-Ajax requests, <code>all</code> incoming request parameters
      * are bound, whether they are defined or not. This behavior may change in a
      * future release.
      * <p/>
      * <b>Also note:</b> button parameters are bound to request parameters
      * during the {@link #onProcess()} event, so button parameters must be defined
-     * in the Page constructor or <tt>onInit()</tt> event.
+     * in the Page constructor or <code>onInit()</code> event.
      *
      * @param name the name of the parameter to define
      */
@@ -422,10 +422,10 @@ public class ActionButton extends Button {
     }
 
     /**
-     * Returns the ActionButton <tt>Double</tt> value if the action button was
+     * Returns the ActionButton <code>Double</code> value if the action button was
      * processed and has a value, or null otherwise.
      *
-     * @return the action button <tt>Double</tt> value if the action button was processed
+     * @return the action button <code>Double</code> value if the action button was processed
      *
      * @throws NumberFormatException if the value cannot be parsed into a Double
      */
@@ -438,10 +438,10 @@ public class ActionButton extends Button {
     }
 
     /**
-     * Returns the ActionButton <tt>Integer</tt> value if the action button was
+     * Returns the ActionButton <code>Integer</code> value if the action button was
      * processed and has a value, or null otherwise.
      *
-     * @return the ActionButton <tt>Integer</tt> value if the action button was processed
+     * @return the ActionButton <code>Integer</code> value if the action button was processed
      *
      * @throws NumberFormatException if the value cannot be parsed into an Integer
      */
@@ -454,10 +454,10 @@ public class ActionButton extends Button {
     }
 
     /**
-     * Returns the ActionButton <tt>Long</tt> value if the action button was
+     * Returns the ActionButton <code>Long</code> value if the action button was
      * processed and has a value, or null otherwise.
      *
-     * @return the ActionButton <tt>Long</tt> value if the action button was processed
+     * @return the ActionButton <code>Long</code> value if the action button was processed
      *
      * @throws NumberFormatException if the value cannot be parsed into a Long
      */
@@ -596,7 +596,7 @@ public class ActionButton extends Button {
      * This method binds the submitted request parameters to the buttons
      * parameters.
      * <p/>
-     * For non-Ajax requests this method will bind <tt>all</tt> incoming request
+     * For non-Ajax requests this method will bind <code>all</code> incoming request
      * parameters to the link. For Ajax requests this method will only bind
      * the parameters already defined on the link.
      *

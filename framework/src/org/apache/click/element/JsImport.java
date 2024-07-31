@@ -25,7 +25,7 @@ import org.apache.click.util.HtmlStringBuffer;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Provides a JavaScript HEAD element for importing <tt>external</tt> JavaScript
+ * Provides a JavaScript HEAD element for importing <code>external</code> JavaScript
  * files using the &lt;script&gt; tag.
  * <p/>
  * Example usage:
@@ -46,8 +46,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *     }
  * } </pre>
  *
- * The <tt>jsImport</tt> instance will be rendered as follows (assuming the context
- * path is <tt>myApp</tt>):
+ * The <code>jsImport</code> instance will be rendered as follows (assuming the context
+ * path is <code>myApp</code>):
  * <pre class="prettyprint">
  * &lt;script type="text/javascript" href="/myApp/js/js-library.js"&gt;&lt;/script&gt; </pre>
  */
@@ -70,15 +70,15 @@ public class JsImport extends ResourceElement {
 
     /**
      * Construct a new JavaScript import element with the specified
-     * <tt>src</tt> attribute.
+     * <code>src</code> attribute.
      * <p/>
      * The JsImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
      * <p/>
-     * <b>Please note</b> if the given <tt>src</tt> begins with a
-     * <tt class="wr">"/"</tt> character the src will be prefixed with the web
-     * application <tt>context path</tt>.
+     * <b>Please note</b> if the given <code>src</code> begins with a
+     * <tt class="wr">"/"</code> character the src will be prefixed with the web
+     * application <code>context path</code>.
      *
      * @param src the JavaScript import src attribute
      */
@@ -87,7 +87,7 @@ public class JsImport extends ResourceElement {
     }
 
     /**
-     * Construct a new JavaScript import element with the specified <tt>src</tt>
+     * Construct a new JavaScript import element with the specified <code>src</code>
      * attribute.
      * <p/>
      * If useApplicationVersionIndicator is true the
@@ -95,9 +95,9 @@ public class JsImport extends ResourceElement {
      * automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
      * <p/>
-     * <b>Please note</b> if the given <tt>src</tt> begins with a
-     * <tt class="wr">"/"</tt> character the src will be prefixed with the web
-     * application <tt>context path</tt>.
+     * <b>Please note</b> if the given <code>src</code> begins with a
+     * <tt class="wr">"/"</code> character the src will be prefixed with the web
+     * application <code>context path</code>.
      *
      * @param src the JavaScript import src attribute
      * @param useApplicationVersionIndicator indicates whether the version
@@ -111,12 +111,12 @@ public class JsImport extends ResourceElement {
     }
 
     /**
-     * Construct a new JavaScript import element with the specified <tt>src</tt>
+     * Construct a new JavaScript import element with the specified <code>src</code>
      * attribute and version indicator.
      * <p/>
-     * <b>Please note</b> if the given <tt>src</tt> begins with a
-     * <tt class="wr">"/"</tt> character the src will be prefixed with the web
-     * application <tt>context path</tt>.
+     * <b>Please note</b> if the given <code>src</code> begins with a
+     * <tt class="wr">"/"</code> character the src will be prefixed with the web
+     * application <code>context path</code>.
      *
      * @param src the JsImport src attribute
      * @param versionIndicator the version indicator to add to the src path
@@ -141,13 +141,13 @@ public class JsImport extends ResourceElement {
 
     /**
      * This method always return true because a JavaScript import must be unique
-     * based on its <tt>src</tt> attribute. In other words the Page HEAD should
-     * only contain a single JavaScript import for the specific <tt>src</tt>.
+     * based on its <code>src</code> attribute. In other words the Page HEAD should
+     * only contain a single JavaScript import for the specific <code>src</code>.
      *
      * @see ResourceElement#isUnique()
      *
      * @return true because JavaScript import must unique based on its
-     * <tt>src</tt> attribute
+     * <code>src</code> attribute
      */
     @Override
     public boolean isUnique() {
@@ -155,12 +155,12 @@ public class JsImport extends ResourceElement {
     }
 
     /**
-     * Sets the <tt>src</tt> attribute. If the given src argument is
-     * <tt>null</tt>, the <tt>src</tt> attribute will be removed.
+     * Sets the <code>src</code> attribute. If the given src argument is
+     * <code>null</code>, the <code>src</code> attribute will be removed.
      * <p/>
-     * If the given <tt>src</tt> begins with a <tt class="wr">"/"</tt> character
-     * the src will be prefixed with the web application <tt>context path</tt>.
-     * Note if the given src is already prefixed with the <tt>context path</tt>,
+     * If the given <code>src</code> begins with a <tt class="wr">"/"</code> character
+     * the src will be prefixed with the web application <code>context path</code>.
+     * Note if the given src is already prefixed with the <code>context path</code>,
      * Click won't add it a second time.
      *
      * @param src the new src attribute
@@ -187,7 +187,7 @@ public class JsImport extends ResourceElement {
     }
 
     /**
-     * Return the <tt>src</tt> attribute.
+     * Return the <code>src</code> attribute.
      *
      * @return the src attribute
      */

@@ -123,16 +123,16 @@ versions please email the Click user group.
           controls: Table, Form, TabbedPanel, Field and AbstractLink.
       </li>
       <li class="change"><a name="removed-bypass-validation"></a>
-          The <tt>bypass validation</tt> feature introduced in 2.2.0 raised security
+          The <code>bypass validation</code> feature introduced in 2.2.0 raised security
            concerns and was removed in this release.
         <p/>
-        The main problem was with <tt>bypassValidation</tt> is that
-        an attacker can set the <tt>bypassValidation</tt> hidden field to true, thus bypassing
-        validation on the server. In addition , Form.isValid returned <tt>true</tt>
+        The main problem was with <code>bypassValidation</code> is that
+        an attacker can set the <code>bypassValidation</code> hidden field to true, thus bypassing
+        validation on the server. In addition , Form.isValid returned <code>true</code>
         even when validation was bypassed.
         <p/>
-        If you are currently using <tt>bypassValidation</tt> for dynamic forms,
-        you can bypass form validation by setting <tt>Form.setValidate(false)</tt>,
+        If you are currently using <code>bypassValidation</code> for dynamic forms,
+        you can bypass form validation by setting <code>Form.setValidate(false)</code>,
         for example:
         <pre class="prettyprint">
 public void onInit() {
@@ -194,20 +194,20 @@ public void onInit() {
         based <a href="click-api/org/apache/click/Control.html#getHeadElements()">HEAD elements</a>.
         <p/>
         Unfortunately this change can lead to runtime behavioral errors for
-        applications using the string based <tt>getHtmlImports</tt> approach.
+        applications using the string based <code>getHtmlImports</code> approach.
         <p/>
         As runtime errors are often more expensive to fix than compile time errors,
-        we have decided to remove the <tt>getHtmlImports</tt> method from the
-        Page and Control classes. In addition we have set <tt>getHtmlImports</tt>
-        to <tt>final</tt> in Page and Control. This ensures existing codebases
+        we have decided to remove the <code>getHtmlImports</code> method from the
+        Page and Control classes. In addition we have set <code>getHtmlImports</code>
+        to <code>final</code> in Page and Control. This ensures existing codebases
         don't accidentally override this method in custom controls and pages.
         In a future release of Click these final methods will be removed as well.
         <p/>
-        This means Click 2.2.0 will force you to migrate from <tt>getHtmlImports</tt>
-        to <tt>getHeadElements</tt>.
+        This means Click 2.2.0 will force you to migrate from <code>getHtmlImports</code>
+        to <code>getHeadElements</code>.
         <p/>
-        Here is a typical example of converting a <tt>getHtmlImports</tt> method
-        to <tt>getHeadElements</tt>.
+        Here is a typical example of converting a <code>getHtmlImports</code> method
+        to <code>getHeadElements</code>.
         <p/>
         Before:
 
@@ -270,13 +270,13 @@ public class MyPage extends BorderPage {
           </ul>
       </li>
       <li class="change">
-        In previous releases, the default autobinding mode (<tt>public</tt>)
+        In previous releases, the default autobinding mode (<code>public</code>)
         binded only public Page fields. In 2.2.0 the default autobinding mode
-        has been replaced with a new <tt>default</tt> mode which binds both
+        has been replaced with a new <code>default</code> mode which binds both
         public fields and fields annotated with the @Bindable annotation.
         <p/>
         Please note, for backward compatibility the autobinding attribute still
-        accepts the <tt>public</tt> value.
+        accepts the <code>public</code> value.
       </li>
       <li class="change">
         Added new method <a href="click-api/org/apache/click/control/Container.html#replace(org.apache.click.control Control, org.apache.click.control Control)">Container.replace</a>
@@ -291,7 +291,7 @@ public class MyPage extends BorderPage {
         will function correctly for your control.
         <p/>
         For example, if a custom insert method adds the control to an
-        internal list the <tt>replace</tt> method must be overridden to replace
+        internal list the <code>replace</code> method must be overridden to replace
         the control on that list as well.
       </li>
     </ul>
@@ -320,19 +320,19 @@ public class MyPage extends BorderPage {
       <li class="change">
           Click automatically deploy resources from JARs and folders on the
           classpath that are located under a predefined directory. In previous
-          versions of Click that directory was <tt>META-INF/web</tt>.
+          versions of Click that directory was <code>META-INF/web</code>.
           <p/>
           The new Servlet 3.0 specification introduced a similar concept where
           resources can be packaged in a JAR and served directly without having
           to be deployed. The directory defined by Servlet 3.0 is
-          <tt>META-INF/resources</tt>.
+          <code>META-INF/resources</code>.
           <p/>
           Click 2.1.0 aligns with Servlet 3.0 in that resources are also deployed
-          from <tt>META-INF/resources</tt>.
+          from <code>META-INF/resources</code>.
           <p/>
           For backwards compatibility Click will still deploy resources from
-          <tt>META-INF/web</tt>, however it is highly recommended to deploy
-          resources from <tt>META-INF/resources</tt> instead.
+          <code>META-INF/web</code>, however it is highly recommended to deploy
+          resources from <code>META-INF/resources</code> instead.
       </li>
     </ul>
   </dd>
@@ -350,16 +350,16 @@ public class MyPage extends BorderPage {
     </div>
     <ul style="padding: 0em; margin-left:0em;margin-bottom: 2em">
       <li class="change">
-        All <tt>net.sf.click.*</tt> packages have been renamed to <tt>org.apache.click.*</tt>.
-        When upgrading you must replace all references to <tt>net.sf.click.*</tt> with
-        <tt>org.apache.click.*</tt>.
+        All <code>net.sf.click.*</code> packages have been renamed to <code>org.apache.click.*</code>.
+        When upgrading you must replace all references to <code>net.sf.click.*</code> with
+        <code>org.apache.click.*</code>.
 
         <p/>
         You can use your favorite IDE and do a global search/replace or
         alternatively use Ant's <a target="blank" class="external" href="http://ant.apache.org/manual/CoreTasks/replace.html">replace task</a>.
 
         <p/>
-        Make sure you update the files <tt>web.xml</tt> and <tt>click.xml</tt> as well.
+        Make sure you update the files <code>web.xml</code> and <code>click.xml</code> as well.
       </li>
       <li class="change">
           JSCalendar which is licensed under LGPL is incompatible with Apache license
@@ -369,27 +369,27 @@ public class MyPage extends BorderPage {
           The following methods were removed:
           <ul>
               <li>
-                  <tt>public String getCalendarPattern()</tt>
+                  <code>public String getCalendarPattern()</code>
               </li>
               <li>
-                  <tt>public boolean getShowTime()</tt> and <tt>public void setShowTime(boolean showTime)</tt>
+                  <code>public boolean getShowTime()</code> and <code>public void setShowTime(boolean showTime)</code>
               </li>
               <li>
-                  <tt>public String getStyle()</tt> and <tt>public void setStyle(String style)</tt>
+                  <code>public String getStyle()</code> and <code>public void setStyle(String style)</code>
               </li>
               <li>
-                  <tt>protected int getFirstDayOfWeek()</tt>
+                  <code>protected int getFirstDayOfWeek()</code>
               </li>
               <li>
-                  <tt>protected String parseDateFormatPattern(String pattern)</tt>
+                  <code>protected String parseDateFormatPattern(String pattern)</code>
               </li>
           </ul>
           <p/>
           Since the calendar popup is not available to help users pick dates, it
           becomes difficult for users to know the format of the Date.
           To remedy this situation, Click 2.0.1 introduces a new resource key,
-          <tt>date-title</tt>, which is set as the title of DateField. The new
-          property provides users with visual feedback of the <tt>date format</tt>
+          <code>date-title</code>, which is set as the title of DateField. The new
+          property provides users with visual feedback of the <code>date format</code>
           specified on the DateField. For those building i18n applications remember to add this property
           to <span style="color:navy;">DateField_&lt;lang&gt;.properties.</span>
           You can also send us patches for your languages and we will
@@ -463,7 +463,7 @@ DateField dateField = new CalendarField("date");
         <li>Retrofit the new Control 
         <a href="click-api/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)">render()</a>
         method to any on your custom control rendering.</li>
-        <li>Replace any Control <tt>toString()</tt> methods with an equivalent <a href="click-api/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)">render()</a>
+        <li>Replace any Control <code>toString()</code> methods with an equivalent <a href="click-api/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)">render()</a>
         method. For further details see the example below.</li>
         <li>Form.add(Field), FieldSet.add(Field) and Table.addColumn(Column) now return
         their argument instead of void, which enables you to chain calls for example<br>

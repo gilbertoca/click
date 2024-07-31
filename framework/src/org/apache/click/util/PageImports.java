@@ -448,6 +448,7 @@ public class PageImports {
      *
      * @param buffer the specified buffer to render the page's HTML imports to
      */
+    @Deprecated
     protected void renderAllIncludes(HtmlStringBuffer buffer) {
         renderCssElements(buffer);
         renderJsElements(buffer);
@@ -516,7 +517,7 @@ public class PageImports {
      * Process the given list of HEAD elements.
      * <p/>
      * This method invokes {@link #add(org.apache.click.element.Element)} for
-     * every <tt>Element</tt> entry in the specified list.
+     * every <code>Element</code> entry in the specified list.
      *
      * @param elements the list of HEAD elements to process
      */
@@ -559,6 +560,7 @@ public class PageImports {
      *
      * @deprecated rather use {@link HeadElements} and {@link JsImport}
      */
+    @Deprecated
     class Imports {
 
         /**
@@ -607,6 +609,7 @@ public class PageImports {
      *
      * @deprecated use {@link HeadElements} instead
      */
+    @Deprecated
     class CssElements {
 
         /**

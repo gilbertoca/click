@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemHeaders;
 
 /**
- * Mock implementation of <tt>org.apache.commons.fileupload.FileItem</tt>.
+ * Mock implementation of <code>org.apache.commons.fileupload.FileItem</code>.
  */
 public class MockFileItem implements FileItem {
 

@@ -40,7 +40,7 @@ import org.apache.click.util.ClickUtils;
  * must be set appropriately in order for the browser to recognize the action result.
  * <p/>
  * ActionResults are returned by {@link org.apache.click.ajax.AjaxBehavior Ajax Behaviors}
- * and <tt>Page Action</tt> methods.
+ * and <code>Page Action</code> methods.
  *
  * <h3>Ajax Behavior</h3>
  *
@@ -68,7 +68,7 @@ import org.apache.click.util.ClickUtils;
  *
  * <h3>Page Action</h3>
  *
- * A <tt>Page Action</tt> is a method on a Page that can be invoked directly
+ * A <code>Page Action</code> is a method on a Page that can be invoked directly
  * from the browser. The Page Action method returns an ActionResult instance that
  * is rendered to the browser, thus bypassing the rendering of the Page template.
  *
@@ -98,7 +98,7 @@ import org.apache.click.util.ClickUtils;
  *
  * The {@link #contentType} of the ActionResult must be set to the appropriate type
  * in order for the client to recognize the response. ActionResult provides constants
- * for some of the common <tt>content types</tt>, including: {@link #XML text/xml},
+ * for some of the common <code>content types</code>, including: {@link #XML text/xml},
  * {@link #HTML text/html}, {@link #JSON application/json}, {@link #TEXT text/plain}.
  * <p/>
  * For example:
@@ -123,22 +123,22 @@ public class ActionResult {
 
     // Constants --------------------------------------------------------------
 
-    /** The plain text content type constant: <tt>text/plain</tt>. */
+    /** The plain text content type constant: <code>text/plain</code>. */
     public static final String TEXT = "text/plain";
 
-    /** The html content type constant: <tt>text/html</tt>. */
+    /** The html content type constant: <code>text/html</code>. */
     public static final String HTML = "text/html";
 
-    /** The The xhtml content type constant: <tt>application/xhtml+xml</tt>. */
+    /** The The xhtml content type constant: <code>application/xhtml+xml</code>. */
     public static final String XHTML = "application/xhtml+xml";
 
-    /** The json content type constant: <tt>text/json</tt>. */
+    /** The json content type constant: <code>text/json</code>. */
     public static final String JSON = "application/json";
 
-    /** The javascript content type constant: <tt>text/javascript</tt>. */
+    /** The javascript content type constant: <code>text/javascript</code>. */
     public static final String JAVASCRIPT = "text/javascript";
 
-    /** The xml content type constant: <tt>text/xml</tt>. */
+    /** The xml content type constant: <code>text/xml</code>. */
     public static final String XML = "text/xml";
 
     /** The ActionResult writer buffer size. */
@@ -262,7 +262,7 @@ public class ActionResult {
 
     /**
      * Construct the ActionResult for the given content. The
-     * <tt>{@link javax.servlet.http.HttpServletResponse#setContentType(java.lang.String) response content type}</tt>
+     * <code>{@link javax.servlet.http.HttpServletResponse#setContentType(java.lang.String) response content type}</code>
      * will default to {@link #TEXT}, unless overridden.
      *
      * @param content the content to stream back to the client
@@ -273,7 +273,7 @@ public class ActionResult {
 
     /**
      * Construct a new empty ActionResult. The
-     * <tt>{@link javax.servlet.http.HttpServletResponse#setContentType(java.lang.String) response content type}</tt>
+     * <code>{@link javax.servlet.http.HttpServletResponse#setContentType(java.lang.String) response content type}</code>
      * will default to {@link #TEXT}, unless overridden.
      */
     public ActionResult() {

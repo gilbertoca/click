@@ -101,12 +101,13 @@
                version="true"
                verbose="false"
                windowtitle="Click Examples"
-               doctitle="Click Example API">
+               doctitle="Click Example API"
+               additionalparam="-Xdoclint:none">
          <classpath refid="classpath"/>
          <packageset dir="src"/>
-         <link href="https://java.sun.com/j2se/1.5.0/docs/api/"/>
+         <link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
          <link href="https://click.apache.org/docs/click-api/"/>
-         <link href="https://static.springframework.org/spring/docs/2.5.x/api/"/>
+         <link href="https://docs.spring.io/spring-framework/docs/2.5.x/javadoc-api/"/>
       </javadoc>
       <copy file="../documentation/docs/javadoc-stylesheet.css"  
       	    overwrite="true"
@@ -161,7 +162,8 @@
              destdir="${dir.webapp}/WEB-INF/classes" 
              debug="true"
              encoding="ISO-8859-1"
-      		 source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath"/>
       </javac> 
    </target>

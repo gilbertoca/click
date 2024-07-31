@@ -48,7 +48,7 @@ public class NumberFieldTest extends TestCase{
     public void testFormat() {
         MockContext.initContext(Locale.US);
         
-        Number decNum = new Float(2.56f);
+        Number decNum = Float.valueOf(2.56f);
         
         NumberField engF = new NumberField("en");
 
@@ -64,7 +64,7 @@ public class NumberFieldTest extends TestCase{
         
         engF.setValue("12.456,5656");
         assertEquals("12.456,5656", engF.getValue());
-        assertEquals(new Double(12.456), engF.getNumber());
+        assertEquals(Double.valueOf(12.456), engF.getNumber());
         
         engF.setNumber(decNum);
         assertEquals("2.56", engF.getValue());
@@ -75,7 +75,7 @@ public class NumberFieldTest extends TestCase{
         assertEquals(engF.getNumber(), engF.getValueObject());
         
         engF.setPattern("0");
-        engF.setNumber(new Float(123.6f));
+        engF.setNumber(Float.valueOf(123.6f));
         assertEquals("124", engF.getValue());
         assertEquals(124, engF.getNumber().intValue());
         
@@ -84,7 +84,7 @@ public class NumberFieldTest extends TestCase{
         assertEquals(123.6f, engF.getNumber().floatValue(),0);
         
         engF.setPattern("0.00");
-        engF.setNumber(new Float(123.6f));
+        engF.setNumber(Float.valueOf(123.6f));
         assertEquals("123.60", engF.getValue());
         assertEquals(123.6f, engF.getNumber().floatValue(),0);
         

@@ -29,6 +29,7 @@ import org.apache.click.Control;
  * @deprecated ActionListener only has a single method to implement, there is
  * no need for an adaptor
  */
+@Deprecated
 public class ActionListenerAdaptor implements ActionListener, Serializable {
 
     private static final long serialVersionUID = 1L;

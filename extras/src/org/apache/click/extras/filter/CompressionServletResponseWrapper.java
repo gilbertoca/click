@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- * Implementation of <tt>HttpServletResponseWrapper</tt> that works with
+ * Implementation of <code>HttpServletResponseWrapper</code> that works with
  * the CompressionServletResponseStream implementation.
  * <p/>
  * Note this Jakarta Tomcat examples Filter is packaged in Click Extras for

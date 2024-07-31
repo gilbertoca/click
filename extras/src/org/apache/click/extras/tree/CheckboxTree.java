@@ -113,10 +113,10 @@ import org.apache.commons.lang.ArrayUtils;
  *
  * In addition to <a href="Tree.html#resources">Tree's resources</a>,
  * the CheckboxTree control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click/tree</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click/tree</code>):
  *
  * <ul>
- * <li><tt>click/tree/checkbox-tree.js</tt></li>
+ * <li><code>click/tree/checkbox-tree.js</code></li>
  * </ul>
  *
  * To import these Tree files simply reference the variables
@@ -203,7 +203,7 @@ public class CheckboxTree extends Tree {
      * Return the CheckboxTree HTML HEAD elements for the following resource:
      *
      * <ul>
-     * <li><tt>click/tree/checkbox-tree.js</tt></li>
+     * <li><code>click/tree/checkbox-tree.js</code></li>
      * </ul>
      *
      * Additionally all the {@link Tree#getHeadElements() Tree import statements}
@@ -414,7 +414,7 @@ public class CheckboxTree extends Tree {
     /**
      * Renders a Checkbox for the specified treeNode to the buffer.
      * <p/>
-     * This method invokes {@link #getInputType()} which returns <tt>"checkbox"</tt>
+     * This method invokes {@link #getInputType()} which returns <code>"checkbox"</code>
      * by default, but allows subclasses to change the input type if necessary.
      *
      * @param buffer string buffer containing the markup
@@ -441,11 +441,11 @@ public class CheckboxTree extends Tree {
 
     /**
      * Return the input type of the CheckboxTree, default value is
-     * <tt>"checkbox"</tt>.
+     * <code>"checkbox"</code>.
      * <p/>
      * This method allows subclasses to change the input type if necessary.
      * For example in order to render Radio buttons instead of Checkboxes,
-     * override this method and return the input type <tt>"radio"</tt>.
+     * override this method and return the input type <code>"radio"</code>.
      *
      * @return the input type of the CheckboxTree
      */

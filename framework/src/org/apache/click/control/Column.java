@@ -81,7 +81,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * <li>{@link #dataClass} - the CSS class for the table data cell</li>
  * <li>{@link #dataStyles} - the CSS styles for the table data cell</li>
  * <li>{@link #decorator} - the custom column value renderer</li>
- * <li>{@link #format} - the <tt>MessageFormat</tt> pattern rendering
+ * <li>{@link #format} - the <code>MessageFormat</code> pattern rendering
  *      the column value</li>
  * <li>{@link #headerClass} - the CSS class for the table header cell</li>
  * <li>{@link #headerStyles} - the CSS styles for the table header cell</li>
@@ -119,7 +119,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * <h4>Column Decorators</h4>
  *
  * The support custom column value rendering you can specify a {@link Decorator}
- * class on columns. The decorator <tt>render</tt> method is passed the table
+ * class on columns. The decorator <code>render</code> method is passed the table
  * row object and the page request Context. Using the table row you can access
  * all the column values enabling you to render a compound value composed of
  * multiple column values. For example:
@@ -138,7 +138,7 @@ import org.apache.commons.lang.math.NumberUtils;
  *
  * table.addColumn(column); </pre>
 
- * The <tt>Context</tt> parameter of the decorator <tt>render()</tt> method enables you to
+ * The <code>Context</code> parameter of the decorator <code>render()</code> method enables you to
  * render controls to provide additional functionality. For example:
  *
  * <pre class="codeJava">
@@ -185,10 +185,10 @@ import org.apache.commons.lang.math.NumberUtils;
  * If the column header title value is null, the column will attempt to find a
  * localized message in the parent messages using the key:
  * <blockquote>
- * <tt>getName() + ".headerTitle"</tt>
+ * <code>getName() + ".headerTitle"</code>
  * </blockquote>
  * If not found then the message will be looked up in the
- * <tt>/click-control.properties</tt> file using the same key.
+ * <code>/click-control.properties</code> file using the same key.
  * If a value still cannot be found then the Column name will be converted
  * into a header title using the method: {@link ClickUtils#toLabel(String)}.
  * <p/>
@@ -207,7 +207,7 @@ public class Column implements Serializable {
 
     /**
      * The automatically hyperlink column URL and email address values flag,
-     * default value is <tt>false</tt>.
+     * default value is <code>false</code>.
      */
     protected boolean autolink;
 
@@ -944,10 +944,10 @@ public class Column implements Serializable {
      * If the header title value is null, this method will attempt to find a
      * localized message in the parent messages using the key:
      * <blockquote>
-     * <tt>getName() + ".headerTitle"</tt>
+     * <code>getName() + ".headerTitle"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key.
+     * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Column name will be converted
      * into a header title using the method: {@link ClickUtils#toLabel(String)}
      * <p/>
@@ -974,7 +974,7 @@ public class Column implements Serializable {
     }
 
     /**
-     * Return the Table and Column id appended: &nbsp; "<tt>table-column</tt>"
+     * Return the Table and Column id appended: &nbsp; "<code>table-column</code>"
      * <p/>
      * Use the field the "id" attribute value if defined, or the name otherwise.
      *
@@ -1069,9 +1069,9 @@ public class Column implements Serializable {
     }
 
     /**
-     * Set the Column's the parent <tt>Table</tt>.
+     * Set the Column's the parent <code>Table</code>.
      *
-     * @param table Column's parent <tt>Table</tt>
+     * @param table Column's parent <code>Table</code>
      */
     public void setTable(Table table) {
         this.table = table;
@@ -1080,9 +1080,9 @@ public class Column implements Serializable {
     /**
      * Set the column CSS "text-align" style for the header &lt;th&gt; and
      * data &lt;td&gt; elements.  Valid values include:
-     * <tt>[left, right, center]</tt>
+     * <code>[left, right, center]</code>
      *
-     * @param align the CSS "text-align" value: <tt>[left, right, center]</tt>
+     * @param align the CSS "text-align" value: <code>[left, right, center]</code>
      */
     public void setTextAlign(String align) {
         if (align != null && "middle".equalsIgnoreCase(align)) {
@@ -1118,8 +1118,8 @@ public class Column implements Serializable {
     /**
      * Set the column CSS "vertical-align" style for the header &lt;th&gt; and
      * data &lt;td&gt; elements. Valid values include:
-     * <tt>[baseline | sub | super | top | text-top | middle | bottom |
-     * text-bottom | &lt;percentage&gt; | &lt;length&gt; | inherit]</tt>
+     * <code>[baseline | sub | super | top | text-top | middle | bottom |
+     * text-bottom | &lt;percentage&gt; | &lt;length&gt; | inherit]</code>
      *
      * @param align the CSS "vertical-align" value
      */
@@ -1268,7 +1268,7 @@ public class Column implements Serializable {
     /**
      * Return the column name property value from the given row object.
      * <p/>
-     * If the row object is a <tt>Map</tt> this method will attempt to return
+     * If the row object is a <code>Map</code> this method will attempt to return
      * the map value for the column name. The row map lookup will be performed
      * using the property name, if a value is not found the property name in
      * uppercase will be used, if a value is still not found the property name
@@ -1288,7 +1288,7 @@ public class Column implements Serializable {
     /**
      * Return the column property value from the given row object and property name.
      * <p/>
-     * If the row object is a <tt>Map</tt> this method will attempt to return
+     * If the row object is a <code>Map</code> this method will attempt to return
      * the map value for the column. The row map lookup will be performed using
      * the property name, if a value is not found the property name in uppercase
      * will be used, if a value is still not found the property name in lowercase
@@ -1398,8 +1398,8 @@ public class Column implements Serializable {
     }
 
     /**
-     * Render the given table cell value to the buffer as a <tt>mailto:</tt>
-     * or <tt>http:</tt> hyperlink, or as an ordinary string if the value is
+     * Render the given table cell value to the buffer as a <code>mailto:</code>
+     * or <code>http:</code> hyperlink, or as an ordinary string if the value is
      * determined not be linkable.
      *
      * @param value the table cell value to render

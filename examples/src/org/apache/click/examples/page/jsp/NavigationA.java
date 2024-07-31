@@ -50,21 +50,21 @@ public class NavigationA extends BorderPage {
 
         // Initialise param ActionLink values from any parameters passed through
         // from other pages via forwards or redirects.
-        Integer number = new Integer(1);
+        Integer number = Integer.valueOf(1);
 
         // If request has been forwarded
         if (getContext().isForward()) {
             // If a request attribute was passed increment its value.
             Integer param = (Integer) getContext().getRequestAttribute("param");
             if (param != null) {
-                number = new Integer(param.intValue() + 1);
+                number = Integer.valueOf(param.intValue() + 1);
             }
 
         // Else request may have been redirected
         } else {
             String param = getContext().getRequest().getParameter("param");
             if (param != null) {
-                number = new Integer(Integer.parseInt(param) + 1);
+                number = Integer.valueOf(Integer.parseInt(param) + 1);
             }
         }
 
@@ -109,7 +109,7 @@ public class NavigationA extends BorderPage {
     }
 
     /**
-     * Returns the name of the border template: &nbsp; <tt>"/border-template.jsp"</tt>
+     * Returns the name of the border template: &nbsp; <code>"/border-template.jsp"</code>
      *
      * @see org.apache.click.Page#getTemplate()
      */

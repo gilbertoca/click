@@ -58,11 +58,11 @@ import org.xml.sax.SAXException;
  * Provides a Click XML configuration service class.
  * <p/>
  * This class reads Click configuration information from a file named
- * <tt>click.xml</tt>. The service will first lookup the <tt>click.xml</tt>
- * under the applications <tt>WEB-INF</tt> directory, and if not found
+ * <code>click.xml</code>. The service will first lookup the <code>click.xml</code>
+ * under the applications <code>WEB-INF</code> directory, and if not found
  * attempt to load the configuration file from the classpath root.
  * <p/>
- * Configuring Click through the <tt>click.xml</tt> file is the most common
+ * Configuring Click through the <code>click.xml</code> file is the most common
  * technique.
  * <p/>
  * However you can instruct Click to use a different service implementation.
@@ -70,7 +70,7 @@ import org.xml.sax.SAXException;
  */
 public class XmlConfigService implements ConfigService, EntityResolver {
 
-    /** The name of the Click logger: &nbsp; "<tt>org.apache.click</tt>". */
+    /** The name of the Click logger: &nbsp; "<code>org.apache.click</code>". */
     static final String CLICK_LOGGER = "org.apache.click";
 
     /** The click deployment directory path: &nbsp; "/click". */
@@ -81,21 +81,21 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /**
      * The default velocity properties filename: &nbsp;
-     * "<tt>/WEB-INF/velocity.properties</tt>".
+     * "<code>/WEB-INF/velocity.properties</code>".
      */
     static final String DEFAULT_VEL_PROPS = "/WEB-INF/velocity.properties";
 
-    /** The click DTD file name: &nbsp; "<tt>click.dtd</tt>". */
+    /** The click DTD file name: &nbsp; "<code>click.dtd</code>". */
     static final String DTD_FILE_NAME = "click.dtd";
 
     /**
      * The resource path of the click DTD file: &nbsp;
-     * "<tt>/org/apache/click/click.dtd</tt>".
+     * "<code>/org/apache/click/click.dtd</code>".
      */
     static final String DTD_FILE_PATH = "/org/apache/click/" + DTD_FILE_NAME;
 
     /**
-     * The user supplied macro file name: &nbsp; "<tt>macro.vm</tt>".
+     * The user supplied macro file name: &nbsp; "<code>macro.vm</code>".
      */
     static final String MACRO_VM_FILE_NAME = "macro.vm";
 
@@ -120,13 +120,13 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     private static final Object PAGE_LOAD_LOCK = new Object();
 
     /**
-     * The name of the Velocity logger: &nbsp; "<tt>org.apache.velocity</tt>".
+     * The name of the Velocity logger: &nbsp; "<code>org.apache.velocity</code>".
      */
     static final String VELOCITY_LOGGER = "org.apache.velocity";
 
     /**
      * The global Velocity macro file name: &nbsp;
-     * "<tt>VM_global_library.vm</tt>".
+     * "<code>VM_global_library.vm</code>".
      */
     static final String VM_FILE_NAME = "VM_global_library.vm";
 
@@ -317,8 +317,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Return the application mode String value: &nbsp; <tt>["production",
-     * "profile", "development", "debug"]</tt>.
+     * Return the application mode String value: &nbsp; <code>["production",
+     * "profile", "development", "debug"]</code>.
      *
      * @return the application mode String value
      */
@@ -397,7 +397,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     public Format createFormat() {
         try {
-            return formatClass.newInstance();
+            return formatClass.getDeclaredConstructor().newInstance();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -461,14 +461,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /**
      * Return true if the given path is a Page class template, false
      * otherwise. By default this method returns true if the path has a
-     * <tt>.htm</tt> or <tt>.jsp</tt> extension.
+     * <code>.htm</code> or <code>.jsp</code> extension.
      * <p/>
-     * If you want to map alternative templates besides <tt>.htm</tt> and
-     * <tt>.jsp</tt> files you can override this method and provide extra
+     * If you want to map alternative templates besides <code>.htm</code> and
+     * <code>.jsp</code> files you can override this method and provide extra
      * checks against the given path whether it should be added as a
      * template or not.
      * <p/>
-     * Below is an example showing how to allow <tt>.xml</tt> paths to
+     * Below is an example showing how to allow <code>.xml</code> paths to
      * be recognized as Page class templates.
      *
      * <pre class="prettyprint">
@@ -486,9 +486,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      *     }
      * } </pre>
      *
-     * Here is an example <tt>web.xml</tt> showing how to configure a custom
-     * ConfigService through the context parameter <tt>config-service-class</tt>.
-     * We also map <tt>*.xml</tt> requests to be routed through ClickServlet:
+     * Here is an example <code>web.xml</code> showing how to configure a custom
+     * ConfigService through the context parameter <code>config-service-class</code>.
+     * We also map <code>*.xml</code> requests to be routed through ClickServlet:
      *
      * <pre class="prettyprint">
      * &lt;web-app xmlns="http://java.sun.com/xml/ns/j2ee"
@@ -526,10 +526,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      *
      * <b>Please note</b>: even though you can add extra template mappings by
      * overriding this method, it is still recommended to keep the default
-     * <tt>.htm</tt> mapping by invoking <tt>super.isTemplate(String)</tt>.
+     * <code>.htm</code> mapping by invoking <code>super.isTemplate(String)</code>.
      * The reason being that Click ships with some default templates such as
      * {@link ConfigService#ERROR_PATH} and {@link ConfigService#NOT_FOUND_PATH}
-     * that must be mapped as <tt>.htm</tt>.
+     * that must be mapped as <code>.htm</code>.
      * <p/>
      * Please see the ConfigService <a href="#config">javadoc</a> for details
      * on how to configure a custom ConfigService implementation.
@@ -694,7 +694,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /**
      * @see ConfigService#getNotFoundPageClass()
      *
-     * @return the page not found <tt>Page</tt> <tt>Class</tt>
+     * @return the page not found <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getNotFoundPageClass() {
         PageElm page = (PageElm) pageByPathMap.get(NOT_FOUND_PATH);
@@ -710,7 +710,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /**
      * @see ConfigService#getErrorPageClass()
      *
-     * @return the error handling page <tt>Page</tt> <tt>Class</tt>
+     * @return the error handling page <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getErrorPageClass() {
         PageElm page = (PageElm) pageByPathMap.get(ERROR_PATH);
@@ -812,7 +812,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /**
      * This method resolves the click.dtd for the XML parser using the
-     * classpath resource: <tt>/org/apache/click/click.dtd</tt>.
+     * classpath resource: <code>/org/apache/click/click.dtd</code>.
      *
      * @see EntityResolver#resolveEntity(String, String)
      *
@@ -840,14 +840,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * Find and return the page class for the specified pagePath and
      * pagesPackage.
      * <p/>
-     * For example if the pagePath is <tt>'/edit-customer.htm'</tt> and
-     * package is <tt>'com.mycorp'</tt>, the matching page class will be:
-     * <tt>com.mycorp.EditCustomer</tt> or <tt>com.mycorp.EditCustomerPage</tt>.
+     * For example if the pagePath is <code>'/edit-customer.htm'</code> and
+     * package is <code>'com.mycorp'</code>, the matching page class will be:
+     * <code>com.mycorp.EditCustomer</code> or <code>com.mycorp.EditCustomerPage</code>.
      * <p/>
-     * If the page path is <tt>'/admin/add-customer.htm'</tt> and package is
-     * <tt>'com.mycorp'</tt>, the matching page class will be:
-     * <tt>com.mycorp.admin.AddCustomer</tt> or
-     * <tt>com.mycorp.admin.AddCustomerPage</tt>.
+     * If the page path is <code>'/admin/add-customer.htm'</code> and package is
+     * <code>'com.mycorp'</code>, the matching page class will be:
+     * <code>com.mycorp.admin.AddCustomer</code> or
+     * <code>com.mycorp.admin.AddCustomerPage</code>.
      *
      * @param pagePath the path used for matching against a page class name
      * @param pagesPackage the package of the page class
@@ -965,7 +965,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * write access to the underlying file system is disallowed. Example
      * environments where write access is not allowed include the WebLogic JEE
      * server and Google App Engine. (Note: WebLogic provides the property
-     * <tt>"Archived Real Path Enabled"</tt> that controls whether web
+     * <code>"Archived Real Path Enabled"</code> that controls whether web
      * applications can access the file system or not. See the Click user manual
      * for details).
      *
@@ -983,7 +983,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     // ------------------------------------------------ Package Private Methods
 
     /**
-     * Loads all Click Pages defined in the <tt>click.xml</tt> file, including
+     * Loads all Click Pages defined in the <code>click.xml</code> file, including
      * manually defined Pages, auto mapped Pages and excluded Pages.
      *
      * @param rootElm the root xml element containing the configuration
@@ -1288,7 +1288,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             }
 
             Class deployClass = ClickUtils.classForName(classname);
-            Control control = (Control) deployClass.newInstance();
+            Control control = (Control) deployClass.getDeclaredConstructor().newInstance();
 
             control.onDeploy(servletContext);
         }
@@ -1542,7 +1542,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 fileUploadServiceClass = ClickUtils.classForName(classname);
             }
 
-            fileUploadService = (FileUploadService) fileUploadServiceClass.newInstance();
+            fileUploadService = (FileUploadService) fileUploadServiceClass.getDeclaredConstructor().newInstance();
 
             Map<String, String> propertyMap = loadPropertyMap(fileUploadServiceElm);
 
@@ -1577,7 +1577,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 logServiceClass = ClickUtils.classForName(classname);
             }
 
-            logService = (LogService) logServiceClass.newInstance();
+            logService = (LogService) logServiceClass.getDeclaredConstructor().newInstance();
 
             Map<String, String> propertyMap = loadPropertyMap(logServiceElm);
 
@@ -1605,7 +1605,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 messagesMapServiceClass = ClickUtils.classForName(classname);
             }
 
-            messagesMapService = (MessagesMapService) messagesMapServiceClass.newInstance();
+            messagesMapService = (MessagesMapService) messagesMapServiceClass.getDeclaredConstructor().newInstance();
 
             Map<String, String> propertyMap = loadPropertyMap(messagesMapServiceElm);
 
@@ -1666,7 +1666,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 resourceServiceClass = ClickUtils.classForName(classname);
             }
 
-            resourceService = (ResourceService) resourceServiceClass.newInstance();
+            resourceService = (ResourceService) resourceServiceClass.getDeclaredConstructor().newInstance();
 
             Map<String, String> propertyMap = loadPropertyMap(resourceServiceElm);
 
@@ -1701,7 +1701,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 propertyServiceClass = ClickUtils.classForName(classname);
             }
 
-            propertyService = (PropertyService) propertyServiceClass.newInstance();
+            propertyService = (PropertyService) propertyServiceClass.getDeclaredConstructor().newInstance();
 
         } else {
             propertyService = new OGNLPropertyService();
@@ -1728,7 +1728,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 templateServiceClass = ClickUtils.classForName(classname);
             }
 
-            templateService = (TemplateService) templateServiceClass.newInstance();
+            templateService = (TemplateService) templateServiceClass.getDeclaredConstructor().newInstance();
 
             Map<String, String> propertyMap = loadPropertyMap(templateServiceElm);
 
@@ -2201,7 +2201,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             // or is scope request then create a new interceptor
             if (pageInterceptor == null || !applicationScope) {
                 try {
-                    listener = interceptorClass.newInstance();
+                    listener = interceptorClass.getDeclaredConstructor().newInstance();
 
                     ConfigService configService = ClickUtils.getConfigService();
                     PropertyService propertyService = configService.getPropertyService();

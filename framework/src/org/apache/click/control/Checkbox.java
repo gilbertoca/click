@@ -110,7 +110,7 @@ public class Checkbox extends Field {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the checkbox's html tag: <tt>input</tt>.
+     * Return the checkbox's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -140,9 +140,9 @@ public class Checkbox extends Field {
     }
 
     /**
-     * Return the input type: '<tt>checkbox</tt>'.
+     * Return the input type: '<code>checkbox</code>'.
      *
-     * @return the input type '<tt>checkbox</tt>'
+     * @return the input type '<code>checkbox</code>'
      */
     public String getType() {
         return "checkbox";
@@ -323,7 +323,7 @@ public class Checkbox extends Field {
      * Validate the Checkbox request submission.
      * <p/>
      * If a checked value is {@link Field#required} and the Checkbox is not
-     * checked the error message defined by <tt>not-checked-error</tt>
+     * checked the error message defined by <code>not-checked-error</code>
      * property will be displayed.
      */
     @Override

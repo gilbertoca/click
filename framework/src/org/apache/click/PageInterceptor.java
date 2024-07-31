@@ -31,7 +31,7 @@ package org.apache.click;
  * </ul>
  *
  * A Click application can define multiple page interceptors that are invoked in
- * the order in which they are returned by the <tt>ConfigService</tt>.
+ * the order in which they are returned by the <code>ConfigService</code>.
  *
  * <h3><a name="scope"></a>Scope</h3>
  *
@@ -54,7 +54,7 @@ package org.apache.click;
  *
  * <h3><a name="configuration"></a>Configuration</h3>
  *
- * Application PageInterceptors are configured in the <tt>click.xml</tt>
+ * Application PageInterceptors are configured in the <code>click.xml</code>
  * configuration file. PageInterceptors must support construction using a
  * no-args public constructor.
  * <p/>

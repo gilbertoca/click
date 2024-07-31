@@ -39,7 +39,7 @@ public class ExampleUtils {
         Object object = getContext().getSessionAttribute(aClass.getName());
         if (object == null) {
             try {
-                object = aClass.newInstance();
+                object = aClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

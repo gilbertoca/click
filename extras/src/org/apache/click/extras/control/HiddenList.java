@@ -97,7 +97,7 @@ public class HiddenList extends Field {
     }
 
     /**
-     * Returns the list of added values as a <tt>java.util.List</tt> of Strings.
+     * Returns the list of added values as a <code>java.util.List</code> of Strings.
      *
      * @return a list of Strings
      */
@@ -111,7 +111,7 @@ public class HiddenList extends Field {
 
     /**
      * This method delegates to {@link #getValueObject()} to return the
-     * hidden values as a <tt>java.util.List</tt> of Strings.
+     * hidden values as a <code>java.util.List</code> of Strings.
      *
      * @return a list of Strings
      */
@@ -136,7 +136,7 @@ public class HiddenList extends Field {
      * <p/>
      * <b>Please note:</b> while it is possible to explicitly bind the field
      * value by invoking this method directly, it is recommended to use the
-     * "<tt>bind</tt>" utility methods in {@link org.apache.click.util.ClickUtils}
+     * "<code>bind</code>" utility methods in {@link org.apache.click.util.ClickUtils}
      * instead. See {@link org.apache.click.util.ClickUtils#bind(org.apache.click.control.Field)}
      * for more details.
      */

@@ -220,7 +220,7 @@ public class TextField extends Field {
     }
 
     /**
-     * Return the textfield's html tag: <tt>input</tt>.
+     * Return the textfield's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -287,10 +287,10 @@ public class TextField extends Field {
      * If the placeholder value is null, this method will attempt to find a
      * localized placeholder message in the parent messages using the key:
      * <blockquote>
-     * <tt>getName() + ".placeholder"</tt>
+     * <code>getName() + ".placeholder"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key. If still
+     * <code>/click-control.properties</code> file using the same key. If still
      * not found the placeholder will be left as null and will not be rendered.
      *
      * @return the input field HTML5 placeholder attribute
@@ -330,9 +330,9 @@ public class TextField extends Field {
     }
 
     /**
-     * Return the input type: '<tt>text</tt>'.
+     * Return the input type: '<code>text</code>'.
      *
-     * @return the input type: '<tt>text</tt>'
+     * @return the input type: '<code>text</code>'
      */
     public String getType() {
         return "text";
@@ -452,7 +452,7 @@ public class TextField extends Field {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

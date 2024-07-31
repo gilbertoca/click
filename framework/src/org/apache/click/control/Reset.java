@@ -88,9 +88,9 @@ public class Reset extends Button {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the input type: '<tt>reset</tt>'.
+     * Return the input type: '<code>reset</code>'.
      *
-     * @return the input type: '<tt>reset</tt>'
+     * @return the input type: '<code>reset</code>'
      */
     @Override
     public String getType() {

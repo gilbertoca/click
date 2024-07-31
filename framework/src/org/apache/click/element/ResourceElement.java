@@ -30,13 +30,13 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * Below are some example Resource elements:
  * <ul>
- * <li>{@link JsImport}, for importing <tt>external</tt> JavaScript using the
+ * <li>{@link JsImport}, for importing <code>external</code> JavaScript using the
  * &lt;script&gt; element.</li>
- * <li>{@link JsScript}, for including <tt>inline</tt> JavaScript using the
+ * <li>{@link JsScript}, for including <code>inline</code> JavaScript using the
  * &lt;script&gt; element.</li>
- * <li>{@link CssImport}, for importing <tt>external</tt> Cascading Stylesheets
+ * <li>{@link CssImport}, for importing <code>external</code> Cascading Stylesheets
  * using the &lt;link&gt; element.</li>
- * <li>{@link CssStyle}, for including <tt>inline</tt> Cascading Stylesheets
+ * <li>{@link CssStyle}, for including <code>inline</code> Cascading Stylesheets
  * using the &lt;style&gt; element.</li>
  * </ul>
  *
@@ -45,7 +45,7 @@ import org.apache.commons.lang.StringUtils;
  * Click will ensure that duplicate Resource elements are removed by checking
  * the {@link #isUnique()} property. Thus if the same Resource is imported
  * multiple times by the Page or different Controls, only one Resource will be
- * rendered, if {@link #isUnique()} returns <tt>true</tt>.
+ * rendered, if {@link #isUnique()} returns <code>true</code>.
  * <p/>
  * The rules for defining a unique Resource is as follows:
  * <ul>
@@ -116,7 +116,7 @@ import org.apache.commons.lang.StringUtils;
  * conditions must be met:
  * <ul>
  * <li>the {@link org.apache.click.util.ClickUtils#ENABLE_RESOURCE_VERSION}
- * request attribute must be set to <tt>true</tt></li>
+ * request attribute must be set to <code>true</code></li>
  * <li>the application mode must be either "production" or "profile"</li>
  * <li>the {@link org.apache.click.util.ClickUtils#setApplicationVersion(java.lang.String)
  * application version} must be set</li>
@@ -175,31 +175,31 @@ public class ResourceElement extends Element {
 
     /**
      * A predefined conditional comment to test if browser is IE. Value:
-     * <tt>[if IE]</tt>.
+     * <code>[if IE]</code>.
      */
     public static final String IF_IE = "[if IE]";
 
     /**
      * A predefined conditional comment to test if browser is less than IE7.
-     * Value: <tt>[if lt IE 7]</tt>.
+     * Value: <code>[if lt IE 7]</code>.
      */
     public static final String IF_LESS_THAN_IE7 = "[if lt IE 7]";
 
     /**
      * A predefined conditional comment to test if browser is IE7. Value:
-     * <tt>[if IE 7]</tt>.
+     * <code>[if IE 7]</code>.
      */
     public static final String IF_IE7 = "[if IE 7]";
 
     /**
      * A predefined conditional comment to test if browser is less than
-     * or equal to IE7. Value: <tt>[if lte IE 7]</tt>.
+     * or equal to IE7. Value: <code>[if lte IE 7]</code>.
      */
     public static final String IF_LESS_THAN_OR_EQUAL_TO_IE7 = "[if lte IE 7]";
 
         /**
      * A predefined conditional comment to test if browser is less than IE9.
-     * Value: <tt>[if lt IE 9]</tt>.
+     * Value: <code>[if lt IE 9]</code>.
      */
     public static final String IF_LESS_THAN_IE9 = "[if lt IE 9]";
 
@@ -212,22 +212,22 @@ public class ResourceElement extends Element {
 
     /**
      * Indicates whether the {@link #getId() ID} attribute should be rendered
-     * or not, default value is <tt>true</tt>.
+     * or not, default value is <code>true</code>.
      */
     private boolean renderId = true;
 
     /**
-     * The <tt>version indicator</tt> to append to the Resource element.
+     * The <code>version indicator</code> to append to the Resource element.
      */
     private String versionIndicator;
 
     // ------------------------------------------------------ Public properties
 
     /**
-     * Return the <tt>version indicator</tt> to be appended to the resource
+     * Return the <code>version indicator</code> to be appended to the resource
      * path.
      *
-     * @return the <tt>version indicator</tt> to be appended to the resource
+     * @return the <code>version indicator</code> to be appended to the resource
      * path.
      */
     public String getVersionIndicator() {
@@ -235,7 +235,7 @@ public class ResourceElement extends Element {
     }
 
     /**
-     * Set the <tt>version indicator</tt> to be appended to the resource path.
+     * Set the <code>version indicator</code> to be appended to the resource path.
      *
      * @param versionIndicator the version indicator to be appended to the
      * resource path
@@ -246,7 +246,7 @@ public class ResourceElement extends Element {
 
     /**
      * Returns whether or not the Resource unique. This method returns
-     * <tt>true</tt> if the {@link #getId() ID} attribute is defined,
+     * <code>true</code> if the {@link #getId() ID} attribute is defined,
      * false otherwise.
      *
      * @return true if the Resource should be unique, false otherwise.
@@ -287,7 +287,7 @@ public class ResourceElement extends Element {
     }
 
     /**
-     * Return Internal Explorer's <tt>conditional comment</tt> to wrap the
+     * Return Internal Explorer's <code>conditional comment</code> to wrap the
      * Resource with.
      *
      * @return Internal Explorer's conditional comment to wrap the Resource with.

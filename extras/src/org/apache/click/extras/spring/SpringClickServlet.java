@@ -41,7 +41,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * Provides a Spring framework integration <tt>SpringClickServlet</tt>.
+ * Provides a Spring framework integration <code>SpringClickServlet</code>.
  * <p/>
  * This Spring integration servlet provides a number of integration options
  * using Spring with Click pages. These options are detailed below.
@@ -96,7 +96,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * injected on stateful pages will be serialized along with the page, meaning
  * those beans must implement the Serializable interface. If you do
  * not want the beans to be serialized, they need to be marked as
- * <tt>transient</tt>. Transient beans won't be serialized but when the page
+ * <code>transient</code>. Transient beans won't be serialized but when the page
  * is deserialized, the transient beans won't be re-injected, causing a
  * NullPointerException when invoked. If you want to use transient beans on
  * stateful pages, see <a href="#option3">option 3</a> below.
@@ -213,13 +213,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  *
  * Stateful pages are stored in the HttpSession and Spring beans referenced
  * by a stateful page must implement the Serializable interface. If you do not
- * want beans to be serialized they can be marked as <tt>transient</tt>.
+ * want beans to be serialized they can be marked as <code>transient</code>.
  * Transient beans won't be serialized to disk. However once the page is
  * deserialized the transient beans will need to be injected again.
  * <p/>
  * <a href="#option3">Option 3</a> will re-inject Spring beans and the
  * ApplicationContext after every request. This allows beans to be marked as
- * <tt>transient</tt> and still function properly when used with stateful pages.
+ * <code>transient</code> and still function properly when used with stateful pages.
  *
  * <pre class="prettyprint">
  * package com.mycorp.page;
@@ -337,13 +337,13 @@ public class SpringClickServlet extends ClickServlet {
     /**
      * The Servlet initialization parameter name for the option to have the
      * SpringClickServlet inject Spring beans into page instances: &nbsp;
-     * <tt>"inject-page-beans"</tt>.
+     * <code>"inject-page-beans"</code>.
      */
     public static final String INJECT_PAGE_BEANS = "inject-page-beans";
 
     /**
      * The Servlet initialization parameter name for the path to the Spring XML
-     * application context definition file: &nbsp; <tt>"spring-path"</tt>.
+     * application context definition file: &nbsp; <code>"spring-path"</code>.
      */
     public static final String SPRING_PATH = "spring-path";
 
@@ -375,9 +375,9 @@ public class SpringClickServlet extends ClickServlet {
 
     /**
      * Initialize the SpringClickServlet and the Spring application context
-     * bean factory. An Spring <tt>ClassPathXmlApplicationContext</tt> bean
-     * factory is used and initialize with the servlet <tt>init-param</tt>
-     * named <tt>"spring-path"</tt>.
+     * bean factory. An Spring <code>ClassPathXmlApplicationContext</code> bean
+     * factory is used and initialize with the servlet <code>init-param</code>
+     * named <code>"spring-path"</code>.
      *
      * @see ClickServlet#init()
      *
@@ -446,7 +446,7 @@ public class SpringClickServlet extends ClickServlet {
             page = (Page) getApplicationContext().getBean(pageClass.getName());
 
         } else {
-            page = pageClass.newInstance();
+            page = pageClass.getDeclaredConstructor().newInstance();
         }
 
         return page;
@@ -462,8 +462,8 @@ public class SpringClickServlet extends ClickServlet {
     }
 
     /**
-     * This method associates the <tt>ApplicationContext</tt> with any
-     * <tt>ApplicationContextAware</tt> pages and supports the deserialization
+     * This method associates the <code>ApplicationContext</code> with any
+     * <code>ApplicationContextAware</code> pages and supports the deserialization
      * of stateful pages.
      *
      * @see ClickServlet#activatePageInstance(Page)

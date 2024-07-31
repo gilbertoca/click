@@ -29,13 +29,13 @@ import org.apache.click.Control;
  * <p/>
  * To handle an Ajax request, AjaxBehavior exposes the listener method:
  * {@link #onAction(org.apache.click.Control) onAction}.
- * The <tt>onAction</tt> method returns an ActionResult that is rendered back
+ * The <code>onAction</code> method returns an ActionResult that is rendered back
  * to the browser.
  * <p/>
- * Before Click invokes the <tt>onAction</tt> method it checks whether the request
+ * Before Click invokes the <code>onAction</code> method it checks whether the request
  * is targeted at the AjaxBehavior by invoking the method
  * {@link #isAjaxTarget(org.apache.click.Context) Behavior.isAjaxTarget()}.
- * Click will only invoke <tt>onAction</tt> if <tt>isAjaxTarget</tt> returns true.
+ * Click will only invoke <code>onAction</code> if <code>isAjaxTarget</code> returns true.
  */
 public interface AjaxBehavior extends Behavior {
 

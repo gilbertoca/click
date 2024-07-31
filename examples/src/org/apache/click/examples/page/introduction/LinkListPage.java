@@ -46,7 +46,7 @@ public class LinkListPage extends BorderPage {
 
                 public boolean onAction(Control source) {
                     msg = "ControlListenerListPage#" + source.getName()
-                        + " object method <tt>onLinkClick()</tt> invoked.";
+                        + " object method <code>onLinkClick()</code> invoked.";
 
                     addModel("msg", msg);
                     return true;

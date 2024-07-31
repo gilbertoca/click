@@ -59,12 +59,12 @@ import org.apache.click.util.HtmlStringBuffer;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The VirtualKeyboard control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/keyboard.css</tt></li>
- * <li><tt>click/keyboard.js</tt></li>
- * <li><tt>click/keyboard.png</tt></li>
+ * <li><code>click/keyboard.css</code></li>
+ * <li><code>click/keyboard.js</code></li>
+ * <li><code>click/keyboard.png</code></li>
  * </ul>
  *
  * To import these VirtualKeyboard files simply reference the variables
@@ -118,9 +118,9 @@ public class VirtualKeyboard extends TextField {
      * resources:
      * <p/>
      * <ul>
-     * <li><tt>click/keyboard.css</tt></li>
-     * <li><tt>click/keyboard.js</tt></li>
-     * <li><tt>click/keyboard.png</tt></li>
+     * <li><code>click/keyboard.css</code></li>
+     * <li><code>click/keyboard.js</code></li>
+     * <li><code>click/keyboard.png</code></li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()

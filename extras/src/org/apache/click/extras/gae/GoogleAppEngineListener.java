@@ -30,7 +30,7 @@ import javax.servlet.ServletContextListener;
  * <h3>Configuration</h3>
  *
  * To deploy Click applications to GAE, you need to set the
- * <tt>GoogleAppEngineListener</tt> listener in your <tt>web.xml</tt>:
+ * <code>GoogleAppEngineListener</code> listener in your <code>web.xml</code>:
  *
  * <pre class="codeHtml">
  * &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -51,9 +51,9 @@ import javax.servlet.ServletContextListener;
  *     &lt;/servlet-mapping&gt;
  * &lt;/web-app&gt; </pre>
  *
- * You also need to configure GAE to exclude <tt>*.htm</tt> files from being
- * served as static resources. Also you should enable <tt>http-session</tt>
- * support. You set these changes in the GAE file <tt>war/WEB-INF/appengine-web.xml</tt>:
+ * You also need to configure GAE to exclude <code>*.htm</code> files from being
+ * served as static resources. Also you should enable <code>http-session</code>
+ * support. You set these changes in the GAE file <code>war/WEB-INF/appengine-web.xml</code>:
  *
  * <pre class="codeHtml">
  * &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -81,8 +81,8 @@ import javax.servlet.ServletContextListener;
  *
  * If you use Click's {@link org.apache.click.extras.filter.PerformanceFilter}
  * you should also exclude the following static files from GAE, so that
- * PerformanceFilter can set their <tt>expiry headers</tt>:
- * <tt>*.css</tt>, <tt>*.js</tt>, <tt>*.png</tt> and <tt>*.gif</tt>. For example:
+ * PerformanceFilter can set their <code>expiry headers</code>:
+ * <code>*.css</code>, <code>*.js</code>, <code>*.png</code> and <code>*.gif</code>. For example:
  *
  * <pre class="codeHtml">
  * &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -135,15 +135,15 @@ import javax.servlet.ServletContextListener;
  * GAE does not always adhere to the Servlet specification. One of the areas that affects
  * Click directly is the <a href="../../../../../../user-guide/html/ch05s02.html#application-automapping">automatic mapping</a>
  * of Page templates to page classes. GAE does not implement the ServletContext
- * method <tt>getResourcePaths("/")</tt>. Instead of returning the resources under
+ * method <code>getResourcePaths("/")</code>. Instead of returning the resources under
  * the web-app root, it returns an empty set. Click needs these resources to map
  * between page templates and classes, and since GAE does not return anything,
  * it isn't possible to perform the automapping.
  * <p/>
  * Fortunately GAE does work properly for resources under subfolders of the web-app root.
  * For example if the folders <span class="blue">/path</span> or <span class="blue">/paths</span>
- * exists under the web-app root, calling <tt>getResourcePaths("/path")</tt> or
- * <tt>getResourcePaths("/paths")</tt> will return the set of resources contained
+ * exists under the web-app root, calling <code>getResourcePaths("/path")</code> or
+ * <code>getResourcePaths("/paths")</code> will return the set of resources contained
  * under these folders.
  * <p/>
  * Taking advantage of the fact that GAE supports subfolders, Click
@@ -155,8 +155,8 @@ import javax.servlet.ServletContextListener;
  * <b>Please note:</b> manual mapping works as expected.
  * <p/>
  * Below is an automapping example for the folder <span class="blue">/page</span>
- * (note the page template <tt>index.htm</tt> is not placed under the folder
- * <tt>/page</tt>, and has to be mapped manually):
+ * (note the page template <code>index.htm</code> is not placed under the folder
+ * <code>/page</code>, and has to be mapped manually):
  *
  * <pre class="codeConfig">
  * /index.htm
@@ -172,8 +172,8 @@ import javax.servlet.ServletContextListener;
  * com.mycorp<span class="blue">.page</span>.customer.CustomerEditPage.java
  * com.mycorp<span class="blue">.page</span>.customer.CustomerSearchPage.java </pre>
  *
- * Lastly define the <tt>click.xml</tt> to automatically map page templates
- * and classes under the package <tt>com.mycorp</tt>:
+ * Lastly define the <code>click.xml</code> to automatically map page templates
+ * and classes under the package <code>com.mycorp</code>:
  *
  * <pre class="prettyprint">
  * &lt;click-app&gt;
@@ -186,9 +186,9 @@ import javax.servlet.ServletContextListener;
  *
  * &lt;/click-app&gt; </pre>
  *
- * <b>Please note:</b> automapping will work in a GAE <tt>development</tt> environment
+ * <b>Please note:</b> automapping will work in a GAE <code>development</code> environment
  * but not when hosted on the server. GAE uses the Jetty server for local development
- * which properly implements <tt>getResourcePaths("/")</tt>.
+ * which properly implements <code>getResourcePaths("/")</code>.
  * <p/>
  * <b>Also note:</b> when running Click on GAE in development mode, it will appear
  * that automapping is working when it really isn't. This is because
@@ -201,7 +201,7 @@ import javax.servlet.ServletContextListener;
  * <h3>Deployment limitation</h3>
  *
  * On application startup, Click automatically deploys all its JavaScript, CSS
- * and image resources to the "<tt>/click</tt>" folder in the root directory of
+ * and image resources to the "<code>/click</code>" folder in the root directory of
  * the webapp. Since GAE doesn't allow writing to disk, Click cannot
  * automatically deploy its resources.
  * <p/>

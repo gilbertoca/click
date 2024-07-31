@@ -48,8 +48,8 @@ public class DoubleFieldTest extends TestCase {
         DoubleField doubleField = new DoubleField("id");
         assertEquals("id", doubleField.getName());
         
-        assertEquals(new Double(Double.POSITIVE_INFINITY), new Double(doubleField.getMaxValue()));
-        assertEquals(new Double(Double.NEGATIVE_INFINITY), new Double(doubleField.getMinValue()));
+        assertEquals(Double.valueOf(Double.POSITIVE_INFINITY), Double.valueOf(doubleField.getMaxValue()));
+        assertEquals(Double.valueOf(Double.NEGATIVE_INFINITY), Double.valueOf(doubleField.getMinValue()));
 
         // Test not required, positive value
         request.getParameterMap().put("id", "1234");
@@ -57,14 +57,14 @@ public class DoubleFieldTest extends TestCase {
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("1234", doubleField.getValue());
-        assertEquals(new Double(1234), doubleField.getValueObject());
+        assertEquals(Double.valueOf(1234), doubleField.getValueObject());
 
         request.getParameterMap().put("id", "123.4");
 
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("123.4", doubleField.getValue());
-        assertEquals(new Double(123.4), doubleField.getValueObject());
+        assertEquals(Double.valueOf(123.4), doubleField.getValueObject());
 
         request.getParameterMap().clear();
         
@@ -76,14 +76,14 @@ public class DoubleFieldTest extends TestCase {
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("0", doubleField.getValue());
-        assertEquals(new Double(0), doubleField.getValueObject());
+        assertEquals(Double.valueOf(0), doubleField.getValueObject());
         
         // Test required + zero value
         doubleField.setRequired(true);
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("0", doubleField.getValue());
-        assertEquals(new Double(0), doubleField.getValueObject());
+        assertEquals(Double.valueOf(0), doubleField.getValueObject());
         
         request.getParameterMap().clear();
 
@@ -108,11 +108,11 @@ public class DoubleFieldTest extends TestCase {
         // Test required value equal to min value
         doubleField.setRequired(true);
         doubleField.setMinValue(10);
-        assertEquals(new Double(10), new Double(doubleField.getMinValue()));
+        assertEquals(Double.valueOf(10), Double.valueOf(doubleField.getMinValue()));
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.getError(), doubleField.isValid());
         assertEquals("10", doubleField.getValue());
-        assertEquals(new Double(10), doubleField.getValueObject());
+        assertEquals(Double.valueOf(10), doubleField.getValueObject());
 
         // Test required value larger than min value
         doubleField.setRequired(true);
@@ -120,34 +120,34 @@ public class DoubleFieldTest extends TestCase {
         assertTrue(doubleField.onProcess());
         assertFalse(doubleField.isValid());
         assertEquals("10", doubleField.getValue());
-        assertEquals(new Double(10), doubleField.getValueObject());
+        assertEquals(Double.valueOf(10), doubleField.getValueObject());
 
         request.getParameterMap().put("id", "20");
 
         // Test required value equal to max value
         doubleField.setMaxValue(20);
-        assertEquals(new Double(20), new Double(doubleField.getMaxValue()));
+        assertEquals(Double.valueOf(20), Double.valueOf(doubleField.getMaxValue()));
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("20", doubleField.getValue());
-        assertEquals(new Double(20), doubleField.getValueObject());
+        assertEquals(Double.valueOf(20), doubleField.getValueObject());
 
         // Test required value larger than max value
         doubleField.setMaxValue(21);
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("20", doubleField.getValue());
-        assertEquals(new Double(20), doubleField.getValueObject());
+        assertEquals(Double.valueOf(20), doubleField.getValueObject());
 
         // Test require value smaller than max value
         doubleField.setMaxValue(19);
         assertTrue(doubleField.onProcess());
         assertFalse(doubleField.isValid());
         assertEquals("20", doubleField.getValue());
-        assertEquals(new Double(20), doubleField.getValueObject());
+        assertEquals(Double.valueOf(20), doubleField.getValueObject());
 
-        assertEquals(new Double(20), doubleField.getDouble());
-        assertEquals(new Float(20), doubleField.getFloat());
+        assertEquals(Double.valueOf(20), doubleField.getDouble());
+        assertEquals(Float.valueOf(20), doubleField.getFloat());
 
         request.getParameterMap().put("id", "-20.1");
 
@@ -156,7 +156,7 @@ public class DoubleFieldTest extends TestCase {
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("-20.1", doubleField.getValue());
-        assertEquals(new Double(-20.1), doubleField.getValueObject());
+        assertEquals(Double.valueOf(-20.1), doubleField.getValueObject());
     }
 
     public void testLocaleServerENClientDE() {
@@ -170,8 +170,8 @@ public class DoubleFieldTest extends TestCase {
         request.setParameter("id", "123,4");
         assertTrue(doubleField.onProcess());
         assertEquals("123,4", doubleField.getValue());
-        assertEquals(new Double(123.4), doubleField.getDouble());
-        assertEquals(new Double(123.4), doubleField.getValueObject());
+        assertEquals(Double.valueOf(123.4), doubleField.getDouble());
+        assertEquals(Double.valueOf(123.4), doubleField.getValueObject());
     }
 
     /**

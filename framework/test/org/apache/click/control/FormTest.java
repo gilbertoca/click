@@ -19,7 +19,7 @@
 package org.apache.click.control;
 import java.util.HashMap;
 import java.util.Map;
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 import org.apache.click.MockContext;
 import org.apache.click.Page;

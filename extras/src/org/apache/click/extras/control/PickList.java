@@ -164,10 +164,10 @@ import org.apache.click.util.HtmlStringBuffer;
  * <h3><a name="resources"></a>CSS and JavaScript resources</h3>
  *
  * The PickList control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.js</tt></li>
+ * <li><code>click/extras-control.js</code></li>
  * </ul>
  *
  * To import these CheckList files simply reference the variables
@@ -333,7 +333,7 @@ public class PickList extends Field {
      * entry key will be used as the option value and the Map entry value will
      * be used as the option label.
      * <p/>
-     * It is recommended that <tt>LinkedHashMap</tt> is used as the Map
+     * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the option vales.
      *
      * @param options the Map of option values and labels to add
@@ -380,13 +380,13 @@ public class PickList extends Field {
      *   list.addAll(getCustomerService().getCustomerTypes(), "id", "name);
      *   form.add(list); </pre>
      *
-     * For example, given a Collection of CustomerType <tt>objects</tt>,
-     * <tt>optionValueProperty</tt> "id" and <tt>optionLabelProperty</tt> "name",
-     * the <tt>id</tt> and <tt>name</tt> properties of each CustomerType will
+     * For example, given a Collection of CustomerType <code>objects</code>,
+     * <code>optionValueProperty</code> "id" and <code>optionLabelProperty</code> "name",
+     * the <code>id</code> and <code>name</code> properties of each CustomerType will
      * be retrieved. For each CustomerType in the Collection a new
      * {@link org.apache.click.control.Option} instance is created and its
-     * <tt>value</tt> and <tt>label</tt> is set to the <tt>id</tt>
-     * and <tt>name</tt> retrieved from the CustomerType instance.
+     * <code>value</code> and <code>label</code> is set to the <code>id</code>
+     * and <code>name</code> retrieved from the CustomerType instance.
      *
      * @param objects the collection of objects to render as options
      * @param optionValueProperty the name of the object property to render as
@@ -570,7 +570,7 @@ public class PickList extends Field {
 
     /**
      * Returns the PickList HTML HEAD elements for the
-     * <tt>click/extras-control.js</tt> resource.
+     * <code>click/extras-control.js</code> resource.
      *
      * @see org.apache.click.Control#getHeadElements()
      *
@@ -605,8 +605,8 @@ public class PickList extends Field {
      *   list.setSelectedValues(getCustomer().getProductTypes(), "id");
      *   form.add(list); </pre>
      *
-     * For example given the Collection of ProductType <tt>objects</tt> and the
-     * <tt>value</tt> "id", the <tt>id</tt> property of each ProductType will
+     * For example given the Collection of ProductType <code>objects</code> and the
+     * <code>value</code> "id", the <code>id</code> property of each ProductType will
      * be retrieved and added to the PickList {@link #selectedValues}.
      *
      * @param objects the collection of objects to render selected values
@@ -661,7 +661,7 @@ public class PickList extends Field {
     }
 
     /**
-     * Return the list of selected values as a <tt>List</tt> of Strings. The
+     * Return the list of selected values as a <code>List</code> of Strings. The
      * returned List will contain the values of the Options selected.
      *
      * @return selected values as a List of Strings
@@ -704,7 +704,7 @@ public class PickList extends Field {
 
     /**
      * This method delegates to {@link #getSelectedValues()} to return the
-     * selected values as a <tt>java.util.List</tt> of Strings.
+     * selected values as a <code>java.util.List</code> of Strings.
      *
      * @see org.apache.click.control.Field#getValueObject()
      * @see #getSelectedValues()
@@ -719,7 +719,7 @@ public class PickList extends Field {
     /**
      * This method delegates to {@link #setSelectedValues(java.util.List)}
      * to set the selected values of the PickList. The given object
-     * parameter must be a <tt>java.util.List</tt> of Strings, otherwise it is
+     * parameter must be a <code>java.util.List</code> of Strings, otherwise it is
      * ignored.
      * <p/>
      * The List of values match the values of the Options.
@@ -758,7 +758,7 @@ public class PickList extends Field {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

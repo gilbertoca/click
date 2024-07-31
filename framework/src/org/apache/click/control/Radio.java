@@ -96,7 +96,7 @@ public class Radio extends Field {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the radio's html tag: <tt>input</tt>.
+     * Return the radio's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -175,7 +175,7 @@ public class Radio extends Field {
      *
      * @param parent the parent of the Control
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     @Override
     public void setParent(Object parent) {
@@ -193,19 +193,19 @@ public class Radio extends Field {
      * <p/>
      * If the Radio name attribute is not null:
      * <blockquote>
-     * <tt>super.getName() + ".label"</tt>
+     * <code>super.getName() + ".label"</code>
      * </blockquote>
      * If the Radio name attribute is null and the parent of the Radio is the RadioGroup:
      * <blockquote>
-     * <tt>parent.getName() + "." + getValue() + ".label"</tt>
+     * <code>parent.getName() + "." + getValue() + ".label"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key.
+     * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Field name will be
      * the radio value.
      * <p/>
-     * For example given a <tt>CustomerPage</tt> with the properties file
-     * <tt>CustomerPage.properties</tt>:
+     * For example given a <code>CustomerPage</code> with the properties file
+     * <code>CustomerPage.properties</code>:
      *
      * <pre class="codeConfig">
      * <span class="st">gender.M</span>.label=<span class="red">Male</span>

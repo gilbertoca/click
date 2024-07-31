@@ -32,7 +32,7 @@ import java.io.IOException;
  * closing sessions at the end of each request.
  * <p/>
  * To use {@link SessionContext} configure the SessionFilter in you
- * web application's <tt>/WEB-INF/web.xml</tt> file.
+ * web application's <code>/WEB-INF/web.xml</code> file.
  *
  * <pre class="codeConfig">
  * &lt;web-app&gt;
@@ -51,7 +51,7 @@ import java.io.IOException;
  *   ..
  * &lt;/web-app&gt; </pre>
  * <p/>
- * The SessionFilter <tt>init()</tt> method loads the SessionContext class
+ * The SessionFilter <code>init()</code> method loads the SessionContext class
  * which in turn initializes the Hibernate runtime.
  *
  * @see SessionContext

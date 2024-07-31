@@ -30,7 +30,7 @@ import org.apache.click.examples.page.BorderPage;
  * list of controls and the String msg field is automatically added to the
  * Page's model.
  * <p/>
- * The form <tt>onSubmit</tt> control listener is invoked when the submit button
+ * The form <code>onSubmit</code> control listener is invoked when the submit button
  * is clicked.
  */
 public class SimpleForm extends BorderPage {

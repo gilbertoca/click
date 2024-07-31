@@ -28,11 +28,11 @@ import org.apache.click.service.LogService;
 /**
  * Provides a JDK Util
  * <a target="_blank" href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-summary.html">Logging</a>
- * LogService adapter class with a logger name of "<tt>Click</tt>".
+ * LogService adapter class with a logger name of "<code>Click</code>".
  *
  * <h3>Configuration</h3>
  * To configure the JDK LoggingService add the following element to your
- * <tt>click.xml</tt> configuration file.
+ * <code>click.xml</code> configuration file.
  *
  * <pre class="codeConfig">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -49,7 +49,7 @@ public class JdkLogService implements LogService {
     /** The wrapped JDK logger instance. */
     protected Logger logger;
 
-    /** The logger category name. The default value is "<tt>Click</tt>". */
+    /** The logger category name. The default value is "<code>Click</code>". */
     protected String name = "Click";
 
     /**
@@ -69,7 +69,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message at <tt>Level.FINE</tt> level.
+     * Log the message at <code>Level.FINE</code> level.
      *
      * @see LogService#debug(Object)
      *
@@ -80,7 +80,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message and error at <tt>Level.FINE</tt> level.
+     * Log the message and error at <code>Level.FINE</code> level.
      *
      * @see LogService#debug(Object, Throwable)
      *
@@ -92,7 +92,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message at <tt>Level.SEVERE</tt> level.
+     * Log the message at <code>Level.SEVERE</code> level.
      *
      * @see LogService#error(Object)
      *
@@ -103,7 +103,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message and error at <tt>Level.SEVERE</tt> level.
+     * Log the message and error at <code>Level.SEVERE</code> level.
      *
      * @see LogService#error(Object, Throwable)
      *
@@ -115,7 +115,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message at <tt>Level.INFO</tt> level.
+     * Log the message at <code>Level.INFO</code> level.
      *
      * @see LogService#info(Object)
      *
@@ -126,7 +126,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message and error at <tt>Level.INFO</tt> level.
+     * Log the message and error at <code>Level.INFO</code> level.
      *
      * @see LogService#info(Object, Throwable)
      *
@@ -138,7 +138,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Is logging enabled at the <tt>Level.FINE</tt> level.
+     * Is logging enabled at the <code>Level.FINE</code> level.
      *
      * @see LogService#isDebugEnabled()
      *
@@ -149,7 +149,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Is logging enabled at the <tt>Level.INFO</tt> level.
+     * Is logging enabled at the <code>Level.INFO</code> level.
      *
      * @see LogService#isInfoEnabled()
      *
@@ -160,7 +160,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Is Trace logging enabled at the <tt>Level.FINER</tt> level.
+     * Is Trace logging enabled at the <code>Level.FINER</code> level.
      *
      * @see LogService#isTraceEnabled()
      *
@@ -171,7 +171,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message at <tt>Level.FINER</tt> level.
+     * Log the message at <code>Level.FINER</code> level.
      *
      * @see LogService#trace(Object)
      *
@@ -182,7 +182,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message and error at <tt>Level.FINER</tt> level.
+     * Log the message and error at <code>Level.FINER</code> level.
      *
      * @see LogService#trace(Object, Throwable)
      *
@@ -194,7 +194,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message at <tt>Level.WARNING</tt> level.
+     * Log the message at <code>Level.WARNING</code> level.
      *
      * @see LogService#warn(Object)
      *
@@ -205,7 +205,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * Log the message and error at <tt>Level.WARNING</tt> level.
+     * Log the message and error at <code>Level.WARNING</code> level.
      *
      * @see LogService#warn(Object, Throwable)
      *
@@ -226,7 +226,7 @@ public class JdkLogService implements LogService {
     }
 
     /**
-     * The logger category name. Setting the name after the <tt>onInit()</tt>
+     * The logger category name. Setting the name after the <code>onInit()</code>
      * method has been invoked will have no effect on the JDK loggers name.
      *
      * @param name the logger category name to set

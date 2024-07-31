@@ -48,7 +48,7 @@ import org.apache.commons.lang.Validate;
 /**
  * Provides base Cayenne data access object or service class to extend, following
  * the Spring DAO template pattern. This class uses thread bound
- * <tt>DataContext</tt> for all data access operations.
+ * <code>DataContext</code> for all data access operations.
  * <p/>
  * This class is designed to be extended by custom DAO or Service subclasses
  * which provide their own public interface. All methods on CayenneTemplate have
@@ -81,6 +81,7 @@ public class CayenneTemplate {
      * @param persistentClass the persistent object class to create and register
      * @return the new registered persistent object
      */
+    @Deprecated
     protected <T> T createAndRegisterNewObject(Class<T> persistentClass) {
         return getDataContext().newObject(persistentClass);
     }

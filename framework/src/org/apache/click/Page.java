@@ -114,7 +114,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * <p/>
  * A good way to see the page event execution order is to view the log when
- * the application mode is set to <tt>trace</tt>:
+ * the application mode is set to <code>trace</code>:
  *
  * <pre class="codeConfig" style="padding:1em;background-color:#f0f0f0;">
  * [Click] [debug] GET http://localhost:8080/quickstart/home.htm
@@ -146,12 +146,12 @@ public class Page implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The global page messages bundle name: &nbsp; <tt>click-page</tt>.
+     * The global page messages bundle name: &nbsp; <code>click-page</code>.
      */
     public static final String PAGE_MESSAGES = "click-page";
 
     /**
-     * The Page action request parameter: &nbsp; "<tt>pageAction</tt>".
+     * The Page action request parameter: &nbsp; "<code>pageAction</code>".
      */
     public final static String PAGE_ACTION = "pageAction";
 
@@ -201,6 +201,7 @@ public class Page implements Serializable {
      * @deprecated stateful pages are not supported anymore, use stateful
      * Controls instead
      */
+    @Deprecated
     protected boolean stateful;
 
     /** The path of the page border template to render.*/
@@ -224,7 +225,7 @@ public class Page implements Serializable {
      * <p/>
      * If security check returns true the Page is processed as
      * normal. If the method returns then no other event handlers are invoked
-     * (except <tt>onDestroy()</tt> and no page controls are processed.
+     * (except <code>onDestroy()</code> and no page controls are processed.
      * <p/>
      * If the method returns false, the forward or redirect property should be
      * set to send the request to another Page.
@@ -254,22 +255,22 @@ public class Page implements Serializable {
      * <p/>
      * <b>Please Note</b> however the qualifier for the previous statement is
      * that all form and field controls must be fully initialized before they
-     * are processed, which is after the <tt>onInit()</tt> method has
-     * completed. After this point their <tt>onProcess()</tt> methods will be
-     * invoked by the <tt>ClickServlet</tt>.
+     * are processed, which is after the <code>onInit()</code> method has
+     * completed. After this point their <code>onProcess()</code> methods will be
+     * invoked by the <code>ClickServlet</code>.
      * <p/>
      * Select controls in particular must have their option list values populated
      * before the form is processed otherwise field validations cannot be performed.
      * <p/>
      * For initializing page controls the best practice is to place all the
      * control creation code in the pages constructor, and only place any
-     * initialization code in the <tt>onInit()</tt> method which has an external
+     * initialization code in the <code>onInit()</code> method which has an external
      * dependency to the context or some other object. By following this practice
      * it is easy to see what code is "design time" initialization code and what
      * is "runtime initialization code".
      * <p/>
-     * When subclassing pages which also use the <tt>onInit()</tt> method is
-     * is critical you call the <tt>super.onInit()</tt> method first, for
+     * When subclassing pages which also use the <code>onInit()</code> method is
+     * is critical you call the <code>super.onInit()</code> method first, for
      * example:
      * <pre class="javaCode">
      * <span class="kw">public void</span> onInit() {
@@ -289,7 +290,7 @@ public class Page implements Serializable {
      * The event handler is invoked after {@link #onSecurityCheck()} has been
      * called and all the Page {@link #controls} have been processed. If either
      * the security check or one of the controls cancels continued event
-     * processing the <tt>onGet()</tt> method will not be invoked.
+     * processing the <code>onGet()</code> method will not be invoked.
      *
      * <h4>Important Note</h4>
      *
@@ -309,7 +310,7 @@ public class Page implements Serializable {
      * The event handler is invoked after {@link #onSecurityCheck()} has been
      * called and all the Page {@link #controls} have been processed. If either
      * the security check or one of the controls cancels continued event
-     * processing the <tt>onPost()</tt> method will not be invoked.
+     * processing the <code>onPost()</code> method will not be invoked.
      *
      * <h4>Important Note</h4>
      *
@@ -334,8 +335,8 @@ public class Page implements Serializable {
      * on render method they will not be performed if the user navigates away
      * to a different page.
      * <p/>
-     * If you have code which you are using in both the <tt>onGet()</tt> and
-     * <tt>onPost()</tt> methods, use the <tt>onRender()</tt> method instead.
+     * If you have code which you are using in both the <code>onGet()</code> and
+     * <code>onPost()</code> methods, use the <code>onRender()</code> method instead.
      *
      * <h4>Important Note</h4>
      *
@@ -465,7 +466,7 @@ public class Page implements Serializable {
 
     /**
      * Return the HTTP response content type. By default this method returns
-     * <tt>"text/html"</tt>.
+     * <code>"text/html"</code>.
      * <p/>
      * The ClickServlet uses the pages content type for setting the
      * HttpServletResponse content type.
@@ -480,7 +481,7 @@ public class Page implements Serializable {
      * Return the Velocity template formatter object.
      * <p/>
      * The ClickServlet adds the format object to the Velocity context using
-     * the key <tt>"format"</tt> so that it can be used in the page template.
+     * the key <code>"format"</code> so that it can be used in the page template.
      *
      * @return the Velocity template formatter object
      */
@@ -526,7 +527,7 @@ public class Page implements Serializable {
      * relative to web applications root context, otherwise the path is
      * relative to the requests current location.
      * <p/>
-     * For example given a web application deployed to context <tt>mycorp</tt>
+     * For example given a web application deployed to context <code>mycorp</code>
      * with the pages:
      * <pre class="codeConfig" style="color:navy">
      *  /index.htm
@@ -534,16 +535,16 @@ public class Page implements Serializable {
      *  /customer/details.htm
      *  /customer/management/add-customer.htm </pre>
      *
-     * To forward to the customer <tt class="wr">search.htm</tt> page from
+     * To forward to the customer <tt class="wr">search.htm</code> page from
      * the web app root you could set forward as
-     * <tt>setForward(<span class="navy">"/customer/search.htm"</span>)</tt>
-     * or <tt>setForward(<span class="navy">"customer/search.htm"</span>)</tt>.
+     * <code>setForward(<span class="navy">"/customer/search.htm"</span>)</code>
+     * or <code>setForward(<span class="navy">"customer/search.htm"</span>)</code>.
      * <p/>
-     * If a user was currently viewing the <tt class="wr">add-customer.htm</tt>
+     * If a user was currently viewing the <tt class="wr">add-customer.htm</code>
      * to forward to customer <span class="wr">details.htm</span> you could
      * set forward as
-     * <tt>setForward(<span class="navy">"/customer/details.htm"</span>)</tt>
-     * or <tt>setForward(<span class="navy">"../details.htm"</span>)</tt>.
+     * <code>setForward(<span class="navy">"/customer/details.htm"</span>)</code>
+     * or <code>setForward(<span class="navy">"../details.htm"</span>)</code>.
      * <p/>
      * See also {@link #setPath(String)}, {@link #setRedirect(String)}
      *
@@ -644,6 +645,7 @@ public class Page implements Serializable {
      * @return the HTML includes statements for the control stylesheet and
      * JavaScript files
      */
+    @Deprecated
     public final String getHtmlImports() {
         throw new UnsupportedOperationException("Use getHeadElements instead");
     }
@@ -660,8 +662,8 @@ public class Page implements Serializable {
      * this method.
      * <p/>
      * The recommended approach when overriding this method is to use
-     * <tt>lazy loading</tt> to ensure the HEAD elements are only added
-     * <tt>once</tt> and when <tt>needed</tt>. For example:
+     * <code>lazy loading</code> to ensure the HEAD elements are only added
+     * <code>once</code> and when <code>needed</code>. For example:
      *
      * <pre class="prettyprint">
      * public MyPage extends Page {
@@ -750,12 +752,12 @@ public class Page implements Serializable {
      * <pre class="codeConfig">
      *  /click-page.properties </pre>
      *
-     * To define global page messages simply add <tt>click-page.properties</tt>
+     * To define global page messages simply add <code>click-page.properties</code>
      * file to your application's class path. Message defined in this properties
      * file will be available to all of your application pages.
      * <p/>
      * Note messages in your page class properties file will override any
-     * messages in the global <tt>click-page.properties</tt> file.
+     * messages in the global <code>click-page.properties</code> file.
      * <p/>
      * Page messages can be accessed directly in the page template using
      * the <span class="st">$messages</span> reference. For examples:
@@ -877,6 +879,7 @@ public class Page implements Serializable {
      *
      * @return the Page header imports
      */
+    @Deprecated
     public PageImports getPageImports() {
         return pageImports;
     }
@@ -905,6 +908,7 @@ public class Page implements Serializable {
      *
      * @param pageImports the new pageImports instance to set
      */
+    @Deprecated
     public void setPageImports(PageImports pageImports) {
         this.pageImports = pageImports;
     }
@@ -912,7 +916,7 @@ public class Page implements Serializable {
     /**
      * Return the path of the Template or JSP to render.
      * <p/>
-     * If this method returns <tt>null</tt>, Click will not perform any rendering.
+     * If this method returns <code>null</code>, Click will not perform any rendering.
      * This is useful when you want to stream or write directly to the
      * HttpServletResponse.
      * <p/>
@@ -928,8 +932,8 @@ public class Page implements Serializable {
      * Set the path of the Template or JSP to render.
      * <p/>
      * By default Click will set the path to the requested page url. Meaning
-     * if the url <tt>/edit-customer.htm</tt> is requested, path will be set
-     * to <tt>/edit-customer.htm</tt>.
+     * if the url <code>/edit-customer.htm</code> is requested, path will be set
+     * to <code>/edit-customer.htm</code>.
      * <p/>
      * Here is an example if you want to change the path to a different Template:
      * <p/>
@@ -943,7 +947,7 @@ public class Page implements Serializable {
      *     setPath("/some-other-jsp.jsp");
      * }</pre>
      * <p/>
-     * If path is set to <tt>null</tt>, Click will not perform any rendering.
+     * If path is set to <code>null</code>, Click will not perform any rendering.
      * This is useful when you want to stream or write directly to the
      * HttpServletResponse.
      * <p/>
@@ -981,6 +985,7 @@ public class Page implements Serializable {
      * @return true if the page is stateful and should be saved in the users
      * session
      */
+    @Deprecated
     public boolean isStateful() {
         return stateful;
     }
@@ -994,11 +999,11 @@ public class Page implements Serializable {
      * request can access the page at a time.
      * <p/>
      * Stateful pages are stored in the HttpSession using the key
-     * <tt>page.getClass().getName()</tt>.
+     * <code>page.getClass().getName()</code>.
      * <p/>
      * It is worth noting that Click checks a Page's stateful property after
      * each request. Thus it becomes possible to enable a stateful Page for a
-     * number of requests and then setting it to <tt>false</tt> again at which
+     * number of requests and then setting it to <code>false</code> again at which
      * point Click will remove the Page from the HttpSession, freeing up memory
      * for the server.
      *
@@ -1008,6 +1013,7 @@ public class Page implements Serializable {
      * @param stateful the flag indicating whether the page should be saved
      *         between user requests
      */
+    @Deprecated
     public void setStateful(boolean stateful) {
         this.stateful = stateful;
         if (isStateful()) {
@@ -1032,7 +1038,7 @@ public class Page implements Serializable {
      * Set whether the Control head elements should be included in the page
      * template.
      * <p/>
-     * By setting this value to <tt>false</tt>, Click won't include Control's
+     * By setting this value to <code>false</code>, Click won't include Control's
      * {@link #getHeadElements() head elements}, however the Page head elements
      * will still be included.
      * <p/>
@@ -1087,20 +1093,20 @@ public class Page implements Serializable {
      * properties. The request is redirected using the HttpServletResponse.setRedirect()
      * method.
      * <p/>
-     * If the redirect location begins with a <tt class="wr">"/"</tt>
+     * If the redirect location begins with a <tt class="wr">"/"</code>
      * character the redirect location will be prefixed with the web applications
-     * <tt>context path</tt>. Note if the given location is already prefixed
-     * with the <tt>context path</tt>, Click won't add it a second time.
+     * <code>context path</code>. Note if the given location is already prefixed
+     * with the <code>context path</code>, Click won't add it a second time.
      * <p/>
      * For example if an application is deployed to the context
-     * <tt class="wr">"mycorp"</tt> calling
-     * <tt>setRedirect(<span class="navy">"/customer/details.htm"</span>)</tt>
+     * <tt class="wr">"mycorp"</code> calling
+     * <code>setRedirect(<span class="navy">"/customer/details.htm"</span>)</code>
      * will redirect the request to:
-     * <tt class="wr">"/mycorp/customer/details.htm"</tt>
+     * <tt class="wr">"/mycorp/customer/details.htm"</code>
      * <p/>
-     * If the redirect location does not begin with a <tt class="wr">"/"</tt>
+     * If the redirect location does not begin with a <tt class="wr">"/"</code>
      * character the redirect location will be used as specified. Thus if the
-     * location is <tt class="wr">http://somehost.com/myapp/customer.jsp</tt>,
+     * location is <tt class="wr">http://somehost.com/myapp/customer.jsp</code>,
      * Click will redirect to that location.
      * <p/>
      * <b>JSP note:</b> when redirecting to a JSP template keep in mind that the
@@ -1116,7 +1122,7 @@ public class Page implements Serializable {
      * use the alternative redirect utility {@link #setRedirect(java.lang.Class)}.
      * <p/>
      * <b>Please note</b> that Click will url encode the location by invoking
-     * <tt>response.encodeRedirectURL(location)</tt> before redirecting.
+     * <code>response.encodeRedirectURL(location)</code> before redirecting.
      * <p/>
      * See also {@link #setRedirect(java.lang.String, java.util.Map)},
      * {@link #setForward(String)}, {@link #setPath(String)}

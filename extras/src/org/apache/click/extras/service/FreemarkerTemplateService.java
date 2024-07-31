@@ -47,7 +47,7 @@ import freemarker.template.TemplateExceptionHandler;
  *
  * <h3>Configuration</h3>
  * To configure the Freemarker TemplateService add the following element to your
- * <tt>click.xml</tt> configuration file.
+ * <code>click.xml</code> configuration file.
  *
  * <pre class="prettyprint">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;

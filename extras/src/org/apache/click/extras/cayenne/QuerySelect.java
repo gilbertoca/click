@@ -56,12 +56,12 @@ import org.apache.click.util.HtmlStringBuffer;
  *
  * The QuerySelect provides a Select control with the options automatically
  * populated from a Cayenne query. This control supports both named queries,
- * which are configured in the Cayenne Modeler, and <tt>SelectQuery</tt>
- * and <tt>NamedQuery</tt> objects which can be defined in code.
+ * which are configured in the Cayenne Modeler, and <code>SelectQuery</code>
+ * and <code>NamedQuery</code> objects which can be defined in code.
  * <p/>
  * All Cayenne queries are executed using the thread local {@link DataContext}
- * obtained via <tt>DataContext.getThreadDataContext()</tt>, and are executed
- * as required by the <tt>onProcess()</tt> and <tt>toString()</tt> methods.
+ * obtained via <code>DataContext.getThreadDataContext()</code>, and are executed
+ * as required by the <code>onProcess()</code> and <code>toString()</code> methods.
  * <p/>
  * QuerySelect has no dependency on {@link CayenneForm} and can be used
  * separately in other forms or controls.
@@ -79,7 +79,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * form.add(title); </pre>
  *
  * The example below uses a {@link SelectQuery} defined in code and renders
- * the <tt>Delivery</tt> object <tt>type</tt> and <tt>description</tt> properties
+ * the <code>Delivery</code> object <code>type</code> and <code>description</code> properties
  * and the option values and labels.
  *
  * <pre class="codeJava">
@@ -116,7 +116,7 @@ public class QuerySelect extends Select {
     /** The flag specifying whether the cache should be ignored. */
     protected boolean expireCache;
 
-    /** The option list Cayenne <tt>NamedQuery</tt>. */
+    /** The option list Cayenne <code>NamedQuery</code>. */
     protected NamedQuery namedQuery;
 
     /** The name of the configured select query. */
@@ -134,7 +134,7 @@ public class QuerySelect extends Select {
     /** The query result property to render as the option value. */
     protected String optionValue;
 
-    /** The option list Cayenne <tt>SelectQuery</tt>. */
+    /** The option list Cayenne <code>SelectQuery</code>. */
     protected SelectQuery selectQuery;
 
     // Constructors -----------------------------------------------------------
@@ -233,16 +233,16 @@ public class QuerySelect extends Select {
     }
 
     /**
-     * Return the <tt>NamedQuery</tt> to populate the options list with.
+     * Return the <code>NamedQuery</code> to populate the options list with.
      *
-     * @return the <tt>NamedQuery</tt> to populate the options list with
+     * @return the <code>NamedQuery</code> to populate the options list with
      */
     public NamedQuery getNamedQuery() {
         return namedQuery;
     }
 
     /**
-     * Set the <tt>NamedQuery</tt> to populate the options list with.
+     * Set the <code>NamedQuery</code> to populate the options list with.
      *
      * @param namedQuery to populate the options list with
      */
@@ -307,9 +307,9 @@ public class QuerySelect extends Select {
     /**
      * Return the query result property to render as the option label.
      * <p/>
-     * If the query returns <tt>DataRow</tt> this property will be accessed
-     * via <tt>dataRow.get(getOptionLabel())</tt>. If the query returns
-     * <tt>DataObject</tt> the property will be accessed using its getter
+     * If the query returns <code>DataRow</code> this property will be accessed
+     * via <code>dataRow.get(getOptionLabel())</code>. If the query returns
+     * <code>DataObject</code> the property will be accessed using its getter
      * method.
      *
      * @return the query result property to render as the option label.
@@ -330,9 +330,9 @@ public class QuerySelect extends Select {
     /**
      * Return the query result property to render as the option value.
      * <p/>
-     * If the query returns <tt>DataRow</tt> this property will be accessed
-     * via <tt>dataRow.get(getOptionValue())</tt>. If the query returns
-     * <tt>DataObject</tt> the property will be accessed using its getter
+     * If the query returns <code>DataRow</code> this property will be accessed
+     * via <code>dataRow.get(getOptionValue())</code>. If the query returns
+     * <code>DataObject</code> the property will be accessed using its getter
      * method.
      *
      * @return the query result property to render as the option label.
@@ -351,18 +351,18 @@ public class QuerySelect extends Select {
     }
 
     /**
-     * Return the <tt>SelectQuery</tt> to populate the options list with.
+     * Return the <code>SelectQuery</code> to populate the options list with.
      *
-     * @return the <tt>SelectQuery</tt> to populate the options list with
+     * @return the <code>SelectQuery</code> to populate the options list with
      */
     public SelectQuery getSelectQuery() {
         return selectQuery;
     }
 
     /**
-     * Set the <tt>SelectQuery</tt> to populate the options list with.
+     * Set the <code>SelectQuery</code> to populate the options list with.
      *
-     * @param selectQuery the <tt>SelectQuery</tt> to populate the options
+     * @param selectQuery the <code>SelectQuery</code> to populate the options
      *  list with
      */
     public void setSelectQuery(SelectQuery selectQuery) {

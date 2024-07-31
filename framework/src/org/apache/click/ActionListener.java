@@ -22,13 +22,13 @@ import java.io.Serializable;
 
 /**
  * Provides a listener interface for receiving control action events.
- * The usage model is similar to the <tt>java.awt.event.ActionListener</tt>
+ * The usage model is similar to the <code>java.awt.event.ActionListener</code>
  * interface.
  * <p/>
  * The class that is interested in processing an action event
  * implements this interface, and the object created with that class is
- * registered with a control, using the control's <tt>setActionListener</tt>
- * method. When the action event occurs, that object's <tt>onAction</tt> method
+ * registered with a control, using the control's <code>setActionListener</code>
+ * method. When the action event occurs, that object's <code>onAction</code> method
  * is invoked.
  *
  * <h3>Listener Example</h3>

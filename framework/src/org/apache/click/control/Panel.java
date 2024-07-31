@@ -63,12 +63,12 @@ import org.apache.click.util.SessionMap;
  *
  * This example shows how to create a basic Panel and adding it to a Page.
  * <p/>
- * First we create the <tt>/panel/simple-panel.htm</tt> that references the
+ * First we create the <code>/panel/simple-panel.htm</code> that references the
  * variable <span class="st">$time</span>:
  *
  * <pre class="codeHtml">The time is now <span class="st">$time</span></pre>
  *
- * Then in our page class, <tt>SimplePageDemo</tt>, we create and add the Panel
+ * Then in our page class, <code>SimplePageDemo</code>, we create and add the Panel
  * instance:
  *
  * <pre class="prettyprint">
@@ -86,7 +86,7 @@ import org.apache.click.util.SessionMap;
  *     }
  * } </pre>
  *
- * The SimplePanelDemo template, <tt>/simple-panel-demo.htm</tt>, would
+ * The SimplePanelDemo template, <code>/simple-panel-demo.htm</code>, would
  * reference the panel control:
  *
  * <pre class="codeHtml"><span class="st">$panel</span></pre>
@@ -99,19 +99,19 @@ import org.apache.click.util.SessionMap;
  * <h3>Example 2 - Localization support</h3>
  *
  * In this example, we demonstrate localization support by
- * specifying the Panel content in the <tt>SimplePanelDemo.properties</tt> file.
+ * specifying the Panel content in the <code>SimplePanelDemo.properties</code> file.
  * Since the Panel model and Page model are merged at runtime, the Panel template
  * can access the Page messages.
  *
  * <p/>
- * First we create the <tt>SimplePanelDemo.properties</tt> file which specifies
+ * First we create the <code>SimplePanelDemo.properties</code> file which specifies
  * two properties: <span style="color:#7F0055">heading</span> and <span style="color:#7F0055">content</span>.
  * <pre class="codeConfig">
  * <span style="color:#7F0055">heading</span>=Welcome
  * <span style="color:#7F0055">content</span>=Welcome to MyCorp&lt;p/&gt;MyCorp is your telecommuting office portal. Its just like being there at the office!</pre>
  *
  * <p/>
- * Then we create the <tt>/panel/simple-panel.htm</tt> that references the
+ * Then we create the <code>/panel/simple-panel.htm</code> that references the
  * localized Page properties. Since a Page properties are made available through
  * the <span class="st">$messages</span> map, the Panel can access the Page
  * properties using the variables <span class="st">$messages.header</span> and
@@ -123,7 +123,7 @@ import org.apache.click.util.SessionMap;
  *   <span class="st">$messages.content</span>
  * &lt;/fieldset&gt; </pre>
  *
- * In our page class, <tt>SimplePageDemo</tt>, we create and add the Panel
+ * In our page class, <code>SimplePageDemo</code>, we create and add the Panel
  * instance:
  *
  * <pre class="prettyprint">
@@ -132,12 +132,12 @@ import org.apache.click.util.SessionMap;
  *     public Panel panel = new Panel("panel", "/panel/simple-panel.htm");
  * } </pre>
  *
- * In the Page above we make use of Click's <tt>autobinding</tt> feature by
- * declaring a <tt>public</tt> Panel field. Autobinding will automatically add
+ * In the Page above we make use of Click's <code>autobinding</code> feature by
+ * declaring a <code>public</code> Panel field. Autobinding will automatically add
  * the Panel to the Page model.
  *
  * <p/>
- * The SimplePanelDemo template, <tt>/simple-panel-demo.htm</tt>, would
+ * The SimplePanelDemo template, <code>/simple-panel-demo.htm</code>, would
  * reference the panel control:
  *
  * <pre class="codeHtml"> <span class="st">$panel</span> </pre>
@@ -158,16 +158,16 @@ import org.apache.click.util.SessionMap;
  * a Container it can hold child controls, even other Panels.
  *
  * <p/>
- * In this example we create a reusable <tt>CustomerPanel</tt> which is added
+ * In this example we create a reusable <code>CustomerPanel</code> which is added
  * to a Border Panel.
  *
  * <p/>
- * First we create the <tt>/panel/customer-panel.htm</tt> template which references
+ * First we create the <code>/panel/customer-panel.htm</code> template which references
  * the <span class="st">$form</span> variable:
  *
  * <pre class="codeHtml"> <span class="st">$form</span> </pre>
  *
- * Next up is the <tt>CustomerPanel</tt>:
+ * Next up is the <code>CustomerPanel</code>:
  *
  * <pre class="prettyprint">
  * public class CustomerPanel extends Panel {
@@ -186,7 +186,7 @@ import org.apache.click.util.SessionMap;
  *     }
  * } </pre>
  *
- * The Border Panel template, <tt>/panel/border-panel.htm</tt>, will draw a
+ * The Border Panel template, <code>/panel/border-panel.htm</code>, will draw a
  * Border around its contents:
  *
  * <pre class="codeHtml">
@@ -194,8 +194,8 @@ import org.apache.click.util.SessionMap;
  * <span class="st">$panel</span>
  * &lt;/div&gt; </pre>
  *
- * Lastly we specify the <tt>NestedDemo</tt> Page, that creates a Border Panel,
- * and adds <tt>CustomerPanel</tt> as a child.
+ * Lastly we specify the <code>NestedDemo</code> Page, that creates a Border Panel,
+ * and adds <code>CustomerPanel</code> as a child.
  *
  * <pre class="prettyprint">
  * public class NestedDemo extends Page {
@@ -213,7 +213,7 @@ import org.apache.click.util.SessionMap;
  *     }
  * } </pre>
  *
- * The Page template, <tt>/nested-demo.htm</tt>, would reference the
+ * The Page template, <code>/nested-demo.htm</code>, would reference the
  * <span class="st">$borderPanel</span> variable:
  *
  * <pre class="codeHtml"> <span class="st">$borderPanel</span> </pre>
@@ -260,7 +260,7 @@ public class Panel extends AbstractContainer {
     /** The path of the template to render. */
     protected String template;
 
-    /** The panel active value, <tt>"true"</tt> by default. */
+    /** The panel active value, <code>"true"</code> by default. */
     protected boolean active = true;
 
     // Constructors -----------------------------------------------------------
@@ -318,6 +318,7 @@ public class Panel extends AbstractContainer {
      * @throws IllegalArgumentException if the control is null or if the name
      *     of the control is not defined
      */
+    @Deprecated
     public Control addControl(Control control) {
         return add(control);
     }
@@ -339,7 +340,7 @@ public class Panel extends AbstractContainer {
      *   can be referenced via it's name from the Panel template.
      *  </li>
      *  <li>
-     *   If the specified control is an <tt>instanceof</tt> a Panel, it will
+     *   If the specified control is an <code>instanceof</code> a Panel, it will
      *   be added to the list of panels and can be accessed through
      *   {@link #getPanels()}.
      *  </li>
@@ -401,6 +402,7 @@ public class Panel extends AbstractContainer {
      * @throws IllegalStateException if the currentControl is not contained in
      * the panel
      */
+    @Deprecated
     @Override
     public Control replace(Control currentControl, Control newControl) {
         // Current and new control is the same instance - exit early
@@ -436,6 +438,7 @@ public class Panel extends AbstractContainer {
      * @throws IllegalArgumentException if the control is null or if the name of
      *     the control is not defined
      */
+    @Deprecated
     public boolean removeControl(Control control) {
         return remove(control);
     }
@@ -516,7 +519,7 @@ public class Panel extends AbstractContainer {
     /**
      * Return the panel id value. If no id attribute is defined then this method
      * will return the panel name. If no name is defined this method will return
-     * <tt>null</tt>.
+     * <code>null</code>.
      *
      * @see #setActive(boolean)
      * @see org.apache.click.Control#getId()
@@ -573,10 +576,10 @@ public class Panel extends AbstractContainer {
      * If the label value is null, this method will attempt to find a
      * localized label message in the parent messages using the key:
      * <blockquote>
-     * <tt>getName() + ".label"</tt>
+     * <code>getName() + ".label"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key.
+     * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Panel name will be converted
      * into a label using the method: {@link ClickUtils#toLabel(String)}
      * <p/>
@@ -721,7 +724,7 @@ public class Panel extends AbstractContainer {
     }
 
     /**
-     * Perform any pre rendering logic and invoke the <tt>onRender()</tt> method
+     * Perform any pre rendering logic and invoke the <code>onRender()</code> method
      * of any child controls.
      * <p/>
      * <b>Please note</b>: {@link #isActive() inactive} panels are not rendered.

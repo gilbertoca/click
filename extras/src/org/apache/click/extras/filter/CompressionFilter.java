@@ -36,13 +36,13 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.util.ClickUtils;
 
 /**
- * Provides a GZIP compression <tt>Filter</tt> to compress HTML ServletResponse
+ * Provides a GZIP compression <code>Filter</code> to compress HTML ServletResponse
  * content. The content will only be compressed if it is bigger than a
  * configurable threshold. The default threshold is 2048 bytes.
  * <p/>
  * To configure your application to GZIP compress HTML content include the
  * click-extras.jar in you application and add the following filter elements to
- * your <tt>/WEB-INF/web.xml</tt> file:
+ * your <code>/WEB-INF/web.xml</code> file:
  * <pre class="codeConfig">
  * &lt;filter&gt;
  *  &lt;filter-name&gt;<span class="blue">compression-filter</span>&lt;/filter-name&gt;

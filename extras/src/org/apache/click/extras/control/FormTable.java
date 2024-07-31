@@ -53,7 +53,7 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * FieldColumn extends the {@link Column} class and includes a {@link Field}
  * object which is uses to render its column value. Each table data cell
- * <tt>&lg;td&gt;</tt> contains a uniquely named form field, which is rendered
+ * <code>&lg;td&gt;</code> contains a uniquely named form field, which is rendered
  * by the columns field.
  * <p/>
  * When the tables form field data is posted the submitted values are processed
@@ -68,14 +68,14 @@ import org.apache.commons.lang.StringUtils;
  * tooltip values.
  *
  * <h3>IMPORTANT NOTE</h3>
- * Do not populate the FormTable rowList in the Page's <tt>onRender()</tt> method.
+ * Do not populate the FormTable rowList in the Page's <code>onRender()</code> method.
  * <p/>
  * When using the FormTable control its rowList property
  * must be populated before the control is processed so that any submitted data
  * values can be applied to the rowList objects. This generally means that the
- * FormTable rowList should be populated in the page <tt>onInit()</tt> method.
+ * FormTable rowList should be populated in the page <code>onInit()</code> method.
  * Note this is different from the Table control where the rowlist is generally
- * populated in the page <tt>onRender()</tt> method.
+ * populated in the page <code>onRender()</code> method.
  *
  * <h3>FormTable Example</h3>
  *
@@ -142,7 +142,7 @@ import org.apache.commons.lang.StringUtils;
  *     }
  * } </pre>
  *
- * Note in this example the <tt>onCancelClick()</tt> button rolls back the
+ * Note in this example the <code>onCancelClick()</code> button rolls back the
  * changes made to the rowList objects, by reloading their values from the
  * database and having the FormTable not render the submitted values.
  *
@@ -211,7 +211,7 @@ public class FormTable extends Table {
      * <p/>
      * <b>Please note:</b> if you want to use FormTable with an external Form,
      * see <a href="#form-example">this example</a> which demonstrates a
-     * workaround of the <tt>form submit limitation</tt>.
+     * workaround of the <code>form submit limitation</code>.
      *
      * @param name the table name
      * @param form the table form
@@ -365,7 +365,7 @@ public class FormTable extends Table {
      * @param parent the parent of the FormTable
      * @throws IllegalStateException if {@link #name} is not defined
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     @Override
     public void setParent(Object parent) {
@@ -399,7 +399,7 @@ public class FormTable extends Table {
 
     /**
      * Set the list of form table rows. Each row can either be a value object
-     * (JavaBean) or an instance of a <tt>Map</tt>.
+     * (JavaBean) or an instance of a <code>Map</code>.
      * <p/>
      * <b>Important</b> ensure you set the rowList before control is processed
      * so posted object changes can be applied. Do not invoke this method via

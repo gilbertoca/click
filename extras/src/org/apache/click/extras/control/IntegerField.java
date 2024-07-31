@@ -33,8 +33,8 @@ package org.apache.click.extras.control;
  * <p/>
  * The IntegerField uses a JavaScript onkeypress() integerFilter() method to prevent
  * users from entering invalid characters. To enable number key filtering
- * reference the variables <tt class="blue">$jsElements</tt> and
- * <tt class="blue">$headElements</tt> in your page template. For example:
+ * reference the variables <tt class="blue">$jsElements</code> and
+ * <tt class="blue">$headElements</code> in your page template. For example:
  *
  * <pre class="codeHtml">
  * &lt;html&gt;

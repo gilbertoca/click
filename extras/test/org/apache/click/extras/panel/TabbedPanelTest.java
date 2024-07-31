@@ -44,7 +44,7 @@ public class TabbedPanelTest extends TestCase {
     }
 
     /**
-     * Test that the request parameter <tt>tabPanelIndex</tt> sets the new
+     * Test that the request parameter <code>tabPanelIndex</code> sets the new
      * active panel correctly.
      */
     public void testTabPanelIndexParameter() {
@@ -66,7 +66,7 @@ public class TabbedPanelTest extends TestCase {
 
 
     /**
-     * Test that the request parameter <tt>tabPanelIndex-<TabbedPanelName></tt>
+     * Test that the request parameter <code>tabPanelIndex-<TabbedPanelName></code>
      * sets the new active panel correctly.
      */
     public void testTabPanelIndexWithNameParameter() {

@@ -32,7 +32,7 @@ public class RoleAccessController implements AccessController {
     /**
      * Return true if the user is in the specified security access role.
      * <p/>
-     * <b>Please note:</b> if role is <tt>null</tt> this method returns true,
+     * <b>Please note:</b> if role is <code>null</code> this method returns true,
      * meaning user has access to resources without roles defined.
      *
      * @see AccessController#hasAccess(HttpServletRequest, String)

@@ -31,8 +31,8 @@ import org.apache.commons.lang.Validate;
  * with the Click runtime.
  * <p/>
  * The primary use of the ControlRegistry is for Controls to register themselves
- * as potential <tt>targets</tt> of Ajax requests
- * (If a control is an Ajax request target, it's <tt>onProcess()</tt>
+ * as potential <code>targets</code> of Ajax requests
+ * (If a control is an Ajax request target, it's <code>onProcess()</code>
  * method is invoked while other controls are not processed).
  * <p/>
  * Registering controls as Ajax targets serves a dual purpose. In addition to

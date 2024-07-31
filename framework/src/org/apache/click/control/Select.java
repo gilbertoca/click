@@ -395,7 +395,7 @@ public class Select extends Field {
     // Public Attributes ------------------------------------------------------
 
     /**
-     * Return the select's html tag: <tt>select</tt>.
+     * Return the select's html tag: <code>select</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -522,7 +522,7 @@ public class Select extends Field {
      * The Map entry key will be used as the option value and the Map entry
      * value will be used as the option label.
      * <p/>
-     * It is recommended that <tt>LinkedHashMap</tt> is used as the Map
+     * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the option vales.
      *
      * @param options the Map of option values and labels to add
@@ -581,7 +581,7 @@ public class Select extends Field {
      *
      * This method will iterate over all customerTypes and for each customerType
      * create a new Option, setting the option value to the customerType
-     * <tt>"id"</tt>, and the option label to the customerType <tt>"name"</tt>.
+     * <code>"id"</code>, and the option label to the customerType <code>"name"</code>.
      *
      * @param objects the collection of objects to render as options
      * @param optionValueProperty the name of the object property to render as
@@ -741,6 +741,7 @@ public class Select extends Field {
      *
      * @return the list of selected values
      */
+    @Deprecated
     public List<String> getMultipleValues() {
         return getSelectedValues();
     }
@@ -767,6 +768,7 @@ public class Select extends Field {
      *
      * @param multipleValues the list of selected values
      */
+    @Deprecated
     public void setMultipleValues(List<String> multipleValues) {
         this.selectedValues = multipleValues;
     }
@@ -957,10 +959,10 @@ public class Select extends Field {
 
     /**
      * Return the Select state. The following state is returned, depending on
-     * whether {@link #isMultiple()} is <tt>true</tt> or <tt>false</tt>:
+     * whether {@link #isMultiple()} is <code>true</code> or <code>false</code>:
      * <ul>
-     * <li>{@link #getValue()} if {@link #isMultiple()} is <tt>false</tt></li>
-     * <li>{@link #getSelectedValues()} if {@link #isMultiple()} is <tt>true</tt></li>
+     * <li>{@link #getValue()} if {@link #isMultiple()} is <code>false</code></li>
+     * <li>{@link #getSelectedValues()} if {@link #isMultiple()} is <code>true</code></li>
      * </ul>
      *
      * @return the Select state

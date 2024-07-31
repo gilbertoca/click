@@ -56,7 +56,7 @@ import org.apache.commons.lang.Validate;
  * of the application.
  * <p/>
  * If you would like to specify a custom FileUploadService implementation
- * use the <tt>classname</tt> attribute:
+ * use the <code>classname</code> attribute:
  * <pre class="prettyprint">
  * &lt;file-upload-service classname="com.mycorp.util.CustomFileUploadService"&gt;
  *     &lt;property name="customProperty" value="customValue"/&gt;

@@ -166,6 +166,7 @@ public abstract class AbstractControl implements Control {
      * @deprecated use {@link #addStyleClass(String)} and
      * {@link #removeStyleClass(String)} instead.
      */
+    @Deprecated
     protected Map<String, String> styles;
 
     /** The listener target object. */
@@ -200,10 +201,10 @@ public abstract class AbstractControl implements Control {
      * <p/>
      * Subclasses should override this method and return the correct tag.
      * <p/>
-     * This method returns <tt>null</tt> by default.
+     * This method returns <code>null</code> by default.
      * <p/>
-     * Example tags include <tt>table</tt>, <tt>form</tt>, <tt>a</tt> and
-     * <tt>input</tt>.
+     * Example tags include <code>table</code>, <code>form</code>, <code>a</code> and
+     * <code>input</code>.
      *
      * @return this controls html tag
      */
@@ -242,26 +243,26 @@ public abstract class AbstractControl implements Control {
     }
 
     /**
-     * Returns <tt>true</tt> if this control has any
-     * <tt>Behavior</tt>s registered, <tt>false</tt> otherwise.
+     * Returns <code>true</code> if this control has any
+     * <code>Behavior</code>s registered, <code>false</code> otherwise.
      *
-     * @return <tt>true</tt> if this control has any <tt>Behavior</tt>s registered,
-     * <tt>false</tt> otherwise
+     * @return <code>true</code> if this control has any <code>Behavior</code>s registered,
+     * <code>false</code> otherwise
      */
     public boolean hasBehaviors() {
         return (behaviors != null && !behaviors.isEmpty());
     }
 
     /**
-     * Add the given <tt>Behavior</tt> to the control's Set of
+     * Add the given <code>Behavior</code> to the control's Set of
      * {@link #getBehaviors() Behaviors}.
      * <p/>
      * In addition, the Control will be registered with the
      * {@link org.apache.click.ControlRegistry#registerAjaxTarget(org.apache.click.Control) ControlRegistry}
-     * as a potential <tt>Ajax target control</tt> and to have it's
-     * <tt>Behaviors</tt> processed by the Click runtime.
+     * as a potential <code>Ajax target control</code> and to have it's
+     * <code>Behaviors</code> processed by the Click runtime.
      *
-     * @param behavior the <tt>Behavior</tt> to add
+     * @param behavior the <code>Behavior</code> to add
      */
     public void addBehavior(Behavior behavior) {
         if (behavior == null) {
@@ -277,19 +278,19 @@ public abstract class AbstractControl implements Control {
     }
 
     /**
-     * Remove the given <tt>Behavior</tt> from the Control's Set of
+     * Remove the given <code>Behavior</code> from the Control's Set of
      * {@link #getBehaviors() Behaviors}.
      *
-     * @param behavior the <tt>Behavior</tt> to remove
+     * @param behavior the <code>Behavior</code> to remove
      */
     public void removeBehavior(Behavior behavior) {
         getBehaviors().remove(behavior);
     }
 
     /**
-     * Returns the Set of <tt>Behaviors</tt> for this control.
+     * Returns the Set of <code>Behaviors</code> for this control.
      *
-     * @return the Set of <tt>Behaviors</tt> for this control
+     * @return the Set of <code>Behaviors</code> for this control
      */
     public Set<Behavior> getBehaviors() {
         if (behaviors == null) {
@@ -299,14 +300,14 @@ public abstract class AbstractControl implements Control {
     }
 
     /**
-     * Returns <tt>true</tt> if this control is an AJAX target, <tt>false</tt>
+     * Returns <code>true</code> if this control is an AJAX target, <code>false</code>
      * otherwise.
      * <p/>
      * The control is defined as an Ajax target if the control {@link #getId() ID}
      * is send as a request parameter.
      *
      * @param context the request context
-     * @return <tt>true</tt> if this control is an AJAX target, <tt>false</tt>
+     * @return <code>true</code> if this control is an AJAX target, <code>false</code>
      * otherwise
      */
     public boolean isAjaxTarget(Context context) {
@@ -351,7 +352,7 @@ public abstract class AbstractControl implements Control {
      * <pre class="codeHtml">
      * &lt;a href=".." <span class="st">target</span>=<span class="st">"_blank"</span>&gt;<span class="st">Add</span>&lt;/a&gt; </pre>
      *
-     * <b>Note:</b> for <tt>style</tt> and <tt>class</tt> attributes you can
+     * <b>Note:</b> for <code>style</code> and <code>class</code> attributes you can
      * also use the methods {@link #setStyle(String, String)} and
      * {@link #addStyleClass(String)}.
      *
@@ -472,7 +473,7 @@ public abstract class AbstractControl implements Control {
      * parent's messages, which resolves to the Page's resource bundle.
      * <p/>
      * If the message was not found, this method will attempt to look up the
-     * value in the <tt>/click-control.properties</tt> message properties file,
+     * value in the <code>/click-control.properties</code> message properties file,
      * through the method {@link #getMessages()}.
      * <p/>
      * If still not found, this method will return null.
@@ -545,7 +546,7 @@ public abstract class AbstractControl implements Control {
      *
      * @param parent the parent of the Control
      * @throws IllegalArgumentException if the given parent instance is
-     * referencing <tt>this</tt> object: <tt>if (parent == this)</tt>
+     * referencing <code>this</code> object: <code>if (parent == this)</code>
      */
     public void setParent(Object parent) {
         if (parent == this) {
@@ -633,6 +634,7 @@ public abstract class AbstractControl implements Control {
      * @return the HTML includes statements for the control stylesheet and
      * JavaScript files
      */
+    @Deprecated
     public final String getHtmlImports() {
         throw new UnsupportedOperationException("Use getHeadElements instead");
     }
@@ -690,7 +692,7 @@ public abstract class AbstractControl implements Control {
      * <pre class="codeHtml">
      * &lt;a href=".." <span class="st">style</span>=<span class="st">"color:red;border:1px solid black;"</span>&gt;<span class="st">Add</span>&lt;/a&gt;
      * </pre>
-     * To remove an existing style, set the value to <tt>null</tt>.
+     * To remove an existing style, set the value to <code>null</code>.
      *
      * @param name the CSS style name
      * @param value the CSS style value
@@ -760,6 +762,7 @@ public abstract class AbstractControl implements Control {
      *
      * @return true if CSS styles are defined
      */
+    @Deprecated
     public boolean hasStyles() {
         return (styles != null && !styles.isEmpty());
     }
@@ -771,6 +774,7 @@ public abstract class AbstractControl implements Control {
      *
      * @return the Map of control CSS styles
      */
+    @Deprecated
     public Map<String, String> getStyles() {
         if (styles == null) {
             styles = new HashMap<String, String>();
@@ -945,7 +949,7 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Render the tag and common attributes including {@link #getId() id},
-     * <tt>class</tt> and <tt>style</tt>. The {@link #getName() name} attribute
+     * <code>class</code> and <code>style</code>. The {@link #getName() name} attribute
      * is <em>not</em> rendered by this control. It is up to subclasses
      * whether to render the name attribute or not. Generally only
      * {@link org.apache.click.control.Field} controls render the name attribute.

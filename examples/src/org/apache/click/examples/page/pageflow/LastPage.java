@@ -48,7 +48,7 @@ public class LastPage extends BorderPage {
         String bookingId = getContext().getRequest().getParameter("bookingId");
 
         if (bookingId != null) {
-            Integer id = new Integer(bookingId);
+            Integer id = Integer.valueOf(bookingId);
             CourseBooking courseBooking =
                 bookingService.findCourseBookingByID(id);
 

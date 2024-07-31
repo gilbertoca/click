@@ -49,7 +49,7 @@
         There is also a <a class="external" target="_blank" href="http://www.gpg4win.org/">Windows</a> port available.
 
         <p/>
-        Before starting the release ensure that you have your <tt>public key</tt>
+        Before starting the release ensure that you have your <code>public key</code>
         appended to the <a class="external" target="_blank" href="http://svn.apache.org/repos/asf/click/trunk/click/KEYS">KEYS</a>
         file and that the key is published to a public key server
         such as <a class="external" target="_blank" href="http://pgp.mit.edu/">MIT</a>.
@@ -88,15 +88,15 @@
                 <p/>
                 <ul>
                     <li>
-                        Finalize <tt>documentation/docs/click.html</tt> and add
+                        Finalize <code>documentation/docs/click.html</code> and add
                         news about the upcoming release.
                     </li>
                     <li>
-                        Finalize <tt>documentation/docs/roadmap-changes.html</tt>
+                        Finalize <code>documentation/docs/roadmap-changes.html</code>
                         and ensure that the release date is correct.
                     </li>
                     <li>
-                        Update <tt>downloads.html</tt> and ensure the release date is correct.
+                        Update <code>downloads.html</code> and ensure the release date is correct.
                     </li>
                 </ul>
             </li>
@@ -105,7 +105,7 @@
                 <p/>
                 <ul>
                     <li>
-                        Navigate to the folder <tt>/documentation/xdocs</tt> and
+                        Navigate to the folder <code>/documentation/xdocs</code> and
                         download the list of third-party documentation dependencies:
                         <pre class="codeConfig">ant get-deps</pre>
                     </li>
@@ -116,7 +116,7 @@
                 </ul>
             </li>
             <li>
-                Navigate to the <tt>/build</tt> folder and download the list of
+                Navigate to the <code>/build</code> folder and download the list of
                 third-party library dependencies:
                 <pre class="codeConfig">ant get-deps</pre>
             </li>
@@ -145,8 +145,8 @@
                 <pre class="codeConfig">gpg --armor --output click-X.X.X.zip.asc --detach-sig click-X.X.X.zip</pre>
             </li>
             <li>
-                Upload the distribution to your account at <tt>people.apache.org</tt>
-                under the folder <tt>/home/USER/public_html/click/click/X.X.X/dist</tt>, where
+                Upload the distribution to your account at <code>people.apache.org</code>
+                under the folder <code>/home/USER/public_html/click/click/X.X.X/dist</code>, where
                 USER is your Apache user name and X.X.X is the version number of Click.
 
                 <p/>
@@ -154,12 +154,12 @@
 
                 <p/>
                 <ul>
-                    <li><tt>click-X.X.X.zip</tt></li>
-                    <li><tt>click-X.X.X.zip.md5</tt></li>
-                    <li><tt>click-X.X.X.zip.sha1</tt></li>
-                    <li><tt>click-X.X.X.zip.asc</tt></li>
+                    <li><code>click-X.X.X.zip</code></li>
+                    <li><code>click-X.X.X.zip.md5</code></li>
+                    <li><code>click-X.X.X.zip.sha1</code></li>
+                    <li><code>click-X.X.X.zip.asc</code></li>
                 </ul>
-                Make sure the uploaded files have the right permissions (<tt>664</tt>)
+                Make sure the uploaded files have the right permissions (<code>664</code>)
                 and belong to the 'click' group to ensure that other members
                 have proper access to these files.
                 If not execute the following commands to ensure file and directory
@@ -172,16 +172,16 @@ chgrp -R click *</pre>
 
             </li>
             <li>
-                Verify the digital signatures at <tt>people.apache.org</tt> to
+                Verify the digital signatures at <code>people.apache.org</code> to
                 ensure nothing went wrong with the upload.
                 <p/>
                 Please note if this is the first time you verify your key
-                at <tt>people.apache.org</tt>, you'll need to import your public
+                at <code>people.apache.org</code>, you'll need to import your public
                 key first.
                 <p/>
                 Assuming your public key ID is 'B51329CB' and your key is available
                 from the public key server 'pgp.mit.edu', the following command
-                will import the key on <tt>people.apache.org</tt>:
+                will import the key on <code>people.apache.org</code>:
                 <pre class="codeConfig">
 ssh people.apache.org
 gpg --keyserver pgp.mit.edu --recv-keys B51329CB
@@ -197,11 +197,11 @@ gpg --verify click-X.X.X.zip.asc click-X.X.X.zip
 
         <h3><a href="#" name="voting"></a>Voting</h3>
 
-        Each release must be voted by the PMC on the <tt>click-dev</tt>
+        Each release must be voted by the PMC on the <code>click-dev</code>
         mailing list.
 
         <p/>
-        Vote threads are indicated by starting the subject line with <tt>[VOTE]</tt>.
+        Vote threads are indicated by starting the subject line with <code>[VOTE]</code>.
 
         <p/>
         For a vote to pass at least three +1 votes are needed.
@@ -222,10 +222,10 @@ gpg --verify click-X.X.X.zip.asc click-X.X.X.zip
 </pre>
             </li>
             <li>
-                Releases are published at <tt>people.apache.org</tt> under
+                Releases are published at <code>people.apache.org</code> under
                 the folder:
                 <p/>
-                <tt>/www/www.apache.org/dist/click/click/X.X.X</tt>
+                <code>/www/www.apache.org/dist/click/click/X.X.X</code>
 
                 <p/>
                 First login at apache:
@@ -234,7 +234,7 @@ gpg --verify click-X.X.X.zip.asc click-X.X.X.zip
                 <pre class="codeConfig">umask 002</pre>
                 <p/>
                 In order to publish the release you can copy the files from your
-                <tt>/public_html</tt> account to the apache distribution folder,
+                <code>/public_html</code> account to the apache distribution folder,
                 for example:
                 <pre class="codeConfig">
 cp -r ~/public_html/click/click/X.X.X/dist/ /www/www.apache.org/dist/click/click/X.X.X
@@ -245,7 +245,7 @@ cp -r ~/public_html/click/click/X.X.X/dist/ /www/www.apache.org/dist/click/click
         <h3>Publishing Maven Bundles</h3>
 
         Before publishing the artifacts, ensure the following settings
-        are present in your Maven settings file <tt>"~/.m2/settings.xml"</tt>:
+        are present in your Maven settings file <code>"~/.m2/settings.xml"</code>:
         <pre class="codeConfig">
 &lt;settings&gt;
     &lt;servers&gt;
@@ -270,7 +270,7 @@ cp -r ~/public_html/click/click/X.X.X/dist/ /www/www.apache.org/dist/click/click
             </li>
             <li>
                 The maven sign-and-deploy command does <b>not</b> sign POM files,
-                so you will have to do this manually. From the <tt>maven-upload</tt>
+                so you will have to do this manually. From the <code>maven-upload</code>
                 folder execute the following commands:
                 <pre class="codeConfig">
 cd maven-upload
@@ -283,16 +283,16 @@ gpg --armor --output click-nodeps/click-nodeps-X.X.X.pom.asc --detach-sig click-
                 artifacts have been deployed. More on this in the next section.
             </li>
             <li>
-                Maven <tt>snapshots</tt> must be uploaded to: <tt>/home/USER/public_html/click/click/X.X.X/maven2</tt>
+                Maven <code>snapshots</code> must be uploaded to: <code>/home/USER/public_html/click/click/X.X.X/maven2</code>
                 (USER should be replaced with your home dir on people.apache.org)
-                while <tt>releases</tt> must be uploaded to: <tt>/www/people.apache.org/repo/m2-ibiblio-rsync-repository</tt>.
+                while <code>releases</code> must be uploaded to: <code>/www/people.apache.org/repo/m2-ibiblio-rsync-repository</code>.
                 <p/>
-                Please note the <tt>mvn gpg:sign-and-deploy-file</tt> command will both sign and upload
+                Please note the <code>mvn gpg:sign-and-deploy-file</code> command will both sign and upload
                 the maven artifacts to the server. You will be prompted for your
                 GPG passphrase.
                 <ul>
-                    <li>For <b>snapshots</b> execute the following commands from the <tt>maven-upload</tt> folder:
-                    (If you have more than 1 GPG Key, use the <tt>keyname</tt> attribute
+                    <li>For <b>snapshots</b> execute the following commands from the <code>maven-upload</code> folder:
+                    (If you have more than 1 GPG Key, use the <code>keyname</code> attribute
                     to specify the KEY name.)
                     <pre class="codeConfig">
 cd maven-upload
@@ -304,8 +304,8 @@ mvn gpg:sign-and-deploy-file -DpomFile=click-mock/click-mock-X.X.X.pom -Dfile=cl
                     For the commands above remember to replace USER with your Apache
                     username and X.X.X with the Click version.
                     </li>
-                    <li>For <b>releases</b> execute the following commands from the <tt>maven-upload</tt> folder:
-                    (If you have more than 1 GPG Key, use the <tt>keyname</tt> attribute
+                    <li>For <b>releases</b> execute the following commands from the <code>maven-upload</code> folder:
+                    (If you have more than 1 GPG Key, use the <code>keyname</code> attribute
                     to specify the KEY name.)
  		                <pre class="codeConfig">
 cd maven-upload
@@ -315,7 +315,7 @@ mvn gpg:sign-and-deploy-file -DpomFile=click-nodeps/click-nodeps-X.X.X.pom -Dfil
 mvn gpg:sign-and-deploy-file -DpomFile=click-mock/click-mock-X.X.X.pom -Dfile=click-mock/click-mock-X.X.X.jar -Durl=scp://people.apache.org:/www/people.apache.org/repo/m2-ibiblio-rsync-repository -DrepositoryId=apache.releases
 </pre>
                     </li>
-                    <li>The <tt>sign-and-deploy-file</tt> command creates a number
+                    <li>The <code>sign-and-deploy-file</code> command creates a number
                     of unnecessary artifacts that can be deleted. The artifacts
                     that can be deleted are:
                     <pre class="codeConfig">
@@ -326,7 +326,7 @@ click-X.X.X.jar.asc.sha1
                 </ul>
                     <li>Next upload the POM signature files to each artifact folder. The
                     following POM's must be uploaded to their respective folders:
-                    (this step must be done for both <tt>snapshots</tt> and <tt>releases</tt>)
+                    (this step must be done for both <code>snapshots</code> and <code>releases</code>)
                     <pre class="codeConfig">
 click-X.X.X.pom.asc         ->  /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/click/click/X.X.X/
 click-extras-X.X.X.pom.asc  ->  /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/click/click-extras/X.X.X/
@@ -336,8 +336,8 @@ click-nodeps-X.X.X.pom.asc  ->  /www/people.apache.org/repo/m2-ibiblio-rsync-rep
                     <li>Once the artifacts and POM signatures have been uploaded, execute
                     the following commands to ensure the file, directory permissions
                     and group is correct. Note that because of a bug in "maven deploy", all
-                    <tt>maven-metadata.xml*</tt> files must have their permissions set
-                    to 664. (this step must be done for both <tt>snapshots</tt> and <tt>releases</tt>)
+                    <code>maven-metadata.xml*</code> files must have their permissions set
+                    to 664. (this step must be done for both <code>snapshots</code> and <code>releases</code>)
 
                     <pre class="codeConfig">
 ssh people.apache.org
@@ -348,7 +348,7 @@ find . ! -perm 664 -iname maven-metadata.xml* -user ${USER} -exec chmod 664 {} \
 find . ! -perm 644 ! -iname maven-metadata.xml* -type f -user ${USER} -exec chmod 644 {} \;</pre>
                     </li>
                     <li>Once the artifacts are uploaded you need to verify the signatures:
-                    (this step must be done for both <tt>snapshots</tt> and <tt>releases</tt>)
+                    (this step must be done for both <code>snapshots</code> and <code>releases</code>)
                     <pre class="codeConfig">
 ssh people.apache.org
 cd /www/people.apache.org/repo/m2-ibiblio-rsync-repository/org/apache/click/
@@ -375,8 +375,8 @@ gpg --verify click-mock/X.X.X/click-mock-X.X.X.pom.asc click-mock/X.X.X/click-mo
         The following tasks should be completed once the release is out:
         <ul>
             <li>
-                Upload the web site to <tt>people.apache.org</tt> under the folder
-                <tt>/www/click.apache.org/</tt>.
+                Upload the web site to <code>people.apache.org</code> under the folder
+                <code>/www/click.apache.org/</code>.
                 <p/>
                 You can either upload the website from your local machine or
                 checkout and sync the site on the people.apache.org server. For
@@ -395,7 +395,7 @@ ant all
 rsync -avz --exclude ".svn" --exclude "xdocs" ~/temp/click/documentation/ /www/click.apache.org/</pre>
 
                 <p/>
-                Make sure the website files and folders have the right permissions (<tt>664</tt>)
+                Make sure the website files and folders have the right permissions (<code>664</code>)
                 and belong to the 'click' group to ensure that other members
                 have proper access to these files.
                 If not execute the following commands to ensure file and directory
@@ -407,12 +407,12 @@ find . -type f | xargs chmod 664
 chgrp -R click *</pre>
             </li>
             <li>
-                Update the DOAP file (<tt>/documentation/doap/click.rdf</tt>) and
+                Update the DOAP file (<code>/documentation/doap/click.rdf</code>) and
                 ensure the new release is added. Commit the changes to ensure the
                 DOAP file is picked up by Apache processes.
             </li>
             <li>
-                Email release announcement to the <tt>user</tt> and <tt>dev</tt>
+                Email release announcement to the <code>user</code> and <code>dev</code>
                 mailing lists.
             </li>
             <li>

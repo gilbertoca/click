@@ -45,12 +45,12 @@ import org.w3c.dom.NodeList;
  * Provides a Menu factory for creating application menus from configuration
  * files.
  * <p/>
- * Menu factory provides a variety of <tt>getRootMenu()</tt> methods for
+ * Menu factory provides a variety of <code>getRootMenu()</code> methods for
  * loading the menus. The default {@link #getRootMenu()} method creates menus
- * from the configuration file <tt>/WEB-INF/menu.xml</tt>, or the classpath
- * resource <tt>/menu.xml</tt> if <tt>WEB-INF/menu.xml</tt> was not resolved.
+ * from the configuration file <code>/WEB-INF/menu.xml</code>, or the classpath
+ * resource <code>/menu.xml</code> if <code>WEB-INF/menu.xml</code> was not resolved.
  * <p/>
- * Below is an example <tt>menu.xml</tt> configuration file:
+ * Below is an example <code>menu.xml</code> configuration file:
  *
  * <pre class="prettyprint">
  * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -67,7 +67,7 @@ import org.w3c.dom.NodeList;
  * &lt;/menu&gt; </pre>
  *
  * You can also specify an alternative configuration file name to load your
- * menus from. Just use one of the <tt>getRootMenu</tt> methods that accept a
+ * menus from. Just use one of the <code>getRootMenu</code> methods that accept a
  * configuration file name, for example {@link #getRootMenu(java.lang.String, java.lang.String)
  * getRootMenu(name, fileName)}.
  *
@@ -131,7 +131,7 @@ import org.w3c.dom.NodeList;
  * <h3><a name="caching"></a>Caching</h3>
  * Loading Menus using {@link #getRootMenu()} will automatically cache the
  * menus for improved performance (technically the menus are only cached when
- * Click is in <tt>production</tt> or <tt>profile</tt> mode).
+ * Click is in <code>production</code> or <code>profile</code> mode).
  * <p/>
  * If you want to manage Menu caching yourself, use one of the
  * {@link #getRootMenu(boolean) getRootMenu} methods that accepts a boolean
@@ -151,12 +151,12 @@ public class MenuFactory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The default root menu name: &nbsp; "<tt>rootMenu</tt>".
+     * The default root menu name: &nbsp; "<code>rootMenu</code>".
      */
     public final static String DEFAULT_ROOT_MENU_NAME = "rootMenu";
 
     /**
-     * The menu configuration filename: &nbsp; "<tt>menu.xml</tt>".
+     * The menu configuration filename: &nbsp; "<code>menu.xml</code>".
      */
     protected static final String DEFAULT_CONFIG_FILE = "menu.xml";
 
@@ -446,7 +446,7 @@ public class MenuFactory implements Serializable {
      */
     protected Menu createMenu(Class<? extends Menu> menuClass) {
         try {
-            return menuClass.newInstance();
+            return menuClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new RuntimeException("Error occurred create new menu of type "
                 + menuClass);
@@ -463,7 +463,7 @@ public class MenuFactory implements Serializable {
      * <p/>
      * If the fileName does not start with a '/' character it is assumed to be
      * a relative path and Click will load the file from the Servlet context
-     * by <tt>prefixing</tt> the fileName with '/WEB-INF'. If not found the
+     * by <code>prefixing</code> the fileName with '/WEB-INF'. If not found the
      * file will be loaded from the classpath.
      * <p/>
      * The returned root menu is always selected.

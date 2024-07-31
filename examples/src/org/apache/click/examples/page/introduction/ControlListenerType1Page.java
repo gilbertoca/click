@@ -49,7 +49,7 @@ public class ControlListenerType1Page extends BorderPage {
      */
     public boolean onLinkClick() {
         String msg = "ControlListenerPage#" + hashCode()
-            + " object method <tt>onLinkClick()</tt> invoked.";
+            + " object method <code>onLinkClick()</code> invoked.";
         addModel("msg", msg);
 
         return true;

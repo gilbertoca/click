@@ -42,7 +42,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * This could be useful to load (or reload) model related information for which
  * ever panel is selected by the user.
  * <p/>
- * The classpath <tt>TabbedPanel.htm</tt> template is illustrated below:
+ * The classpath <code>TabbedPanel.htm</code> template is illustrated below:
  *
  * <pre class="codeHtml">
  * &lt;div id='<span class="blue">$this.id</span>'&gt;
@@ -76,7 +76,7 @@ import org.apache.commons.lang.math.NumberUtils;
  *
  * Also, as shown above, there are a number of CSS attributes that allow some
  * customization of the output. These CSS attributes are defined in the
- * auto deployed <tt>TabbedPanel.css</tt>. The TabbedPanel CSS attributes
+ * auto deployed <code>TabbedPanel.css</code>. The TabbedPanel CSS attributes
  * are:
  *
  * <pre class="codeHtml">
@@ -114,10 +114,10 @@ import org.apache.commons.lang.math.NumberUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The TabbedPanel makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click/</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click/</code>):
  *
  * <ul>
- * <li><tt>click/TabbedPanel.css</tt></li>
+ * <li><code>click/TabbedPanel.css</code></li>
  * </ul>
  *
  * To import these TabbedPanel files simply reference the variables
@@ -277,7 +277,7 @@ public class TabbedPanel extends Panel implements Stateful {
      * Return the TabbedPanel HTML HEAD elements for the following resource:
      *
      * <ul>
-     * <li><tt>click/TabbedPanel.css</tt></li>
+     * <li><code>click/TabbedPanel.css</code></li>
      * </ul>
      *
      * Additionally all {@link #getControls() controls} HEAD elements are
@@ -476,11 +476,11 @@ public class TabbedPanel extends Panel implements Stateful {
      * Initialize the child controls contained in the panel. Note with the child
      * panels only the active panel will be initialized.
      * <p/>
-     * If <tt>tabPanelIndex</tt> request parameter is present, this value will be
+     * If <code>tabPanelIndex</code> request parameter is present, this value will be
      * used to specify the active panel. The panel index is a zero based integer.
      * <p/>
-     * If multiple TabbedPanels are present on a form, use <tt>tabPanelIndex-&lt;panel-name&gt;</tt>
-     * to target a specific panel, for example: <tt>tabPanelIndex-myTabbedPanel</tt>.
+     * If multiple TabbedPanels are present on a form, use <code>tabPanelIndex-&lt;panel-name&gt;</code>
+     * to target a specific panel, for example: <code>tabPanelIndex-myTabbedPanel</code>.
      *
      * @see org.apache.click.Control#onInit()
      */
@@ -501,7 +501,7 @@ public class TabbedPanel extends Panel implements Stateful {
     }
 
     /**
-     * Process the request and invoke the <tt>onProcess()</tt> method of any
+     * Process the request and invoke the <code>onProcess()</code> method of any
      * child controls. Note with the child panels only the active panel will be
      * processed.
      *
@@ -534,9 +534,9 @@ public class TabbedPanel extends Panel implements Stateful {
     }
 
     /**
-     * Perform any pre rendering logic and invoke the <tt>onRender()</tt> method
+     * Perform any pre rendering logic and invoke the <code>onRender()</code> method
      * of any child controls. Note with the child panels only the active panel
-     * will have its <tt>onRender()</tt> method invoked.
+     * will have its <code>onRender()</code> method invoked.
      *
      * @see org.apache.click.Control#onRender()
      */
@@ -602,12 +602,12 @@ public class TabbedPanel extends Panel implements Stateful {
      * Sets the active panel based on one of the following:
      * <ul>
      *   <li>
-     *     If <tt>tabPanelIndex</tt> request parameter is present, this value
+     *     If <code>tabPanelIndex</code> request parameter is present, this value
      *     will be used to specify the active panel. The panel index is a zero
      *     based integer.
      *     <p/>
-     *     If multiple TabbedPanels are present on a form, use <tt>tabPanelIndex-&lt;panel-name&gt;</tt>
-     *     to target a specific panel, for example: <tt>tabPanelIndex-myTabbedPanel</tt>.
+     *     If multiple TabbedPanels are present on a form, use <code>tabPanelIndex-&lt;panel-name&gt;</code>
+     *     to target a specific panel, for example: <code>tabPanelIndex-myTabbedPanel</code>.
      *   </li>
      *   <li>
      *     If a specific tab panel is selected by the user, that panel will

@@ -18,7 +18,7 @@
  */
 package org.apache.click.pages;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.click.ActionListener;
 import org.apache.click.Control;
 import org.apache.click.Page;

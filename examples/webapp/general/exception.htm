@@ -23,16 +23,16 @@ This page demonstrates Clicks error handling.
    
 <dt><a href="${nullPointerLink.href}">NullPointerException</a></dt>
 <dd>
-This error is caused by the Pages <tt>onExceptionClick()</tt> method throwing a 
-<tt>NullPointerException</tt>. Note how the error report shows you the exact line
+This error is caused by the Pages <code>onExceptionClick()</code> method throwing a 
+<code>NullPointerException</code>. Note how the error report shows you the exact line
 where the error occurred. Click will do this if it can find the Java source code 
 on the classpath or under the WEB-INF directory.
 </dd>
 
 <dt><a href="${illegalArgumentLink.href}">IllegalArgumentException</a></dt>
 <dd>
-This error is caused by the Pages <tt>onIllegalArgumentClick()</tt> method throwing a 
-<tt>IllegalArgumentException</tt>. Note how the error report shows you the exact line
+This error is caused by the Pages <code>onIllegalArgumentClick()</code> method throwing a 
+<code>IllegalArgumentException</code>. Note how the error report shows you the exact line
 where the error occurred. Click will do this if it can find the Java source code 
 on the classpath or under the WEB-INF directory.
 </dd>
@@ -42,7 +42,7 @@ on the classpath or under the WEB-INF directory.
 This error is caused by a Control action listener being set to a method which 
 doesn't exist. Typically a typo error when setting Control listeners. 
 When the control attempts to call the listeners callback method it will throw a 
-<tt>NoSuchMethodException</tt>. In this example the Java source code
+<code>NoSuchMethodException</code>. In this example the Java source code
 is not available, so the error source is not highlighted.
 </dd>
 
@@ -50,8 +50,8 @@ is not available, so the error source is not highlighted.
 <dd>
 This error is caused by an invalid Velocity expression in a page border template.
 When Velocity tries to parse this expression it will throw a 
-<tt>ParseErrorException</tt>. At this point no output will have been written to
-the <tt>HttpServletResponse</tt> and the ErrorPage will render the error report
+<code>ParseErrorException</code>. At this point no output will have been written to
+the <code>HttpServletResponse</code> and the ErrorPage will render the error report
 in the error.htm page template.
 Note these types of exceptions are pretty rare. Most of the time Velocity will ignore 
 template errors and simply render the invalid template code.
@@ -64,8 +64,8 @@ This is another example of an invalid Velocity expression, but this time it is
 contained in the page content template. When a exception occurs in a content template, 
 Velocity will be performing a merge of the Page model and the border template, 
 and including the content template. At this point Velocity will most probably have 
-written border template output to the <tt>HttpServletResponse</tt> so the
-<tt>ClickServlet</tt> appends the error report to the response output stream before 
+written border template output to the <code>HttpServletResponse</code> so the
+<code>ClickServlet</code> appends the error report to the response output stream before 
 it is closed.
 </dd>
 
@@ -74,14 +74,14 @@ it is closed.
 <dd>
 This error is caused by a Page model object throwing a NPE when being rendered by 
 Velocity. When Velocity tries to merge the page model with the template, it will
-call the objects <tt>toString()</tt> method which throws a <tt>NullPointerException</tt>.
+call the objects <code>toString()</code> method which throws a <code>NullPointerException</code>.
 As this error usually occurs after some contents has been written to the 
-<tt>HttpServletResponse</tt> Click will append the error report
+<code>HttpServletResponse</code> Click will append the error report
 to the end of the response.
 <ul style="margin-top: 0.5em;">
    <li>Line 1</li>
    <li><a href="${brokenRendererLink.href}">$brokenRenderer</a> &nbsp; &lt;- clicking on link 
-       will add <tt>BrokenRenderer</tt> to page model</li>
+       will add <code>BrokenRenderer</code> to page model</li>
    <li>Line 3</li>
 </ul>
 </dd>

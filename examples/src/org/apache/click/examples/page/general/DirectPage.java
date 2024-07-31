@@ -31,7 +31,7 @@ import org.apache.click.Page;
 import org.apache.click.util.ClickUtils;
 
 /**
- * Provides a example direct <tt>HttpServletResponse</tt> handling.
+ * Provides a example direct <code>HttpServletResponse</code> handling.
  */
 public class DirectPage extends Page {
 

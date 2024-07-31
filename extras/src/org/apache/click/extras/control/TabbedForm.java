@@ -124,10 +124,10 @@ import org.apache.click.util.HtmlStringBuffer;
  *
  * In addition to <a href="../../../../../../click-api/org/apache/click/control/Form.html#resources">Form's resources</a>,
  * the TabbedForm control makes use of the following resources (which Click
- * automatically deploys to the application directory, <tt>/click</tt>):
+ * automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.css</tt></li>
+ * <li><code>click/extras-control.css</code></li>
  * </ul>
  *
  * To import these TabbedForm files simply reference the variables
@@ -165,7 +165,7 @@ public class TabbedForm extends Form {
     /**
      * The path of the tabbed form Velocity template to render. The
      * default template path is
-     * <tt>"/org/apache/click/extras/control/TabbedForm.htm"</tt>.
+     * <code>"/org/apache/click/extras/control/TabbedForm.htm"</code>.
      */
     protected String template = "/org/apache/click/extras/control/TabbedForm.htm";
 
@@ -248,8 +248,8 @@ public class TabbedForm extends Form {
      * Return the TabbedForm HTML HEAD elements for the following resources:
      *
      * <ul>
-     * <li><tt>click/extras-control.js</tt></li>
-     * <li><tt>click/extras-control.css</tt></li>
+     * <li><code>click/extras-control.js</code></li>
+     * <li><code>click/extras-control.css</code></li>
      * </ul>
      *
      * Additionally all the {@link org.apache.click.control.Form#getHeadElements()
@@ -357,7 +357,7 @@ public class TabbedForm extends Form {
 
     /**
      * Process the Form request. In addition to the normal Form
-     * <tt>onProcess()</tt> processing, if the Form is invalid this method
+     * <code>onProcess()</code> processing, if the Form is invalid this method
      * will display the tab sheet with the first field error.
      *
      * @return true to continue Page event processing or false otherwise

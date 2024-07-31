@@ -163,9 +163,9 @@ public class Submit extends Button {
     }
 
     /**
-     * Return the input type: '<tt>submit</tt>'.
+     * Return the input type: '<code>submit</code>'.
      *
-     * @return the input type: '<tt>submit</tt>'
+     * @return the input type: '<code>submit</code>'
      */
     @Override
     public String getType() {

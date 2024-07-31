@@ -122,9 +122,9 @@ public class ImageSubmit extends Submit {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the input type: '<tt>image</tt>'.
+     * Return the input type: '<code>image</code>'.
      *
-     * @return the input type: '<tt>image</tt>'
+     * @return the input type: '<code>image</code>'
      */
     @Override
     public String getType() {

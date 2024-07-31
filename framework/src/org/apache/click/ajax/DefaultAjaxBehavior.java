@@ -28,7 +28,7 @@ import org.apache.click.ActionResult;
  * This class also provides the method,
  * {@link #addHeadElementsOnce(org.apache.click.Control) addHeadElementsOnce},
  * that subclasses can implement if they need to add HTML HEAD elements only to
- * the <tt>first</tt> Control that this Behavior is registered with.
+ * the <code>first</code> Control that this Behavior is registered with.
  * <p/>
  * If this Behavior should add HTML HEAD elements to all the Controls it is
  * registered with, rather implement

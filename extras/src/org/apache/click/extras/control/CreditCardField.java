@@ -52,10 +52,10 @@ import org.apache.click.util.HtmlStringBuffer;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The CreditCardField control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.js</tt></li>
+ * <li><code>click/extras-control.js</code></li>
  * </ul>
  *
  * The CreditCardField uses a JavaScript onkeypress() integerFilter() method to
@@ -189,8 +189,8 @@ public class CreditCardField extends TextField {
     // Instance Variables -----------------------------------------------------
 
     /**
-     * The type of credit card: <tt>["VISA" | "MASTER" | "AMEX" | "DINERS" |
-     * "DISCOVER"]</tt>. The default value is "VISA"
+     * The type of credit card: <code>["VISA" | "MASTER" | "AMEX" | "DINERS" |
+     * "DISCOVER"]</code>. The default value is "VISA"
      */
     protected String cardType = VISA;
 
@@ -294,7 +294,7 @@ public class CreditCardField extends TextField {
 
     /**
      * Return the selected Credit Card type: &nbsp;
-     * <tt>[ "VISA" | "MASTER" | "AMEX" | "DINERS" | "DISCOVER" ]</tt>.
+     * <code>[ "VISA" | "MASTER" | "AMEX" | "DINERS" | "DISCOVER" ]</code>.
      *
      * @return the selected Credit Card type
      */
@@ -318,7 +318,7 @@ public class CreditCardField extends TextField {
 
     /**
      * Returns the CreditCardField HTML head imports statements for the
-     * <tt>click/extras-control.js</tt> resource.
+     * <code>click/extras-control.js</code> resource.
      *
      * @see org.apache.click.Control#getHeadElements()
      *
@@ -381,7 +381,7 @@ public class CreditCardField extends TextField {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

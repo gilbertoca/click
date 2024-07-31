@@ -135,13 +135,13 @@ import org.apache.commons.lang.StringUtils;
  * {@link #copyTo(Object)}</li>
  * </ul>
  * To debug the data binding being performed, use the Click application mode to
- * "<tt>debug</tt>" or use the debug copy methods.
+ * "<code>debug</code>" or use the debug copy methods.
  * <p/>
  * Binding of nested data objects is supported using the
  * <a target="blank" href="http://mvel.codehaus.org/">MVEL</a> library. To use
  * nested objects in your form, simply specify the object path as the Field
  * name. Note in the object path you exclude the root object, so the path
- * <tt>customer.address.state</tt> is specified as <tt>address.state</tt>.
+ * <code>customer.address.state</code> is specified as <code>address.state</code>.
  * <p/>
  * For example:
  *
@@ -165,8 +165,8 @@ import org.apache.commons.lang.StringUtils;
  * uses the no-args constructor of the nested objects class.
  * <p/>
  * {@link #copyTo(Object)} and {@link #copyFrom(Object)} also supports
- * <tt>java.util.Map</tt> as an argument. Examples of using
- * <tt>java.util.Map</tt> are shown in the respective method descriptions.
+ * <code>java.util.Map</code> as an argument. Examples of using
+ * <code>java.util.Map</code> are shown in the respective method descriptions.
  *
  * <a name="form-validation"></a>
  * <h3>Form Validation</h3>
@@ -186,7 +186,7 @@ import org.apache.commons.lang.StringUtils;
  * {@link org.apache.click.service.CommonsFileUploadService#sizeMax maximum request size}
  * or the {@link org.apache.click.service.CommonsFileUploadService#fileSizeMax maximum file size}.
  * <p/>
- * <b>Note:</b> if the <tt>maximum request size</tt> or <tt>maximum file size</tt>
+ * <b>Note:</b> if the <code>maximum request size</code> or <code>maximum file size</code>
  * is exceeded, the request is deemed invalid ({@link #hasPostError hasPostError}
  * will return true), and no further processing is performed on the form or fields.
  * Instead the form will display the appropriate error message for the invalid request.
@@ -221,11 +221,11 @@ import org.apache.commons.lang.StringUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The Form control makes use of the following resources (which Click automatically
- * deploys to the application directory, <tt>/click</tt>):
+ * deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/control.css</tt></li>
- * <li><tt>click/control.js</tt></li>
+ * <li><code>click/control.css</code></li>
+ * <li><code>click/control.js</code></li>
  * </ul>
  *
  * To import these files and any form control imports simply reference
@@ -259,27 +259,27 @@ import org.apache.commons.lang.StringUtils;
  *
  * <table style="margin-left: 1em;" cellpadding="3">
  * <tr>
- * <td>{@link #buttonAlign}</td> <td>button alignment: &nbsp; <tt>["left", "center", "right"]</tt></td>
+ * <td>{@link #buttonAlign}</td> <td>button alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
  * <td>{@link #buttonStyle}</td> <td>button &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
  * <td>{@link #columns}</td> <td>number of form table columns, the default value number is 1</td>
  * </tr><tr>
- * <td>{@link #errorsAlign}</td> <td>validation error messages alignment: &nbsp; <tt>["left", "center", "right"]</tt></td>
+ * <td>{@link #errorsAlign}</td> <td>validation error messages alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
- * <td>{@link #errorsPosition}</td> <td>validation error messages position: &nbsp; <tt>["top", "middle", "bottom"]</tt></td>
+ * <td>{@link #errorsPosition}</td> <td>validation error messages position: &nbsp; <code>["top", "middle", "bottom"]</code></td>
  * </tr><tr>
  * <td>{@link #errorsStyle}</td> <td>errors &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
  * <td>{@link #fieldStyle}</td> <td>field &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>{@link #labelAlign}</td> <td>field label alignment: &nbsp; <tt>["left", "center", "right"]</tt></td>
+ * <td>{@link #labelAlign}</td> <td>field label alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
- * <td>{@link #labelsPosition}</td> <td>label position relative to field: &nbsp; <tt>["left", "top"]</tt></td>
+ * <td>{@link #labelsPosition}</td> <td>label position relative to field: &nbsp; <code>["left", "top"]</code></td>
  * </tr><tr>
  * <td>{@link #labelStyle}</td> <td>label &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>click/control.css</td> <td>control CSS styles, automatically deployed to the <tt>click</tt> web directory</td>
+ * <td>click/control.css</td> <td>control CSS styles, automatically deployed to the <code>click</code> web directory</td>
  * </tr><tr>
  * <td>/click-control.properties</td> <td>form and field messages and HTML, located under classpath</td>
  * </tr>
@@ -298,7 +298,7 @@ import org.apache.commons.lang.StringUtils;
  * always specify:
  * <ul style="margin-top: 0.5em;">
  *  <li><span class="maroon">method</span>
- *      - the form submission method <tt>["post" | "get"]</tt></li>
+ *      - the form submission method <code>["post" | "get"]</code></li>
  *  <li><span class="maroon">name</span>
  *      - the name of your form, important when using JavaScript</li>
  *  <li><span class="maroon">action</span>
@@ -372,7 +372,7 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * The example below provides a generic <span class="green">writeForm()</span>
  * macro which you could use through out an application. This Velocity macro code
- * would be contained in a macro file, e.g. <tt>macro.vm</tt>.
+ * would be contained in a macro file, e.g. <code>macro.vm</code>.
  *
  * <pre class="codeHtml"> <span class="red">#*</span> Custom Form Macro Code <span class="red">*#</span>
  * <span class="red">#macro</span>( <span class="green">writeForm</span>[<span class="blue">$form</span>] )
@@ -428,18 +428,18 @@ import org.apache.commons.lang.StringUtils;
  * To configure your application to use your macros you can:
  * <ul>
  *  <li>
- *   Put your macros if a file called <span class="st"><tt>macro.vm</tt></span>
+ *   Put your macros if a file called <span class="st"><code>macro.vm</code></span>
  *   in your applications root directory.
  *  </li>
  *  <li>
  *   Put your macros in the auto deployed
- *   <span class="st"><tt>click/VM_global_macro.vm</tt></span> file.
+ *   <span class="st"><code>click/VM_global_macro.vm</code></span> file.
  *  </li>
  *  <li>
  *   Create a custom named macro file and reference it in a
- *   <span class="st"><tt>WEB-INF/velocity.properties</tt></span>
+ *   <span class="st"><code>WEB-INF/velocity.properties</code></span>
  *   file under the property named
- *   <tt>velocimacro.library</tt>.
+ *   <code>velocimacro.library</code>.
  *  </li>
  * </ul>
  *
@@ -515,41 +515,41 @@ public class Form extends AbstractContainer implements Stateful {
 
     private static final long serialVersionUID = 1L;
 
-    /** The align left, form layout constant: &nbsp; <tt>"left"</tt>. */
+    /** The align left, form layout constant: &nbsp; <code>"left"</code>. */
     public static final String ALIGN_LEFT = "left";
 
-    /** The align center, form layout constant: &nbsp; <tt>"center"</tt>. */
+    /** The align center, form layout constant: &nbsp; <code>"center"</code>. */
     public static final String ALIGN_CENTER = "center";
 
-    /** The align right, form layout constant: &nbsp; <tt>"right"</tt>. */
+    /** The align right, form layout constant: &nbsp; <code>"right"</code>. */
     public static final String ALIGN_RIGHT = "right";
 
     /**
      * The position top, errors and labels form layout constant: &nbsp;
-     * <tt>"top"</tt>.
+     * <code>"top"</code>.
      */
     public static final String POSITION_TOP = "top";
 
     /**
      * The position middle, errors in middle form layout constant: &nbsp;
-     * <tt>"middle"</tt>.
+     * <code>"middle"</code>.
      */
     public static final String POSITION_MIDDLE = "middle";
 
     /**
      * The position bottom, errors on bottom form layout constant: &nbsp;
-     * <tt>"top"</tt>.
+     * <code>"top"</code>.
      */
     public static final String POSITION_BOTTOM = "bottom";
 
     /**
      * The position left, labels of left form layout constant: &nbsp;
-     * <tt>"left"</tt>.
+     * <code>"left"</code>.
      */
     public static final String POSITION_LEFT = "left";
 
     /**
-     * The form name parameter for multiple forms: &nbsp; <tt>"form_name"</tt>.
+     * The form name parameter for multiple forms: &nbsp; <code>"form_name"</code>.
      */
     public static final String FORM_NAME = "form_name";
 
@@ -558,7 +558,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * The submit check reserved request parameter prefix: &nbsp;
-     * <tt>SUBMIT_CHECK_</tt>.
+     * <code>SUBMIT_CHECK_</code>.
      */
     public static final String SUBMIT_CHECK = "SUBMIT_CHECK_";
 
@@ -587,8 +587,8 @@ public class Form extends AbstractContainer implements Stateful {
     protected final List<Field> fieldList = new ArrayList<Field>();
 
     /**
-     * The form method <tt>["post, "get"]</tt>, default value: &nbsp;
-     * <tt>post</tt>.
+     * The form method <code>["post, "get"]</code>, default value: &nbsp;
+     * <code>post</code>.
      */
     protected String method = "post";
 
@@ -598,7 +598,7 @@ public class Form extends AbstractContainer implements Stateful {
     /** The form validate fields when processing flag. */
     protected boolean validate = true;
 
-    /** The button align, default value is "<tt>left</tt>". */
+    /** The button align, default value is "<code>left</code>". */
     protected String buttonAlign = ALIGN_LEFT;
 
     /** The ordered list of button values. */
@@ -608,7 +608,7 @@ public class Form extends AbstractContainer implements Stateful {
     protected String buttonStyle;
 
     /**
-     * The number of form layout table columns, default value: <tt>1</tt>.
+     * The number of form layout table columns, default value: <code>1</code>.
      * <p/>
      * This property is used to layout the number of table columns the form
      * is rendered with using a flow layout style.
@@ -616,19 +616,19 @@ public class Form extends AbstractContainer implements Stateful {
     protected int columns = 1;
 
     /**
-     * The default field size, default value: <tt>0</tt>.
+     * The default field size, default value: <code>0</code>.
      * <p/>
      * If the form default field size is greater than 0, when fields are added
      * to the form the field's size will be set to the default value.
      */
     protected int defaultFieldSize;
 
-    /** The errors block align, default value is <tt>"left"</tt>. */
+    /** The errors block align, default value is <code>"left"</code>. */
     protected String errorsAlign = ALIGN_LEFT;
 
     /**
-     * The form errors position <tt>["top", "middle", "bottom"]</tt> default
-     * value: &nbsp; <tt>"top"</tt>.
+     * The form errors position <code>["top", "middle", "bottom"]</code> default
+     * value: &nbsp; <code>"top"</code>.
      */
     protected String errorsPosition = POSITION_TOP;
 
@@ -650,12 +650,12 @@ public class Form extends AbstractContainer implements Stateful {
      */
     protected boolean javaScriptValidation;
 
-    /** The label align, default value is <tt>"left"</tt>. */
+    /** The label align, default value is <code>"left"</code>. */
     protected String labelAlign = ALIGN_LEFT;
 
     /**
-     * The form labels position <tt>["left", "top"]</tt> default value: &nbsp;
-     * <tt>"left"</tt>.
+     * The form labels position <code>["left", "top"]</code> default value: &nbsp;
+     * <code>"left"</code>.
      */
     protected String labelsPosition = POSITION_LEFT;
 
@@ -724,7 +724,7 @@ public class Form extends AbstractContainer implements Stateful {
      * and container is the same instance or if the Field name is not defined
      *
      * @throws IndexOutOfBoundsException if index is out of range
-     * <tt>(index &lt; 0 || index &gt; getControls().size())</tt>
+     * <code>(index &lt; 0 || index &gt; getControls().size())</code>
      */
     @Override
     public Control insert(Control control, int index) {
@@ -929,6 +929,7 @@ public class Form extends AbstractContainer implements Stateful {
      * @throws IllegalStateException if the currentControl is not contained in
      * the form
      */
+    @Deprecated
     @Override
     public Control replace(Control currentControl, Control newControl) {
         // Current and new control is the same instance - exit early
@@ -1042,7 +1043,7 @@ public class Form extends AbstractContainer implements Stateful {
     // Public Attributes ------------------------------------------------------
 
     /**
-     * Return the form's html tag: <tt>form</tt>.
+     * Return the form's html tag: <code>form</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -1063,7 +1064,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Setting the form action attribute is useful for situations where you want
      * a form to submit to a different page. This can also be used to have a
      * form submit to the J2EE Container for authentication, by setting the
-     * action URL to "<tt>j_security_check</tt>".
+     * action URL to "<code>j_security_check</code>".
      * <p/>
      * The action URL will always be encoded by the response to ensure it includes
      * the Session ID if required.
@@ -1090,7 +1091,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Setting the form action attribute is useful for situations where you want
      * a form to submit to a different page. This can also be used to have a
      * form submit to the J2EE Container for authentication, by setting the
-     * action URL to "<tt>j_security_check</tt>".
+     * action URL to "<code>j_security_check</code>".
      *
      * @param value the form "action" attribute URL value
      */
@@ -1225,8 +1226,8 @@ public class Form extends AbstractContainer implements Stateful {
      * The following resources are returned:
      *
      * <ul>
-     * <li><tt>click/control.css</tt></li>
-     * <li><tt>click/control.js</tt></li>
+     * <li><code>click/control.css</code></li>
+     * <li><code>click/control.js</code></li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()
@@ -1248,8 +1249,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the form method <tt>["post" | "get"]</tt>, default value is
-     * <tt>post</tt>.
+     * Return the form method <code>["post" | "get"]</code>, default value is
+     * <code>post</code>.
      *
      * @return the form method
      */
@@ -1258,7 +1259,7 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the form method <tt>["post" | "get"]</tt>.
+     * Set the form method <code>["post" | "get"]</code>.
      *
      * @param value the form method
      */
@@ -1275,7 +1276,7 @@ public class Form extends AbstractContainer implements Stateful {
      *   automatically adds a HiddenField which value is set to the Form name.
      *   This ensures the Form name is present when submitting the form)</li>
      *   <li>the request method must equal the Form {@link #method}, for example
-     *   both must be <tt>GET</tt> or <tt>POST</tt></li>
+     *   both must be <code>GET</code> or <code>POST</code></li>
      * </ul>
      *
      * @return true if the page request is a submission from this form
@@ -1399,7 +1400,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Set the Form field validation flag, telling the Fields to validate
-     * themselves when their <tt>onProcess()</tt> method is invoked.
+     * themselves when their <code>onProcess()</code> method is invoked.
      *
      * @param validate the Form field validation flag
      */
@@ -1408,8 +1409,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the buttons &lt;td&gt; HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Return the buttons &lt;td&gt; HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      *
      * @return the field label HTML horizontal alignment
      */
@@ -1418,8 +1419,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the button &lt;td&gt; HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Set the button &lt;td&gt; HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      * Note the given align is not validated.
      *
      * @param align the field label HTML horizontal alignment
@@ -1502,8 +1503,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the errors block HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Return the errors block HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      *
      * @return the errors block HTML horizontal alignment
      */
@@ -1512,8 +1513,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the errors block HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Set the errors block HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      * Note the given align is not validated.
      *
      * @param align the errors block HTML horizontal alignment
@@ -1523,7 +1524,7 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the form errors position <tt>["top", "middle", "bottom"]</tt>.
+     * Return the form errors position <code>["top", "middle", "bottom"]</code>.
      *
      * @return form errors position
      */
@@ -1532,7 +1533,7 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the form errors position <tt>["top", "middle", "bottom"]</tt>.
+     * Set the form errors position <code>["top", "middle", "bottom"]</code>.
      *
      * @param position the form errors position
      */
@@ -1613,6 +1614,7 @@ public class Form extends AbstractContainer implements Stateful {
      *
      * @return true if JavaScript client side form validation is enabled
      */
+    @Deprecated
     public boolean getJavaScriptValidation() {
         return javaScriptValidation;
     }
@@ -1627,8 +1629,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the field label HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Return the field label HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      *
      * @return the field label HTML horizontal alignment
      */
@@ -1637,8 +1639,8 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the field label HTML horizontal alignment: "<tt>left</tt>",
-     * "<tt>center</tt>", "<tt>right</tt>".
+     * Set the field label HTML horizontal alignment: "<code>left</code>",
+     * "<code>center</code>", "<code>right</code>".
      * Note the given align is not validated.
      *
      * @param align the field label HTML horizontal alignment
@@ -1648,7 +1650,7 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the form labels position <tt>["left", "top"]</tt>.
+     * Return the form labels position <code>["left", "top"]</code>.
      *
      * @return form labels position
      */
@@ -1657,7 +1659,7 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Set the form labels position <tt>["left", "top"]</tt>.
+     * Set the form labels position <code>["left", "top"]</code>.
      *
      * @param position the form labels position
      */
@@ -1745,7 +1747,7 @@ public class Form extends AbstractContainer implements Stateful {
      *     form.copyFrom(customer);
      * } </pre>
      *
-     * copyForm also supports <tt>java.util.Map</tt> as an argument.
+     * copyForm also supports <code>java.util.Map</code> as an argument.
      * <p/>
      * By specifying a map, the Form's field values will be populated by
      * matching key/value pairs. A match occurs when the map's key is equal to
@@ -1781,7 +1783,7 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Copy the given object's attributes into the Form's field values. In other
      * words automatically populate Forms field values with the given objects
-     * attributes. copyFrom also supports <tt>java.util.Map</tt> as an argument.
+     * attributes. copyFrom also supports <code>java.util.Map</code> as an argument.
      * <p/>
      * If the debug parameter is true, debugging messages will be
      * logged.
@@ -1814,7 +1816,7 @@ public class Form extends AbstractContainer implements Stateful {
      *     return true;
      * } </pre>
      *
-     * copyTo also supports <tt>java.util.Map</tt> as an argument.
+     * copyTo also supports <code>java.util.Map</code> as an argument.
      * <p/>
      * By specifying a map, the map's key/value pairs are populated from
      * matching Form field names. A match occurs when a field's name is
@@ -1852,7 +1854,7 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Copy the Form's field values into the given object's attributes. In other
      * words automatically populate Object attributes with the Forms field
-     * values. copyTo also supports <tt>java.util.Map</tt> as an argument.
+     * values. copyTo also supports <code>java.util.Map</code> as an argument.
      * <p/>
      * If the debug parameter is true, debugging messages will be
      * logged.
@@ -2828,8 +2830,8 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Close the form tag and render any additional content after the Form.
      * <p/>
-     * Additional content includes <tt>javascript validation</tt> and
-     * <tt>javascript focus</tt> scripts.
+     * Additional content includes <code>javascript validation</code> and
+     * <code>javascript focus</code> scripts.
      *
      * @param formFields all fields contained within the form
      * @param buffer the buffer to render to

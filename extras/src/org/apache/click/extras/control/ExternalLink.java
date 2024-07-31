@@ -31,7 +31,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * </td></tr>
  * </table>
  *
- * The <tt>ExternalLink</tt> control is used to create links to external pages
+ * The <code>ExternalLink</code> control is used to create links to external pages
  * and resources.
  *
  * See also the W3C HTML reference:
@@ -88,7 +88,7 @@ public class ExternalLink extends AbstractLink {
     /**
      * Return the ExternalLink anchor &lt;a&gt; tag href attribute.
      * This method will encode the URL with the session ID
-     * if required using <tt>HttpServletResponse.encodeURL()</tt>.
+     * if required using <code>HttpServletResponse.encodeURL()</code>.
      *
      * @return the ExternalLink HTML href attribute
      */

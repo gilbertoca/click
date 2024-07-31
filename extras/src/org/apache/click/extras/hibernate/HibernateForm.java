@@ -72,12 +72,12 @@ import org.hibernate.type.Type;
  * saving (updating) POJO instances. This form will automatically apply the
  * given objects property required validation constraints to the form fields.
  * <p/>
- * The HibernateForm uses the thread local <tt>Session</tt> obtained via
- * <tt>SessionContext.getSession()</tt> for all object for persistence
+ * The HibernateForm uses the thread local <code>Session</code> obtained via
+ * <code>SessionContext.getSession()</code> for all object for persistence
  * operations. To use an alternative Session source override set the forms
  * getSession() method.
  * <p/>
- * The example below provides a <tt>User</tt> data object creation
+ * The example below provides a <code>User</code> data object creation
  * and editing page. To edit an existing user object, the object is passed
  * to the page as a request parameter. Otherwise a new user object will
  * be created when {@link #saveChanges()} is called.
@@ -187,11 +187,11 @@ public class HibernateForm extends Form {
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Return the form Hibernate <tt>Session</tt>. If form session is not
+     * Return the form Hibernate <code>Session</code>. If form session is not
      * defined this method will obtain a session from the
      * {@link SessionContext}.
      * <p/>
-     * Applications using alternative Hibernate <tt>Session</tt> sources should
+     * Applications using alternative Hibernate <code>Session</code> sources should
      * set the form's session using the {@link #setSession(Session)} method.
      *
      * @return the form Hibernate session
@@ -204,7 +204,7 @@ public class HibernateForm extends Form {
     }
 
     /**
-     * Set the user's Hibernate <tt>Session</tt>.
+     * Set the user's Hibernate <code>Session</code>.
      *
      * @param session the user's Hibernate session
      */
@@ -213,11 +213,11 @@ public class HibernateForm extends Form {
     }
 
     /**
-     * Return the application Hibernate <tt>SessionFactory</tt>.
+     * Return the application Hibernate <code>SessionFactory</code>.
      * If session factory is not defined this method will obtain the session
      * factory from the {@link SessionContext}.
      * <p/>
-     * Applications using an alternative Hibernate <tt>SessionFactory</tt>
+     * Applications using an alternative Hibernate <code>SessionFactory</code>
      * sources should set the form's session factory using the
      * {@link #setSessionFactory(SessionFactory)} method.
      *
@@ -231,7 +231,7 @@ public class HibernateForm extends Form {
     }
 
     /**
-     * Set the form Hibernate <tt>SessionFactory</tt>.
+     * Set the form Hibernate <code>SessionFactory</code>.
      *
      * @param sessionFactory the Hibernate SessionFactory
      */
@@ -257,7 +257,7 @@ public class HibernateForm extends Form {
                 if (oid != null) {
                     valueObject = getSession().load(valueClass, oid);
                 } else {
-                    valueObject = valueClass.newInstance();
+                    valueObject = valueClass.getDeclaredConstructor().newInstance();
                 }
 
                 copyTo(valueObject);
@@ -295,10 +295,10 @@ public class HibernateForm extends Form {
 
     /**
      * Save or update the object to the database and return true.
-     * If a <tt>HibernateException</tt> occurs the <tt>Transaction</tt> will be
+     * If a <code>HibernateException</code> occurs the <code>Transaction</code> will be
      * rolled back the exception will be raised.
      * <p/>
-     * If no object is added to the form using <tt>setValueObject()</tt>
+     * If no object is added to the form using <code>setValueObject()</code>
      * then this method will: <ul>
      * <li>create a new instance of the Class</li>
      * <li>copy the form's field values to the objects properties</li>
@@ -306,7 +306,7 @@ public class HibernateForm extends Form {
      * </ul>
      * <p/>
      * If an existing persistent object is added to the form using
-     * <tt>setValueObject()</tt> then this method will: <ul>
+     * <code>setValueObject()</code> then this method will: <ul>
      * <li>load the persistent object record from the database</li>
      * <li>copy the form's field values to the objects properties</li>
      * <li>update the object in the database</li>
@@ -344,7 +344,7 @@ public class HibernateForm extends Form {
 
     /**
      * This method applies the object meta data to the form fields and then
-     * invokes the <tt>super.onProcess()</tt> method.
+     * invokes the <code>super.onProcess()</code> method.
      *
      * @see Form#onProcess()
      *
@@ -360,7 +360,7 @@ public class HibernateForm extends Form {
      * Render the HTML representation of the HibernateForm.
      * <p/>
      * This method applies the object meta data to the form fields and then
-     * invokes the <tt>super.toString()</tt> method.
+     * invokes the <code>super.toString()</code> method.
      *
      * @see #toString()
      *
@@ -375,7 +375,7 @@ public class HibernateForm extends Form {
     // ------------------------------------------------------ Protected Methods
 
     /**
-     * Applies the <tt>ClassMetadata</tt> validation database meta data to the
+     * Applies the <code>ClassMetadata</code> validation database meta data to the
      * form fields.
      * <p/>
      * The field validation attributes include:

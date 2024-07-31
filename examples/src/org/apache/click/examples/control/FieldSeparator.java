@@ -9,10 +9,10 @@ import org.apache.click.util.ClickUtils;
 import java.util.List;
 
 /**
- * <tt>FieldSeparator</tt> is a component derived from a <tt>FieldSet</tt> that acts as a visual separator that
+ * <code>FieldSeparator</code> is a component derived from a <code>FieldSet</code> that acts as a visual separator that
  * can have a "legend" too. <p/>
  * This component is practical in forms where such a visual representation is required, or
- * where a <tt>FieldSet</tt> would not auto-align correctly all the fields (despite tweaking the CSS), e.g. due
+ * where a <code>FieldSet</code> would not auto-align correctly all the fields (despite tweaking the CSS), e.g. due
  * to variable label widths between the groups, common in:
  * <ul>
  *   <li>i18n forms - where tweaking the width for one language, would break the width for another</li>
@@ -59,7 +59,7 @@ public class FieldSeparator extends FieldSet {
 
     /**
      * Returns the FieldSeparator HTML HEAD elements for the
-     * <tt>click/control.css</tt> resource.
+     * <code>click/control.css</code> resource.
      *
      * @see org.apache.click.Control#getHeadElements()
      *

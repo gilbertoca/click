@@ -44,7 +44,7 @@ public class Element implements Serializable {
     // Public Properties ------------------------------------------------------
 
     /**
-     * Returns the Element HTML tag, the default value is <tt>null</tt>.
+     * Returns the Element HTML tag, the default value is <code>null</code>.
      * <p/>
      * Subclasses should override this method and return the correct tag.
      *

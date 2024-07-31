@@ -2,14 +2,14 @@ This example demonstrates how to dynamically add fields to a form through a
 select control.
 <ul>
     <li>
-        The form is submitted using the JavaScript statement, <tt>form.submit()</tt>,
-        which is set as the Select <tt>onchange</tt> handler. Changing the select
+        The form is submitted using the JavaScript statement, <code>form.submit()</code>,
+        which is set as the Select <code>onchange</code> handler. Changing the select
         option will submit the form. On the server, Form
-        <tt>validation</tt> is switched off through, <tt>Form.setValidate(false)</tt>.
+        <code>validation</code> is switched off through, <code>Form.setValidate(false)</code>.
     </li>
     <li>
-        The utility method <tt>ClickUtils.bind(Form)</tt> is used to bind
-        and inspect the Select value <tt>before</tt> the page onProcess event.
+        The utility method <code>ClickUtils.bind(Form)</code> is used to bind
+        and inspect the Select value <code>before</code> the page onProcess event.
     </li>
     <li>
         If the selected value is "Property", an address fieldset is added to the form.

@@ -225,7 +225,7 @@ public class RadioGroup extends Field {
      * The Map entry key will be used as the radio value and the Map entry
      * value will be used as the radio label.
      * <p/>
-     * It is recommended that <tt>LinkedHashMap</tt> is used as the Map
+     * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the radio items.
      *
      * @param options the Map of radio option values and labels to add
@@ -328,7 +328,7 @@ public class RadioGroup extends Field {
     /**
      * @see Field#setForm(Form)
      *
-     * @param form Field's parent <tt>Form</tt>
+     * @param form Field's parent <code>Form</code>
      */
     @Override
     public void setForm(Form form) {

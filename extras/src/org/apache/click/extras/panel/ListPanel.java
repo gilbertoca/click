@@ -23,7 +23,7 @@ import org.apache.click.control.Panel;
 /**
  * Provides a panel which lists out multiple sub-panels as div elements.
  * <p/>
- * The classpath <tt>ListPanel.htm</tt> template is illustrated below:
+ * The classpath <code>ListPanel.htm</code> template is illustrated below:
  *
  * <pre class="codeHtml">
  * &lt;div id="<span class="blue">$this.id</span>"&gt;

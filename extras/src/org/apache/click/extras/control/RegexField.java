@@ -68,10 +68,10 @@ import org.apache.click.util.ClickUtils;
  * <h3>CSS and JavaScript resources</h3>
  *
  * The RegexField control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.js</tt></li>
+ * <li><code>click/extras-control.js</code></li>
  * </ul>
  *
  * To import these RegexField files simply reference the variables
@@ -221,7 +221,7 @@ public class RegexField extends TextField {
 
     /**
      * Returns the RegexField HTML HEAD elements for the
-     * <tt>click/extras-control.js</tt> resource.
+     * <code>click/extras-control.js</code> resource.
      *
      * @see org.apache.click.Control#getHeadElements()
      *
@@ -243,7 +243,7 @@ public class RegexField extends TextField {
     /**
      * Return the field JavaScript client side validation function.
      * <p/>
-     * The function name must follow the format <tt>validate_[id]</tt>, where
+     * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.
      *

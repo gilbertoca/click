@@ -39,10 +39,10 @@ import java.lang.annotation.Target;
  * policy.
  *
  * <h3>Configuration</h3>
- * By default "<tt>autobinding</tt>" will bind both public page
+ * By default "<code>autobinding</code>" will bind both public page
  * fields and fields annotated with the &#64;Bindable annotations. If you do not
- * want <tt>"public"</tt> fields to be bindable you can set the autobinding
- * attribute to "<tt>annotation</tt>" in your <tt>click.xml</tt> config file:
+ * want <code>"public"</code> fields to be bindable you can set the autobinding
+ * attribute to "<code>annotation</code>" in your <code>click.xml</code> config file:
  *
  * <pre class="prettyprint">
  * &lt;click-app&gt;

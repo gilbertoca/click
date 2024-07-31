@@ -25,12 +25,12 @@ import org.apache.click.util.ClickUtils;
 
 /**
  * Provides a page border template. This Page returns the template
- * <tt>"border-template.htm"</tt>, and sets the Page model values <tt>$title</tt> and
- * <tt>$srcPath</tt>.
+ * <code>"border-template.htm"</code>, and sets the Page model values <code>$title</code> and
+ * <code>$srcPath</code>.
  * <p/>
  * Please note this page is designed for extending by Page subclasses and will
- * not be auto mapped as the template name <tt>"border-template.htm"</tt> does
- * not match the Pages class name <tt>BorderPage</tt>.
+ * not be auto mapped as the template name <code>"border-template.htm"</code> does
+ * not match the Pages class name <code>BorderPage</code>.
  */
 public class BorderPage extends Page {
 
@@ -45,11 +45,11 @@ public class BorderPage extends Page {
     // Constructor ------------------------------------------------------------
 
     /**
-     * Create a BorderedPage and set the model attributes <tt>$title</tt> and
-     * <tt>$srcPath</tt>.
+     * Create a BorderedPage and set the model attributes <code>$title</code> and
+     * <code>$srcPath</code>.
      * <ul>
-     * <li><tt>$title</tt> &nbsp; - &nbsp; the Page title from classname</li>
-     * <li><tt>$srcPath</tt> &nbsp; - &nbsp; the Page Java source path</li>
+     * <li><code>$title</code> &nbsp; - &nbsp; the Page title from classname</li>
+     * <li><code>$srcPath</code> &nbsp; - &nbsp; the Page Java source path</li>
      * </ul>
      */
     public BorderPage() {
@@ -94,11 +94,11 @@ public class BorderPage extends Page {
     // Public Methods ---------------------------------------------------------
 
     /**
-     * Returns the name of the border template: &nbsp; <tt>"/border-template.htm"</tt>
+     * Returns the name of the border template: &nbsp; <code>"/border-template.htm"</code>
      * <p/>
      * Please note this page is designed for extending by Page subclasses and will
-     * not be auto mapped as the template name <tt>"border-template.htm"</tt> does
-     * not match the Pages class name <tt>BorderPage</tt>.
+     * not be auto mapped as the template name <code>"border-template.htm"</code> does
+     * not match the Pages class name <code>BorderPage</code>.
      *
      * @see org.apache.click.Page#getTemplate()
      */

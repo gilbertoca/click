@@ -120,8 +120,8 @@ public class TableExportContainer implements Renderable {
     /**
      * Render the table export banner.
      * <p/>
-     * See the <tt>TableExportContainer.properies</tt> for the HTML template:
-     * <tt>table-export-banner</tt>.
+     * See the <code>TableExportContainer.properies</code> for the HTML template:
+     * <code>table-export-banner</code>.
      *
      * @param buffer the StringBuffer to render the paging controls to
      */

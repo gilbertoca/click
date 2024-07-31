@@ -24,7 +24,7 @@ import org.apache.click.util.HtmlStringBuffer;
 
 /**
  * Provides a Log Service class which will log messages to the console or
- * <tt>System.out</tt>.
+ * <code>System.out</code>.
  * <p/>
  * ConsoleLogService is the default {@link LogService} for Click.
  * <p/>
@@ -81,7 +81,7 @@ public class ConsoleLogService implements LogService {
 
     /**
      * Set the logging level
-     * <tt>[ TRACE_LEVEL | DEBUG_LEVEL | INFO_LEVEL | WARN_LEVEL | ERROR_LEVEL ]</tt>.
+     * <code>[ TRACE_LEVEL | DEBUG_LEVEL | INFO_LEVEL | WARN_LEVEL | ERROR_LEVEL ]</code>.
      *
      * @param level the logging level
      */

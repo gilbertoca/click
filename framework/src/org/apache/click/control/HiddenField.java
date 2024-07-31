@@ -145,7 +145,7 @@ public class HiddenField extends Field {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the hiddenfield's html tag: <tt>input</tt>.
+     * Return the hiddenfield's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *

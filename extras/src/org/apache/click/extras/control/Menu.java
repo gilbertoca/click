@@ -56,7 +56,7 @@ import org.w3c.dom.NodeList;
  * <h3><a name="configuration"></a>Configuration</h3>
  *
  * Application menus are normally defined using a configuration file
- * (<tt>menu.xml</tt> by default) located under the <tt>/WEB-INF</tt> directory
+ * (<code>menu.xml</code> by default) located under the <code>/WEB-INF</code> directory
  * or the root classpath. An example Menu configuration file is provided below.
  *
  * <pre class="prettyprint">
@@ -267,11 +267,11 @@ import org.w3c.dom.NodeList;
  * <h3><a name="resources"></a>CSS and JavaScript resources</h3>
  *
  * The Menu control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/menu.css</tt></li>
- * <li><tt>click/extras-control.js</tt></li>
+ * <li><code>click/menu.css</code></li>
+ * <li><code>click/extras-control.js</code></li>
  * </ul>
  *
  * To import these Menu files simply reference the variables
@@ -287,13 +287,13 @@ public class Menu extends AbstractControl {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The menu configuration filename: &nbsp; "<tt>/WEB-INF/menu.xml</tt>".
+     * The menu configuration filename: &nbsp; "<code>/WEB-INF/menu.xml</code>".
      */
     protected static final String DEFAULT_CONFIG_FILE = "/WEB-INF/menu.xml";
 
     // Class Variables --------------------------------------------------------
 
-    /** The cached root Menu as defined in <tt>menu.xml</tt>. */
+    /** The cached root Menu as defined in <code>menu.xml</code>. */
     protected static Menu rootMenu;
 
     // Instance Variables -----------------------------------------------------
@@ -311,7 +311,7 @@ public class Menu extends AbstractControl {
 
     /**
      * The image src path attribute.  If the image src is defined then a
-     * <tt>&lt;img/&gt;</tt> element will rendered inside the link when
+     * <code>&lt;img/&gt;</code> element will rendered inside the link when
      * using the Menu {@link #toString()} method.
      * <p/>
      * If the image src value is prefixed with '/' then the request context path
@@ -603,7 +603,7 @@ public class Menu extends AbstractControl {
 
     /**
      * Return the image src path attribute. If the image src is defined then a
-     * <tt>&lt;img/&gt;</tt> element will rendered inside the link when
+     * <code>&lt;img/&gt;</code> element will rendered inside the link when
      * using the Menu {@link #toString()} method.
      * <p/>
      * If the src value is prefixed with '/' then the request context path will
@@ -634,15 +634,15 @@ public class Menu extends AbstractControl {
      * key:
      *
      * <blockquote>
-     * <tt>getName() + ".label"</tt>
+     * <code>getName() + ".label"</code>
      * </blockquote>
      *
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key.
+     * <code>/click-control.properties</code> file using the same key.
      * If a value is still not found, the Menu name will be converted
      * into a label using the method: {@link ClickUtils#toLabel(String)}
      * <p/>
-     * For example given the properties file <tt>src/click-page.properties</tt>:
+     * For example given the properties file <code>src/click-page.properties</code>:
      *
      * <pre class="codeConfig">
      * <span class="st">customers</span>.label=<span class="red">Customers</span>
@@ -665,7 +665,7 @@ public class Menu extends AbstractControl {
      * When a label value is not set, or defined in any properties files, then
      * its value will be created from the Menu name.
      * <p/>
-     * For example given the <tt>menu.xml</tt> file:
+     * For example given the <code>menu.xml</code> file:
      *
      * <pre class="prettyprint">
      * &lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
@@ -866,7 +866,7 @@ public class Menu extends AbstractControl {
      * method where the rolenames are derived from the {@link #getRoles()} property.
      * <p/>
      * If no {@link #getRoles() roles} are defined, the AccessController are invoked
-     * with a <tt>null</tt> argument to determine whether access is permitted to
+     * with a <code>null</code> argument to determine whether access is permitted to
      * menus without roles.
      *
      * @return true if the user is in one of the menu roles, or false otherwise
@@ -899,7 +899,7 @@ public class Menu extends AbstractControl {
      * Return true if any child menus have the user in one of their menu roles.
      * Otherwise the method will return false.
      * <p/>
-     * This method internally uses the <tt>HttpServletRequest</tt> function <tt>isUserInRole(rolename)</tt>,
+     * This method internally uses the <code>HttpServletRequest</code> function <code>isUserInRole(rolename)</code>,
      * where the rolenames are derived from the {@link #getRoles()} property.
      *
      * @return true if the user is in one of the child menu roles, or false otherwise
@@ -941,14 +941,14 @@ public class Menu extends AbstractControl {
      * key:
      *
      * <blockquote>
-     * <tt>getName() + ".title"</tt>
+     * <code>getName() + ".title"</code>
      * </blockquote>
      *
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key. If still
+     * <code>/click-control.properties</code> file using the same key. If still
      * not found the title will be left as null and will not be rendered.
      * <p/>
-     * For example given the properties file <tt>src/click-page.properties</tt>:
+     * For example given the properties file <code>src/click-page.properties</code>:
      *
      * <pre class="codeConfig">
      * <span class="st">customers</span>.label=<span class="red">Customers</span>
@@ -1043,9 +1043,9 @@ public class Menu extends AbstractControl {
      * The following resources are returned:
      *
      * <ul>
-     * <li><tt>click/menu.css</tt></li>
-     * <li><tt>click/control.js</tt></li>
-     * <li><tt>click/menu-fix-ie6.js</tt> (fixes IE6 menu burnthrough and hover issues)</li>
+     * <li><code>click/menu.css</code></li>
+     * <li><code>click/control.js</code></li>
+     * <li><code>click/menu-fix-ie6.js</code> (fixes IE6 menu burnthrough and hover issues)</li>
      * </ul>
      *
      * @see org.apache.click.Control#getHeadElements()
@@ -1178,14 +1178,14 @@ public class Menu extends AbstractControl {
     /**
      * Render an HTML representation of the Menu.
      * <p/>
-     * If <tt>this</tt> menu instance is the root menu
+     * If <code>this</code> menu instance is the root menu
      * ({@link #isRoot()} returns true), the menu and all its submenus
      * (recursively), will be rendered by delegating rendering to the method
      * {@link #renderRootMenu(org.apache.click.util.HtmlStringBuffer) renderRootMenu}.
      * The menu structure will be rendered as an HTML List consisting of &lt;ul&gt;
      * and &lt;li&gt; elements.
      * <p/>
-     * If <tt>this</tt> menu instance is <tt>not</tt> the root menu, this menu
+     * If <code>this</code> menu instance is <code>not</code> the root menu, this menu
      * will be rendered by delegating rendering to the method
      * {@link #renderMenuLink(org.apache.click.util.HtmlStringBuffer, org.apache.click.extras.control.Menu)}.
      * The menu will be rendered as a link: &lt;a&gt;.
@@ -1250,7 +1250,7 @@ public class Menu extends AbstractControl {
      * <p/>
      * <b>Please note</b>: the method
      * {@link #canRender(org.apache.click.extras.control.Menu, int) canRender(menu)}
-     * controls whether menu items are rendered or not. If <tt>canRender</tt>
+     * controls whether menu items are rendered or not. If <code>canRender</code>
      * returns true, the menu item is rendered, otherwise it is skipped.
      *
      * @see #canRender(org.apache.click.extras.control.Menu, int)
@@ -1438,8 +1438,8 @@ public class Menu extends AbstractControl {
     }
 
     /**
-     * Render the menu <tt>"href"</tt> attribute. This method can be overridden
-     * to render dynamic <tt>"href"</tt> parameters, for example:
+     * Render the menu <code>"href"</code> attribute. This method can be overridden
+     * to render dynamic <code>"href"</code> parameters, for example:
      *
      * <pre class="prettyprint">
      * public class MyPage extends BorderPage {
@@ -1481,8 +1481,8 @@ public class Menu extends AbstractControl {
 
     /**
      * Return a copy of the Applications root Menu as defined in the
-     * configuration file "<tt>/WEB-INF/menu.xml</tt>", with the Control
-     * name <tt>"rootMenu"</tt>.
+     * configuration file "<code>/WEB-INF/menu.xml</code>", with the Control
+     * name <code>"rootMenu"</code>.
      * <p/>
      * The returned root menu is always selected.
      *

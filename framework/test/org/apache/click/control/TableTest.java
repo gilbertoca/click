@@ -135,7 +135,7 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * Helper class for <tt>testRowId</tt>.
+     * Helper class for <code>testRowId</code>.
      */
     public static class Foo {
         private String name;
@@ -160,12 +160,12 @@ public class TableTest extends TestCase {
         foos.add(new Foo("foo2"));
 
         Table table = new Table("table");
-        table.setCaption("caption<tt>tt</tt>");
+        table.setCaption("caption<code>tt</code>");
         table.setRowList(foos);
         Column column = new Column("name");
         table.addColumn(column);
 
-        assertTrue(table.toString().contains("<caption>caption<tt>tt</tt></caption>"));
+        assertTrue(table.toString().contains("<caption>caption<code>tt</code></caption>"));
     }
 
     /**

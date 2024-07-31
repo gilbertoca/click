@@ -51,7 +51,7 @@ import org.apache.commons.lang.StringUtils;
  * <h3>AutoCompleteTextField Example</h3>
  *
  * The example below shows how to a create an AutoCompleteTextField. Note how
- * the abstract method <tt>getAutoCompleteList()</tt> is implemented to provide
+ * the abstract method <code>getAutoCompleteList()</code> is implemented to provide
  * the list of suggested values.
  *
  * <pre class="prettyprint">
@@ -72,14 +72,14 @@ import org.apache.commons.lang.StringUtils;
  * for more details.
  * <p/>
  * The AutoCompleteTextField control makes use of the following resources
- * (which Click automatically deploys to the application directory, <tt>/click</tt>):
+ * (which Click automatically deploys to the application directory, <code>/click</code>):
  *
  * <ul>
- * <li><tt>click/extras-control.css</tt></li>
- * <li><tt>click/control.js</tt></li>
- * <li><tt>click/prototype/prototype.js</tt></li>
- * <li><tt>click/prototype/effects.js</tt></li>
- * <li><tt>click/prototype/controls.js</tt></li>
+ * <li><code>click/extras-control.css</code></li>
+ * <li><code>click/control.js</code></li>
+ * <li><code>click/prototype/prototype.js</code></li>
+ * <li><code>click/prototype/effects.js</code></li>
+ * <li><code>click/prototype/controls.js</code></li>
  * </ul>
  *
  * See also the W3C HTML reference:
@@ -96,7 +96,7 @@ public abstract class AutoCompleteTextField extends TextField {
 
     /**
      * The JavaScript 'script.aculo.us' Autocompleter initialization options,
-     * default value is: <tt>minChars:1</tt>.
+     * default value is: <code>minChars:1</code>.
      */
     protected String autoCompleteOptions = "minChars:1";
 
@@ -192,7 +192,7 @@ public abstract class AutoCompleteTextField extends TextField {
 
     /**
      * Return the JavaScript 'script.aculo.us' Autocompleter initialization
-     * options, default value is <tt>"minChars:1"</tt>.
+     * options, default value is <code>"minChars:1"</code>.
      *
      * @return the JavaScript Autocompleter initialization options
      */
@@ -202,7 +202,7 @@ public abstract class AutoCompleteTextField extends TextField {
 
     /**
      * Set the JavaScript 'script.aculo.us' Autocompleter initialization
-     * options, default value is: <tt>minChars:1</tt>.
+     * options, default value is: <code>minChars:1</code>.
      * <p/>
      * For the full list of available options, see the Ajax-AutoCompleter
      * <a href="http://github.com/madrobby/scriptaculous/wikis/ajax-autocompleter" target="_blank">documentation</a>.

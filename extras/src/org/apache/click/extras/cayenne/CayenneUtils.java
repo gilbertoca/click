@@ -47,13 +47,13 @@ import org.apache.commons.lang.Validate;
  * Provides Cayenne DataObject utility methods to looking up object by their
  * primary key.
  * <p/>
- * This class was derived from the Cayenne <tt>DataObjectUtils</tt> class.
+ * This class was derived from the Cayenne <code>DataObjectUtils</code> class.
  */
 public final class CayenneUtils {
 
 
     /**
-     * Applies the <tt>DataObject class</tt> validation database meta data to the
+     * Applies the <code>DataObject class</code> validation database meta data to the
      * form fields.
      * <p/>
      * The field validation attributes include:
@@ -249,7 +249,7 @@ public final class CayenneUtils {
     }
 
     /**
-     * Set the <tt>ObjEntity</tt> meta data constraints on the form fields.
+     * Set the <code>ObjEntity</code> meta data constraints on the form fields.
      *
      * @param form the form on which to set the field constraints
      * @param relationshipName the object relationship name, null if the

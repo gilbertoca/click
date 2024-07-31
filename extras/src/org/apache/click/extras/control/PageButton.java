@@ -121,7 +121,7 @@ public class PageButton extends PageLink {
     // --------------------------------------------------------- Public Methods
 
     /**
-     * Return the links html tag: <tt>input</tt>.
+     * Return the links html tag: <code>input</code>.
      *
      * @see org.apache.click.control.AbstractControl#getTag()
      *

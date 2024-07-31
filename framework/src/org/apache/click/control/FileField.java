@@ -44,7 +44,7 @@ import org.apache.commons.lang.StringUtils;
  * and {@link org.apache.click.service.CommonsFileUploadService#fileSizeMax maximum file size}
  * by configuring {@link org.apache.click.service.CommonsFileUploadService}.
  * <p/>
- * Note Browsers enforce the JavaScript <tt>value</tt> property as readonly
+ * Note Browsers enforce the JavaScript <code>value</code> property as readonly
  * to prevent script based stealing of users files.
  * <p/>
  * You can make the file field invisible by setting the CSS display attribute, for
@@ -171,7 +171,7 @@ public class FileField extends Field {
     // ------------------------------------------------------ Public Attributes
 
     /**
-     * Return the FileField's html tag: <tt>input</tt>.
+     * Return the FileField's html tag: <code>input</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -186,7 +186,7 @@ public class FileField extends Field {
      * Return the <a href="http://jakarta.apache.org/commons/fileupload/apidocs/org/apache/commons/fileupload/FileItem.html">FileItem</a>
      * after processing the request, or null otherwise.
      *
-     * @return the <tt>FileItem</tt> after processing a request
+     * @return the <code>FileItem</code> after processing a request
      */
     public FileItem getFileItem() {
         return fileItem;
@@ -211,16 +211,16 @@ public class FileField extends Field {
     }
 
     /**
-     * Return the input type: '<tt>file</tt>'.
+     * Return the input type: '<code>file</code>'.
      *
-     * @return the input type: '<tt>file</tt>'
+     * @return the input type: '<code>file</code>'
      */
     public String getType() {
         return "file";
     }
 
     /**
-     * Return the <tt>org.apache.commons.fileupload.FileItem</tt>, or null.
+     * Return the <code>org.apache.commons.fileupload.FileItem</code>, or null.
      *
      * @see Field#getValueObject()
      *

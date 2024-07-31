@@ -25,7 +25,7 @@ import org.apache.click.util.HtmlStringBuffer;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * Provides a HEAD element for including <tt>inline</tt> JavaScript using the
+ * Provides a HEAD element for including <code>inline</code> JavaScript using the
  * &lt;script&gt; tag.
  * <p/>
  * Example usage:
@@ -47,7 +47,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *     }
  * } </pre>
  *
- * The <tt>jsScript</tt> instance will be rendered as follows:
+ * The <code>jsScript</code> instance will be rendered as follows:
  *
  * <pre class="prettyprint">
  * &lt;script type="text/javascript"&gt;
@@ -57,8 +57,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * Below is an example showing how to render inline Javascript from a
  * Velocity template.
  * <p/>
- * First we create a Velocity template <tt>(/js/mycorp-template.js)</tt> which
- * contains the variable <tt>$divId</tt> that must be replaced at runtime with
+ * First we create a Velocity template <code>(/js/mycorp-template.js)</code> which
+ * contains the variable <code>$divId</code> that must be replaced at runtime with
  * the real Div ID attribute:
  *
  * <pre class="prettyprint">
@@ -96,8 +96,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *     }
  * } </pre>
  *
- * The <tt>jsScript</tt> instance will render as follows (assuming the context
- * path is <tt>myApp</tt>):
+ * The <code>jsScript</code> instance will render as follows (assuming the context
+ * path is <code>myApp</code>):
  *
  * <pre class="prettyprint">
  * &lt;script type="text/javascript"&gt;
@@ -109,7 +109,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *
  * <h3>Character data (CDATA) support</h3>
  *
- * Sometimes it is necessary to wrap <tt>inline</tt> {@link JsScript JavaScript}
+ * Sometimes it is necessary to wrap <code>inline</code> {@link JsScript JavaScript}
  * in CDATA tags. Two use cases are common for doing this:
  * <ul>
  * <li>For XML parsing: When using Ajax one often send back partial
@@ -293,16 +293,16 @@ public class JsScript extends ResourceElement {
      * DOM is ready.
      * <p/>
      * If this flag is true, the JsScript content will be registered with
-     * the "<tt>Click.addLoadEvent</tt>" function from the JavaScript file
-     * "<tt>/click/control.js</tt>".
+     * the "<code>Click.addLoadEvent</code>" function from the JavaScript file
+     * "<code>/click/control.js</code>".
      * <p/>
      * <b>Please note:</b> when setting this flag to true, the JavaScript
-     * file "<tt>/click/control.js</tt>" must already be included in the Page or
+     * file "<code>/click/control.js</code>" must already be included in the Page or
      * Control, it won't be included automatically.
      * <p/>
      * <b>Also note:</b> for {@link org.apache.click.Context#isAjaxRequest() Ajax}
      * requests the JsScript content won't be registered with the
-     * "<tt>Click.addLoadEvent</tt>" function because Ajax requests does not trigger
+     * "<code>Click.addLoadEvent</code>" function because Ajax requests does not trigger
      * the browser's DOM loaded event. Instead the JsScript content will be
      * evaluated immediately by the browser.
      *
@@ -493,9 +493,9 @@ public class JsScript extends ResourceElement {
     }
 
     /**
-     * Render the "<tt>Click.addLoadEvent</tt>" function prefix to ensure the script
+     * Render the "<code>Click.addLoadEvent</code>" function prefix to ensure the script
      * is executed as soon as the browser DOM is available. The prefix is
-     * "<tt>Click.addLoadEvent(function(){</tt>".
+     * "<code>Click.addLoadEvent(function(){</code>".
      *
      * @see #renderDomReadySuffix(org.apache.click.util.HtmlStringBuffer)
      *
@@ -509,8 +509,8 @@ public class JsScript extends ResourceElement {
     }
 
     /**
-     * Render the "<tt>Click.addLoadEvent</tt>" function suffix. The suffix is
-     * "<tt>});</tt>".
+     * Render the "<code>Click.addLoadEvent</code>" function suffix. The suffix is
+     * "<code>});</code>".
      *
      * @see #renderDomReadyPrefix(org.apache.click.util.HtmlStringBuffer)
      *
@@ -528,7 +528,7 @@ public class JsScript extends ResourceElement {
     /**
      * Render the CDATA tag prefix to the specified buffer if
      * {@link #isCharacterData()} returns true. The prefix is
-     * <tt>/&lowast;&lt;![CDATA[&lowast;/</tt>.
+     * <code>/&lowast;&lt;![CDATA[&lowast;/</code>.
      *
      * @see #renderCharacterDataSuffix(org.apache.click.util.HtmlStringBuffer)
      *
@@ -544,7 +544,7 @@ public class JsScript extends ResourceElement {
     /**
      * Render the CDATA tag suffix to the specified buffer if
      * {@link #isCharacterData()} returns true. The prefix is
-     * <tt>/&lowast;]]&gt;&lowast;/</tt>.
+     * <code>/&lowast;]]&gt;&lowast;/</code>.
      *
      * @see #renderCharacterDataPrefix(org.apache.click.util.HtmlStringBuffer)
      *

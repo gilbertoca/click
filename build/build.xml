@@ -243,7 +243,8 @@
              debug="true"
              excludes="**/Test*, ${exclude-hibernate}"
              encoding="UTF-8"
-             source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath.extras"/>
       </javac>  
       <jar destfile="dist/${click-extras}.jar">
@@ -287,7 +288,8 @@
              destdir="${dir.classes}"
              debug="true"
              encoding="UTF-8"
-             source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath.framework"/>
       </javac>  
       <jar destfile="dist/${click-nodeps}.jar">
@@ -375,7 +377,8 @@
              debug="true"
              excludes="**/Test*"
              encoding="UTF-8"
-             source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath.mock"/>
       </javac>
       <jar destfile="dist/${click-mock}.jar">
@@ -884,18 +887,19 @@ Please ensure you have configured build.properties</echo>
                verbose="false"
                windowtitle="@{windowtitle}"
                packagenames="org.apache.click.*"
-                 overview="@{overview}"
+               overview="@{overview}"
                doctitle="@{doctitle}"
                encoding="UTF-8"
                charset="UTF-8"
-               excludepackagenames="@{excludes}">
+               excludepackagenames="@{excludes}"
+               additionalparam="-Xdoclint:none">
             <classpath refid="@{classpath}"/>
-            <link href="https://docs.oracle.com/javase/8/docs/api/"/>
-            <link href="https://java.sun.com/j2ee/sdk_1.3/techdocs/api/"/>
+            <link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
+            <link href="https://javaee.github.io/glassfish/documentation"/>
             <link href="https://jakarta.apache.org/commons/fileupload/apidocs/"/>
             <link href="https://click.apache.org/docs/click-api/"/>
             <link href="https://docs.jboss.org/hibernate/orm/3.2/api/"/>
-            <link href="https://static.springframework.org/spring/docs/2.5.x/api/"/>
+            <link href="https://docs.spring.io/spring-framework/docs/2.5.x/javadoc-api/"/>
          </javadoc>
 
          <!-- Add syntax highlighter to each javadoc page -->

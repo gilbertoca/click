@@ -36,7 +36,7 @@ public class LongFieldTest extends TestCase {
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("1234", longField.getValue());
-        assertEquals(new Long(1234), longField.getValueObject());
+        assertEquals(Long.valueOf(1234), longField.getValueObject());
         
         request.getParameterMap().put("id", "123.4");
         
@@ -65,13 +65,13 @@ public class LongFieldTest extends TestCase {
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("10", longField.getValue());
-        assertEquals(new Long(10), longField.getValueObject());
+        assertEquals(Long.valueOf(10), longField.getValueObject());
         
         longField.setMinValue(11);
         assertTrue(longField.onProcess());
         assertFalse(longField.isValid());
         assertEquals("10", longField.getValue());
-        assertEquals(new Long(10), longField.getValueObject());
+        assertEquals(Long.valueOf(10), longField.getValueObject());
         
         request.getParameterMap().put("id", "20");
         
@@ -79,22 +79,22 @@ public class LongFieldTest extends TestCase {
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("20", longField.getValue());
-        assertEquals(new Long(20), longField.getValueObject());
+        assertEquals(Long.valueOf(20), longField.getValueObject());
         
         longField.setMaxValue(20);
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("20", longField.getValue());
-        assertEquals(new Long(20), longField.getValueObject());
+        assertEquals(Long.valueOf(20), longField.getValueObject());
         
         longField.setMaxValue(19);
         assertTrue(longField.onProcess());
         assertFalse(longField.isValid());
         assertEquals("20", longField.getValue());
-        assertEquals(new Long(20), longField.getValueObject());
+        assertEquals(Long.valueOf(20), longField.getValueObject());
         
-        assertEquals(new Long(20), longField.getLong());
-        assertEquals(new Integer(20), longField.getInteger());
+        assertEquals(Long.valueOf(20), longField.getLong());
+        assertEquals(Integer.valueOf(20), longField.getInteger());
         
         request.getParameterMap().put("id", "-20");
         
@@ -102,7 +102,7 @@ public class LongFieldTest extends TestCase {
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("-20", longField.getValue());
-        assertEquals(new Long(-20), longField.getValueObject());
+        assertEquals(Long.valueOf(-20), longField.getValueObject());
     }
 
 }

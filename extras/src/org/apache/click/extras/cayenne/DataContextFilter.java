@@ -50,7 +50,7 @@ import org.apache.commons.lang.StringUtils;
  * request thread and optionally the users HttpSession. This filter will
  * automatically rollback any uncommitted changes at the end of each request.
  * <p/>
- * When the click application is in <tt>debug</tt> or <tt>trace</tt> mode this
+ * When the click application is in <code>debug</code> or <code>trace</code> mode this
  * filter will log any uncommitted data objects at the end of each request.
  * <p/>
  * For units of work spanning multiple requests, such as a multi-page work flow,
@@ -66,7 +66,7 @@ import org.apache.commons.lang.StringUtils;
  * Using session scope DataObjects is a good option for web applications which
  * have exclusive access to the underlying database. However when web applications
  * share a database you should probably disable this option by setting the
- * <tt>session-scope</tt> init parameter to false.
+ * <code>session-scope</code> init parameter to false.
  *
  * <h3>Shared Cache</h3>
  *
@@ -75,7 +75,7 @@ import org.apache.commons.lang.StringUtils;
  * access to the underlying database.
  * <p/>
  * However when web applications which share a database you should probably
- * disable this option by setting the <tt>shared-cache</tt> init parameter to false.
+ * disable this option by setting the <code>shared-cache</code> init parameter to false.
  *
  *
  * <h3>OSCache Enabled</h3>
@@ -117,7 +117,7 @@ import org.apache.commons.lang.StringUtils;
  * <h3>Configuration Examples</h3>
  *
  * An example data context filter configuration in the web application's
- * <tt>/WEB-INF/web.xml</tt> file is provided below. This example stores the
+ * <code>/WEB-INF/web.xml</code> file is provided below. This example stores the
  * DataContext in the users session and uses the Cayenne shared cache when
  * creating DataContext objects.
  * <p/>
@@ -145,7 +145,7 @@ import org.apache.commons.lang.StringUtils;
  * &lt;/web-app&gt; </pre>
  *
  * An example data context filter configuration in the web application's
- * <tt>/WEB-INF/web.xml</tt> file is provided below. This example creates
+ * <code>/WEB-INF/web.xml</code> file is provided below. This example creates
  * a new DataContext object for each request and does <b>not</b> use the
  * Cayenne shared cache when creating DataContext objects.
  * <p/>
@@ -224,7 +224,7 @@ public class DataContextFilter implements Filter {
 
     /**
      * Initialize the shared Cayenne configuration. If the
-     * <tt>use-shared-cache</tt> init parameter is defined
+     * <code>use-shared-cache</code> init parameter is defined
      *
      * @see Filter#init(FilterConfig)
      *
@@ -282,7 +282,7 @@ public class DataContextFilter implements Filter {
                     dataDomain.getEntityResolver().getCallbackRegistry();
 
                 LifecycleListener lifecycleListener = (LifecycleListener)
-                    listenerClass.newInstance();
+                    listenerClass.getDeclaredConstructor().newInstance();
 
                 if (registry.isEmpty(LifecycleEvent.POST_LOAD)) {
                     registry.addDefaultListener(lifecycleListener);
@@ -392,7 +392,7 @@ public class DataContextFilter implements Filter {
      * the DataContext is already available, the existing DataContext will be
      * used otherwise a new DataContext object will be created.
      * <p/>
-     * If this filter is configured with <tt>create-each-request</tt> to be true
+     * If this filter is configured with <code>create-each-request</code> to be true
      * then a new DataContext will be created for each request and the DataContext
      * will not be bound to the session.
      *
@@ -424,7 +424,7 @@ public class DataContextFilter implements Filter {
 
     /**
      * Return a new DataContext instance using a shared cache if the filter is
-     * configured with <tt>use-shared-cache</tt>, otherwise the DataContext
+     * configured with <code>use-shared-cache</code>, otherwise the DataContext
      * will not use a shared cache.
      *
      * @return the DataContext object

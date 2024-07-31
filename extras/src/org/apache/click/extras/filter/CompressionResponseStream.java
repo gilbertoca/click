@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Provides an implementation of <tt>ServletOutputStream</tt> that works with
+ * Provides an implementation of <code>ServletOutputStream</code> that works with
  * the CompressionServletResponseWrapper implementation.
  * <p/>
  * Note this Jakarta Tomcat examples Filter is packaged in Click Extras for
@@ -311,8 +311,8 @@ public class CompressionResponseStream extends ServletOutputStream {
     }
 
     /**
-     * Set the "<tt>Content-Encoding</tt>" header of the response to
-     * "<tt>gzip</tt>", returning true if the header was set, false otherwise.
+     * Set the "<code>Content-Encoding</code>" header of the response to
+     * "<code>gzip</code>", returning true if the header was set, false otherwise.
      * <p/>
      * This method will return false when it is invoked from a server side
      * include (&lt;jsp:include&gt;), since its not possible to alter the headers

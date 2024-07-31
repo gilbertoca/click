@@ -90,12 +90,12 @@ import org.apache.commons.lang.StringUtils;
  * <p/>
  * The DateField control makes use of the following resources
  * (which Click automatically deploys to the application directories,
- * <tt>/click/calendar</tt> and <tt>/click/prototype</tt>):
+ * <code>/click/calendar</code> and <code>/click/prototype</code>):
  *
  * <ul>
- * <li><tt>click/calendar/{style}.css</tt> - where {style} is a specific Calendar style e.g. <tt>default</tt>, <tt>red</tt>, <tt>blue</tt> etc.</li>
- * <li><tt>click/prototype/prototype.js</tt></li>
- * <li><tt>click/calendar/calendar_date_select.js</tt></li>
+ * <li><code>click/calendar/{style}.css</code> - where {style} is a specific Calendar style e.g. <code>default</code>, <code>red</code>, <code>blue</code> etc.</li>
+ * <li><code>click/prototype/prototype.js</code></li>
+ * <li><code>click/calendar/calendar_date_select.js</code></li>
  * </ul>
  *
  * The Calendar popup is created as a &lt;div&gt; element using JavaScript.
@@ -129,11 +129,11 @@ import org.apache.commons.lang.StringUtils;
  * </ul>
  *
  * <h3>Default date format pattern</h3>
- * The default date format pattern is set to the message <tt>"date-format-pattern"</tt>
- * defined in the resource bundle <tt>/org/apache/click/extras/control/DateField.properties</tt>.
+ * The default date format pattern is set to the message <code>"date-format-pattern"</code>
+ * defined in the resource bundle <code>/org/apache/click/extras/control/DateField.properties</code>.
  * <p/>
  * You can easily customize the default date format pattern by overriding the
- * <tt>"date-format-pattern"</tt> in your <tt>click-page<lang>.properties</tt>
+ * <code>"date-format-pattern"</code> in your <code>click-page<lang>.properties</code>
  * files.
  * <p/>
  * An example src/click-page.properties file is shown below:
@@ -142,23 +142,23 @@ import org.apache.commons.lang.StringUtils;
  *
  * <h3>Localization</h3>
  * The following localization messages are available in the resource bundle:
- * <tt>/org/apache/click/extras/control/DateField.properties</tt>.
+ * <code>/org/apache/click/extras/control/DateField.properties</code>.
  * <ul>
- *   <li><tt>date-title</tt> - the <tt>title</tt> attribute of the input field.</li>
- *   <li><tt>calendar-image-title</tt> - the <tt>title</tt> attribute of the
- *       calendar image icon</tt></li>
- *   <li><tt>calendar-weekdays-heading</tt> - a comma separated list of
+ *   <li><code>date-title</code> - the <code>title</code> attribute of the input field.</li>
+ *   <li><code>calendar-image-title</code> - the <code>title</code> attribute of the
+ *       calendar image icon</code></li>
+ *   <li><code>calendar-weekdays-heading</code> - a comma separated list of
  *       abbreviated week day names starting with Sunday. The default value is
- *       <tt>"S,M,T,W,T,F,S"</tt>. If not defined for a locale, the abbreviated
+ *       <code>"S,M,T,W,T,F,S"</code>. If not defined for a locale, the abbreviated
  *       week day names from the JDK is used. The names are used as the column
  *       heading in the popup.</li>
- *   <li><tt>calendar-ok</tt> - the label on the "OK" button.</li>
- *   <li><tt>calendar-now</tt> - the label on the "Now" button.</li>
- *   <li><tt>calendar-today</tt> - the label on the "Today" button.</li>
- *   <li><tt>calendar-clear</tt> - the label on the "Clear" button.</li>
+ *   <li><code>calendar-ok</code> - the label on the "OK" button.</li>
+ *   <li><code>calendar-now</code> - the label on the "Now" button.</li>
+ *   <li><code>calendar-today</code> - the label on the "Today" button.</li>
+ *   <li><code>calendar-clear</code> - the label on the "Clear" button.</li>
  * </ul>
  * The buttons are only shown when DateField popup also contains time:
- * <tt>field.setShowTime(true);</tt>
+ * <code>field.setShowTime(true);</code>
  * <p/>
  * See also W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
@@ -200,9 +200,9 @@ public class DateField extends TextField {
     protected int maximumYear = 2050;
 
     /**
-     * The Calendar CSS style, default value: <tt>default</tt>.
+     * The Calendar CSS style, default value: <code>default</code>.
      * Available styles include:
-     * <tt>[blue, default, plain, red, silver]</tt>
+     * <code>[blue, default, plain, red, silver]</code>
      */
     protected String style = "default";
 
@@ -559,13 +559,13 @@ public class DateField extends TextField {
      * resources:
      *
      * <ul>
-     * <li><tt>click/calendar/{style}.css</tt> - where {style} is a specific
-     * Calendar style e.g. <tt>default</tt>, <tt>red</tt>, <tt>blue</tt> etc.</li>
-     * <li><tt>click/control.js</tt></li>
-     * <li><tt>click/prototype/prototype.js</tt></li>
-     * <li><tt>click/calendar/calendar_date_select.js</tt></li>
-     * <li><tt>click/calendar/{lang}.js</tt> - where {lang} is the language
-     * specified by the browser e.g. <tt>fr</tt> (French), <tt>de</tt> (German)
+     * <li><code>click/calendar/{style}.css</code> - where {style} is a specific
+     * Calendar style e.g. <code>default</code>, <code>red</code>, <code>blue</code> etc.</li>
+     * <li><code>click/control.js</code></li>
+     * <li><code>click/prototype/prototype.js</code></li>
+     * <li><code>click/calendar/calendar_date_select.js</code></li>
+     * <li><code>click/calendar/{lang}.js</code> - where {lang} is the language
+     * specified by the browser e.g. <code>fr</code> (French), <code>de</code> (German)
      * etc.</li>
      * </ul>
      *
@@ -706,7 +706,7 @@ public class DateField extends TextField {
     /**
      * Set the Calendar CSS style.
      * <p/>
-     * Available styles are: <tt>[blue, default, plain, red, silver]</tt>.
+     * Available styles are: <code>[blue, default, plain, red, silver]</code>.
      *
      * @param style the Calendar CSS style
      */
@@ -1012,7 +1012,7 @@ public class DateField extends TextField {
     }
 
     /**
-     * Returns the <tt>Locale</tt> that should be used in this control.
+     * Returns the <code>Locale</code> that should be used in this control.
      *
      * @return the locale that should be used in this control
      */
@@ -1022,10 +1022,10 @@ public class DateField extends TextField {
 
     /**
      * Load the default date format pattern. The format pattern is set to the
-     * message <tt>"date-format-pattern"</tt> defined in the resource bundle
-     * <tt>/org/apache/click/extras/control/DateField.properties</tt>.
+     * message <code>"date-format-pattern"</code> defined in the resource bundle
+     * <code>/org/apache/click/extras/control/DateField.properties</code>.
      * <p/>
-     * The default date format pattern for English is: <tt>"dd MMM yyyy"</tt>.
+     * The default date format pattern for English is: <code>"dd MMM yyyy"</code>.
      */
     protected void loadFormatPattern() {
         String dateFormatPattern = getMessage("date-format-pattern");

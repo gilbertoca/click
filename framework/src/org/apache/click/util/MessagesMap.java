@@ -62,7 +62,7 @@ import org.apache.commons.lang.Validate;
  *
  * Please note if the specified message does not exist in your Page's
  * properties file, or if the Page does not have a properties file, then
- * a <tt>MissingResourceException</tt> will be thrown.
+ * a <code>MissingResourceException</code> will be thrown.
  * <p/>
  * The ClickServlet adds a MessagesMap instance to the Velocity Context before
  * it is merged with the page template.
@@ -97,9 +97,9 @@ public class MessagesMap implements Map<String, String> {
     // ----------------------------------------------------------- Constructors
 
     /**
-     * Create a resource bundle messages <tt>Map</tt> adaptor for the given
+     * Create a resource bundle messages <code>Map</code> adaptor for the given
      * object's class resource bundle, the global resource bundle and
-     * <tt>Context</tt>.
+     * <code>Context</code>.
      * <p/>
      * Messages located in the object's resource bundle will override any
      * messages defined in the global resource bundle.
@@ -112,9 +112,9 @@ public class MessagesMap implements Map<String, String> {
     }
 
     /**
-     * Create a resource bundle messages <tt>Map</tt> adaptor for the given
+     * Create a resource bundle messages <code>Map</code> adaptor for the given
      * object's class resource bundle, the global resource bundle and
-     * <tt>Context</tt>.
+     * <code>Context</code>.
      * <p/>
      * Messages located in the object's resource bundle will override any
      * messages defined in the global resource bundle.
@@ -170,7 +170,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * Return localized resource message for the given key. If the message is
-     * not found a <tt>MissingResourceException</tt> will be thrown.
+     * not found a <code>MissingResourceException</code> will be thrown.
      *
      * @see java.util.Map#get(Object)
      * @throws MissingResourceException if the given key was not found
@@ -194,7 +194,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * This method is not supported and will throw
-     * <tt>UnsupportedOperationException</tt> if invoked.
+     * <code>UnsupportedOperationException</code> if invoked.
      *
      * @see java.util.Map#put(Object, Object)
      */
@@ -204,7 +204,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * This method is not supported and will throw
-     * <tt>UnsupportedOperationException</tt> if invoked.
+     * <code>UnsupportedOperationException</code> if invoked.
      *
      * @see java.util.Map#remove(Object)
      */
@@ -214,7 +214,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * This method is not supported and will throw
-     * <tt>UnsupportedOperationException</tt> if invoked.
+     * <code>UnsupportedOperationException</code> if invoked.
      *
      * @see java.util.Map#putAll(Map)
      */
@@ -224,7 +224,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * This method is not supported and will throw
-     * <tt>UnsupportedOperationException</tt> if invoked.
+     * <code>UnsupportedOperationException</code> if invoked.
      *
      * @see java.util.Map#clear()
      */

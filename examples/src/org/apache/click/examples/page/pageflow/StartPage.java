@@ -156,7 +156,7 @@ public class StartPage extends BorderPage {
 
     public boolean onNextClick() {
         if (form.isValid()) {
-            Integer customerId = new Integer(customerSelect.getValue());
+            Integer customerId = Integer.valueOf(customerSelect.getValue());
 
             CourseBooking courseBooking = new CourseBooking();
             courseBooking.setCustomerId(customerId);

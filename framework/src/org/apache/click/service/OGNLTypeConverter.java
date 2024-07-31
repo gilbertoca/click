@@ -35,7 +35,7 @@ import ognl.TypeConverter;
 /**
  * Provides an OGNL TypeConverter class.
  * <p/>
- * This class is adapted from the OGNL <tt>DefaultTypeConverter</tt>, by
+ * This class is adapted from the OGNL <code>DefaultTypeConverter</code>, by
  * Luke Blanshard and Drew Davidson, and provides additional Date conversion
  * capabilities.
  */
@@ -102,7 +102,7 @@ public class OGNLTypeConverter implements TypeConverter {
                     result = Integer.valueOf((int) OgnlOps.longValue(value));
 
                 } else if ((toType == Double.class) || (toType == Double.TYPE)) {
-                    result = new Double(OgnlOps.doubleValue(value));
+                    result = Double.valueOf(OgnlOps.doubleValue(value));
 
                 } else if ((toType == Boolean.class) || (toType == Boolean.TYPE)) {
                     result = Boolean.valueOf(value.toString());
@@ -120,7 +120,8 @@ public class OGNLTypeConverter implements TypeConverter {
                     result = Long.valueOf(OgnlOps.longValue(value));
 
                 } else if ((toType == Float.class) || (toType == Float.TYPE)) {
-                    result = new Float(OgnlOps.doubleValue(value));
+                    //or just result = OgnlOps.doubleValue(value);
+                    result = Float.valueOf(Double.valueOf(OgnlOps.doubleValue(value)).floatValue());
 
                 } else if (toType == BigInteger.class) {
                     result = OgnlOps.bigIntValue(value);

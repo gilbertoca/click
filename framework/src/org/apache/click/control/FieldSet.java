@@ -55,7 +55,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * </tr>
  * </table>
  *
- * FieldSet provides a container for laying out form <tt>Field</tt> controls.
+ * FieldSet provides a container for laying out form <code>Field</code> controls.
  *
  * <h3>FieldSet Example</h3>
  *
@@ -82,7 +82,7 @@ import org.apache.click.util.HtmlStringBuffer;
  *     }
  * } </pre>
  *
- * When the FieldSet is processed it invokes the <tt>onProcess()</tt> method
+ * When the FieldSet is processed it invokes the <code>onProcess()</code> method
  * of its contained Fields. Beyond this the FieldSet performs no server side
  * processing, and should be considered simply as a container for laying out
  * form fields.
@@ -257,6 +257,7 @@ public class FieldSet extends Field implements Container {
      * @throws IllegalStateException if the currentControl is not contained in
      * the fieldset
      */
+    @Deprecated
     public Control replace(Control currentControl, Control newControl) {
         // Current and new control is the same instance - exit early
         if (currentControl == newControl) {
@@ -517,7 +518,7 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Return the fieldset's html tag: <tt>fieldset</tt>.
+     * Return the fieldset's html tag: <code>fieldset</code>.
      *
      * @see AbstractControl#getTag()
      *
@@ -689,9 +690,9 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Set the FieldSet's the parent <tt>Form</tt>.
+     * Set the FieldSet's the parent <code>Form</code>.
      *
-     * @param form FieldSet's parent <tt>Form</tt>
+     * @param form FieldSet's parent <code>Form</code>
      */
     @Override
     public void setForm(Form form) {
@@ -712,10 +713,10 @@ public class FieldSet extends Field implements Container {
      * If the legend value is null, this method will attempt to find a
      * localized label message in the parent messages using the key:
      * <blockquote>
-     * <tt>getName() + ".title"</tt>
+     * <code>getName() + ".title"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <tt>/click-control.properties</tt> file using the same key.
+     * <code>/click-control.properties</code> file using the same key.
      * If a value cannot be found in the parent or control messages then the
      * FieldSet name will be converted into a legend using the
      * {@link ClickUtils#toLabel(String)} method.
@@ -811,8 +812,8 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Process the request invoking <tt>onProcess()</tt> on the contained
-     * <tt>Control</tt> elements.
+     * Process the request invoking <code>onProcess()</code> on the contained
+     * <code>Control</code> elements.
      *
      * @return true if all Controls were processed, or false if any Control
      * returned false

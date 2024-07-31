@@ -33,7 +33,7 @@ import org.apache.commons.lang.StringUtils;
  * </td></tr>
  * </table>
  *
- * The <tt>PageLink</tt> control is used to create links to other pages in
+ * The <code>PageLink</code> control is used to create links to other pages in
  * your application.
  *
  * See also the W3C HTML reference:
@@ -123,7 +123,7 @@ public class PageLink extends AbstractLink {
     /**
      * Return the PageLink anchor &lt;a&gt; tag href attribute.
      * This method will encode the URL with the session ID
-     * if required using <tt>HttpServletResponse.encodeURL()</tt>.
+     * if required using <code>HttpServletResponse.encodeURL()</code>.
      *
      * @return the PageLink HTML href attribute
      */
