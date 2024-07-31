@@ -17,7 +17,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<project name="click-examples" default="help" basedir=".">
+<project name="click-examples" default="help" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
    <!-- 
     Project Properties 
@@ -186,7 +186,7 @@
       <webDownloadMacro name="${jar.oscache}" path="opensymphony/oscache/${oscache.version}"/>
       <webDownloadMacro name="${jar.poi}" path="org/apache/poi/poi/${poi.version}"/>
       <webDownloadMacro name="${jar.quartz}" path="opensymphony/quartz-all/${quartz.version}"/>
-      <webDownloadMacro name="${jar.spring}" path="org/springframework/spring/${spring.version}"/>
+      <!--webDownloadMacro name="${jar.spring}" path="org/springframework/spring/${spring.version}"/-->
       <webDownloadMacro name="${jar.standard}" path="taglibs/standard/${standard.version}"/>
    </target>
    

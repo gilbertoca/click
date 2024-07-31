@@ -1,4 +1,4 @@
-<project name="project-name" default="build" basedir=".">
+<project name="project-name" default="build" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
    <!-- Project Properties -->
    <property name="name" value="template-context"/>
