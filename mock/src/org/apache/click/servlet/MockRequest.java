@@ -32,21 +32,32 @@ import java.security.Principal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import java.util.Random;
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
+import javax.servlet.ReadListener;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpUpgradeHandler;
+import javax.servlet.http.Part;
 import org.apache.click.util.ClickUtils;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.io.IOUtils;
@@ -94,13 +105,15 @@ public class MockRequest implements HttpServletRequest {
     private final List<Cookie> cookies = new ArrayList<Cookie>();
 
     /** The request headers map. */
-    private final Map<String, List<String>> headers = new HashMap<String, List<String>>();
+    private final Map<String, List<String>> headers = new HashMap<>();
 
     /** The name of the HTTP method with which this request was made. */
     private String method = "POST";
 
     /** The request parameter map. */
-    private final Map<String, Object> parameters = new HashMap<String, Object>();
+    private final Map<String, String[]> parameters = new HashMap<>();
+    
+    private final LinkedHashMap<String, Part> parts = new LinkedHashMap<>();    
 
     /** The request HTTP session. */
     private HttpSession session;
@@ -494,18 +507,52 @@ public class MockRequest implements HttpServletRequest {
             final ByteArrayInputStream bais = new ByteArrayInputStream(request);
 
             return new ServletInputStream() {
+		private boolean isFinished = false;
+                private boolean isReady = true;
+
+                @Override
+                public boolean isFinished() {
+                        return isFinished;
+                }
+
+                @Override
+                public boolean isReady() {
+                        return isReady;
+                }
+
+                @Override
+                public void setReadListener(ReadListener readListener) {
+                }
 
                 @Override
                 public int read() {
-                    return bais.read();
+                        isFinished = true;
+                        isReady = false;
+                        return bais.read();
                 }
             };
         } else {
             return new ServletInputStream() {
+		private boolean isFinished = false;
+                private boolean isReady = true;
+
+                @Override
+                public boolean isFinished() {
+                        return isFinished;
+                }
+
+                @Override
+                public boolean isReady() {
+                        return isReady;
+                }
+
+                @Override
+                public void setReadListener(ReadListener readListener) {
+                }
 
                 @Override
                 public int read() {
-                    return -1;
+                        return -1;
                 }
             };
         }
@@ -595,14 +642,14 @@ public class MockRequest implements HttpServletRequest {
         }
     }
 
-    /**
-     * Get the map of all of the parameters.
-     *
-     * @return The parameters
-     */
-    public Map<String, Object> getParameterMap() {
-        return parameters;
-    }
+/**
+	 * Get the map of all of the parameters.
+	 *
+	 * @return The parameters
+	 */
+    	public Map<String, String[]> getParameterMap() {
+            return parameters;
+        }    
 
     /**
      * Get the names of all of the parameters.
@@ -990,6 +1037,17 @@ public class MockRequest implements HttpServletRequest {
         return getSession(true);
     }
 
+    @Override
+    public String changeSessionId() {
+        final HttpSession oldSession = getSession(false);
+        if (oldSession == null) {
+                throw new IllegalStateException("There is no active session associated with the current request");
+        }
+        oldSession.invalidate();
+        final HttpSession newSession = getSession(true);
+        return newSession.getId();
+    }
+    
     /**
      * Set the current HttpSession associated with this request.
      *
@@ -1078,6 +1136,39 @@ public class MockRequest implements HttpServletRequest {
     public void reset() {
         initialize();
     }
+    
+    @Override
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+            return false;
+    }
+
+    @Override
+    public void login(String username, String password) throws ServletException {
+    }
+
+    @Override
+    public void logout() throws ServletException {
+    }
+        
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+            return parts.values();
+    }
+
+    @Override
+    public Part getPart(String name) throws IOException, ServletException {
+            return parts.get(name);
+    }
+
+    @Override
+    public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
+            return null;
+    }
+
+    public MockRequest setPart(String name, Part part) {
+            parts.put(name, part);
+            return this;
+    }    
 
     /**
      * Check whether session id is from a cookie. Always returns true.
@@ -1210,7 +1301,12 @@ public class MockRequest implements HttpServletRequest {
      * @param value The value
      */
     public void setParameter(final String name, final String value) {
-        parameters.put(name, value);
+	if (value == null) {
+            parameters.remove(name);
+        }
+        else {
+            parameters.put(name, new String[] { value });
+        }
     }
 
     /**
@@ -1237,7 +1333,7 @@ public class MockRequest implements HttpServletRequest {
      *
      * @param parameters the parameters to set
      */
-    public void setParameters(final Map<String, Object> parameters) {
+    public void setParameters(final Map<String, String[]> parameters) {
         this.parameters.putAll(parameters);
     }
 
@@ -1493,5 +1589,43 @@ public class MockRequest implements HttpServletRequest {
             this.file = file;
         }
     }
+    @Override
+    public DispatcherType getDispatcherType() {
+            return null;
+    }
 
+    @Override
+    public long getContentLengthLong() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest sr, ServletResponse sr1) throws IllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }    
 }

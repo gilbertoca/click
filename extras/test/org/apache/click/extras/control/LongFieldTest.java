@@ -31,14 +31,14 @@ public class LongFieldTest extends TestCase {
         LongField longField = new LongField("id");
         assertEquals("id", longField.getName());
 
-        request.getParameterMap().put("id", "1234");
+        request.getParameterMap().put("id", new String[] {"1234"});
         
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
         assertEquals("1234", longField.getValue());
         assertEquals(Long.valueOf(1234), longField.getValueObject());
         
-        request.getParameterMap().put("id", "123.4");
+        request.getParameterMap().put("id", new String[] {"123.4"});
         
         assertTrue(longField.onProcess());
         assertFalse(longField.isValid());
@@ -46,7 +46,7 @@ public class LongFieldTest extends TestCase {
         assertNull(longField.getValueObject());
 
         // Test not required + blank value
-        request.getParameterMap().put("id", "");
+        request.getParameterMap().put("id", new String[] {""});
         
         assertTrue(longField.onProcess());
         assertTrue(longField.isValid());
@@ -59,7 +59,7 @@ public class LongFieldTest extends TestCase {
         assertEquals("", longField.getValue());
         assertNull(longField.getValueObject());
         
-        request.getParameterMap().put("id", "10");
+        request.getParameterMap().put("id", new String[] {"10"});
         
         longField.setMinValue(10);     
         assertTrue(longField.onProcess());
@@ -73,7 +73,7 @@ public class LongFieldTest extends TestCase {
         assertEquals("10", longField.getValue());
         assertEquals(Long.valueOf(10), longField.getValueObject());
         
-        request.getParameterMap().put("id", "20");
+        request.getParameterMap().put("id", new String[] {"20"});
         
         longField.setMaxValue(20);
         assertTrue(longField.onProcess());
@@ -96,7 +96,7 @@ public class LongFieldTest extends TestCase {
         assertEquals(Long.valueOf(20), longField.getLong());
         assertEquals(Integer.valueOf(20), longField.getInteger());
         
-        request.getParameterMap().put("id", "-20");
+        request.getParameterMap().put("id", new String[] {"-20"});
         
         longField.setMinValue(-21);
         assertTrue(longField.onProcess());

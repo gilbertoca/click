@@ -22,29 +22,31 @@ import javax.annotation.Resource;
 
 import org.apache.click.examples.domain.User;
 import org.apache.click.examples.service.UserService;
-import org.springframework.dao.DataAccessException;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
  * Provides a Spring Security (ACEGI) UserDetailsService for loading users.
  */
 @Component
-public class UserDetailsService implements org.springframework.security.userdetails.UserDetailsService {
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Resource(name="userService")
     private UserService userService;
 
     /**
+     * @param username
+     * @return 
      * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(String)
      */
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userService.getUser(username);
 
         if (user != null) {
-            return new UserDetailsAdaptor(user);
+            return (UserDetails) new UserDetailsAdaptor(user);
 
         } else {
             throw new UsernameNotFoundException("UserDetailsService.loadUserByUsername()");

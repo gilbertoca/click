@@ -31,14 +31,14 @@ public class IntegerFieldTest extends TestCase {
         IntegerField intField = new IntegerField("id");
         assertEquals("id", intField.getName());
         
-        request.getParameterMap().put("id", "1234");
+        request.getParameterMap().put("id", new String[] {"1234"});
         
         assertTrue(intField.onProcess());
         assertTrue(intField.isValid());
         assertEquals("1234", intField.getValue());
         assertEquals(Integer.valueOf(1234), intField.getValueObject());
         
-        request.getParameterMap().put("id", "123.4");
+        request.getParameterMap().put("id", new String[] {"123.4"});
         
         assertTrue(intField.onProcess());
         assertFalse(intField.isValid());
@@ -46,7 +46,7 @@ public class IntegerFieldTest extends TestCase {
         assertNull(intField.getValueObject());
         
         // Test not required + blank value
-        request.getParameterMap().put("id", "");
+        request.getParameterMap().put("id", new String[] {""});
         
         assertTrue(intField.onProcess());
         assertTrue(intField.isValid());
@@ -54,7 +54,7 @@ public class IntegerFieldTest extends TestCase {
         assertNull(intField.getValueObject());
 
         // Test not required + blank value
-        request.getParameterMap().put("id", "");
+        request.getParameterMap().put("id", new String[] {""});
         intField.setRequired(true);
         assertTrue(intField.onProcess());
         assertFalse(intField.isValid());
@@ -63,7 +63,7 @@ public class IntegerFieldTest extends TestCase {
         
         request.getParameterMap().clear();
         
-        request.getParameterMap().put("id", "0");
+        request.getParameterMap().put("id", new String[] {"0"});
         
         intField.setRequired(true);
         assertTrue(intField.onProcess());
@@ -79,7 +79,7 @@ public class IntegerFieldTest extends TestCase {
         assertNotNull(intField.getValueObject());
         assertEquals(Integer.valueOf(0), intField.getValueObject());
         
-        request.getParameterMap().put("id", "10");
+        request.getParameterMap().put("id", new String[] {"10"});
         
         intField.setMinValue(10);     
         assertTrue(intField.onProcess());
@@ -93,7 +93,7 @@ public class IntegerFieldTest extends TestCase {
         assertEquals("10", intField.getValue());
         assertEquals(Integer.valueOf(10), intField.getValueObject());
         
-        request.getParameterMap().put("id", "20");
+        request.getParameterMap().put("id", new String[] {"20"});
         
         intField.setMaxValue(20);
         assertTrue(intField.onProcess());
@@ -116,7 +116,7 @@ public class IntegerFieldTest extends TestCase {
         assertEquals(Integer.valueOf(20), intField.getInteger());
         assertEquals(Long.valueOf(20), intField.getLong());
         
-        request.getParameterMap().put("id", "-20");
+        request.getParameterMap().put("id", new String[] {"-20"});
         
         intField.setMinValue(-21);
         assertTrue(intField.onProcess());

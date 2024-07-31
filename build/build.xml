@@ -39,7 +39,7 @@
    <property name="jar.log4j" value="log4j-${log4j.version}.jar"/>
    <property name="jar.mvel2" value="mvel2-${mvel2.version}.jar"/>
    <property name="jar.ognl" value="ognl-${ognl.version}.jar"/>
-   <property name="jar.servlet" value="servlet-api-${servlet-api.version}.jar"/>
+   <property name="jar.servlet" value="javax.servlet-api-${servlet-api.version}.jar"/>
    <property name="jar.slf4j" value="slf4j-api-${slf4j.version}.jar"/>
    <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
    <property name="jar.upload" value="commons-fileupload-${commons-fileupload.version}.jar"/>
@@ -118,7 +118,9 @@
       <pathelement location="lib/${jar.log4j}"/>
       <pathelement location="lib/${jar.servlet}"/>
       <pathelement location="lib/${jar.slf4j}"/>
-      <pathelement location="lib/${jar.spring}"/>
+      <fileset dir="lib">
+        <include name="spring*.jar"/>
+      </fileset>
       <pathelement location="lib/${jar.freemarker}"/>
       <pathelement location="dist/${click}.jar"/>
    </path>
@@ -572,7 +574,7 @@
       <downloadMacro name="${jar.ognl}"        path="ognl/ognl/${ognl.version}"/>
       <downloadMacro name="${jar.upload}"      path="commons-fileupload/commons-fileupload/${commons-fileupload.version}"/>
       <downloadMacro name="${jar.junit}"       path="junit/junit/${junit.version}"/>
-      <downloadMacro name="${jar.servlet}"     path="javax/servlet/servlet-api/${servlet-api.version}"/>
+      <downloadMacro name="${jar.servlet}"     path="javax/servlet/javax.servlet-api/${servlet-api.version}"/>
       <downloadMacro name="${jar.slf4j}"       path="org/slf4j/slf4j-api/${slf4j.version}"/>
       <!--downloadMacro name="${jar.spring}"      path="org/springframework/spring/${spring.version}"/-->
       <downloadMacro name="${jar.velocity}"    path="org/apache/velocity/velocity/${velocity.version}"/>
@@ -586,7 +588,7 @@
       <!-- maven-ant-tasks -->
       <artifact:dependencies filesetId="dependency.fileset" useScope="runtime" versionsId="dependency.versions">
         <remoteRepository id="mavenCentral" url="https://repo1.maven.org/maven2"/>
-        <dependency groupId="org.springframework" artifactId="spring-context" version="3.2.18.RELEASE"/>
+        <dependency groupId="org.springframework" artifactId="spring-web" version="3.2.18.RELEASE"/>
       </artifact:dependencies>      
       <copy todir="lib">
         <fileset refid="dependency.fileset" />
@@ -803,7 +805,8 @@ Please ensure you have configured build.properties</echo>
              destdir="extras/classes" 
              debug="true"
              encoding="UTF-8"
-             source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath.framework"/>
          <classpath refid="classpath.extras"/>
          <classpath refid="classpath.test"/>
@@ -840,7 +843,8 @@ Please ensure you have configured build.properties</echo>
              destdir="mock/classes"
              debug="true"
              encoding="UTF-8"
-             source="${javac.source}">
+             source="${javac.source}"
+             includeantruntime="false">
          <classpath refid="classpath.mock"/>
          <classpath refid="classpath.framework"/>
          <classpath refid="classpath.test"/>

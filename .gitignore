@@ -14,3 +14,9 @@ examples/webapp/javadoc/
 extras/classes/
 framework/classes/
 mock/classes/
+/nbdist/
+/nbbuild/
+/build/.ant-targets-build.xml
+/nbproject/
+/.java-version
+/build.xml

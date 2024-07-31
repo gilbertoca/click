@@ -52,14 +52,14 @@ public class DoubleFieldTest extends TestCase {
         assertEquals(Double.valueOf(Double.NEGATIVE_INFINITY), Double.valueOf(doubleField.getMinValue()));
 
         // Test not required, positive value
-        request.getParameterMap().put("id", "1234");
+        request.getParameterMap().put("id", new String[] {"1234"});
 
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
         assertEquals("1234", doubleField.getValue());
         assertEquals(Double.valueOf(1234), doubleField.getValueObject());
 
-        request.getParameterMap().put("id", "123.4");
+        request.getParameterMap().put("id", new String[] {"123.4"});
 
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
@@ -69,7 +69,7 @@ public class DoubleFieldTest extends TestCase {
         request.getParameterMap().clear();
         
 
-        request.getParameterMap().put("id", "0");
+        request.getParameterMap().put("id", new String[] {"0"});
         
         // Test not required + zero value
         doubleField.setRequired(false);
@@ -88,7 +88,7 @@ public class DoubleFieldTest extends TestCase {
         request.getParameterMap().clear();
 
         // Test not required + blank value
-        request.getParameterMap().put("id", "");
+        request.getParameterMap().put("id", new String[] {""});
         doubleField.setRequired(false);
         assertTrue(doubleField.onProcess());
         assertTrue(doubleField.isValid());
@@ -96,14 +96,14 @@ public class DoubleFieldTest extends TestCase {
         assertNull(doubleField.getValueObject());
 
         // Test required + blank value
-        request.getParameterMap().put("id", "");
+        request.getParameterMap().put("id", new String[] {""});
         doubleField.setRequired(true);
         assertTrue(doubleField.onProcess());
         assertFalse(doubleField.isValid());
         assertEquals("", doubleField.getValue());
         assertNull(doubleField.getValueObject());
 
-        request.getParameterMap().put("id", "10");
+        request.getParameterMap().put("id", new String[] {"10"});
 
         // Test required value equal to min value
         doubleField.setRequired(true);
@@ -122,7 +122,7 @@ public class DoubleFieldTest extends TestCase {
         assertEquals("10", doubleField.getValue());
         assertEquals(Double.valueOf(10), doubleField.getValueObject());
 
-        request.getParameterMap().put("id", "20");
+        request.getParameterMap().put("id", new String[] {"20"});
 
         // Test required value equal to max value
         doubleField.setMaxValue(20);
@@ -149,7 +149,7 @@ public class DoubleFieldTest extends TestCase {
         assertEquals(Double.valueOf(20), doubleField.getDouble());
         assertEquals(Float.valueOf(20), doubleField.getFloat());
 
-        request.getParameterMap().put("id", "-20.1");
+        request.getParameterMap().put("id", new String[] {"-20.1"});
 
         // Test required min value smaller than min value
         doubleField.setMinValue(-21);

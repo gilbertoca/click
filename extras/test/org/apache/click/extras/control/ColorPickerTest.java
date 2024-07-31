@@ -51,11 +51,11 @@ public class ColorPickerTest extends TestCase {
     public void testValidate() {
         MockContext mockContext = MockContext.initContext();
         MockRequest mr = mockContext.getMockRequest();
-        Map<String, Object> params = mr.getParameterMap();
+        Map<String, String[]> params = mr.getParameterMap();
         
         ColorPicker cp = new ColorPicker("color");
         
-        params.put("color","#fff");
+        params.put("color",new String[] {"#fff"});
         assertTrue(cp.onProcess());
         assertTrue(cp.isValid());
         assertEquals("#fff",cp.getValue());
@@ -66,14 +66,14 @@ public class ColorPickerTest extends TestCase {
         assertTrue(cp.isValid());
         assertEquals("",cp.getValue());
 
-        params.put("color", "");
+        params.put("color", new String[] {""});
         cp.setRequired(true);
         assertTrue(cp.onProcess());
         assertFalse(cp.isValid());
         
         cp = new ColorPicker("color");
         
-        params.put("color", "invalid");
+        params.put("color", new String[] {"invalid"});
         assertTrue(cp.onProcess());
         assertFalse(cp.isValid());
         assertEquals("invalid",cp.getValue());

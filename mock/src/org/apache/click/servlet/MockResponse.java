@@ -26,6 +26,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -332,6 +334,15 @@ public class MockResponse implements HttpServletResponse {
     }
 
     /**
+    * @param name
+    * @return headers with given name
+    */
+    @Override
+    public Collection<String> getHeaders(String name) {
+        return Collections.singletonList(headers.get(name).toString());
+    }
+    
+    /**
      * Get the encoded locale.
      *
      * @return The locale
@@ -408,6 +419,16 @@ public class MockResponse implements HttpServletResponse {
             @Override
             public void write(int b) {
                 byteStream.write(b);
+            }
+
+            @Override
+            public boolean isReady() {
+                return true;
+            }
+
+            @Override
+            public void setWriteListener(WriteListener wl) {
+                
             }
         };
         stringWriter = new StringWriter();
@@ -535,6 +556,11 @@ public class MockResponse implements HttpServletResponse {
         setIntHeader("Content-Length", length);
     }
 
+    @Override
+    public void setContentLengthLong(long len) {
+        setContentLength((int) len);
+    }
+    
     /**
      * Set the content type.
      *

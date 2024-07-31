@@ -23,20 +23,35 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Enumeration;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+import javax.servlet.ServletRegistration.Dynamic;
+import javax.servlet.SessionCookieConfig;
+import javax.servlet.SessionTrackingMode;
+import javax.servlet.descriptor.JspConfigDescriptor;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
 import org.apache.commons.io.FileUtils;
@@ -80,6 +95,8 @@ public class MockServletContext implements ServletContext {
     /** Map of mime types. */
     private final Map<String, String> mimeTypes = new HashMap<String, String>();
 
+    private final Map<String, ServletRegistration.Dynamic> servletRegistration = new HashMap<>();    
+    
     /** The context temporary path. */
     private String tempPath;
 
@@ -95,6 +112,100 @@ public class MockServletContext implements ServletContext {
     /** The servlet context name, <em>"mock"</em>. */
     private String servletContextName = "mock";
 
+    private final SessionCookieConfig sessionCookieConfig = new SessionCookieConfig() {
+        private boolean secure;
+        private String path;
+        private String name = "JSESSIONID";
+        private int maxAge;
+        private boolean httpOnly;
+        private String domain;
+        private String comment;
+        private final Map<String, String> attributes = new HashMap<>();
+
+        @Override
+        public void setSecure(boolean secure) {
+                this.secure = secure;
+        }
+
+        @Override
+        public void setPath(String path) {
+                this.path = path;
+        }
+
+        @Override
+        public void setName(String name) {
+                this.name = name;
+        }
+
+        @Override
+        public void setMaxAge(int maxAge) {
+                this.maxAge = maxAge;
+        }
+
+        @Override
+        public void setHttpOnly(boolean httpOnly) {
+                this.httpOnly = httpOnly;
+        }
+
+        @Override
+        public void setDomain(String domain) {
+                this.domain = domain;
+        }
+
+        @Override
+        public void setComment(String comment) {
+                this.comment = comment;
+        }
+
+        @Override
+        public boolean isSecure() {
+                return secure;
+        }
+
+        @Override
+        public boolean isHttpOnly() {
+                return httpOnly;
+        }
+
+        @Override
+        public String getPath() {
+                return path;
+        }
+
+        @Override
+        public String getName() {
+                return name;
+        }
+
+        @Override
+        public int getMaxAge() {
+                return maxAge;
+        }
+
+        public void setAttribute(String s, String s1) {
+                attributes.put(s, s1);
+        }
+
+        public String getAttribute(String s) {
+                return attributes.get(s);
+        }
+
+        public Map<String, String> getAttributes() {
+                return Map.copyOf(attributes);
+        }
+
+        @Override
+        public String getDomain()
+        {
+                return domain;
+        }
+
+        @Override
+        public String getComment()
+        {
+                return comment;
+        }
+    };    
     /**
      * The context path, by default its value is set to
      * {@link #DEFAULT_CONTEXT_PATH}.
@@ -451,15 +562,20 @@ public class MockServletContext implements ServletContext {
         return Collections.enumeration(initParameters.keySet());
     }
 
+    @Override
+    public boolean setInitParameter(String name, String value) {
+            return false;
+    }
+    
     /**
      * Return the major version of the Servlet spec that this package supports,
-     * defaults to 2.
+     * defaults to 3.
      *
      * @return the major version of the Servlet spec that this package supports,
-     * defaults to 2.
+     * defaults to 3.
      */
     public int getMajorVersion() {
-        return 2;
+        return 3;
     }
 
     /**
@@ -496,6 +612,16 @@ public class MockServletContext implements ServletContext {
         return 3;
     }
 
+    @Override
+    public int getEffectiveMajorVersion() {
+	return 3;
+    }
+        
+    @Override
+    public int getEffectiveMinorVersion() {
+            return 0;
+    }    
+    
     /**
      * Get the real file path of the given resource name.
      *
@@ -665,6 +791,152 @@ public class MockServletContext implements ServletContext {
         return "Click Mock Environment";
     }
 
+    @Override
+    public ServletRegistration.Dynamic addServlet(String servletName, String className) {
+        try  {
+            return addServlet(servletName, Class.forName(className).asSubclass(Servlet.class));
+        }
+        catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
+        Dynamic mockRegistration = (Dynamic)Proxy.newProxyInstance(Dynamic.class.getClassLoader(),
+                new Class<?>[]{Dynamic.class}, new MockedServletRegistationHandler(servletName));
+
+        servletRegistration.put(servletName, mockRegistration);
+
+        return mockRegistration;
+    }
+
+    @Override
+    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass)
+    {
+            try
+            {
+                    return addServlet(servletName, servletClass.getDeclaredConstructor().newInstance());
+            }
+            catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+            {
+                    throw new RuntimeException(e);
+            }
+    }
+
+    public Dynamic addJspFile(String s, String s1)
+    {
+            return null;
+    }
+
+    @Override
+    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException
+    {
+            try
+            {
+                    return clazz.getDeclaredConstructor().newInstance();
+            }
+            catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+            {
+                    throw new RuntimeException(e);
+            }
+    }
+
+    @Override
+    public ServletRegistration getServletRegistration(String servletName) {
+            return servletRegistration.get(servletName);
+    }
+
+    @Override
+    public Map<String, ? extends ServletRegistration> getServletRegistrations() {
+            return servletRegistration;
+    }
+
+    @Override
+    public FilterRegistration.Dynamic addFilter(String filterName, String className) {
+            return null;
+    }
+
+    @Override
+    public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
+            return null;
+    }
+
+    @Override
+    public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
+            return null;
+    }
+
+    @Override
+    public <T extends Filter> T createFilter(Class<T> clazz) throws ServletException {
+            return null;
+    }
+
+    @Override
+    public FilterRegistration getFilterRegistration(String filterName) {
+            return null;
+    }
+
+    @Override
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
+            return null;
+    }
+
+    @Override
+    public SessionCookieConfig getSessionCookieConfig() {
+            return sessionCookieConfig;
+    }
+
+    @Override
+    public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) {
+    }
+
+    @Override
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
+            return EnumSet.of(SessionTrackingMode.COOKIE);
+    }
+
+    @Override
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
+            return getDefaultSessionTrackingModes();
+    }
+
+    @Override
+    public void addListener(String className) {
+    }
+
+    @Override
+    public <T extends EventListener> void addListener(T t) {
+    }
+
+    @Override
+    public void addListener(Class<? extends EventListener> listenerClass) {
+    }
+
+    @Override
+    public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
+            return null;
+    }
+
+    @Override
+    public JspConfigDescriptor getJspConfigDescriptor() {
+            return null;
+    }
+
+    @Override
+    public ClassLoader getClassLoader() {
+            return null;
+    }
+
+    @Override
+    public void declareRoles(String... roleNames) {
+    }
+
+    @Override
+    public String getVirtualServerName() {
+            return "Apache Click Tester 2.4.x";
+    }
+    
     /**
      * NOT USED - Servlet Spec requires that this always returns null.
      *
@@ -701,7 +973,7 @@ public class MockServletContext implements ServletContext {
      *
      * @return null
      */
-    public Enumeration<?> getServlets() {
+    public Enumeration<Servlet> getServlets() {
         return null;
     }
 
@@ -830,4 +1102,29 @@ public class MockServletContext implements ServletContext {
         }
         return name;
     }
+    /**
+     * Invocation handler for proxy interface of {@link jakarta.servlet.ServletRegistration.Dynamic}.
+     * This class intercepts invocation for method {@link jakarta.servlet.ServletRegistration.Dynamic#getMappings}
+     * and returns the servlet name.
+     *
+     * @author andrea del bene
+     */
+    class MockedServletRegistationHandler implements InvocationHandler {
+
+           private final Collection<String> servletName;
+
+           public MockedServletRegistationHandler(String servletName) {
+                   this.servletName = Arrays.asList(servletName);
+           }
+
+           @Override
+           public Object invoke(Object object, Method method, Object[] args) throws Throwable {
+                   if (method.getName().equals("getMappings"))
+                   {
+                           return servletName;
+                   }
+
+                   return null;
+           }
+    }    
 }

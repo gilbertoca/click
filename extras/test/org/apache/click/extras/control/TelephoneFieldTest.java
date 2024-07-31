@@ -31,26 +31,26 @@ public class TelephoneFieldTest extends TestCase {
         TelephoneField telephoneField = new TelephoneField("telephone");
         assertEquals("telephone", telephoneField.getName());
         
-        request.getParameterMap().put("telephone", "02 8734 7653");
+        request.getParameterMap().put("telephone", new String[] {"02 8734 7653"});
         
         assertTrue(telephoneField.onProcess());
         assertTrue(telephoneField.isValid());
         assertEquals("02 8734 7653", telephoneField.getValue());
         assertEquals("02 8734 7653", telephoneField.getValueObject());
         
-        request.getParameterMap().put("telephone", "1800-DOCTOR");
+        request.getParameterMap().put("telephone", new String[] {"1800-DOCTOR"});
         
         assertTrue(telephoneField.onProcess());
         assertFalse(telephoneField.isValid());
         assertEquals("1800-DOCTOR", telephoneField.getValue());
   
-        request.getParameterMap().put("telephone", "01-923 02 2345 3654");
+        request.getParameterMap().put("telephone", new String[] {"01-923 02 2345 3654"});
 
         assertTrue(telephoneField.onProcess());
         assertTrue(telephoneField.isValid());
         assertEquals("01-923 02 2345 3654", telephoneField.getValue());
         
-        request.getParameterMap().put("telephone", "");
+        request.getParameterMap().put("telephone", new String[] {""});
         
         assertTrue(telephoneField.onProcess());
         assertTrue(telephoneField.isValid());
@@ -64,7 +64,7 @@ public class TelephoneFieldTest extends TestCase {
         assertEquals("", telephoneField.getValue());
         assertEquals(null, telephoneField.getValueObject());
         
-        request.getParameterMap().put("telephone", "(01) 2345 3654");
+        request.getParameterMap().put("telephone", new String[] {"(01) 2345 3654"});
         
         telephoneField.setMinLength(10);
         assertTrue(telephoneField.onProcess());

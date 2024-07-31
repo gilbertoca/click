@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -79,6 +80,8 @@ public class CompressionResponseStream extends ServletOutputStream {
      * should write data.
      */
     protected OutputStream output = null;
+    
+    private final ServletOutputStream servletOutputStream;    
 
     // ----------------------------------------------------------- Constructors
 
@@ -97,8 +100,20 @@ public class CompressionResponseStream extends ServletOutputStream {
         this.response = response;
         this.request = request;
         this.output = response.getOutputStream();
+        this.servletOutputStream = null;
     }
 
+    /**
+     * Constructeur.
+     * @param output ServletOutputStream
+     */
+    CompressionResponseStream(ServletOutputStream output) {
+            super();
+            assert output != null;
+            this.output = output;
+            servletOutputStream = output;
+    }    
+    
     // --------------------------------------------------------- Public Methods
 
     /**
@@ -325,4 +340,18 @@ public class CompressionResponseStream extends ServletOutputStream {
         response.addHeader("Vary", "Accept-Encoding");
         return response.containsHeader("Content-Encoding");
     }
+    @Override
+    public boolean isReady() {
+        if (servletOutputStream != null) {
+                return servletOutputStream.isReady();
+        }
+        return true;
+    }
+        
+    @Override
+    public void setWriteListener(WriteListener writeListener) {
+        if (servletOutputStream != null) {
+                servletOutputStream.setWriteListener(writeListener);
+        }
+    }    
 }

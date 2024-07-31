@@ -43,7 +43,7 @@ public class MockRequestTest extends TestCase {
         assertEquals("text", textArea.getName());
 
         request.setParameter("param", "value");
-        request.getParameterMap().put("text", "textvalue");
+        request.getParameterMap().put("text", new String[]{"textvalue"});
 
         // Registry a listener which must be invoked
         textArea.setActionListener(new ActionListener() {
@@ -68,6 +68,6 @@ public class MockRequestTest extends TestCase {
         // key/value pair.
         context = (MockContext) Context.getThreadLocalContext();
         context.getRequest().getParameterMap().put("textvalue", 
-          textArea.getValue());
+          new String[]{textArea.getValue()});
     }
 }

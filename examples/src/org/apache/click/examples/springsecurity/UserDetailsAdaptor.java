@@ -18,9 +18,11 @@
  */
 package org.apache.click.examples.springsecurity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.apache.click.examples.domain.User;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Provides a Spring Security (ACEGI) UserDetails adaptor class, which wraps the
@@ -36,29 +38,36 @@ public class UserDetailsAdaptor implements UserDetails {
         this.user = user;
     }
 
-    public GrantedAuthority[] getAuthorities() {
-        return new GrantedAuthority[0];
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
     }
 
+    @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    @Override
     public String getUsername() {
         return user.getUsername();
     }
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @Override
     public boolean isEnabled() {
         return true;
     }
