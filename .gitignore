@@ -20,3 +20,4 @@ mock/classes/
 /nbproject/
 /.java-version
 /build.xml
+/.ant-targets-build.xml

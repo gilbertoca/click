@@ -140,7 +140,9 @@
 
    <path id="classpath.examples"> 
       <pathelement location="lib/${jar.servlet}"/>
-      <pathelement location="lib/${jar.spring}"/>
+      <fileset dir="lib">
+        <include name="spring*.jar"/>
+      </fileset>
       <pathelement location="dist/${click}.jar"/>
       <pathelement location="dist/${click-extras}.jar"/>
    </path>
@@ -588,7 +590,8 @@
       <!-- maven-ant-tasks -->
       <artifact:dependencies filesetId="dependency.fileset" useScope="runtime" versionsId="dependency.versions">
         <remoteRepository id="mavenCentral" url="https://repo1.maven.org/maven2"/>
-        <dependency groupId="org.springframework" artifactId="spring-web" version="3.2.18.RELEASE"/>
+        <dependency groupId="org.springframework" artifactId="spring-web" version="${spring.version}"/>
+        <dependency groupId="org.springframework" artifactId="spring-context" version="${spring.version}"/>
       </artifact:dependencies>      
       <copy todir="lib">
         <fileset refid="dependency.fileset" />

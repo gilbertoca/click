@@ -22,48 +22,48 @@
   xmlns:beans="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:context="http://www.springframework.org/schema/context"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <context:component-scan base-package="org.apache.click.examples" scope-resolver="org.apache.click.extras.spring.PageScopeResolver"/>
 
     <!-- Spring Security Setup -->
 
     <http auto-config="true">
+        <csrf disabled="true"/>
         <!-- Uncomment the line below if you need login.htm to be accessed through HTTPS,
              and ensure that HTTPS is enabled on the server. -->
         <!--<intercept-url pattern="/springsecurity/login.htm" requires-channel="https" />-->
 
         <!-- Access to pages under the /springsecurity/secure folder requires to be authenticated -->
-        <intercept-url pattern='/springsecurity/secure/**' access='IS_AUTHENTICATED_REMEMBERED'/>
+        <intercept-url pattern="/springsecurity/secure/**" access="isAuthenticated()"/>
 
         <!-- Specify the login page url, failure url and default landing page url. -->
-        <form-login login-page='/springsecurity/login.htm' authentication-failure-url="/springsecurity/login.htm?auth-error=1" default-target-url="/"/>
+        <form-login login-page="/springsecurity/login.htm" authentication-failure-url="/springsecurity/login.htm?auth-error=1" default-target-url="/"/>
 
         <!-- Specify a virtual "logout" url which forwards to the logout.htm page. -->
         <logout logout-url="/springsecurity/logout" logout-success-url="/springsecurity/logout.htm"/>
     </http>
 
-    <beans:bean id="authenticationManager" class="org.springframework.security.providers.ProviderManager">
-        <beans:property name="providers">
+    <beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <beans:constructor-arg>
             <beans:list>
-                <beans:ref local="daoAuthenticationProvider" />
+                <beans:ref bean="daoAuthenticationProvider" />
             </beans:list>
-        </beans:property>
+        </beans:constructor-arg>
     </beans:bean>
-
     
-    <beans:bean id="daoAuthenticationProvider" class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+    <beans:bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <beans:property name="userDetailsService" ref="userDetailsService"/>
+        <beans:property name="passwordEncoder" ref="encoder"/>
     </beans:bean>
 
-    <!-- Specify a simple property based authentication provider. For production
-         systems switch to LDAP or JDBC based providers. -->
+    <!-- For hashing and salting user passwords, no hashing for now -->
+    <beans:bean id="encoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+    
 
-    <authentication-provider user-service-ref='userDetailsService'/>
-
-	  <!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
-    <beans:bean id="loggerListener" class="org.springframework.security.event.authentication.LoggerListener" />
+   <!-- This bean is optional; it isn't used by any other bean as it only listens and logs -->
+    <beans:bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
 </beans:beans>

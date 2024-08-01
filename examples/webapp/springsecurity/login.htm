@@ -19,7 +19,7 @@
 
 <div class="dialogForm" style="width:315px;">
 
-<form method="post" action="$context/j_spring_security_check" name="form">
+<form method="post" action="$context/login" name="form">
 <table class="login" border="0" width="100%">
  <tr>
 #if ($request.getParameter("auth-error"))
@@ -35,15 +35,15 @@
  </tr>
  <tr>
    <td><label>Username</label></td>
-   <td><input type="text" name="j_username" style="width:200px;"/></td>
+   <td><input type="text" name="username" style="width:200px;"/></td>
  </tr>
  <tr>
    <td style="vertical-align:middle;"><label>Password</label></td>
-   <td style="vertical-align:middle;"><input type="password" name="j_password" style="width:200px;"/></td>
+   <td style="vertical-align:middle;"><input type="password" name="password" style="width:200px;"/></td>
  </tr>
  <tr>
    <td width="100"><label>Remember Me?</label></td>
-   <td><input type="checkbox" name="_spring_security_remember_me"/></td>
+   <td><input type="checkbox" name="remember-me"/></td>
    
  </tr>
  <tr>
@@ -54,7 +54,7 @@
 </form>
 
 <script type="text/javascript">
-  document.form.j_username.focus(); 
+  document.form.username.focus(); 
 </script>
 
 </div>

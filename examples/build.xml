@@ -26,7 +26,7 @@
    <property file="../build/build.properties"/>
       
    <property name="name" value="click-examples"/>
-   <property name="jar.spring-security" value="spring-security-core-${spring-security.version}.jar"/>
+   <!--property name="jar.spring-security" value="spring-security-config-${spring-security.version}.jar"/-->
    <property name="jar.annotation" value="geronimo-annotation_1.0_spec-${geronimo-common-annotations.version}.jar"/>
    <property name="jar.ashwood" value="ashwood-${ashwood.version}.jar"/>
    <property name="jar.cayenne" value="cayenne-server-${cayenne.version}.jar"/>
@@ -40,7 +40,7 @@
    <property name="jar.poi" value="poi-${poi.version}.jar"/>
    <property name="jar.quartz" value="quartz-all-${quartz.version}.jar"/>
    <property name="jar.servlet" value="javax.servlet-api-${servlet-api.version}.jar"/>
-   <property name="jar.spring" value="spring-${spring.version}.jar"/>
+   <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
    <property name="jar.standard" value="standard-${standard.version}.jar"/>
    <property name="javac.source" value="1.8"/>
      
@@ -107,7 +107,7 @@
          <packageset dir="src"/>
          <link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
          <link href="https://click.apache.org/docs/click-api/"/>
-         <link href="https://docs.spring.io/spring-framework/docs/2.5.x/javadoc-api/"/>
+         <link href="https://docs.spring.io/spring-framework/docs/3.2.x/javadoc-api/"/>
       </javadoc>
       <copy file="../documentation/docs/javadoc-stylesheet.css"  
       	    overwrite="true"
@@ -177,7 +177,7 @@
    <target name="get-deps" description="download JAR dependencies">
       <mkdir dir="${dir.weblib}"/>
       <property name="repository" value="https://repo1.maven.org"/>
-      <webDownloadMacro name="${jar.spring-security}" path="org/springframework/security/spring-security-core/${spring-security.version}"/>
+      <!--webDownloadMacro name="${jar.spring-security}" path="org/springframework/security/spring-security-config/${spring-security.version}"/-->
       <webDownloadMacro name="${jar.annotation}" path="org/apache/geronimo/specs/geronimo-annotation_1.0_spec/${geronimo-common-annotations.version}"/>
       <webDownloadMacro name="${jar.ashwood}" path="org/objectstyle/ashwood/ashwood/${ashwood.version}"/>
       <webDownloadMacro name="${jar.cayenne}" path="org/apache/cayenne/cayenne-server/${cayenne.version}"/>
@@ -190,6 +190,20 @@
       <webDownloadMacro name="${jar.quartz}" path="opensymphony/quartz-all/${quartz.version}"/>
       <!--webDownloadMacro name="${jar.spring}" path="org/springframework/spring/${spring.version}"/-->
       <webDownloadMacro name="${jar.standard}" path="taglibs/standard/${standard.version}"/>
+
+      <!-- maven-ant-tasks -->
+      <artifact:dependencies filesetId="dependency.fileset" useScope="runtime" versionsId="dependency.versions">
+        <remoteRepository id="mavenCentral" url="https://repo1.maven.org/maven2"/>
+        <dependency groupId="org.springframework" artifactId="spring-web" version="${spring.version}"/>
+        <dependency groupId="org.springframework" artifactId="spring-context" version="${spring.version}"/>
+        <dependency groupId="org.springframework.security" artifactId="spring-security-config" version="${spring-security.version}"/>
+        <dependency groupId="org.springframework.security" artifactId="spring-security-web" version="${spring-security.version}"/>
+      </artifact:dependencies>      
+      <copy todir="${dir.weblib}">
+        <fileset refid="dependency.fileset" />
+        <mapper type="flatten" />
+      </copy>
+      
    </target>
    
 
