@@ -24,7 +24,6 @@
     -->
    
    <property file="../build/build.properties"/>
-      
    <property name="name" value="click-examples"/>
    <!--property name="jar.spring-security" value="spring-security-config-${spring-security.version}.jar"/-->
    <property name="jar.annotation" value="geronimo-annotation_1.0_spec-${geronimo-common-annotations.version}.jar"/>
@@ -41,9 +40,7 @@
    <property name="jar.quartz" value="quartz-all-${quartz.version}.jar"/>
    <property name="jar.servlet" value="javax.servlet-api-${servlet-api.version}.jar"/>
    <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
-   <property name="jar.standard" value="standard-${standard.version}.jar"/>
-   <property name="javac.source" value="1.8"/>
-     
+   <property name="jar.standard" value="standard-${standard.version}.jar"/>  
    <property name="dir.deploy" value="../dist"/>
    <property name="dir.webapp" value="webapp"/>
    <property name="dir.weblib" value="${dir.webapp}/WEB-INF/lib"/>
@@ -63,7 +60,6 @@
         </sequential>
     </macrodef> 
     
-    
    <!-- 
     Path Definitions
     -->
@@ -76,7 +72,6 @@
         <include name="*.jar"/>
       </fileset>
    </path>
-	
     
    <!-- 
     Task Definitions
@@ -143,7 +138,6 @@
       </war>
    </target>
    
-   
    <target name="compile" description="compile Java source">
       <available file="../dist/${jar.click-extras}" property="isExtrasAvail"/>
       <fail message="Build extras first with 'build-extras'">
@@ -160,20 +154,22 @@
       </copy>
       <javac srcdir="src" 
              destdir="${dir.webapp}/WEB-INF/classes" 
-             debug="true"
-             encoding="ISO-8859-1"
-             source="${javac.source}"
-             includeantruntime="false">
-         <classpath refid="classpath"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath"/>
       </javac> 
    </target>
-              
-              
+               
    <target name="deploy" description="copy WAR files to application server"> 
       <copy file="${dir.deploy}/${name}.war" todir="${dir.appserver}" overwrite="true"/>
    </target>
-   
-    
+     
    <target name="get-deps" description="download JAR dependencies">
       <mkdir dir="${dir.weblib}"/>
       <property name="repository" value="https://repo1.maven.org"/>
@@ -206,13 +202,10 @@
       
    </target>
    
-
-
    <target name="get-deps-proxy" description="download JAR dependencies via proxy">
       <setproxy proxyhost="${proxy.host}" proxyport="${proxy.port}"/>
       <antcall target="get-deps"/>
    </target>
- 
  
    <target name="help" description="display the Help message">
       <echo message="Click Examples web application"/>

@@ -1,6 +1,7 @@
 <project name="project-name" default="build" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
    <!-- Project Properties -->
+   <property file="../build/build.properties"/>
    <property name="name" value="template-context"/>
 
    <!-- Path Definitions -->
@@ -36,10 +37,15 @@
       </copy>
       <javac srcdir="src" 
              destdir="WebContent/WEB-INF/classes" 
-             debug="true"
-             encoding="ISO-8859-1"
-             source="1.8">
-         <classpath refid="classpath"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath"/>
       </javac> 
    </target>
               

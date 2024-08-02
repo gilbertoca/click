@@ -26,7 +26,6 @@
    <property name="click-extras" value="click-extras-${version}"/>
    <property name="click-nodeps" value="click-nodeps-${version}"/>
    <property name="click-mock" value="click-mock-${version}"/>
-
    <property name="jar.cayenne" value="cayenne-server-${cayenne.version}.jar"/>
    <property name="jar.checkstyle" value="checkstyle-${checkstyle.version}-all.jar"/>
    <property name="jar.codec" value="commons-codec-${commons-codec.version}.jar"/>
@@ -44,10 +43,8 @@
    <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
    <property name="jar.upload" value="commons-fileupload-${commons-fileupload.version}.jar"/>
    <property name="jar.velocity" value="velocity-${velocity.version}.jar"/>
-   <property name="javac.source" value="1.8"/>
    <property name="repository" value="https://repo1.maven.org"/>
    <property name="maven-bundle" value="../maven-upload"/>
-
 
     <!-- Macro Definitions -->
     <macrodef name="downloadMacro" description="Macro to download a JAR from a Maven repository">
@@ -244,12 +241,16 @@
         <copy file="NOTICE.txt" todir="extras/classes/META-INF"/>
       <javac srcdir="extras/src"
              destdir="extras/classes"
-             debug="true"
              excludes="**/Test*, ${exclude-hibernate}"
-             encoding="UTF-8"
-             source="${javac.source}"
-             includeantruntime="false">
-         <classpath refid="classpath.extras"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath.extras"/>
       </javac>  
       <jar destfile="dist/${click-extras}.jar">
          <manifest>
@@ -290,10 +291,14 @@
       <!-- No Dependencies -->
       <javac srcdir="${dir.source}"
              destdir="${dir.classes}"
-             debug="true"
-             encoding="UTF-8"
-             source="${javac.source}"
-             includeantruntime="false">
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
          <classpath refid="classpath.framework"/>
       </javac>  
       <jar destfile="dist/${click-nodeps}.jar">
@@ -378,12 +383,16 @@
       <copy file="NOTICE.txt" todir="mock/classes/META-INF"/>
       <javac srcdir="mock/src"
              destdir="mock/classes"
-             debug="true"
              excludes="**/Test*"
-             encoding="UTF-8"
-             source="${javac.source}"
-             includeantruntime="false">
-         <classpath refid="classpath.mock"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath.mock"/>
       </javac>
       <jar destfile="dist/${click-mock}.jar">
          <manifest>
@@ -769,14 +778,23 @@ Please ensure you have configured build.properties</echo>
       </copy>
       <javac srcdir="framework/src;framework/test;mock/src" 
              destdir="framework/classes" 
-             debug="true"
-             encoding="UTF-8"
-             source="${javac.source}">
-         <classpath refid="classpath.framework"/>
-         <classpath refid="classpath.extras"/>
-         <classpath refid="classpath.test"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath.framework"/>
+        <classpath refid="classpath.extras"/>
+        <classpath refid="classpath.test"/>
       </javac>
-      <junit haltonfailure="yes" showoutput="true">
+
+      <junit printsummary="yes" fork="yes" showoutput="true"
+          errorproperty="true"
+          failureproperty="true"
+          haltonfailure="true">          
          <classpath refid="classpath.framework"/>
          <classpath refid="classpath.extras"/>
          <classpath refid="classpath.test"/>
@@ -806,15 +824,22 @@ Please ensure you have configured build.properties</echo>
       </copy>
       <javac srcdir="extras/src;extras/test;mock/src" 
              destdir="extras/classes" 
-             debug="true"
-             encoding="UTF-8"
-             source="${javac.source}"
-             includeantruntime="false">
-         <classpath refid="classpath.framework"/>
-         <classpath refid="classpath.extras"/>
-         <classpath refid="classpath.test"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath.framework"/>
+        <classpath refid="classpath.extras"/>
+        <classpath refid="classpath.test"/>
       </javac>
-      <junit haltonfailure="yes" showoutput="true">
+      <junit printsummary="yes" fork="yes" showoutput="true"
+          errorproperty="true"
+          failureproperty="true"
+          haltonfailure="true">          
          <classpath refid="classpath.extras"/>
          <classpath refid="classpath.framework"/>
          <classpath refid="classpath.test"/>
@@ -844,15 +869,22 @@ Please ensure you have configured build.properties</echo>
       </copy>
       <javac srcdir="mock/src;mock/test"
              destdir="mock/classes"
-             debug="true"
-             encoding="UTF-8"
-             source="${javac.source}"
-             includeantruntime="false">
-         <classpath refid="classpath.mock"/>
-         <classpath refid="classpath.framework"/>
-         <classpath refid="classpath.test"/>
+           debug="${compile.debug}"
+           deprecation="${compile.deprecation}"
+           release="${compile.release}"
+           encoding="UTF-8"
+           includeAntRuntime="true" >
+        <!-- Uncomment this to show unchecked warnings:
+        <compilerarg value="-Xlint:unchecked"/>
+        -->
+        <classpath refid="classpath.mock"/>
+        <classpath refid="classpath.framework"/>
+        <classpath refid="classpath.test"/>
       </javac>
-      <junit haltonfailure="yes" showoutput="true">
+      <junit printsummary="yes" fork="yes" showoutput="true"
+          errorproperty="true"
+          failureproperty="true"
+          haltonfailure="true">          
          <classpath refid="classpath.mock"/>
          <classpath refid="classpath.framework"/>
          <classpath refid="classpath.test"/>
@@ -902,7 +934,7 @@ Please ensure you have configured build.properties</echo>
                additionalparam="-Xdoclint:none">
             <classpath refid="@{classpath}"/>
             <link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
-            <link href="https://javaee.github.io/glassfish/documentation"/>
+            <link href="https://glassfish.org/documentation.html"/>
             <link href="https://jakarta.apache.org/commons/fileupload/apidocs/"/>
             <link href="https://click.apache.org/docs/click-api/"/>
             <link href="https://docs.jboss.org/hibernate/orm/3.2/api/"/>

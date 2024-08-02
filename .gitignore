@@ -21,3 +21,6 @@ mock/classes/
 /.java-version
 /build.xml
 /.ant-targets-build.xml
+/.directory
+/examples/.ant-targets-build.xml
+/framework/test/.directory
