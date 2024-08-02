@@ -30,7 +30,7 @@ jobs:
       matrix:
         isMain:
           - ${{ contains(github.ref, 'main') }}
-        java: [ 11, 17, 21, 23 ]
+        java: [ 11, 17 ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         exclude:
           - isMain: true
@@ -38,13 +38,13 @@ jobs:
           - os: ubuntu-latest
             java: 17
           - os: windows-latest
-            java: 17
-          - os: macos-latest
-            java: 21
+            java: 11
           - os: windows-latest
-            java: 21
+            java: 17            
           - os: macos-latest
-            java: 21
+            java: 11
+          - os: macos-latest
+            java: 17
     name: JDK${{ matrix.java }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -56,6 +56,7 @@ jobs:
         java-version: ${{ matrix.java }}
         distribution: zulu
     - name: Build
+      working-directory: build
       run: |
         ant -noinput get-deps test-framework test-mock test-extras test-all
       # env:

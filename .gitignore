@@ -1,6 +1,7 @@
 dist/
 lib/*
 !lib/click-dev-tasks-1.1.jar
+!lib/maven-ant-tasks-2.1.3.jar
 
 build/deployed.html
 documentation/docs/click-api/
