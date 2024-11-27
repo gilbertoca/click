@@ -39,7 +39,6 @@
    <property name="jar.poi" value="poi-${poi.version}.jar"/>
    <property name="jar.quartz" value="quartz-all-${quartz.version}.jar"/>
    <property name="jar.servlet" value="javax.servlet-api-${servlet-api.version}.jar"/>
-   <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
    <property name="jar.standard" value="standard-${standard.version}.jar"/>  
    <property name="dir.deploy" value="../dist"/>
    <property name="dir.webapp" value="webapp"/>
@@ -172,24 +171,22 @@
      
    <target name="get-deps" description="download JAR dependencies">
       <mkdir dir="${dir.weblib}"/>
-      <property name="repository" value="https://repo1.maven.org"/>
-      <!--webDownloadMacro name="${jar.spring-security}" path="org/springframework/security/spring-security-config/${spring-security.version}"/-->
-      <webDownloadMacro name="${jar.annotation}" path="org/apache/geronimo/specs/geronimo-annotation_1.0_spec/${geronimo-common-annotations.version}"/>
-      <webDownloadMacro name="${jar.ashwood}" path="org/objectstyle/ashwood/ashwood/${ashwood.version}"/>
-      <webDownloadMacro name="${jar.cayenne}" path="org/apache/cayenne/cayenne-server/${cayenne.version}"/>
-      <webDownloadMacro name="${jar.hsqldb}" path="hsqldb/hsqldb/${hsqldb.version}"/>
-      <webDownloadMacro name="${jar.jstl}" path="jstl/jstl/${jstl.version}"/>
-      <webDownloadMacro name="${jar.logging}" path="commons-logging/commons-logging/${commons-logging.version}"/>
-      <webDownloadMacro name="${jar.log4j}" path="log4j/log4j/${log4j.version}"/>
-      <webDownloadMacro name="${jar.oscache}" path="opensymphony/oscache/${oscache.version}"/>
-      <webDownloadMacro name="${jar.poi}" path="org/apache/poi/poi/${poi.version}"/>
-      <webDownloadMacro name="${jar.quartz}" path="opensymphony/quartz-all/${quartz.version}"/>
-      <!--webDownloadMacro name="${jar.spring}" path="org/springframework/spring/${spring.version}"/-->
-      <webDownloadMacro name="${jar.standard}" path="taglibs/standard/${standard.version}"/>
-
       <!-- maven-ant-tasks -->
       <artifact:dependencies filesetId="dependency.fileset" useScope="runtime" versionsId="dependency.versions">
-        <remoteRepository id="mavenCentral" url="https://repo1.maven.org/maven2"/>
+        <remoteRepository id="mavenJboss" url="https://repository.jboss.org/nexus/content/groups/public"/>
+        <!--remoteRepository id="mavenCentral" url="https://repo.maven.apache.org/maven2/"/-->
+
+        <dependency groupId="org.apache.geronimo.specs" artifactId="geronimo-annotation_1.0_spec" version="${geronimo-common-annotations.version}" />
+        <dependency groupId="org.objectstyle.ashwood" artifactId="ashwood" version="${ashwood.version}"/>
+        <dependency groupId="org.apache.cayenne" artifactId="cayenne-server" version="${cayenne.version}"/>
+        <dependency groupId="hsqldb" artifactId="hsqldb" version="${hsqldb.version}"/>     
+        <dependency groupId="log4j" artifactId="log4j" version="${log4j.version}"/> 
+        <dependency groupId="jstl" artifactId="jstl" version="${jstl.version}"/> 
+        <dependency groupId="commons-logging" artifactId="commons-logging" version="${commons-logging.version}"/> 
+        <dependency groupId="opensymphony" artifactId="oscache" version="${oscache.version}"/> 
+        <dependency groupId="opensymphony" artifactId="quartz-all" version="${quartz.version}"/> 
+        <dependency groupId="org.apache.poi" artifactId="poi" version="${poi.version}"/> 
+        <dependency groupId="taglibs" artifactId="standard" version="${standard.version}"/> 
         <dependency groupId="org.springframework" artifactId="spring-web" version="${spring.version}"/>
         <dependency groupId="org.springframework" artifactId="spring-context" version="${spring.version}"/>
         <dependency groupId="org.springframework.security" artifactId="spring-security-config" version="${spring-security.version}"/>

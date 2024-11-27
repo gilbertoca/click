@@ -83,7 +83,7 @@
 
         <p/>
         Click Maven bundles are also available from the Maven 2 repository
-        <a target="_blank" class="external" href="http://repo1.maven.org/maven2/org/apache/click/">http://repo1.maven.org/maven2/org/apache/click/</a>.
+        <a target="_blank" class="external" href="http://repo.maven.apache.org/maven2/org/apache/click/">http://repo.maven.apache.org/maven2/org/apache/click/</a>.
 
         <p/>
         To include Click in your project add the following dependency in your <code>pom.xml</code>:
@@ -145,7 +145,7 @@ and than, using the following properties and task to get the JARs on demand:
 <span class="tag">&lt;property</span> name=<span class="red">"jar.click"</span>        value=<span class="red">"click-${click.version}.jar"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;property</span> name=<span class="red">"jar.click-extras"</span> value=<span class="red">"click-extras-${click.version}.jar"</span><span class="tag">/&gt;</span>
 <span class="tag">&lt;property</span> name=<span class="red">"jar.click-mock"</span>   value=<span class="red">"click-mock-${click.version}.jar"</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;property</span> name=<span class="red">"repository"</span>       value=<span class="red">"http://repo1.maven.org"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;property</span> name=<span class="red">"repository"</span>       value=<span class="red">"http://repo.maven.apache.org"</span><span class="tag">/&gt;</span>
 
 <span class="tag">&lt;target</span> name=<span class="red">"get-deps"</span> description=<span class="red">"download JAR dependencies"</span><span class="tag">&gt;</span>
     <span class="tag">&lt;downloadMacro</span> name=<span class="red">"${jar.click}"</span>        path=<span class="red">"org/apache/click/click/${click.version}"</span><span class="tag">/&gt;</span>

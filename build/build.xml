@@ -43,8 +43,8 @@
    <!--property name="jar.spring" value="spring-${spring.version}.jar"/-->
    <property name="jar.upload" value="commons-fileupload-${commons-fileupload.version}.jar"/>
    <property name="jar.velocity" value="velocity-${velocity.version}.jar"/>
-   <property name="repository" value="https://repo1.maven.org"/>
-   <property name="maven-bundle" value="../maven-upload"/>
+   <property name="repository" value="https://repo.maven.apache.org"/>
+   <property name="maven-bundle" value="dist/maven-upload"/>
 
     <!-- Macro Definitions -->
     <macrodef name="downloadMacro" description="Macro to download a JAR from a Maven repository">
@@ -89,10 +89,7 @@
     </macrodef>
 
     <!-- maven-ant-tasks -->
-    <path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.1.3.jar" />
-    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-           uri="antlib:org.apache.maven.artifact.ant"
-           classpathref="maven-ant-tasks.classpath" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant"  classpath="lib/maven-ant-tasks-2.1.3.jar"/>
 
    <!-- Path Definitions -->
    <path id="classpath.framework">
@@ -426,7 +423,69 @@
       <buildBundleMacro name="click-mock"/>
    </target>
 
+   <!-- Publish artifacts to remote Maven repository --> 
+   <target name="maven-declare-dependencies" depends="build-maven-bundles"
+     description="Define dependencies and dependency versions">
+     <artifact:pom id="mypom" file="${dist}/maven-upload/${click}.pom" >
+        
+      <pathelement location="lib/${jar.codec}"/>
+      <pathelement location="lib/${jar.collections}"/>
+      <pathelement location="lib/${jar.io}"/>
+      <pathelement location="lib/${jar.lang}"/>
+      <pathelement location="lib/${jar.mvel2}"/>
+      <pathelement location="lib/${jar.ognl}"/>
+      <pathelement location="lib/${jar.servlet}"/>
+      <pathelement location="lib/${jar.upload}"/>
+      <pathelement location="lib/${jar.velocity}"/>
+         
+         
+        <dependency groupId="junit" artifactId="junit"/>
+        <dependency groupId="org.assertj" artifactId="assertj-core"/>
+        <dependency groupId="commons-io" artifactId="commons-io"/>
+        <dependency groupId="org.mockito" artifactId="mockito-core"/>
+        <dependency groupId="org.quicktheories" artifactId="quicktheories"/>
+        <dependency groupId="org.reflections" artifactId="reflections"/>
+        <dependency groupId="com.google.code.java-allocation-instrumenter" artifactId="java-allocation-instrumenter" version="${allocation-instrumenter.version}"/>
+        <dependency groupId="org.apache.cassandra" artifactId="dtest-api"/>
+        <dependency groupId="org.openjdk.jmh" artifactId="jmh-core"/>
+        <dependency groupId="org.openjdk.jmh" artifactId="jmh-generator-annprocess"/>
+        <dependency groupId="org.apache.ant" artifactId="ant-junit"/>
 
+        <dependency groupId="com.bpodgursky" artifactId="jbool_expressions" version="1.14" scope="test"/>
+        <dependency groupId="com.carrotsearch.randomizedtesting" artifactId="randomizedtesting-runner" scope="test"/>
+        <dependency groupId="org.apache.lucene" artifactId="lucene-analysis-common"/>
+        <dependency groupId="org.apache.lucene" artifactId="lucene-backward-codecs"/>
+        <dependency groupId="io.github.jbellis" artifactId="jvector"/>
+      </artifact:pom>       
+   </target>   
+   <target name="write-poms" depends="maven-declare-dependencies">
+	    <artifact:writepom pomRefId="parent-pom" file="${build.dir}/${final.name}-parent.pom"/>
+	    <artifact:writepom pomRefId="all-pom" file="${build.dir}/${final.name}.pom"/>
+	    <artifact:writepom pomRefId="build-deps-pom" file="${build.dir}/tmp-${final.name}-deps.pom"/>
+   </target>   
+   <target name="deploy-maven-bundles" depends="build-maven-bundles" description="Publishes the artifacts to the Maven repository">
+     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}.jar"/>
+     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}-sources.jar" classifier="sources"/>
+     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}-javadoc.jar" classifier="javadoc"/>
+
+     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}.jar"/>
+     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}-sources.jar" classifier="sources"/>
+     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}-javadoc.jar" classifier="javadoc"/>
+
+     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}.jar"/>
+     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}-sources.jar" classifier="sources"/>
+     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}-javadoc.jar" classifier="javadoc"/>
+
+     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}.jar"/>
+     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}-sources.jar" classifier="sources"/>
+     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}-javadoc.jar" classifier="javadoc"/>
+
+      <!-- the distribution -->
+      <sign-dist file="${build.dir}/${click}-bin.tar.gz" />
+      <sign-dist file="${build.dir}/${click}-src.tar.gz" />
+
+   </target>
+        
    <target name="build-sources"
            description="build source JAR files for use with IDEs or Maven">
       <property name="dir.source" value="framework/src"/>
@@ -576,29 +635,28 @@
 
  
    <target name="get-deps" description="download JAR dependencies">
-      <downloadMacro name="${jar.codec}"       path="commons-codec/commons-codec/${commons-codec.version}"/>
-      <downloadMacro name="${jar.collections}" path="commons-collections/commons-collections/${commons-collections.version}"/>
-      <downloadMacro name="${jar.io}"          path="commons-io/commons-io/${commons-io.version}"/>
-      <downloadMacro name="${jar.lang}"        path="commons-lang/commons-lang/${commons-lang.version}"/>
-      <downloadMacro name="${jar.log4j}"       path="log4j/log4j/${log4j.version}"/>
-      <downloadMacro name="${jar.mvel2}"       path="org/mvel/mvel2/${mvel2.version}"/>
-      <downloadMacro name="${jar.ognl}"        path="ognl/ognl/${ognl.version}"/>
-      <downloadMacro name="${jar.upload}"      path="commons-fileupload/commons-fileupload/${commons-fileupload.version}"/>
-      <downloadMacro name="${jar.junit}"       path="junit/junit/${junit.version}"/>
-      <downloadMacro name="${jar.servlet}"     path="javax/servlet/javax.servlet-api/${servlet-api.version}"/>
-      <downloadMacro name="${jar.slf4j}"       path="org/slf4j/slf4j-api/${slf4j.version}"/>
-      <!--downloadMacro name="${jar.spring}"      path="org/springframework/spring/${spring.version}"/-->
-      <downloadMacro name="${jar.velocity}"    path="org/apache/velocity/velocity/${velocity.version}"/>
-      <downloadMacro name="${jar.cayenne}"     path="org/apache/cayenne/cayenne-server/${cayenne.version}"/>
-      <downloadMacro name="${jar.freemarker}"  path="org/freemarker/freemarker/${freemarker.version}"/>
-
-
       <!-- gets the dependencies for click-examples too-->
       <ant antfile="build.xml"  dir="examples" target="get-deps"  inheritall="false"/>
       
       <!-- maven-ant-tasks -->
       <artifact:dependencies filesetId="dependency.fileset" useScope="runtime" versionsId="dependency.versions">
-        <remoteRepository id="mavenCentral" url="https://repo1.maven.org/maven2"/>
+        <!--remoteRepository id="mavenJboss" url="https://repository.jboss.org/nexus/content/groups/public"/-->
+        <remoteRepository id="mavenCentral" url="https://repo.maven.apache.org/maven2/"/>
+
+        <dependency groupId="org.apache.velocity" artifactId="velocity" version="${velocity.version}"/>
+        <dependency groupId="org.freemarker" artifactId="freemarker" version="${freemarker.version}"/>
+        <dependency groupId="org.apache.cayenne" artifactId="cayenne-server" version="${cayenne.version}"/>
+        <dependency groupId="commons-collections" artifactId="commons-collections" version="${commons-collections.version}"/>
+        <dependency groupId="commons-io" artifactId="commons-io" version="${commons-io.version}"/>
+        <dependency groupId="commons-fileupload" artifactId="commons-fileupload" version="${commons-fileupload.version}"/>
+        <dependency groupId="commons-codec" artifactId="commons-codec" version="${commons-codec.version}"/>
+        <dependency groupId="commons-lang" artifactId="commons-lang" version="${commons-lang.version}"/>
+        <dependency groupId="org.slf4j" artifactId="slf4j-api" version="${slf4j.version}"/>
+        <dependency groupId="log4j" artifactId="log4j" version="${log4j.version}"/>
+        <dependency groupId="org.mvel" artifactId="mvel2" version="${mvel2.version}"/>
+        <dependency groupId="ognl" artifactId="ognl" version="${ognl.version}"/>
+        <dependency groupId="junit" artifactId="junit" version="${junit.version}"/>
+        <dependency groupId="javax.servlet" artifactId="javax.servlet-api" version="${servlet-api.version}"/>
         <dependency groupId="org.springframework" artifactId="spring-web" version="${spring.version}"/>
         <dependency groupId="org.springframework" artifactId="spring-context" version="${spring.version}"/>
       </artifact:dependencies>      
@@ -656,6 +714,7 @@ Main targets:
     build-mock            build click-mock JAR file
     build-framework       build click framework JAR file
     build-maven-bundles   build Maven repository upload bundles
+    deploy-maven-bundles  Use Maven Ant Tasks to generate and deploy artifacts
     build-sources         build source ZIP files for use with IDEs
     test-all              run all unit tests
     checkstyle            run checkstyle report on Java source
