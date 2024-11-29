@@ -3,7 +3,7 @@ lib/*
 !lib/click-dev-tasks-1.1.jar
 !lib/maven-ant-tasks-2.1.3.jar
 
-build/deployed.html
+build/deployed*.html
 documentation/docs/click-api/
 documentation/docs/extras-api/
 documentation/docs/mock-api/
@@ -25,3 +25,5 @@ mock/classes/
 /.directory
 /examples/.ant-targets-build.xml
 /framework/test/.directory
+/distclick-2.4.0/nbproject/private/
+/distclick-2.4.0/distclick-2.4.0/nbproject/private/
