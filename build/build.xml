@@ -164,9 +164,9 @@
            depends="clean, build-framework, build-mock, build-extras, build-examples, javadoc" 
            description="build distribution ZIP file">
       <!-- create distribution zip file -->
-      <delete dir="${click}" quiet="false"/>
-      <mkdir dir="${click}"/>
-      <copy todir="${click}">
+      <delete dir="dist/${click}" quiet="false"/>
+      <mkdir dir="dist/${click}"/>
+      <copy todir="dist/${click}">
          <fileset dir="." casesensitive="yes">
             <exclude name=".**"/> 
             <exclude name=".**/**"/> 
@@ -188,7 +188,10 @@
             <exclude name="lib/${jar.servlet}"/>
             <exclude name="lib/${jar.slf4j}"/>
             <exclude name="lib/${jar.velocity}"/>
-            <exclude name="lib/spring-*.jar"/>
+            <exclude name="lib/spring-*"/>
+            <exclude name="lib/ashwood-*"/>
+            <exclude name="lib/hamcrest-*"/>
+            <exclude name="lib/commons-*"/>
             <exclude name="lib/${jar.upload}"/>
             <exclude name="lib/${jar.checkstyle}"/>
             <exclude name="**/Thumbs.db"/>
@@ -201,12 +204,9 @@
          </fileset>
       </copy>
 
-      <delete file="../${click}.zip"/>
-      <zip basedir="."
-           destfile="../${click}.zip"
-           includes="${click}/**"/>
-      <delete dir="${click}" quiet="false"/>
-      <digestMacro file="../${click}.zip"/>
+      <zip destfile="dist/${click}.zip" basedir="dist/${click}"/>
+      <delete dir="dist/${click}" quiet="false"/>
+      <digestMacro file="dist/${click}.zip"/>
    </target>
 
 
@@ -423,67 +423,18 @@
       <buildBundleMacro name="click-mock"/>
    </target>
 
-   <!-- Publish artifacts to remote Maven repository --> 
-   <target name="maven-declare-dependencies" depends="build-maven-bundles"
-     description="Define dependencies and dependency versions">
-     <artifact:pom id="mypom" file="${dist}/maven-upload/${click}.pom" >
-        
-      <pathelement location="lib/${jar.codec}"/>
-      <pathelement location="lib/${jar.collections}"/>
-      <pathelement location="lib/${jar.io}"/>
-      <pathelement location="lib/${jar.lang}"/>
-      <pathelement location="lib/${jar.mvel2}"/>
-      <pathelement location="lib/${jar.ognl}"/>
-      <pathelement location="lib/${jar.servlet}"/>
-      <pathelement location="lib/${jar.upload}"/>
-      <pathelement location="lib/${jar.velocity}"/>
-         
-         
-        <dependency groupId="junit" artifactId="junit"/>
-        <dependency groupId="org.assertj" artifactId="assertj-core"/>
-        <dependency groupId="commons-io" artifactId="commons-io"/>
-        <dependency groupId="org.mockito" artifactId="mockito-core"/>
-        <dependency groupId="org.quicktheories" artifactId="quicktheories"/>
-        <dependency groupId="org.reflections" artifactId="reflections"/>
-        <dependency groupId="com.google.code.java-allocation-instrumenter" artifactId="java-allocation-instrumenter" version="${allocation-instrumenter.version}"/>
-        <dependency groupId="org.apache.cassandra" artifactId="dtest-api"/>
-        <dependency groupId="org.openjdk.jmh" artifactId="jmh-core"/>
-        <dependency groupId="org.openjdk.jmh" artifactId="jmh-generator-annprocess"/>
-        <dependency groupId="org.apache.ant" artifactId="ant-junit"/>
-
-        <dependency groupId="com.bpodgursky" artifactId="jbool_expressions" version="1.14" scope="test"/>
-        <dependency groupId="com.carrotsearch.randomizedtesting" artifactId="randomizedtesting-runner" scope="test"/>
-        <dependency groupId="org.apache.lucene" artifactId="lucene-analysis-common"/>
-        <dependency groupId="org.apache.lucene" artifactId="lucene-backward-codecs"/>
-        <dependency groupId="io.github.jbellis" artifactId="jvector"/>
-      </artifact:pom>       
-   </target>   
-   <target name="write-poms" depends="maven-declare-dependencies">
-	    <artifact:writepom pomRefId="parent-pom" file="${build.dir}/${final.name}-parent.pom"/>
-	    <artifact:writepom pomRefId="all-pom" file="${build.dir}/${final.name}.pom"/>
-	    <artifact:writepom pomRefId="build-deps-pom" file="${build.dir}/tmp-${final.name}-deps.pom"/>
-   </target>   
    <target name="deploy-maven-bundles" depends="build-maven-bundles" description="Publishes the artifacts to the Maven repository">
-     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}.jar"/>
-     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}-sources.jar" classifier="sources"/>
-     <deploy pomFile="${dist}/maven-upload/${click}.pom" file="${build.dir}/${click}-javadoc.jar" classifier="javadoc"/>
-
-     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}.jar"/>
-     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}-sources.jar" classifier="sources"/>
-     <deploy pomFile="${dist}/maven-upload/${click-extras}.pom" file="${build.dir}/${click-extras}-javadoc.jar" classifier="javadoc"/>
-
-     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}.jar"/>
-     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}-sources.jar" classifier="sources"/>
-     <deploy pomFile="${dist}/maven-upload/${click-nodeps}.pom" file="${build.dir}/${click-nodeps}-javadoc.jar" classifier="javadoc"/>
-
-     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}.jar"/>
-     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}-sources.jar" classifier="sources"/>
-     <deploy pomFile="${dist}/maven-upload/${click-mock}.pom" file="${build.dir}/${click-mock}-javadoc.jar" classifier="javadoc"/>
-
-      <!-- the distribution -->
-      <sign-dist file="${build.dir}/${click}-bin.tar.gz" />
-      <sign-dist file="${build.dir}/${click}-src.tar.gz" />
-
+     <deploy pomFile="${maven-bundle}/click/${click}.pom" file="${maven-bundle}/click/${click}.jar"/>
+     <deploy pomFile="${maven-bundle}/click/${click}.pom" file="${maven-bundle}/click/${click}-sources.jar" classifier="sources"/>
+     <deploy pomFile="${maven-bundle}/click/${click}.pom" file="${maven-bundle}/click/${click}-javadoc.jar" classifier="javadoc"/>
+     <artifact:pom id="clickpom" file="${maven-bundle}/click/${click}.pom" />
+     <artifact:deploy file="${maven-bundle}/click/${click}.jar">
+       <remoteRepository url="http://localhost/www/repository"/>
+       <pom refid="clickpom"/>
+       <attach file="${maven-bundle}/click/${click}-sources.jar" type="jar" classifier="sources"/>
+       <attach file="${maven-bundle}/click/${click}-javadoc.jar" type="jar" classifier="javadoc"/>
+       <attach file="dist/${click}.zip" type="zip" classifier="junk"/>
+     </artifact:deploy>
    </target>
         
    <target name="build-sources"
@@ -993,7 +944,7 @@ Please ensure you have configured build.properties</echo>
                additionalparam="-Xdoclint:none">
             <classpath refid="@{classpath}"/>
             <link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
-            <link href="https://glassfish.org/documentation.html"/>
+            <link href="https://javaee.github.io/javaee-spec/javadocs/"/>
             <link href="https://jakarta.apache.org/commons/fileupload/apidocs/"/>
             <link href="https://click.apache.org/docs/click-api/"/>
             <link href="https://docs.jboss.org/hibernate/orm/3.2/api/"/>
