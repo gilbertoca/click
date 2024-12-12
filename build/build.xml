@@ -451,6 +451,14 @@
      </artifact:install>
    </target>
         
+   <target name="mvn-modernizer-modernizer" depends="build-maven-bundles" description="Publishes the artifacts to the Local Maven repository"> 
+     <artifact:mvn pom="${maven-bundle}/click/${click}.pom" mavenHome="/home/gilberto.andrade/bin/apache-maven" fork="true">
+       <!--arg value="-Dmaven.multiModuleProjectDirectory=${dir.source}"/--> 
+       <jvmarg value="-Dmaven.multiModuleProjectDirectory=${dir.source}"/> 
+       <arg value="modernizer:modernizer"/>
+     </artifact:mvn>       
+   </target>
+
    <target name="build-sources"
            description="build source JAR files for use with IDEs or Maven">
       <property name="dir.source" value="framework/src"/>
