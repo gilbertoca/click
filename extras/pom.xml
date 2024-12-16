@@ -39,13 +39,46 @@
     <properties>
         <spring.version>5.2.8.RELEASE</spring.version>
         <cayenne.version>3.0</cayenne.version>
+        <hibernate.version>3.3.0.GA</hibernate.version>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+                <type>jar</type>
+            </dependency>                        
+            <dependency>
                 <groupId>org.apache.cayenne</groupId>
                 <artifactId>cayenne-server</artifactId>
                 <version>${cayenne.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>velocity</groupId>
+                        <artifactId>velocity</artifactId>
+                    </exclusion>
+                </exclusions>                
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk-platform-logging</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -73,6 +106,10 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.cayenne</groupId>
             <artifactId>cayenne-server</artifactId>
         </dependency>
@@ -81,13 +118,21 @@
             <artifactId>click</artifactId>
         </dependency>                                
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-        </dependency>        
+        </dependency>
     </dependencies>
     
     <build>
