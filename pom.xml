@@ -267,7 +267,7 @@
                 </excludes>
             </resource>
         </resources>
-        <!--testResources>
+        <testResources>
             <testResource>
                 <filtering>false</filtering>
                 <directory>${basedir}/src/test/java</directory>
@@ -279,7 +279,18 @@
                     <exclude>**/package.html</exclude>
                 </excludes>
             </testResource>
-        </testResources-->
+            <testResource>
+                <filtering>false</filtering>
+                <directory>${basedir}/src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                    <exclude>**/package.html</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <artifactId>maven-remote-resources-plugin</artifactId>
