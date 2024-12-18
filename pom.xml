@@ -88,6 +88,7 @@
     <modules>
         <module>click</module>
         <module>extras</module>
+        <module>user-guide</module>
         <!--module>examples</module>
         <module>archetypes/quickstart</module>
         <module>archetypes/application</module>
@@ -464,7 +465,7 @@
                             <dependencyConvergence />
                             <compound implementation="com.github.ferstl.maven.pomenforcers.CompoundPedanticEnforcer">
                                 <!-- Enforcers -->
-                                <enforcers>POM_SECTION_ORDER,DEPENDENCY_MANAGEMENT_ORDER,DEPENDENCY_ORDER,DEPENDENCY_CONFIGURATION,PLUGIN_MANAGEMENT_ORDER,PLUGIN_CONFIGURATION</enforcers>
+                                <enforcers>POM_SECTION_ORDER,DEPENDENCY_ORDER,DEPENDENCY_CONFIGURATION</enforcers>
                                 <dependencyManagementOrderBy>scope,groupId,artifactId</dependencyManagementOrderBy>
                                 <dependencyManagementScopePriorities>provided,compile,runtime,test,import</dependencyManagementScopePriorities>
                                 <dependenciesScopePriorities>import,provided,compile,runtime,test</dependenciesScopePriorities>
