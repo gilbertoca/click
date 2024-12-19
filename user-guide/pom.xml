@@ -53,13 +53,11 @@
                 <version>2.0.17</version>
                 <dependencies>
                     <dependency>
-                        <groupId>net.sf.docbook</groupId>
+                        <groupId>org.docbook</groupId>
                         <artifactId>docbook-xml</artifactId>
-                        <version>5.0-all</version>
-                        <classifier>resources</classifier>
-                        <type>zip</type>
+                        <version>4.4</version>
                         <scope>runtime</scope>
-                    </dependency>
+                    </dependency>                    
                     <dependency>
                         <groupId>net.sf.xslthl</groupId>
                         <artifactId>xslthl</artifactId>
@@ -75,12 +73,12 @@
                 </dependencies>
                 <configuration>
                     <includes>click-book.xml</includes>
-                    <sourceDirectory>${basedir}/src/docbkx</sourceDirectory>
-                    <imgSrcPath>${basedir}/src/docbkx/</imgSrcPath> 
+                    <sourceDirectory>src/docbkx</sourceDirectory>
+                    <imgSrcPath></imgSrcPath> 
                     <htmlStylesheet>src/docbkx/css/stylesheet.css</htmlStylesheet>
                     <htmlCustomization>src/docbkx/xsl/html/custom.xsl</htmlCustomization>
-                    <foCustomization>src/docbkx/xsl/pdf/custom.xsl</foCustomization>
                     <chunkedOutput>true</chunkedOutput>
+                    <foCustomization>src/docbkx/xsl/pdf/custom.xsl</foCustomization>
                     <xincludeSupported>true</xincludeSupported>
                     <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
                     <!-- use extensions -->
