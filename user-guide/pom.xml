@@ -25,7 +25,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>user-guide</artifactId>
-    <packaging>pom</packaging>
+
     <name>Click user Guide</name>
     <description>
         Click is a Java web application framework that takes simplicity, 
@@ -73,32 +73,21 @@
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
-                <executions>
-                    <execution>
-                        <id>html</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate-html</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>pdf</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>generate-pdf</goal>
-                        </goals>
-                    </execution>                    
-                </executions>                
                 <configuration>
                     <includes>click-book.xml</includes>
-                    <imgSrcPath></imgSrcPath>
-                    <htmlStylesheet>css/html/stylesheet.css</htmlStylesheet>
-                    <xincludeSupported>true</xincludeSupported>
                     <sourceDirectory>${basedir}/src/docbkx</sourceDirectory>
+                    <imgSrcPath>${basedir}/src/docbkx/</imgSrcPath> 
+                    <htmlStylesheet>src/docbkx/css/stylesheet.css</htmlStylesheet>
+                    <htmlCustomization>src/docbkx/xsl/html/custom.xsl</htmlCustomization>
+                    <foCustomization>src/docbkx/xsl/pdf/custom.xsl</foCustomization>
+                    <chunkedOutput>true</chunkedOutput>
+                    <xincludeSupported>true</xincludeSupported>
+                    <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
                     <!-- use extensions -->
                     <useExtensions>1</useExtensions>
                     <highlightSource>1</highlightSource>
-                    <highlightDefaultLanguage></highlightDefaultLanguage>
+                    <hyphenate>true</hyphenate>
+                    <hyphenateVerbatim>true</hyphenateVerbatim>
                     <!-- callouts -->
                     <calloutsExtension>1</calloutsExtension>
                     <entities>
@@ -107,12 +96,17 @@
                             <value>${project.version}</value>
                         </entity>
                     </entities>
-                    <!--htmlCustomization>${project.basedir}/src/docbkx/styles/html/custom.xsl</htmlCustomization-->
                     <preProcess>
-                        <copy todir="target/docbkx/html/images">
+                        <copy todir="${project.build.directory}/docbkx/generated/images">
                             <fileset dir="src/docbkx/images" />
                         </copy>
-                        <copy todir="target/docbkx/html/css">
+                        <copy todir="${project.build.directory}/docbkx/generated/css">
+                            <fileset dir="src/docbkx/css" />
+                        </copy>
+                        <copy todir="${project.build.directory}/docbkx/html/images">
+                            <fileset dir="src/docbkx/images" />
+                        </copy>
+                        <copy todir="${project.build.directory}/docbkx/html/css">
                             <fileset dir="src/docbkx/css" />
                         </copy>
                     </preProcess>
