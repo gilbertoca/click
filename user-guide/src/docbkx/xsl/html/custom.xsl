@@ -19,14 +19,17 @@
  under the License.
 -->
 
-<xsl:stylesheet version="1.0"
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns:fo="http://www.w3.org/1999/XSL/Format"
-        xmlns:d="http://docbook.org/ns/docbook"
-        xmlns:xslthl="http://xslthl.sf.net" exclude-result-prefixes="xslthl">
-
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:fo="http://www.w3.org/1999/XSL/Format"
+                xmlns:d="http://docbook.org/ns/docbook"
+                xmlns:xslthl="http://xslthl.sf.net"
+                exclude-result-prefixes="xslthl"
+                version="1.0">
+  <!-- import the main stylesheet, here pointing to fo/docbook.xsl -->
   <xsl:import href="urn:docbkx:stylesheet"/>
+  <!-- highlight.xsl must be imported in order to enable highlighting support, highlightSource=1 parameter is not sufficient >
+  <xsl:import href="https://docbook.sourceforge.net/release/xsl/current/common/common.xsl"/>
+  <xsl:import href="https://docbook.sourceforge.net/release/xsl/current/html/highlight.xsl"/-->
 
   <xsl:param name="ulink.target">_blank</xsl:param>
 
@@ -160,7 +163,7 @@
   Ant will automatically replace @dbf.xsl@ with the path to
   the config at runtime
   -->
-  <xsl:param name="highlight.xslthl.config">@file.prefix@@dbf.xsl@/highlighting/xslthl-config.xml</xsl:param>
+  <xsl:param name="highlight.xslthl.config">/highlighting/xslthl-config.xml</xsl:param>
 
   <xsl:template match='xslthl:keyword' mode="xslthl">
     <span class="kwd">

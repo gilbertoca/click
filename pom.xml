@@ -168,7 +168,7 @@
             <dependency>
                 <groupId>org.apache.click</groupId>
                 <artifactId>click</artifactId>
-                <version>3.0.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>                        
             <dependency>
                 <groupId>org.apache.velocity</groupId>

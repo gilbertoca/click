@@ -19,19 +19,22 @@
  under the License.
 -->
 
-<xsl:stylesheet version="1.0"
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:html="http://www.w3.org/1999/xhtml"
-        xmlns:fo="http://www.w3.org/1999/XSL/Format"
-        xmlns:d="http://docbook.org/ns/docbook"
-        xmlns:xslthl="http://xslthl.sf.net" exclude-result-prefixes="xslthl">
-
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:fo="http://www.w3.org/1999/XSL/Format"
+                xmlns:d="http://docbook.org/ns/docbook"
+                xmlns:xslthl="http://xslthl.sf.net"
+                exclude-result-prefixes="xslthl"
+                version="1.0">
+  <!-- import the main stylesheet, here pointing to fo/docbook.xsl -->
   <xsl:import href="urn:docbkx:stylesheet"/>
+  <!-- highlight.xsl must be imported in order to enable highlighting support, highlightSource=1 parameter is not sufficient >
+  <xsl:import href="https://docbook.sourceforge.net/release/xsl/current/common/common.xsl"/>
+  <xsl:import href="https://docbook.sourceforge.net/release/xsl/current/fo/highlight.xsl"/ -->
 
   <!-- Use nice graphics for admonitions -->
   <xsl:param name="admon.graphics">'1'</xsl:param>
-  <xsl:param name="admon.graphics.path">@file.prefix@@dbf.xsl@/images/</xsl:param>
-  <xsl:param name="draft.watermark.image" select="'@file.prefix@@dbf.xsl@/images/draft.png'"/>
+  <xsl:param name="admon.graphics.path">/images/</xsl:param>
+  <xsl:param name="draft.watermark.image" select="'/images/draft.png'"/>
   <xsl:param name="paper.type" select="'@paper.type@'"/>
 
   <xsl:param name="page.margin.top" select="'1cm'"/>
@@ -391,7 +394,7 @@
   Ant will automatically replace @dbf.xsl@ with the path to
   the config at runtime
   -->
-  <xsl:param name="highlight.xslthl.config">@file.prefix@@dbf.xsl@/highlighting/xslthl-config.xml</xsl:param>
+  <xsl:param name="highlight.xslthl.config">/highlighting/xslthl-config.xml</xsl:param>
 
   <xsl:template match='xslthl:keyword' mode="xslthl">
     <fo:inline font-weight="bold" color="#7F0055">
