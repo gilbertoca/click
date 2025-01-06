@@ -89,10 +89,9 @@
         <module>click</module>
         <module>extras</module>
         <module>user-guide</module>
-        <!--module>examples</module>
-        <module>archetypes/quickstart</module>
-        <module>archetypes/application</module>
-        <module>click-user-guide</module-->
+        <module>examples</module>
+        <!--module>archetypes/quickstart</module>
+        <module>archetypes/application</module-->
     </modules>
     <properties>
         <!-- Encoding -->

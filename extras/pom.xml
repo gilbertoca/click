@@ -37,7 +37,7 @@
         persisted using your favorite technology. 
     </description>
     <properties>
-        <spring.version>5.2.8.RELEASE</spring.version>
+        <spring.version>5.2.9.RELEASE</spring.version>
         <cayenne.version>3.0</cayenne.version>
         <hibernate.version>3.3.0.GA</hibernate.version>
     </properties>

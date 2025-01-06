@@ -45,13 +45,14 @@
     <properties>
     </properties>
     <dependencies>
+        <!--dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>click-extras</artifactId>
+            <version>${project.version}</version>            
+        </dependency-->
         <dependency>
             <groupId>org.apache.click</groupId>
             <artifactId>click</artifactId>
-        </dependency>                                        
-        <dependency>
-            <groupId>org.apache.click</groupId>
-            <artifactId>click-extras</artifactId>
             <version>${project.version}</version>
         </dependency>                        
     </dependencies>
