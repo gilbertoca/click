@@ -284,6 +284,10 @@
             </testResource>
         </testResources>
         <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+            </plugin>             
         </plugins>
         <pluginManagement>
             <plugins>
@@ -427,6 +431,38 @@
                     <artifactId>maven-surefire-report-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>2.43.0</version>
+                    <configuration>
+                        <formats>
+                            <!-- you can define as many formats as you want, each is independent -->
+                            <format>
+                                <!-- define the files to apply to -->
+                                <includes>
+                                    <include>.gitattributes</include>
+                                    <include>.gitignore</include>
+                                </includes>
+                                <!-- define the steps to apply to those files -->
+                                <trimTrailingWhitespace/>
+                                <endWithNewline/>
+                                <indent>
+                                    <tabs>true</tabs>
+                                    <spacesPerTab>4</spacesPerTab>
+                                </indent>
+                            </format>
+                        </formats>
+                        <!-- define a language-specific format -->
+                        <java>
+                            <palantirJavaFormat>
+                                <version>2.39.0</version>                     <!-- optional -->
+                                <style>PALANTIR</style>                       <!-- or AOSP/GOOGLE (optional) -->
+                                <formatJavadoc>false</formatJavadoc>          <!-- defaults to false (optional, requires at least Palantir 2.39.0) -->
+                            </palantirJavaFormat>
+                        </java>
+                    </configuration>
+                </plugin>                             
             </plugins>
         </pluginManagement>
     </build>
