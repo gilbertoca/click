@@ -25,7 +25,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>user-guide</artifactId>
-
+    <packaging>pom</packaging>
     <name>Click user Guide</name>
     <description>
         Click is a Java web application framework that takes simplicity, 
@@ -72,6 +72,14 @@
                         <scope>runtime</scope>
                     </dependency>                
                 </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>                
                 <configuration>
                     <includes>click-book.xml</includes>
                     <sourceDirectory>src/docbkx</sourceDirectory>
