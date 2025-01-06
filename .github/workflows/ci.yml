@@ -15,10 +15,10 @@ name: Simply Build
 on:
   push:
     branches:
-      - trunk
+      - main
   pull_request:
     branches:
-      - trunk
+      - main
 
 env:
   LC_ALL: en_US.UTF-8
@@ -58,10 +58,7 @@ jobs:
     - name: Build
       working-directory: build
       run: |
-        ant -noinput get-deps test-framework test-mock test-extras test-all
-      # env:
-       # ANT_OPTS: 
-
+        mvn --show-version clean verify
       continue-on-error:
         true
     - name: Upload logs
