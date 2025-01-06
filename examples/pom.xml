@@ -157,6 +157,10 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.56.v20240826</version>
+                <configuration>
+                    <scanIntervalSeconds>60</scanIntervalSeconds>
+                    <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
