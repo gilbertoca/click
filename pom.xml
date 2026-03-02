@@ -93,11 +93,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.optimize>true</maven.compiler.optimize>
-        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-        <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.compiler.source>17</java.compiler.source>
+        <java.compiler.target>17</java.compiler.target>
 
         <!-- Project Versions -->
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -308,7 +305,18 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
+                    <version>3.14.1</version>
+                    <configuration>
+                        <source>${java.compiler.source}</source>
+                        <target>${java.compiler.target}</target>
+                        <showDeprecation/>
+                        <showWarnings/>
+                        <compilerArgs>
+                            <arg>-Xlint:unchecked</arg>
+                            <arg>-Xlint:all</arg>
+                            <arg>-Xlint:-serial</arg>
+                        </compilerArgs>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
