@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-	  "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
-    <!ENTITY chapter-introduction SYSTEM "chapter-introduction.xml" >
-    <!ENTITY chapter-pages SYSTEM "chapter-pages.xml" >
-    <!ENTITY chapter-controls SYSTEM "chapter-controls.xml" >
-    <!ENTITY chapter-ajax SYSTEM "chapter-ajax.xml" >
-    <!ENTITY chapter-configuration SYSTEM "chapter-configuration.xml" >
-    <!ENTITY chapter-best-practices SYSTEM "chapter-best-practices.xml" >
-    ]>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN" "https://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" [
+<!ENTITY chapter-introduction SYSTEM "chapter-introduction.xml">
+<!ENTITY chapter-pages SYSTEM "chapter-pages.xml">
+<!ENTITY chapter-controls SYSTEM "chapter-controls.xml">
+<!ENTITY chapter-ajax SYSTEM "chapter-ajax.xml">
+<!ENTITY chapter-configuration SYSTEM "chapter-configuration.xml">
+<!ENTITY chapter-best-practices SYSTEM "chapter-best-practices.xml">
+]>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -26,32 +25,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<book lang="en">
-	<title>Apache Click</title>
-	
-	<bookinfo>
-		<copyright>
-			<year>2001-2013</year>
-			
-			<holder>The Apache Software Foundation</holder>
-		</copyright>
-		
-		<releaseinfo>V 2.4.0</releaseinfo>
-		
-		<productname>Click</productname>
-		
-		<authorgroup>
-			<corpauthor>Apache Click User Guide</corpauthor>
-		</authorgroup>
-
-    <mediaobject>
-			<imageobject>
-				<imagedata fileref="images/click-logo.png" />
-			</imageobject>
-		</mediaobject>
-	</bookinfo>
-	
-	<toc></toc>
+<book lang="en"><title>Apache Click</title><bookinfo><copyright><year>2001-2013</year><holder>The Apache Software Foundation</holder></copyright><releaseinfo>V 2.4.0</releaseinfo><productname>Click</productname><authorgroup><corpauthor>Apache Click User Guide</corpauthor></authorgroup><mediaobject><imageobject><imagedata fileref="images/click-logo.png"/></imageobject></mediaobject></bookinfo><toc/>
 
   &chapter-introduction;
   &chapter-pages;

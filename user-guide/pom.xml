@@ -15,8 +15,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.click</groupId>
@@ -41,7 +40,7 @@
             <id>agilejava</id>
             <url>http://agilejava.com/maven/</url>
         </pluginRepository>
-    </pluginRepositories>    
+    </pluginRepositories>
     <properties>
     </properties>
     <dependencies>
@@ -54,7 +53,7 @@
             <groupId>org.apache.click</groupId>
             <artifactId>click</artifactId>
             <version>${project.version}</version>
-        </dependency>                        
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -62,7 +61,7 @@
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <version>2.0.17</version>
-                <dependencies>
+                <!--dependencies>
                     <dependency>
                         <groupId>net.sf.docbook</groupId>
                         <artifactId>docbook-xml</artifactId>
@@ -70,8 +69,8 @@
                         <classifier>resources</classifier>
                         <type>zip</type>
                         <scope>runtime</scope>
-                    </dependency>                
-                </dependencies>
+                    </dependency>
+                </dependencies-->
                 <executions>
                     <execution>
                         <goals>
@@ -79,11 +78,11 @@
                         </goals>
                         <phase>generate-sources</phase>
                     </execution>
-                </executions>                
+                </executions>
                 <configuration>
                     <includes>click-book.xml</includes>
                     <sourceDirectory>src/docbkx</sourceDirectory>
-                    <imgSrcPath></imgSrcPath> 
+                    <imgSrcPath/>
                     <htmlStylesheet>src/docbkx/css/stylesheet.css</htmlStylesheet>
                     <htmlCustomization>src/docbkx/xsl/html/custom.xsl</htmlCustomization>
                     <chunkedOutput>false</chunkedOutput>
@@ -105,20 +104,20 @@
                     </entities>
                     <preProcess>
                         <copy todir="${project.build.directory}/docbkx/generated/images">
-                            <fileset dir="src/docbkx/images" />
+                            <fileset dir="src/docbkx/images"/>
                         </copy>
                         <copy todir="${project.build.directory}/docbkx/generated/css">
-                            <fileset dir="src/docbkx/css" />
+                            <fileset dir="src/docbkx/css"/>
                         </copy>
                         <copy todir="${project.build.directory}/docbkx/html/images">
-                            <fileset dir="src/docbkx/images" />
+                            <fileset dir="src/docbkx/images"/>
                         </copy>
                         <copy todir="${project.build.directory}/docbkx/html/css">
-                            <fileset dir="src/docbkx/css" />
+                            <fileset dir="src/docbkx/css"/>
                         </copy>
                     </preProcess>
                 </configuration>
             </plugin>
-        </plugins>            
+        </plugins>
     </build>
 </project>
