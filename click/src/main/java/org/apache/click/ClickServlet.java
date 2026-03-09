@@ -1256,8 +1256,8 @@ public class ClickServlet extends HttpServlet {
             if (newPage.hasHeaders()) {
 
                 // Don't override existing headers
-                Map pageHeaders = newPage.getHeaders();
-                for (Map.Entry entry : defaultHeaders.entrySet()) {
+                Map<String, Object> pageHeaders = newPage.getHeaders();
+                for (Map.Entry<String, Object> entry : defaultHeaders.entrySet()) {
                     if (!pageHeaders.containsKey(entry.getKey())) {
                         pageHeaders.put(entry.getKey(), entry.getValue());
                     }

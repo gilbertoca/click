@@ -785,7 +785,7 @@ public class Context {
      * @throws RuntimeException if an error occurs
      */
     @SuppressWarnings("unchecked")
-    public String renderTemplate(Class templateClass, Map<String, ?> model) {
+    public String renderTemplate(Class<?> templateClass, Map<String, ?> model) {
 
         if (templateClass == null) {
             String msg = "Null templateClass parameter";

@@ -177,7 +177,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         if (isMultipartRequest) {
             return Collections.enumeration(getMultipartParameterMap().keySet());
 
@@ -212,7 +212,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         if (isMultipartRequest) {
             return getMultipartParameterMap();
         } else {
@@ -228,7 +228,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @return the <code>"multipart"</code> request parameter map
      */
     @SuppressWarnings("unchecked")
-    Map getMultipartParameterMap() {
+    Map<String, String[]> getMultipartParameterMap() {
         if (request.getAttribute(ClickServlet.MOCK_MODE_ENABLED) == null) {
             return multipartParameterMap;
         } else {
