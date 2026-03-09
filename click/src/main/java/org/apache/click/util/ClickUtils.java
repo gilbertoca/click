@@ -1703,7 +1703,7 @@ public class ClickUtils {
 
         try {
             InputStream is = getResourceAsStream(descriptorFile, ClickUtils.class);
-            List fileList = IOUtils.readLines(is);
+            List<String> fileList = IOUtils.readLines(is);
             if (fileList == null || fileList.isEmpty()) {
                 logService.info("there are no files to deploy for control " + controlClass.getName());
                 return;
@@ -1713,7 +1713,7 @@ public class ClickUtils {
             // required subdirectories.
             List<String> targetDirList = new ArrayList<String>(fileList.size());
             for (int i = 0; i < fileList.size(); i++) {
-                String filePath = (String) fileList.get(i);
+                String filePath = fileList.get(i);
                 String destination = "";
                 int index = filePath.lastIndexOf('/');
                 if (index != -1) {
@@ -2614,7 +2614,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = ClickUtils.getPageState(resourcePath, context);
+        Map<String, Object> pageMap = ClickUtils.getPageState(resourcePath, context);
         if (pageMap != null) {
             Object pop = pageMap.remove(controlName);
 
@@ -2656,7 +2656,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = ClickUtils.getPageState(resourcePath, context);
+        Map<String, Object> pageMap = ClickUtils.getPageState(resourcePath, context);
         if (pageMap != null) {
             control.setState(pageMap.get(controlName));
         }
@@ -2686,7 +2686,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = getOrCreatePageState(resourcePath, context);
+        Map<String, Object> pageMap = getOrCreatePageState(resourcePath, context);
         Object state = control.getState();
         if (state == null) {
             // Set null state to see if it differs from previous state
@@ -2911,13 +2911,6 @@ public class ClickUtils {
             boolean canWrite = (servletContext.getRealPath("/") != null);
             if (!canWrite) {
                 return false;
-            }
-
-            // Since Google App Engine returns a value for getRealPath, check
-            // SecurityManager if writes are allowed
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkWrite("/click");
             }
             return true;
         } catch (Throwable e) {
@@ -3277,10 +3270,10 @@ public class ClickUtils {
      * @param context the request context
      * @return the map where page state is stored in
      */
-    private static Map getOrCreatePageState(String pagePath, Context context) {
-                Map pageMap = getPageState(pagePath, context);
+    private static Map<String, Object> getOrCreatePageState(String pagePath, Context context) {
+        Map<String, Object> pageMap = getPageState(pagePath, context);
         if (pageMap == null) {
-            pageMap = new HashMap();
+            pageMap = new HashMap<>();
         }
         return pageMap;
     }
@@ -3294,13 +3287,13 @@ public class ClickUtils {
      * @param context the request context
      * @return the map where page state is stored in
      */
-    private static Map getPageState(String pagePath, Context context) {
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> getPageState(String pagePath, Context context) {
         Object storedPageValue = context.getSessionAttribute(pagePath);
-        Map pageMap = null;
         if (storedPageValue != null) {
-            pageMap = (Map) storedPageValue;
+            return (Map<String, Object>) storedPageValue;
         }
-        return pageMap;
+        return null;
     }
 
     /**
@@ -3331,7 +3324,7 @@ public class ClickUtils {
             // #3 - Only modify public methods
             // #4 - Anonymous inner classes have no declaring class
             // #5 - Anonymous inner classes have $ in name
-            if (!targetMethod.isAccessible()
+            if (!targetMethod.canAccess(target)
                 && !Modifier.isPublic(targetClass.getModifiers())
                 && Modifier.isPublic(targetMethod.getModifiers())
                 && targetClass.getDeclaringClass() == null

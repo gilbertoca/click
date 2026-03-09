@@ -143,19 +143,19 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     // ------------------------------------------------ Package Private Members
 
     /** The Map of global page headers. */
-    Map commonHeaders;
+    Map<String, Object> commonHeaders;
 
     /** The page automapping override page class for path list. */
-    final List excludesList = new ArrayList();
+    final List<ExcludesElm> excludesList = new ArrayList<>();
 
     /** The map of ClickApp.PageElm keyed on path. */
-    final Map pageByPathMap = new HashMap();
+    final Map<String, PageElm> pageByPathMap = new HashMap<>();
 
     /** The map of ClickApp.PageElm keyed on class. */
-    final Map pageByClassMap = new HashMap();
+    final Map<Class<? extends Page>, Object> pageByClassMap = new HashMap<>();
 
     /** The list of page packages. */
-    final List pagePackages = new ArrayList();
+    final List<String> pagePackages = new ArrayList<>();
 
     // -------------------------------------------------------- Private Members
 
@@ -556,10 +556,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         // If in production or profile mode.
         if (mode <= PROFILE) {
-            PageElm page = (PageElm) pageByPathMap.get(path);
+            PageElm page = pageByPathMap.get(path);
             if (page == null) {
                 String jspPath = StringUtils.replace(path, ".htm", ".jsp");
-                page = (PageElm) pageByPathMap.get(jspPath);
+                page = pageByPathMap.get(jspPath);
             }
 
             if (page != null) {
@@ -572,23 +572,23 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         } else {
 
             synchronized (PAGE_LOAD_LOCK) {
-                PageElm page = (PageElm) pageByPathMap.get(path);
+                PageElm page = pageByPathMap.get(path);
                 if (page == null) {
                     String jspPath = StringUtils.replace(path, ".htm", ".jsp");
-                    page = (PageElm) pageByPathMap.get(jspPath);
+                    page = pageByPathMap.get(jspPath);
                 }
 
                 if (page != null) {
                     return page.getPageClass();
                 }
 
-                Class pageClass = null;
+                    Class<? extends Page> pageClass = null;
 
                 try {
                     URL resource = servletContext.getResource(path);
                     if (resource != null) {
                         for (int i = 0; i < pagePackages.size(); i++) {
-                            String pagesPackage = pagePackages.get(i).toString();
+                            String pagesPackage = pagePackages.get(i);
 
                             pageClass = getPageClass(path, pagesPackage);
 
@@ -634,12 +634,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             return page.getPath();
 
         } else if (object instanceof List) {
+            @SuppressWarnings("unchecked")
+            List<PageElm> pageElmList = (List<PageElm>) object;
             HtmlStringBuffer buffer = new HtmlStringBuffer();
             buffer.append("Page class resolves to multiple paths: ");
             buffer.append(pageClass.getName());
             buffer.append(" -> [");
-            for (Iterator it = ((List) object).iterator(); it.hasNext();) {
-                PageElm pageElm = (PageElm) it.next();
+            for (Iterator<PageElm> it = pageElmList.iterator(); it.hasNext();) {
+                PageElm pageElm = it.next();
                 buffer.append(pageElm.getPath());
                 if (it.hasNext()) {
                     buffer.append(", ");
@@ -660,11 +662,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     public List<Class<? extends Page>> getPageClassList() {
         List<Class<? extends Page>> classList =
-            new ArrayList<Class<? extends Page>>(pageByClassMap.size());
+            new ArrayList<>(pageByClassMap.size());
 
-        Iterator i = pageByClassMap.keySet().iterator();
-        while (i.hasNext()) {
-            Class pageClass = (Class) i.next();
+        for (Class<? extends Page> pageClass : pageByClassMap.keySet()) {
             classList.add(pageClass);
         }
 
@@ -678,10 +678,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @return a Map of headers for the given page path
      */
     public Map<String, Object> getPageHeaders(String path) {
-        PageElm page = (PageElm) pageByPathMap.get(path);
+        PageElm page = pageByPathMap.get(path);
         if (page == null) {
             String jspPath = StringUtils.replace(path, ".htm", ".jsp");
-            page = (PageElm) pageByPathMap.get(jspPath);
+            page = pageByPathMap.get(jspPath);
         }
 
         if (page != null) {
@@ -697,7 +697,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @return the page not found <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getNotFoundPageClass() {
-        PageElm page = (PageElm) pageByPathMap.get(NOT_FOUND_PATH);
+        PageElm page = pageByPathMap.get(NOT_FOUND_PATH);
 
         if (page != null) {
             return page.getPageClass();
@@ -713,7 +713,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @return the error handling page <code>Page</code> <code>Class</code>
      */
     public Class<? extends Page> getErrorPageClass() {
-        PageElm page = (PageElm) pageByPathMap.get(ERROR_PATH);
+        PageElm page = pageByPathMap.get(ERROR_PATH);
 
         if (page != null) {
             return page.getPageClass();
@@ -748,8 +748,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             return page.getFieldArray();
 
         } else if (object instanceof List) {
-            List list = (List) object;
-            XmlConfigService.PageElm page = (XmlConfigService.PageElm) list.get(0);
+            @SuppressWarnings("unchecked")
+            List<PageElm> pageElmList = (List<PageElm>) object;
+            XmlConfigService.PageElm page = pageElmList.get(0);
             return page.getFieldArray();
 
         } else {
@@ -771,8 +772,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             return page.getFields();
 
         } else if (object instanceof List) {
-            List list = (List) object;
-            XmlConfigService.PageElm page = (XmlConfigService.PageElm) list.get(0);
+            @SuppressWarnings("unchecked")
+            List<PageElm> pageElmList = (List<PageElm>) object;
+            XmlConfigService.PageElm page = pageElmList.get(0);
             return page.getFields();
 
         } else {
@@ -998,7 +1000,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             throw new RuntimeException(msg);
         }
 
-        List templates = getTemplateFiles();
+        List<String> templates = getTemplateFiles();
 
         for (Element pagesElm : pagesList) {
 
@@ -1091,14 +1093,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     void buildManualPageMapping(Element pagesElm, String pagesPackage) throws ClassNotFoundException {
 
-        List pageList = ClickUtils.getChildren(pagesElm, "page");
+        List<Element> pageList = ClickUtils.getChildren(pagesElm, "page");
 
         if (!pageList.isEmpty() && logService.isDebugEnabled()) {
             logService.debug("click.xml pages:");
         }
 
         for (int i = 0; i < pageList.size(); i++) {
-            Element pageElm = (Element) pageList.get(i);
+            Element pageElm = pageList.get(i);
 
             XmlConfigService.PageElm page =
                 new XmlConfigService.PageElm(pageElm,
@@ -1127,26 +1129,23 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @param pagesPackage the pages package prefix
      * @param templates the list of templates to map to Page classes
      */
-    void buildAutoPageMapping(Element pagesElm, String pagesPackage, List templates) throws ClassNotFoundException {
+    void buildAutoPageMapping(Element pagesElm, String pagesPackage, List<String> templates) throws ClassNotFoundException {
 
         // Build list of automap path page class overrides
         excludesList.clear();
-        for (Iterator i = ClickUtils.getChildren(pagesElm, "excludes").iterator();
-             i.hasNext();) {
-
-            excludesList.add(new XmlConfigService.ExcludesElm((Element) i.next()));
+        for (Element excludesElm : ClickUtils.getChildren(pagesElm, "excludes")) {
+            excludesList.add(new XmlConfigService.ExcludesElm(excludesElm));
         }
 
         if (logService.isDebugEnabled()) {
             logService.debug("automapped pages:");
         }
 
-        for (int i = 0; i < templates.size(); i++) {
-            String pagePath = (String) templates.get(i);
+        for (String pagePath : templates) {
 
             if (!pageByPathMap.containsKey(pagePath)) {
 
-                Class pageClass = getPageClass(pagePath, pagesPackage);
+                Class<? extends Page> pageClass = getPageClass(pagePath, pagesPackage);
 
                 if (pageClass != null) {
                     XmlConfigService.PageElm page =
@@ -1173,8 +1172,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     void buildClassMap() {
         // Build pages by class map
-        for (Iterator i = pageByPathMap.values().iterator(); i.hasNext();) {
-            XmlConfigService.PageElm page = (XmlConfigService.PageElm) i.next();
+        for (XmlConfigService.PageElm page : pageByPathMap.values()) {
             addToClassMap(page);
         }
     }
@@ -1185,17 +1183,18 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      *
      * @param page the PageElm containing metadata about a specific page
      */
+    @SuppressWarnings("unchecked")
     void addToClassMap(PageElm page) {
         Object value = pageByClassMap.get(page.pageClass);
         if (value == null) {
             pageByClassMap.put(page.pageClass, page);
 
         } else if (value instanceof List) {
-            ((List) value).add(page);
+            ((List<PageElm>) value).add(page);
 
         } else if (value instanceof XmlConfigService.PageElm) {
-            List list = new ArrayList();
-            list.add(value);
+            List<PageElm> list = new ArrayList<>();
+            list.add((PageElm) value);
             list.add(page);
             pageByClassMap.put(page.pageClass, list);
 
@@ -1791,13 +1790,13 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      *
      * @return list of all templates within the web application
      */
-    private List getTemplateFiles() {
-        List fileList = new ArrayList();
+    private List<String> getTemplateFiles() {
+        List<String> fileList = new ArrayList<>();
 
-        Set resources = servletContext.getResourcePaths("/");
+        Set<String> resources = servletContext.getResourcePaths("/");
         if (onGoogleAppEngine) {
             // resources could be immutable so create copy
-            Set tempResources = new HashSet();
+            Set<String> tempResources = new HashSet<>();
 
             // Load the two GAE preconfigured automapped folders
             tempResources.addAll(servletContext.getResourcePaths("/page"));
@@ -1809,9 +1808,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
 
         // Add all resources within web application
-        for (Iterator i = resources.iterator(); i.hasNext();) {
-            String resource = (String) i.next();
-
+        for (String resource : resources) {
             if (isTemplate(resource)) {
                 fileList.add(resource);
 
@@ -1827,13 +1824,11 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         return fileList;
     }
 
-    private void processDirectory(String dirPath, List fileList) {
-        Set resources = servletContext.getResourcePaths(dirPath);
+    private void processDirectory(String dirPath, List<String> fileList) {
+        Set<String> resources = servletContext.getResourcePaths(dirPath);
 
         if (resources != null) {
-            for (Iterator i = resources.iterator(); i.hasNext();) {
-                String resource = (String) i.next();
-
+            for (String resource : resources) {
                 if (isTemplate(resource)) {
                     fileList.add(resource);
 
@@ -1845,10 +1840,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     private Class<? extends Page> getExcludesPageClass(String path) {
-        for (int i = 0; i < excludesList.size(); i++) {
-            XmlConfigService.ExcludesElm override =
-                (XmlConfigService.ExcludesElm) excludesList.get(i);
-
+        for (ExcludesElm override : excludesList) {
             if (override.isMatch(path)) {
                 return override.getPageClass();
             }
@@ -1865,7 +1857,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @param mode the binding mode
      * @return the field array of bindable fields
      */
-    private static Field[] getBindablePageFields(Class pageClass, AutoBinding mode) {
+    private static Field[] getBindablePageFields(Class<? extends Page> pageClass, AutoBinding mode) {
         if (mode == AutoBinding.DEFAULT) {
 
             // Get @Bindable fields
@@ -1912,12 +1904,12 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @param pageClass the page class
      * @return the map of bindable fields
      */
-    private static Map getAnnotatedBindableFields(Class pageClass) {
+    private static Map<String, Field> getAnnotatedBindableFields(Class<? extends Page> pageClass) {
 
-        List<Class> pageClassList = new ArrayList<Class>();
+        List<Class<?>> pageClassList = new ArrayList<>();
         pageClassList.add(pageClass);
 
-        Class parentClass = pageClass.getSuperclass();
+        Class<?> parentClass = pageClass.getSuperclass();
         while (parentClass != null) {
             // Include parent classes up to but excluding Page.class
             if (parentClass.isAssignableFrom(Page.class)) {
@@ -1932,9 +1924,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         // page classes fields to override parent class fields
         Collections.reverse(pageClassList);
 
-        Map<String, Field> fieldMap = new TreeMap<String, Field>();
+        Map<String, Field> fieldMap = new TreeMap<>();
 
-        for (Class aPageClass : pageClassList) {
+        for (Class<?> aPageClass : pageClassList) {
 
             for (Field field : aPageClass.getDeclaredFields()) {
 
@@ -1962,7 +1954,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     public static class ExcludePage extends Page {
 
-        static final Map HEADERS = new HashMap();
+        static final Map<String, Object> HEADERS = new HashMap<>();
 
         static {
             HEADERS.put("Cache-Control", "max-age=3600, public");
@@ -1974,7 +1966,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
          * @return the map of HTTP header to be set in the HttpServletResponse
          */
         @Override
-        public Map getHeaders() {
+        public Map<String, Object> getHeaders() {
             return HEADERS;
         }
     }
@@ -1985,7 +1977,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         final Field[] fieldArray;
 
-        final Map headers;
+        final Map<String, Object> headers;
 
         final Class<? extends Page> pageClass;
 
@@ -1993,13 +1985,13 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         public PageElm(Element element,
                        String pagesPackage,
-                       Map commonHeaders,
+                       Map<String, Object> commonHeaders,
                        AutoBinding autobinding)
             throws ClassNotFoundException {
 
             // Set headers
-            Map aggregationMap = new HashMap(commonHeaders);
-            Map pageHeaders = loadHeadersMap(element);
+            Map<String, Object> aggregationMap = new HashMap<>(commonHeaders);
+            Map<String, Object> pageHeaders = loadHeadersMap(element);
             aggregationMap.putAll(pageHeaders);
             headers = Collections.unmodifiableMap(aggregationMap);
 
@@ -2019,7 +2011,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 throw new RuntimeException(msg);
             }
 
-            Class tmpPageClass = null;
+                    Class<? extends Page> tmpPageClass = null;
             String classnameFound = null;
 
             try {
@@ -2072,8 +2064,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
 
         private PageElm(String path,
-                        Class pageClass,
-                        Map commonHeaders,
+                        Class<? extends Page> pageClass,
+                        Map<String, Object> commonHeaders,
                         AutoBinding mode) {
 
             headers = Collections.unmodifiableMap(commonHeaders);
@@ -2106,7 +2098,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             return fields;
         }
 
-        public Map getHeaders() {
+        public Map<String, Object> getHeaders() {
             return headers;
         }
 

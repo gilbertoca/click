@@ -150,22 +150,13 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String name) {
         if (isMultipartRequest) {
-            Object value = getMultipartParameterMap().get(name);
+            String[] values = getMultipartParameterMap().get(name);
 
-            if (value instanceof String) {
-                return (String) value;
+            if (values != null && values.length >= 1) {
+                return values[0];
             }
 
-            if (value instanceof String[]) {
-                String[] array = (String[]) value;
-                if (array.length >= 1) {
-                    return array[0];
-                } else {
-                    return null;
-                }
-            }
-
-            return (value == null ? null : value.toString());
+            return null;
 
         } else {
             return request.getParameter(name);
@@ -176,8 +167,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @see javax.servlet.ServletRequest#getParameterNames()
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public Enumeration getParameterNames() {
+    public Enumeration<String> getParameterNames() {
         if (isMultipartRequest) {
             return Collections.enumeration(getMultipartParameterMap().keySet());
 
@@ -192,15 +182,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String[] getParameterValues(String name) {
         if (isMultipartRequest) {
-            Object values = getMultipartParameterMap().get(name);
-            if (values instanceof String) {
-                return new String[] { values.toString() };
-            }
-            if (values instanceof String[]) {
-                return (String[]) values;
-            } else {
-                return null;
-            }
+            return getMultipartParameterMap().get(name);
 
         } else {
             return request.getParameterValues(name);
@@ -211,8 +193,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @see javax.servlet.ServletRequest#getParameterMap()
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public Map getParameterMap() {
+    public Map<String, String[]> getParameterMap() {
         if (isMultipartRequest) {
             return getMultipartParameterMap();
         } else {
@@ -227,8 +208,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      *
      * @return the <code>"multipart"</code> request parameter map
      */
-    @SuppressWarnings("unchecked")
-    Map getMultipartParameterMap() {
+    Map<String, String[]> getMultipartParameterMap() {
         if (request.getAttribute(ClickServlet.MOCK_MODE_ENABLED) == null) {
             return multipartParameterMap;
         } else {

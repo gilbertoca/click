@@ -1944,7 +1944,6 @@ public class ClickServlet extends HttpServlet {
      * @return a new application ConfigService instance
      * @throws Exception if an initialization error occurs
      */
-    @SuppressWarnings("unchecked")
     ConfigService createConfigService(ServletContext servletContext)
         throws Exception {
 

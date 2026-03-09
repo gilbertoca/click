@@ -313,7 +313,7 @@ public class Select extends Field {
     protected boolean multiple;
 
     /** The Select Option/OptionGroup list. */
-    protected List optionList;
+    protected List<Object> optionList;
 
     /** The Select display size in rows. The default size is one. */
     protected int size = 1;
@@ -325,8 +325,7 @@ public class Select extends Field {
     protected List<String> selectedValues;
 
     /** The select data provider. */
-    @SuppressWarnings("unchecked")
-    protected DataProvider dataProvider;
+    protected DataProvider<?> dataProvider;
 
     /**
      * The default option will be the first option added to the Select.
@@ -657,8 +656,7 @@ public class Select extends Field {
      *
      * @return the select option list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public DataProvider getDataProvider() {
+    public DataProvider<?> getDataProvider() {
         return dataProvider;
     }
 
@@ -685,8 +683,7 @@ public class Select extends Field {
      *
      * @param dataProvider the select option list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public void setDataProvider(DataProvider dataProvider) {
+    public void setDataProvider(DataProvider<?> dataProvider) {
         this.dataProvider = dataProvider;
         if (dataProvider != null) {
             if (optionList != null) {
@@ -839,19 +836,20 @@ public class Select extends Field {
      *
      * @return the Option list
      */
-    public List getOptionList() {
+    public List<Object> getOptionList() {
         if (optionList == null) {
 
             Option defaultOption = getDefaultOption();
 
-            DataProvider dp = getDataProvider();
+            DataProvider<?> dp = getDataProvider();
 
             if (dp != null) {
-                Iterable iterableData = dp.getData();
+                Iterable<?> iterableData = dp.getData();
 
                 if (iterableData instanceof List) {
                     // Set optionList to data
-                    List listData = (List) iterableData;
+                    @SuppressWarnings("unchecked")
+                    List<Object> listData = (List<Object>) iterableData;
                     if (defaultOption != null) {
                         // Insert default option as first option
                         listData.add(0, defaultOption);
@@ -860,7 +858,7 @@ public class Select extends Field {
 
                 } else {
                     // Create and populate the optionList from the Iterable data
-                    optionList = new ArrayList();
+                    optionList = new ArrayList<>();
 
                     if (iterableData != null) {
 
@@ -882,7 +880,7 @@ public class Select extends Field {
                 }
             } else {
                 // Create empty list
-                optionList = new ArrayList();
+                optionList = new ArrayList<>();
             }
         }
         return optionList;
@@ -893,8 +891,10 @@ public class Select extends Field {
      *
      * @param options the Option list
      */
-    public void setOptionList(List options) {
-        optionList = options;
+    public void setOptionList(List<?> options) {
+        @SuppressWarnings("unchecked")
+        List<Object> castOptions = (List<Object>) options;
+        optionList = castOptions;
         if (optionList != null) {
             setInitialValue();
         }

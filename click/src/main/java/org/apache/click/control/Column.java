@@ -279,8 +279,7 @@ public class Column implements Serializable {
     protected String width;
 
     /** The column comparator object, which is used to sort column row values. */
-    @SuppressWarnings("unchecked")
-    Comparator comparator;
+    Comparator<Object> comparator;
 
     // ----------------------------------------------------------- Constructors
 
@@ -407,8 +406,7 @@ public class Column implements Serializable {
      *
      * @return the column row data sorting comparator object.
      */
-    @SuppressWarnings("unchecked")
-    public Comparator getComparator() {
+    public Comparator<Object> getComparator() {
         if (comparator == null) {
             comparator = new ColumnComparator(this);
         }
@@ -421,8 +419,7 @@ public class Column implements Serializable {
      *
      * @param comparator the column row data sorting comparator object
      */
-    @SuppressWarnings("unchecked")
-    public void setComparator(Comparator comparator) {
+    public void setComparator(Comparator<Object> comparator) {
         this.comparator = comparator;
     }
 
@@ -1302,10 +1299,10 @@ public class Column implements Serializable {
      * @return the named row object property value
      * @throws RuntimeException if an error occurred obtaining the property
      */
-    @SuppressWarnings("unchecked")
     public Object getProperty(String name, Object row) {
         if (row instanceof Map) {
-            Map map = (Map) row;
+            @SuppressWarnings("unchecked")
+            Map<Object, Object> map = (Map<Object, Object>) row;
 
             Object object = map.get(name);
             if (object != null) {
@@ -1456,8 +1453,7 @@ public class Column implements Serializable {
      * @see org.apache.click.control.Column
      * @see org.apache.click.control.Table
      */
-    @SuppressWarnings("unchecked")
-    static class ColumnComparator implements Comparator, Serializable {
+    static class ColumnComparator implements Comparator<Object>, Serializable {
 
         private static final long serialVersionUID = 1L;
 
@@ -1497,7 +1493,9 @@ public class Column implements Serializable {
 
                 } else {
 
-                    return ((Comparable) value1).compareTo(value2) * ascendingSort;
+                    @SuppressWarnings({"unchecked", "rawtypes"})
+                    int cmp = ((Comparable) value1).compareTo(value2);
+                    return cmp * ascendingSort;
                 }
 
             } else if (value1 != null && value2 != null) {

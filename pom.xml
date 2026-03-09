@@ -96,8 +96,8 @@
         <maven.compiler.optimize>true</maven.compiler.optimize>
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Project Versions -->
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -366,7 +366,7 @@
                         <maxmemory>256m</maxmemory>
                         <quiet>true</quiet>
                         <links>
-                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                            <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
                         </links>
                         <failOnError>false</failOnError>
                         <additionalOptions>-Xdoclint:none --allow-script-in-comments</additionalOptions>

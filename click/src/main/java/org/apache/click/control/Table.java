@@ -406,8 +406,7 @@ public class Table extends AbstractControl implements Stateful {
     protected String height;
 
     /** The table data provider. */
-    @SuppressWarnings("unchecked")
-    protected DataProvider dataProvider;
+    protected DataProvider<?> dataProvider;
 
     /**
      * The total possible number of rows of the table. This value
@@ -467,8 +466,7 @@ public class Table extends AbstractControl implements Stateful {
      * The list Table rows. Please note the rowList is cleared in table
      * {@link #onDestroy()} method at the end of each request.
      */
-    @SuppressWarnings("unchecked")
-    protected List rowList;
+    protected List<Object> rowList;
 
     /**
      * The show table banner flag detailing number of rows and current rows
@@ -811,8 +809,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @return the table row list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public DataProvider getDataProvider() {
+    public DataProvider<?> getDataProvider() {
         return dataProvider;
     }
 
@@ -885,8 +882,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @param dataProvider the table row list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public void setDataProvider(DataProvider dataProvider) {
+    public void setDataProvider(DataProvider<?> dataProvider) {
         this.dataProvider = dataProvider;
         if (dataProvider != null) {
             setRowList(null);
@@ -1161,8 +1157,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @return the list of table rows
      */
-    @SuppressWarnings("unchecked")
-    public List getRowList() {
+    public List<Object> getRowList() {
         if (rowList == null) {
             rowList = createRowList();
         }
@@ -1184,8 +1179,8 @@ public class Table extends AbstractControl implements Stateful {
      * @param rowList the list of table rows to set
      */
     @SuppressWarnings("unchecked")
-    public void setRowList(List rowList) {
-        this.rowList = rowList;
+    public void setRowList(List<?> rowList) {
+        this.rowList = (List<Object>) rowList;
         if (this.rowList == null) {
             this.rowCount = 0;
         } else {
@@ -1785,7 +1780,6 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @param buffer the StringBuffer to render the table body rows in
      */
-    @SuppressWarnings("unchecked")
     protected void renderBodyRows(HtmlStringBuffer buffer) {
         buffer.append("<tbody>\n");
 
@@ -1817,9 +1811,9 @@ public class Table extends AbstractControl implements Stateful {
         if (lastRow == 0) {
             renderBodyNoRows(buffer);
         } else {
-            List tableRows = getRowList();
+            List<Object> tableRows = getRowList();
 
-            Map rowAttributes = new HashMap(3);
+            Map<String, String> rowAttributes = new HashMap<>(3);
 
             for (int i = firstRow; i < lastRow; i++) {
                 Object row = getRowList().get(i);
@@ -1846,7 +1840,7 @@ public class Table extends AbstractControl implements Stateful {
                     buffer.appendAttribute("id", rowAttributes.get("id"));
 
                     // Remove class attribute and append hoverClass to the value
-                    String cls = (String) rowAttributes.remove("class");
+                    String cls = rowAttributes.remove("class");
 
                     // Open class attribute
                     buffer.append(" class=\"");
@@ -2178,13 +2172,12 @@ public class Table extends AbstractControl implements Stateful {
      * The default row list sorting method, which will sort the row list based
      * on the selected column if the row list is not already sorted.
      */
-    @SuppressWarnings("unchecked")
     protected void sortRowList() {
         if (!isSorted() && StringUtils.isNotBlank(getSortedColumn())) {
 
             Column column = getColumns().get(getSortedColumn());
 
-            Collections.sort(getRowList(), column.getComparator());
+            getRowList().sort(column.getComparator());
 
             setSorted(true);
         }
