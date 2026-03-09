@@ -47,7 +47,7 @@ public class OptionGroup implements Serializable {
     // ------------------------------------------------- Instance Variables
 
     /** The groups child Option/OptGroup objects. */
-    protected List children = new ArrayList();
+    protected List<Object> children = new ArrayList<>();
 
     /** The label for the OptionGroup. */
     protected final String label;
@@ -88,7 +88,7 @@ public class OptionGroup implements Serializable {
      *
      * @return the OptionGroup children
      */
-    public List getChildren() {
+    public List<Object> getChildren() {
         return children;
     }
 
@@ -114,7 +114,7 @@ public class OptionGroup implements Serializable {
         buffer.appendAttribute("label", getLabel());
         buffer.closeTag();
 
-        List list = getChildren();
+        List<Object> list = getChildren();
         for (int i = 0, size = list.size(); i < size; i++) {
             Object object = list.get(i);
 

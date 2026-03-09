@@ -1907,7 +1907,7 @@ public class Form extends AbstractContainer implements Stateful {
             return;
         }
 
-        Map stateMap = (Map) state;
+        Map<?,?> stateMap = (Map<?,?>) state;
         List<Field> fields = new ArrayList<Field>();
         addStatefulFields(this, fields);
 

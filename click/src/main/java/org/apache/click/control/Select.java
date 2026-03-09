@@ -313,7 +313,7 @@ public class Select extends Field {
     protected boolean multiple;
 
     /** The Select Option/OptionGroup list. */
-    protected List optionList;
+    protected List<Object> optionList;
 
     /** The Select display size in rows. The default size is one. */
     protected int size = 1;
@@ -325,8 +325,7 @@ public class Select extends Field {
     protected List<String> selectedValues;
 
     /** The select data provider. */
-    @SuppressWarnings("unchecked")
-    protected DataProvider dataProvider;
+    protected DataProvider<?> dataProvider;
 
     /**
      * The default option will be the first option added to the Select.
@@ -417,7 +416,7 @@ public class Select extends Field {
             String msg = "option parameter cannot be null";
             throw new IllegalArgumentException(msg);
         }
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
         optionList.add(option);
         if (optionList.size() == 1) {
             setInitialValue();
@@ -451,7 +450,7 @@ public class Select extends Field {
             String msg = "value parameter cannot be null";
             throw new IllegalArgumentException(msg);
         }
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
         optionList.add(new Option(value));
         if (optionList.size() == 1) {
             setInitialValue();
@@ -467,7 +466,7 @@ public class Select extends Field {
      *     is an unsupported class
      */
     public void add(Object option) {
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
         if (option instanceof Option) {
             optionList.add(option);
 
@@ -528,13 +527,12 @@ public class Select extends Field {
      * @param options the Map of option values and labels to add
      * @throws IllegalArgumentException if options is null
      */
-    public void addAll(Map options) {
+    public void addAll(Map<?, ?> options) {
         if (options == null) {
             String msg = "options parameter cannot be null";
             throw new IllegalArgumentException(msg);
         }
-        for (Iterator i = options.entrySet().iterator(); i.hasNext();) {
-            Map.Entry entry = (Map.Entry) i.next();
+        for (Map.Entry<?, ?> entry : options.entrySet()) {
             Option option = new Option(entry.getKey().toString(),
                                        entry.getValue().toString());
             getOptionList().add(option);
@@ -591,7 +589,7 @@ public class Select extends Field {
      * @throws IllegalArgumentException if objects or optionValueProperty
      * parameter is null
      */
-    public void addAll(Collection objects, String optionValueProperty,
+    public void addAll(Collection<?> objects, String optionValueProperty,
         String optionLabelProperty) {
 
         if (objects == null) {
@@ -607,7 +605,7 @@ public class Select extends Field {
             return;
         }
 
-        Map methodCache = new HashMap();
+        Map<String, Object> methodCache = new HashMap<>();
 
         if (propertyService == null) {
             ServletContext sc = getContext().getServletContext();
@@ -657,8 +655,7 @@ public class Select extends Field {
      *
      * @return the select option list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public DataProvider getDataProvider() {
+    public DataProvider<?> getDataProvider() {
         return dataProvider;
     }
 
@@ -685,8 +682,7 @@ public class Select extends Field {
      *
      * @param dataProvider the select option list DataProvider
      */
-    @SuppressWarnings("unchecked")
-    public void setDataProvider(DataProvider dataProvider) {
+    public void setDataProvider(DataProvider<?> dataProvider) {
         this.dataProvider = dataProvider;
         if (dataProvider != null) {
             if (optionList != null) {
@@ -839,19 +835,20 @@ public class Select extends Field {
      *
      * @return the Option list
      */
-    public List getOptionList() {
+    public List<Object> getOptionList() {
         if (optionList == null) {
 
             Option defaultOption = getDefaultOption();
 
-            DataProvider dp = getDataProvider();
+            DataProvider<?> dp = getDataProvider();
 
             if (dp != null) {
-                Iterable iterableData = dp.getData();
+                Iterable<?> iterableData = dp.getData();
 
                 if (iterableData instanceof List) {
                     // Set optionList to data
-                    List listData = (List) iterableData;
+                    @SuppressWarnings("unchecked")
+                    List<Object> listData = (List<Object>) iterableData;
                     if (defaultOption != null) {
                         // Insert default option as first option
                         listData.add(0, defaultOption);
@@ -860,7 +857,7 @@ public class Select extends Field {
 
                 } else {
                     // Create and populate the optionList from the Iterable data
-                    optionList = new ArrayList();
+                    optionList = new ArrayList<Object>();
 
                     if (iterableData != null) {
 
@@ -882,7 +879,7 @@ public class Select extends Field {
                 }
             } else {
                 // Create empty list
-                optionList = new ArrayList();
+                optionList = new ArrayList<Object>();
             }
         }
         return optionList;
@@ -893,7 +890,7 @@ public class Select extends Field {
      *
      * @param options the Option list
      */
-    public void setOptionList(List options) {
+    public void setOptionList(List<Object> options) {
         optionList = options;
         if (optionList != null) {
             setInitialValue();
@@ -912,7 +909,7 @@ public class Select extends Field {
         args[1] = String.valueOf(isRequired());
         args[2] = getMessage("select-error", getErrorLabel());
 
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
         if (!optionList.isEmpty()) {
             Option option = (Option) optionList.get(0);
             args[3] = option.getValue();
@@ -970,7 +967,7 @@ public class Select extends Field {
     @Override
     public Object getState() {
         if (isMultiple()) {
-            List selectedState = getSelectedValues();
+            List<String> selectedState = getSelectedValues();
             if (selectedState.isEmpty()) {
                 return null;
             } else {
@@ -1003,8 +1000,8 @@ public class Select extends Field {
             String[] selectState = (String[]) state;
             localSelectedState = new ArrayList<String>(selectState.length);
             for (String val : selectState) {
-            localSelectedState.add(val);
-        }
+                localSelectedState.add(val);
+            }
         }
         setSelectedValues(localSelectedState);
     }
@@ -1028,7 +1025,7 @@ public class Select extends Field {
     @Override
     public int getControlSizeEst() {
         int bufferSize = 50;
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
         if (!optionList.isEmpty()) {
             bufferSize = bufferSize + (optionList.size() * 48);
         }
@@ -1073,7 +1070,7 @@ public class Select extends Field {
 
         buffer.closeTag();
 
-        List optionList = getOptionList();
+        List<Object> optionList = getOptionList();
 
         if (!optionList.isEmpty()) {
             for (int i = 0, listSize = optionList.size(); i < listSize; i++) {
@@ -1149,7 +1146,7 @@ public class Select extends Field {
 
                     // if no defaultValue is present, lookup value from OptionList
                     if (defaultValue == null) {
-                        List optionList = getOptionList();
+                        List<Object> optionList = getOptionList();
 
                         if (optionList.isEmpty()) {
                             String msg =

@@ -352,7 +352,7 @@ public class ActionButton extends Button {
      *
      * @param parameters the button parameter map
      */
-    public void setParameters(Map parameters) {
+    public void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
 

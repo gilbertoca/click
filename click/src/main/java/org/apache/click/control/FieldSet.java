@@ -920,7 +920,7 @@ public class FieldSet extends Field implements Container {
             return;
         }
 
-        Map stateMap = (Map) state;
+        Map<?,?> stateMap = (Map<?,?>) state;
         List<Field> fields = new ArrayList<Field>();
         addStatefulFields(this, fields);
 

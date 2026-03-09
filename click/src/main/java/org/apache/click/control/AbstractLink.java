@@ -395,7 +395,7 @@ public abstract class AbstractLink extends AbstractControl implements Stateful {
      *
      * @param parameters the link parameter map
      */
-    public void setParameters(Map parameters) {
+    public void setParameters(Map<String, Object> parameters) {
         this.parameters = parameters;
     }
 
@@ -574,7 +574,7 @@ public abstract class AbstractLink extends AbstractControl implements Stateful {
             return;
         }
 
-        Map linkState = (Map) state;
+        Map<String, Object> linkState = (Map<String, Object>) state;
         setParameters(linkState);
     }
 

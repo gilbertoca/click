@@ -187,9 +187,9 @@ public class Option implements Serializable {
             if (!select.getSelectedValues().isEmpty()) {
 
                 // Search through selection list for matching value
-                List values = select.getSelectedValues();
+                List<String> values = select.getSelectedValues();
                 for (int i = 0, size = values.size(); i < size; i++) {
-                    String value = values.get(i).toString();
+                    String value = values.get(i);
                     if (getValue().equals(value)) {
                         buffer.appendAttribute("selected", "selected");
                         break;
