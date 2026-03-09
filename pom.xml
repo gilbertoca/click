@@ -93,8 +93,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.compiler.source>17</java.compiler.source>
-        <java.compiler.target>17</java.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <!-- Project Versions -->
         <commons-collections.version>3.2.2</commons-collections.version>
@@ -307,12 +306,11 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.14.1</version>
                     <configuration>
-                        <source>${java.compiler.source}</source>
-                        <target>${java.compiler.target}</target>
                         <showDeprecation/>
                         <showWarnings/>
                         <compilerArgs>
                             <arg>-Xlint:unchecked</arg>
+                            <arg>-Xlint:rawtypes</arg>
                             <arg>-Xlint:all</arg>
                             <arg>-Xlint:-serial</arg>
                         </compilerArgs>
