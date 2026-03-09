@@ -10,7 +10,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
     branches: [ "main" ]
 
@@ -19,13 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ 11, 17, 21 ]
+        java-version: [ 17, 21 ]
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 17
+    - name: Set up JDK 
       uses: actions/setup-java@v4
       with:
-        #java-version: '17'
         java-version: ${{ matrix.java-version }}
         distribution: 'temurin'
         cache: maven
