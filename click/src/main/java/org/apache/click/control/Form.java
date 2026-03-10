@@ -496,9 +496,9 @@ import org.apache.commons.lang.StringUtils;
  *     ClickUtils.bind(submit);
  *
  *     // If submit was not clicked, don't validate
- *     if(form.isFormSubmission() && !submit.isClicked()) {
+ *     {@code if(form.isFormSubmission() && !submit.isClicked()) {
  *         form.setValidate(false);
- *     }
+ *     }}
  * } </pre>
  *
  * <p>&nbsp;</p>

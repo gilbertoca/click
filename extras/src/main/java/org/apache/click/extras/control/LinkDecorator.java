@@ -143,7 +143,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * The PageLinks will render as follows:
  * <pre class="prettyprint">
- * &lt;a href="/mycorp/address-page.htm?postCode=6089&state=NSW&gt;Select&lt;/a&gt;
+ * &lt;a href="/mycorp/address-page.htm?postCode=6089&amp;state=NSW&gt;Select&lt;/a&gt;
  * </pre>
  *
  * <p/>
@@ -355,7 +355,7 @@ public class LinkDecorator implements Decorator, Serializable {
      * <code>"123"</code>, will render the following editButton:
      *
      * <pre class="codeHtml">
-     * &lt;input onclick="javascript:document.location.href='/mycorp/edit-customer.htm?actionButton=edit&value=123&<span class="red">idParam=123</span>';"/&gt; </pre>
+     * &lt;input onclick="javascript:document.location.href='/mycorp/edit-customer.htm?actionButton=edit&amp;value=123&amp;<span class="red">idParam=123</span>';"/&gt; </pre>
      *
      * If the <code>parameter name</code> was not specified the <code>row object identifier</code>
      * parameter will default to {@value org.apache.click.control.ActionButton#VALUE}:

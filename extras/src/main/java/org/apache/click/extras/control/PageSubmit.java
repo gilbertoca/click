@@ -27,7 +27,7 @@ import org.apache.click.util.ClickUtils;
 /**
  * Provides a Page redirect Submit control: &nbsp; &lt;input type='submit'&gt;.
  *
- * <table class='htmlHeader cellspacing='6'>
+ * <table class='htmlHeader' cellspacing='6'>
  * <tr>
  * <td><input type='submit' value='Page Submit' title='PageSubmit Control'/></td>
  * </tr>
@@ -35,7 +35,7 @@ import org.apache.click.util.ClickUtils;
  *
  * The PageSubmit is a Submit button which enables you to redirect to another
  * page from a Form, without having to define a listener method.
- * <p/>
+ * <p>
  * This control is typically used for Cancel buttons.
  *
  * <h3>PageSubmit Example</h3>
@@ -48,7 +48,7 @@ import org.apache.click.util.ClickUtils;
  *    form.add(<span class="kw">new</span> PageSubmit(<span class="st">"cancel"</span>, <span class="st">"Cancel"</span>, HomePage.<span class="kw">class</span>));
  * </pre>
  *
- * <p/>
+ * <p>
  * See also the W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>

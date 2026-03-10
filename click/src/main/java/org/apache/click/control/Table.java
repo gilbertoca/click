@@ -1951,6 +1951,7 @@ public class Table extends AbstractControl implements Stateful {
      * <p>
      * An example:
      * <pre class="prettyprint">
+     * {@code
      * private Table table;
      *
      * public void onInit() {
@@ -1981,6 +1982,7 @@ public class Table extends AbstractControl implements Stateful {
      *     buffer.append("&lt;foot&gt;&lt;tr&gt;&lt;td colspan='4' style='text-align:right'&gt");
      *     buffer.append(totalDisplay);
      *     buffer.append("&lt/td&gt&lt/tr&gt&lt/tfoot&gt");
+     * }
      * }
      * </pre>
      *

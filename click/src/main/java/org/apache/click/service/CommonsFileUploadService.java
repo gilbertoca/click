@@ -19,7 +19,6 @@
 package org.apache.click.service;
 
 import java.io.File;
-import java.security.AccessControlException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -105,7 +104,7 @@ public class CommonsFileUploadService implements FileUploadService {
                 restrictedEnvironment = true;
             }
 
-        } catch (AccessControlException exception) {
+        } catch (SecurityException exception) {
             if (ClickUtils.isResourcesDeployable(servletContext)) {
                 // If resources are deployable, throw exception
                 throw exception;

@@ -254,9 +254,9 @@ public class ErrorReport {
         buffer.append("<tr><td colspan='2' style='color:white; background-color: navy; font-weight: bold'>Request</td></tr>");
 
         Map<String, Object> requestAttributes = new TreeMap<String, Object>();
-        Enumeration attributeNames = request.getAttributeNames();
+        Enumeration<String> attributeNames = request.getAttributeNames();
         while (attributeNames.hasMoreElements()) {
-            String name = attributeNames.nextElement().toString();
+            String name = attributeNames.nextElement();
             requestAttributes.put(name, request.getAttribute(name));
         }
         buffer.append("<tr><td width='12%' valign='top'><b>Attributes</b></td><td>");
@@ -276,9 +276,9 @@ public class ErrorReport {
         buffer.append("</td></tr>");
 
         Map<String, Object> requestHeaders = new TreeMap<String, Object>();
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
-            String name = headerNames.nextElement().toString();
+            String name = headerNames.nextElement();
             requestHeaders.put(name, request.getHeader(name));
         }
         buffer.append("<tr><td width='12%' valign='top'><b>Headers</b></td><td>");
@@ -295,9 +295,9 @@ public class ErrorReport {
         buffer.append("</td></tr>");
 
         Map<String, Object> requestParams = new TreeMap<String, Object>();
-        Enumeration paramNames = request.getParameterNames();
+        Enumeration<String> paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
-            String name = paramNames.nextElement().toString();
+            String name = paramNames.nextElement();
             requestParams.put(name, request.getParameter(name));
         }
         buffer.append("<tr><td width='12%' valign='top'><b>Parameters</b></td><td>");

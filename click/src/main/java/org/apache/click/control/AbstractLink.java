@@ -729,10 +729,10 @@ public abstract class AbstractLink extends AbstractControl implements Stateful {
      * Render the given link parameters to the buffer.
      * <p>
      * The parameters will be rendered as URL key/value pairs e.g:
-     * "<code>firstname=john&lastname=smith</code>".
+     * "{@code firstname=john&lastname=smith}".
      * <p>
      * Multivalued parameters will be rendered with each value sharing the same
-     * key e.g: "<code>name=john&name=susan&name=mary</code>".
+     * key e.g: "{@code name=john&name=susan&name=mary}".
      * <p>
      * The parameter value will be encoded through
      * {@link org.apache.click.util.ClickUtils#encodeUrl(java.lang.Object, org.apache.click.Context)}.

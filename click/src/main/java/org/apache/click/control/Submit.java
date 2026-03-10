@@ -22,9 +22,9 @@ import org.apache.click.Context;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Provides a Submit control: &nbsp; &lt;input type='submit'&gt;.
+ * Provides a Submit control: {@code <input type='submit'>}.
  *
- * <table class='htmlHeader cellspacing='6'>
+ * <table class='htmlHeader' cellspacing='6'>
  * <tr>
  * <td><input type='submit' value='Submit' title='Submit Control'/></td>
  * </tr>

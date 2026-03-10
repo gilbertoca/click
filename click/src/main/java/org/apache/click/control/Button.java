@@ -40,14 +40,14 @@ import org.apache.click.util.HtmlStringBuffer;
  * to the previous page.
  *
  * <pre class="codeJava">
- * Button backButton = <span class="kw">new</span> Button(<span class="st">"back"</span>, <span class="st">" &lt Back "</span>);
+ * Button backButton = <span class="kw">new</span> Button(<span class="st">"back"</span>, <span class="st">" &lt; Back "</span>);
  * backButton.setOnClick(<span class="st">"history.back();"</span>);
  * backButton.setTitle(<span class="st">"Return to previous page"</span>);
  * form.add(backButton); </pre>
  *
  * HTML output:
  * <pre class="codeHtml">
- * &lt;input type='button' name='back' value=' &lt Back ' onclick='history.back();'
+ * &lt;input type='button' name='back' value=' &lt; Back ' onclick='history.back();'
  *        title='Return to previous page'/&gt; </pre>
  *
  * See also W3C HTML reference

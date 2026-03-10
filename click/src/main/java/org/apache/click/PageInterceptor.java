@@ -76,6 +76,7 @@ package org.apache.click;
  * <h3><a name="example"></a>Example</h3>
  *
  * <pre class="prettyprint">
+ * {@code
  * public class SecurityInterceptor implements PageInterceptor {
  *
  *    // The request not authenticated redirect path.
@@ -160,7 +161,7 @@ package org.apache.click;
  *          throw new RuntimeException(ioe);
  *       }
  *   }
- * } </pre>
+ * }} </pre>
  *
  * <pre class="prettyprint">
  * // Page class authentication annotation

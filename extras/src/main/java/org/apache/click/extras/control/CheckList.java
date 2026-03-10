@@ -1167,7 +1167,7 @@ public class CheckList extends Field {
      * A field error message is displayed if a validation error occurs. These
      * messages are defined in the resource bundle: <blockquote>
      *
-     * <pre class="codeConfig>
+     * <pre class="codeConfig">
      *  /click-control.properties </pre>
      *
      * </blockquote> <p/> Error message bundle key names include: <blockquote>

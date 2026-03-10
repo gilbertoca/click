@@ -25,7 +25,7 @@ import org.apache.click.util.HtmlStringBuffer;
 /**
  * Provides a Page link Button control: &nbsp; &lt;input type='button'&gt;.
  *
- * <table class='htmlHeader cellspacing='6'>
+ * <table class='htmlHeader' cellspacing='6'>
  * <tr>
  * <td><input type='button' value='Page Button' title='PageButton Control'/></td>
  * </tr>
@@ -56,7 +56,7 @@ import org.apache.click.util.HtmlStringBuffer;
  *          </ul>
  *      </li>
  * </ul>
- * <p/>
+ * <p>
  * <b>Note:</b> this control is related to {@link PageLink} and not to {@link org.apache.click.extras.control.PageSubmit}.
  */
 public class PageButton extends PageLink {

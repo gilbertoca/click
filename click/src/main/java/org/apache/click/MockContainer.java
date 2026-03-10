@@ -542,7 +542,7 @@ public class MockContainer {
      * {@link org.apache.click.Page#setForward(Class)} or
      * {@link org.apache.click.Page#setRedirect(Class)}, this method will
      * return blank.
-     * </p/>
+     * <p>
      * The reason for this is that <code>forward</code> and <code>redirect</code> calls
      * are only recorded, <b>not</b> executed.
      * <p>

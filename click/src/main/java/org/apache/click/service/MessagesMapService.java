@@ -45,6 +45,7 @@ import javax.servlet.ServletContext;
  * The class <code>com.mycorp.CustomMessagesMapService</code> might be defined as follows:
  *
  * <pre class="prettyprint">
+ * {@code
  * package com.mycorp;
  *
  * public class CustomMessagesMapService implements MessagesMapService {
@@ -52,7 +53,7 @@ import javax.servlet.ServletContext;
  *     public Map<String, String> createMessagesMap(Class&lt;?&gt; baseClass, String globalResource, Locale locale) {
  *         return new MyMessagesMap(baseClass, globalResource, locale);
  *     }
- * } </pre>
+ * }} </pre>
  */
 public interface MessagesMapService {
 

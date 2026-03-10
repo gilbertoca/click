@@ -104,7 +104,7 @@
         <jacoco.version>0.8.12</jacoco.version>
         <junit.version>4.13.2</junit.version>
         <servlet-api.version>3.1.0</servlet-api.version>
-        <maven.javadoc.version>3.3.0</maven.javadoc.version>
+        <maven.javadoc.version>3.6.3</maven.javadoc.version>
         <maven.surefire.version>3.5.2</maven.surefire.version>
         <mockito.version>2.27.0</mockito.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -309,10 +309,9 @@
                         <showDeprecation/>
                         <showWarnings/>
                         <compilerArgs>
-                            <arg>-Xlint:unchecked</arg>
-                            <arg>-Xlint:rawtypes</arg>
+                            <!--arg>-Xlint:unchecked</arg>
+                            <arg>-Xlint:rawtypes</arg-->
                             <arg>-Xlint:all</arg>
-                            <arg>-Xlint:-serial</arg>
                         </compilerArgs>
                     </configuration>
                 </plugin>
@@ -372,10 +371,15 @@
                         <maxmemory>256m</maxmemory>
                         <quiet>true</quiet>
                         <links>
-                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                            <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
                         </links>
                         <failOnError>false</failOnError>
-                        <additionalOptions>-Xdoclint:none --allow-script-in-comments</additionalOptions>
+                        <additionalOptions>
+                            <!-- Ensure doclint is off for the legacy Click codebase -->
+                            <additionalOption>-Xdoclint:none</additionalOption>
+                            <!-- Only keep this if your Javadoc actually uses JS (rare/insecure) -->
+                            <additionalOption>--allow-script-in-comments</additionalOption>
+                        </additionalOptions>
                     </configuration>
                     <executions>
                         <execution>
