@@ -31,7 +31,7 @@ import org.apache.click.Page;
  *
  * <h3>Configuration</h3>
  * The default TemplateService is {@link VelocityTemplateService}.
- * <p/>
+ * <p>
  * However you can instruct Click to use a different implementation by adding
  * the following element to your <code>click.xml</code> configuration file.
  *
@@ -50,9 +50,9 @@ public interface TemplateService {
     /**
      * Initialize the TemplateService with the given application configuration
      * service instance.
-     * <p/>
+     * <p>
      * This method is invoked after the TemplateService has been constructed.
-     * <p/>
+     * <p>
      * Note you can access {@link ConfigService} by invoking
      * {@link org.apache.click.util.ClickUtils#getConfigService(javax.servlet.ServletContext)}
      *

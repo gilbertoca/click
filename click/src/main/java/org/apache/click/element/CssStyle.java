@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * Provides a Css HEAD element for including <code>inline</code> Cascading
  * Stylesheets using the &lt;style&gt; tag.
- * <p/>
+ * <p>
  * Example usage:
  *
  * <pre class="prettyprint">
@@ -56,7 +56,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *
  * Below is an example showing how to render inline CSS from a Velocity
  * template.
- * <p/>
+ * <p>
  * First we create a Velocity template <code>(/css/style-template.css)</code> which
  * contains the variable <code>$context</code> that must be replaced at runtime with
  * the application <code>context path</code>:
@@ -137,7 +137,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * Notice the CDATA tags are commented out which ensures older browsers that
  * don't understand the CDATA tag, will ignore it and only process the actual
  * content.
- * <p/>
+ * <p>
  * For an overview of XHTML validation and CDATA tags please see
  * <a target="_blank" href="http://javascript.about.com/library/blxhtml.htm">http://javascript.about.com/library/blxhtml.htm</a>.
  */
@@ -185,11 +185,11 @@ public class CssStyle extends ResourceElement {
     /**
      * Construct a new Css style element for the given template path
      * and template model.
-     * <p/>
+     * <p>
      * When the CssStyle is rendered the template and model will be merged and
      * the result will be rendered together with any CssStyle
      * {@link #setContent(java.lang.String) content}.
-     * <p/>
+     * <p>
      *
      * For example:
      * <pre class="prettyprint">
@@ -282,7 +282,7 @@ public class CssStyle extends ResourceElement {
 
     /**
      * Set the path of the template to render.
-     * <p/>
+     * <p>
      * If the {@link #template} property is set, the template and {@link #model}
      * will be merged and the result will be rendered together with any CssStyle
      * {@link #setContent(java.lang.String) content}.
@@ -307,7 +307,7 @@ public class CssStyle extends ResourceElement {
 
     /**
      * Set the model of the template to render.
-     * <p/>
+     * <p>
      * If the {@link #template} property is set, the template and {@link #model}
      * will be merged and the result will be rendered together with any CssStyle
      * {@link #setContent(java.lang.String) content}.
@@ -407,7 +407,7 @@ public class CssStyle extends ResourceElement {
     /**
      * Render the CssStyle {@link #setContent(java.lang.String) content}
      * to the specified buffer.
-     * <p/>
+     * <p>
      * <b>Please note:</b> if the {@link #setTemplate(java.lang.String) template}
      * property is set, this method will merge the {@link #setTemplate(java.lang.String) template}
      * and {@link #setModel(java.util.Map) model} and the result will be

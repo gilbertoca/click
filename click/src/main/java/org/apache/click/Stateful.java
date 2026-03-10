@@ -21,16 +21,16 @@ package org.apache.click;
 /**
  * Provides an interface that controls can implement that need to preserve
  * state across multiple requests.
- * <p/>
+ * <p>
  * <b>Please note:</b> Control state is not saved and restored automatically by
  * Click. Instead, state saving and restoring is under full control of the
  * developer through a public API.
- * <p/>
+ * <p>
  * Controls implementing this interface are expected to {@link #getState() save}
  * and {@link #setState(java.lang.Object) restore} their internal state, as well
  * as the state of their child controls. Controls can further expose a public
  * API for saving and restoring their state.
- * <p/>
+ * <p>
  * An example implementation is shown below:
  *
  * <pre class="prettyprint">
@@ -71,7 +71,7 @@ package org.apache.click;
  * } </pre>
  *
  * Saving and restoring Control state is controlled by the developer.
- * <p/>
+ * <p>
  * For example:
  *
  * <pre class="prettyprint">
@@ -103,7 +103,7 @@ public interface Stateful {
      * Return the Control internal state. State will generally be stored in the
      * Session, so it is recommended to ensure the state is
      * {@link java.io.Serializable serializable}.
-     * <p/>
+     * <p>
      * Example implementation below:
      * <pre class="prettyprint">
      * public Object getState() {
@@ -120,7 +120,7 @@ public interface Stateful {
 
     /**
      * Restore the Control internal state from the given state object.
-     * <p/>
+     * <p>
      * Example below:
      * <pre class="prettyprint">
      * public void setState(Object state) {

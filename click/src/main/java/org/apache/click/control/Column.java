@@ -66,7 +66,7 @@ import org.apache.commons.lang.math.NumberUtils;
  *
  * </td></tr></table>
  *
- * <p/>
+ * <p>
  *
  * The Column object provide column definitions for the {@link Table} object.
  *
@@ -191,7 +191,7 @@ import org.apache.commons.lang.math.NumberUtils;
  * <code>/click-control.properties</code> file using the same key.
  * If a value still cannot be found then the Column name will be converted
  * into a header title using the method: {@link ClickUtils#toLabel(String)}.
- * <p/>
+ * <p>
  *
  * @see Decorator
  * @see Table
@@ -239,9 +239,9 @@ public class Column implements Serializable {
      * The maximum column length. If maxLength is greater than 0 and the column
      * data string length is greater than maxLength, the rendered value will be
      * truncated with an eclipse(...).
-     * <p/>
+     * <p>
      * Autolinked email or URL values will not be constrained.
-     * <p/>
+     * <p>
      * The default value is 0.
      */
     protected int maxLength;
@@ -315,7 +315,7 @@ public class Column implements Serializable {
 
     /**
      * Create a Column with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Column() {
@@ -337,7 +337,7 @@ public class Column implements Serializable {
     /**
      * Set the Column with the given HTML attribute name and value. These
      * attributes will be rendered as HTML attributes, for example:
-     * <p/>
+     * <p>
      * If there is an existing named attribute in the Column it will be replaced
      * with the new value. If the given attribute value is null, any existing
      * attribute will be removed.
@@ -937,7 +937,7 @@ public class Column implements Serializable {
 
     /**
      * Return the table header &lt;th&gt; title.
-     * <p/>
+     * <p>
      * If the header title value is null, this method will attempt to find a
      * localized message in the parent messages using the key:
      * <blockquote>
@@ -947,7 +947,7 @@ public class Column implements Serializable {
      * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Column name will be converted
      * into a header title using the method: {@link ClickUtils#toLabel(String)}
-     * <p/>
+     * <p>
      *
      * @return the table header title
      */
@@ -972,7 +972,7 @@ public class Column implements Serializable {
 
     /**
      * Return the Table and Column id appended: &nbsp; "<code>table-column</code>"
-     * <p/>
+     * <p>
      * Use the field the "id" attribute value if defined, or the name otherwise.
      *
      * @return HTML element identifier attribute "id" value
@@ -1264,14 +1264,14 @@ public class Column implements Serializable {
 
     /**
      * Return the column name property value from the given row object.
-     * <p/>
+     * <p>
      * If the row object is a <code>Map</code> this method will attempt to return
      * the map value for the column name. The row map lookup will be performed
      * using the property name, if a value is not found the property name in
      * uppercase will be used, if a value is still not found the property name
      * in lowercase will be used. If a map value is still not found then this
      * method will return null.
-     * <p/>
+     * <p>
      * Object property values can also be specified using a path expression.
      *
      * @param row the row object to obtain the property from
@@ -1284,14 +1284,14 @@ public class Column implements Serializable {
 
     /**
      * Return the column property value from the given row object and property name.
-     * <p/>
+     * <p>
      * If the row object is a <code>Map</code> this method will attempt to return
      * the map value for the column. The row map lookup will be performed using
      * the property name, if a value is not found the property name in uppercase
      * will be used, if a value is still not found the property name in lowercase
      * will be used. If a map value is still not found then this method will
      * return null.
-     * <p/>
+     * <p>
      * Object property values can also be specified using a path expression.
      *
      * @param name the name of the property

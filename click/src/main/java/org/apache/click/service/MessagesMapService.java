@@ -28,7 +28,7 @@ import javax.servlet.ServletContext;
  *
  * <h3>Configuration</h3>
  * The default {@link MessagesMapService} implementation is {@link DefaultMessagesMapService}.
- * <p/>
+ * <p>
  * You can instruct Click to use a different implementation by adding
  * the following element to your <code>click.xml</code> configuration file.
  *
@@ -58,7 +58,7 @@ public interface MessagesMapService {
 
     /**
      * Initialize the MessagesMapService with the given application servlet context.
-     * <p/>
+     * <p>
      * This method is invoked after the MessagesMapService has been constructed.
      *
      * @param servletContext the application servlet context

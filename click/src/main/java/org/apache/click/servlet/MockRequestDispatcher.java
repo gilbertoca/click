@@ -27,11 +27,11 @@ import org.apache.click.MockContainer;
 
 /**
  * Mock implementation of {@link javax.servlet.RequestDispatcher}.
- * <p/>
+ * <p>
  * This RequestDispatcher sets the resource path on the request when
  * {@link #forward(ServletRequest, ServletResponse)} or
  * {@link #include(ServletRequest, ServletResponse)} is called.
- * <p/>
+ * <p>
  * The resourcePath can later be retrieved by calling
  * {@link MockRequest#getForward()} or {@link MockRequest#getIncludes()}.
  */
@@ -52,7 +52,7 @@ public class MockRequestDispatcher implements RequestDispatcher {
 
     /**
      * This method stores the dispatcher's resourcePath on the request.
-     * <p/>
+     * <p>
      * The resourcePath can later be retrieved by calling
      * {@link MockRequest#getForward()}
      *
@@ -70,7 +70,7 @@ public class MockRequestDispatcher implements RequestDispatcher {
 
     /**
      * This method stores the dispatcher's resourcePath on the request.
-     * <p/>
+     * <p>
      * The resourcePath can be retrieved by calling
      * {@link MockRequest#getIncludes()}
      *

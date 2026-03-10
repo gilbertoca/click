@@ -37,11 +37,11 @@ import org.apache.commons.lang.StringUtils;
 /**
  * Provides the default object for formatting the display of model objects
  * in Velocity templates and JSP pages.
- * <p/>
+ * <p>
  * For Velocity templates a Format object is added to the Velocity Context using
  * the name "<span class="blue">format</span>", while for JSP pages an instance
  * is added as a request attribute using the same key.
- * <p/>
+ * <p>
  * For example the following Page code adds a date to the model:
  *
  * <pre class="codeJava">
@@ -72,7 +72,7 @@ import org.apache.commons.lang.StringUtils;
  * After a Page is created its <a href="../Page.html#format">format</a> property
  * is set.
  * The ClickServlet will then add this property to the Velocity Context.
- * <p/>
+ * <p>
  * When subclassing Format ensure it is light weight object, as a new format
  * object will be created for every new Page.
  *
@@ -104,10 +104,10 @@ public class Format implements Serializable {
 
     /**
      * Returns the format empty string value: &nbsp; <code>""</code>.
-     * <p/>
+     * <p>
      * This method is designed to be overridden. If you need a different
      * empty string value simply override this method.
-     * <p/>
+     * <p>
      * Note the IE browser does not fully support CSS attribute: &nbsp;
      * <code>table { empty-cells: show }</code>. Also note returning
      * <code>&amp;nbsp;</code>
@@ -131,7 +131,7 @@ public class Format implements Serializable {
     /**
      * Return a currency formatted String value for the given number, using
      * the default Locale.
-     * <p/>
+     * <p>
      * If the number is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -185,7 +185,7 @@ public class Format implements Serializable {
      * Return a formatted date string using the given date and formatting
      * pattern. See SimpleDateFormat for information on the format
      * pattern string.
-     * <p/>
+     * <p>
      * If the date is null this method will return the {@link #getEmptyString()}
      * value.
      *
@@ -318,7 +318,7 @@ public class Format implements Serializable {
     /**
      * Return a formatted date string using the given date and the default
      * DateFormat.
-     * <p/>
+     * <p>
      * If the date is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -340,10 +340,10 @@ public class Format implements Serializable {
     /**
      * Return a decimal formatted string using the given number and pattern.
      * See DecimalFormat for information on the format pattern string.
-     * <p/>
+     * <p>
      * If the number is null this method will return the
      * {@link #getEmptyString()} value.
-     * <p/>
+     * <p>
      * <b>Please Note</b>: Velocity will not correctly parse the '#' decimal
      * number pattern character and will throw a parsing exception. When using
      * this method substitute the '#' decimal pattern character
@@ -453,7 +453,7 @@ public class Format implements Serializable {
 
     /**
      * Return a decimal formatted string using the given number and pattern.
-     * <p/>
+     * <p>
      * If the number is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -475,10 +475,10 @@ public class Format implements Serializable {
      * Return an email hyperlink using the given email address. If the
      * given value is not a valid email string it will be rendered as is
      * and not as a hyperlink.
-     * <p/>
+     * <p>
      * If the given value is blank then the {@link #getEmptyString()} value
      * will rendered instead.
-     * <p/>
+     * <p>
      * The format of the returned email string will be:
      * <pre class="codeHtml">
      * &lt;a href='mailto:email'&gt;email&lt;/a&gt; </pre>
@@ -494,10 +494,10 @@ public class Format implements Serializable {
      * Return an email hyperlink using the given email address. If the
      * given value is not a valid email string it will be rendered as is
      * and not as a hyperlink.
-     * <p/>
+     * <p>
      * If the given value is blank then the {@link #getEmptyString()} value
      * will rendered instead.
-     * <p/>
+     * <p>
      * The format of the returned email string will be:
      * <pre class="codeHtml">
      * &lt;a href='mailto:email' attribute&gt;email&lt;/a&gt; </pre>
@@ -562,7 +562,7 @@ public class Format implements Serializable {
     /**
      * Escape the given object value as a string. The following
      * characters are escaped: &lt;, &gt;, &quot;, &#039;, &amp;.
-     * <p/>
+     * <p>
      * If the value is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -579,7 +579,7 @@ public class Format implements Serializable {
 
     /**
      * Escape the given object value as a HTML string.
-     * <p/>
+     * <p>
      * If the value is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -615,7 +615,7 @@ public class Format implements Serializable {
     /**
      * Return the value string limited to maxlength characters. If the string
      * gets curtailed, "..." is appended to it.
-     * <p/>
+     * <p>
      * Adapted from Velocity Tools Formatter.
      *
      * @param value the string value to limit the length of
@@ -629,7 +629,7 @@ public class Format implements Serializable {
     /**
      * Return the value string limited to maxlength characters. If the string
      * gets curtailed and the suffix parameter is appended to it.
-     * <p/>
+     * <p>
      * Adapted from Velocity Tools Formatter.
      *
      * @param value the string value to limit the length of
@@ -645,7 +645,7 @@ public class Format implements Serializable {
      * Return an hyperlink using the given URL or email address value. If the
      * given value is not a valid email string or URL it will note be
      * hyperlinked and will be rendered as is.
-     * <p/>
+     * <p>
      * If the given value is blank then the {@link #getEmptyString()} value
      * will rendered instead.
      *
@@ -660,7 +660,7 @@ public class Format implements Serializable {
      * Return an hyperlink using the given URL or email address value. If the
      * given value is not a valid email string or URL it will note be
      * hyperlinked and will be rendered as is.
-     * <p/>
+     * <p>
      * If the given value is blank then the {@link #getEmptyString()} value
      * will rendered instead.
      *
@@ -767,7 +767,7 @@ public class Format implements Serializable {
 
     /**
      * Return a percentage formatted number string using number.
-     * <p/>
+     * <p>
      * If the number is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -788,7 +788,7 @@ public class Format implements Serializable {
     /**
      * Return a formatted time string using the given date and the default
      * DateFormat.
-     * <p/>
+     * <p>
      * If the date is null this method will return the
      * {@link #getEmptyString()} value.
      *
@@ -809,7 +809,7 @@ public class Format implements Serializable {
 
     /**
      * Return the string representation of the given object.
-     * <p/>
+     * <p>
      * If the object is null this method will return the
      * {@link #getEmptyString()} value.
      *

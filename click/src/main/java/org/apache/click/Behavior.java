@@ -22,11 +22,11 @@ package org.apache.click;
  * Behaviors provide a mechanism for changing how Controls behave at runtime.
  * Behaviors are added to a Control and provides interceptor methods to decorate
  * and enhance the source Control.
- * <p/>
+ * <p>
  * Behaviors provide interceptor methods for specific Control life cycle events.
  * These interceptor methods can be implemented to further process and decorate
  * the control or its children.
- * <p/>
+ * <p>
  * The following interceptor methods are defined:
  *
  * <ul>

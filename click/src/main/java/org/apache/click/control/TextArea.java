@@ -202,7 +202,7 @@ public class TextArea extends Field {
 
     /**
      * Create a TextArea with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public TextArea() {
@@ -287,7 +287,7 @@ public class TextArea extends Field {
 
     /**
      * Return the textarea field HTML5 placeholder attribute.
-     * <p/>
+     * <p>
      * If the placeholder value is null, this method will attempt to find a
      * localized placeholder message in the parent messages using the key:
      * <blockquote>
@@ -410,11 +410,11 @@ public class TextArea extends Field {
 
     /**
      * Validate the TextArea request submission.
-     * <p/>
+     * <p>
      * A field error message is displayed if a validation error occurs.
      * These messages are defined in the resource bundle: <blockquote>
      * <pre>org.apache.click.control.MessageProperties</pre></blockquote>
-     * <p/>
+     * <p>
      * Error message bundle key names include: <blockquote><ul>
      * <li>field-maxlength-error</li>
      * <li>field-minlength-error</li>
@@ -449,7 +449,7 @@ public class TextArea extends Field {
 
     /**
      * Return the field JavaScript client side validation function.
-     * <p/>
+     * <p>
      * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.

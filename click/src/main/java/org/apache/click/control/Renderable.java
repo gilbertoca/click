@@ -24,7 +24,7 @@ import org.apache.click.util.HtmlStringBuffer;
 
 /**
  * Provides an interface for rendering output to an efficient string buffer.
- * <p/>
+ * <p>
  * Implementations of this interface will normally render HTML markup.
  */
 public interface Renderable extends Serializable {

@@ -31,9 +31,9 @@ import org.apache.click.util.HtmlStringBuffer;
 /**
  * Provides a default implementation of the {@link Container} interface
  * to make it easier for developers to create their own containers.
- * <p/>
+ * <p>
  * Subclasses can override {@link #getTag()} to return a specific HTML element.
- * <p/>
+ * <p>
  * The following example shows how to create an HTML <code>div</code> element:
  *
  * <pre class="prettyprint">
@@ -81,7 +81,7 @@ public abstract class AbstractContainer extends AbstractControl implements
 
     /**
      * @see org.apache.click.control.Container#add(org.apache.click.Control).
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the container contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
@@ -98,12 +98,12 @@ public abstract class AbstractContainer extends AbstractControl implements
     /**
      * Add the control to the container at the specified index, and return the
      * added instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the container contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * <b>Also note</b> if the specified control already has a parent assigned,
      * it will automatically be removed from that parent and inserted into this
      * container.
@@ -228,7 +228,7 @@ public abstract class AbstractContainer extends AbstractControl implements
     /**
      * Return the map of controls where each map's key / value pair will consist
      * of the control name and instance.
-     * <p/>
+     * <p>
      * Controls added to the container that did not specify a {@link #name},
      * will not be included in the returned map.
      *
@@ -320,10 +320,10 @@ public abstract class AbstractContainer extends AbstractControl implements
     /**
      * Render the HTML representation of the container and all its child
      * controls to the specified buffer.
-     * <p/>
+     * <p>
      * If {@link #getTag()} returns null, this method will render only its
      * child controls.
-     * <p/>
+     * <p>
      * @see AbstractControl#render(org.apache.click.util.HtmlStringBuffer)
      *
      * @param buffer the specified buffer to render the control's output to
@@ -350,7 +350,7 @@ public abstract class AbstractContainer extends AbstractControl implements
 
     /**
      * Returns the HTML representation of this control.
-     * <p/>
+     * <p>
      * This method delegates the rendering to the method
      * {@link #render(org.apache.click.util.HtmlStringBuffer)}. The size of buffer
      * is determined by {@link #getControlSizeEst()}.

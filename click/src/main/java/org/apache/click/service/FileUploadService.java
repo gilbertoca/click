@@ -36,9 +36,9 @@ public interface FileUploadService {
 
     /**
      * Initialize the FileUploadService with the given application servlet context.
-     * <p/>
+     * <p>
      * This method is invoked after the FileUploadService has been constructed.
-     * <p/>
+     * <p>
      * Note you can access {@link ConfigService} by invoking
      * {@link org.apache.click.util.ClickUtils#getConfigService(javax.servlet.ServletContext)}
      *

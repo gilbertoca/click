@@ -22,7 +22,7 @@ package org.apache.click;
  * Provides a Page life cycle interceptor. Classes implementing this interface
  * can be used to listen for key page life cycle events and abort further page
  * processing if required.
- * <p/>
+ * <p>
  * PageInterceptors can be used for many different purposes including:
  * <ul>
  * <li>enforcing application wide page security policies</li>
@@ -38,15 +38,15 @@ package org.apache.click;
  * Page interceptors can be defined with a request level scope, whereby a new
  * page interceptor will be created with each page request providing a thread
  * safe programming model.
- * <p/>
+ * <p>
  * Please note, as new interceptor instances are created with each request, care
  * should be taken to ensure that these objects are light weight and do not
  * introduce a performance bottleneck into your application.
- * <p/>
+ * <p>
  * Alternatively, page interceptors can be defined with application level scope
  * whereby a single instance is created for the application and is used for
  * all requests.
- * <p/>
+ * <p>
  * Note application scope interceptors are more efficient that request scope
  * interceptors, but you are responsible for ensuring that they are thread safe
  * and support re-entrant method invocations as multiple page requests are
@@ -57,11 +57,11 @@ package org.apache.click;
  * Application PageInterceptors are configured in the <code>click.xml</code>
  * configuration file. PageInterceptors must support construction using a
  * no-args public constructor.
- * <p/>
+ * <p>
  * Page interceptors can have multiple properties configured with their XML
  * definition which are set after the constructor has been called. Properties
  * are set using MVEL via {@link org.apache.click.util.PropertyUtils}.
- * <p/>
+ * <p>
  * An example configuration is provided below:
  *
  * <pre class="prettyprint">
@@ -197,11 +197,11 @@ public interface PageInterceptor {
      * Provides a post page object creation interceptor method, which is passed
      * the instance of the newly created page. This interceptor method is called
      * before the page {@link Page#onSecurityCheck()} method is invoked.
-     * <p/>
+     * <p>
      * If this method returns true then the normal page processing is performed,
      * otherwise if this method returns false the request is considered to have
      * been handled.
-     * <p/>
+     * <p>
      * Please note the page {@link Page#onDestroy()} method will still be invoked.
      *
      * @param page the newly instantiated page instance
@@ -213,11 +213,11 @@ public interface PageInterceptor {
     /**
      * Provides a page interceptor before response method. This method is invoked
      * prior to the page redirect, forward or rendering phase.
-     * <p/>
+     * <p>
      * If this method returns true then the normal page processing is performed,
      * otherwise if this method returns false request is considered to have been
      * handled.
-     * <p/>
+     * <p>
      * Please note the page {@link Page#onDestroy()} method will still be invoked.
      *
      * @param page the newly instantiated page instance

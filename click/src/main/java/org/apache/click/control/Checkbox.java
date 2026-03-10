@@ -35,7 +35,7 @@ import org.apache.click.util.HtmlStringBuffer;
  *
  * Checkbox supports the {@link Field#required} property and Control listeners.
  *
- * <p/>
+ * <p>
  * See also W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>
@@ -101,7 +101,7 @@ public class Checkbox extends Field {
 
     /**
      * Create a Checkbox field with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Checkbox() {
@@ -321,7 +321,7 @@ public class Checkbox extends Field {
 
     /**
      * Validate the Checkbox request submission.
-     * <p/>
+     * <p>
      * If a checked value is {@link Field#required} and the Checkbox is not
      * checked the error message defined by <code>not-checked-error</code>
      * property will be displayed.

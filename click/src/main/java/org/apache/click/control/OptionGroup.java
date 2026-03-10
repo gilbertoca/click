@@ -26,13 +26,13 @@ import org.apache.click.util.HtmlStringBuffer;
 
 /**
  * Provides a select Option Group element: &nbsp; &lt;optgroup&gt;&lt;/optgroup&gt;.
- * <p/>
+ * <p>
  * The OptionGroup class uses an immutable design so Option instances can be
  * shared by multiple Pages in the multi-threaded Servlet environment.
  * This enables OptionGroup instances to be cached as static variables.
- * <p/>
+ * <p>
  * For an OptionGroup code example see the {@link Option} Javadoc example.
- * <p/>
+ * <p>
  * See also the W3C HTML reference:
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.6">OPTGROUP</a>

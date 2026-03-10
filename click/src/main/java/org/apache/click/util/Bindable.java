@@ -28,9 +28,9 @@ import java.lang.annotation.Target;
  * sections on <a href="../../../../../user-guide/html/ch05s02.html#application-autobinding">Autobinding</a>
  * and <a href="../../../../../user-guide/html/ch05s02.html#application-autobinding-annotation">Autobinding Using Annotations</a>
  * for a detailed description of Page field binding.
- * <p/>
+ * <p>
  * Bindable can bind private, protected and public Page fields.
- * <p/>
+ * <p>
  * Note if a &#64;Bindable field's visibility is not public then Click will set
  * the field to be accessible using reflection. If the Java application server
  * has restricted security policies in place then this may cause a

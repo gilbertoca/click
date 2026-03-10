@@ -87,7 +87,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * processing, and should be considered simply as a container for laying out
  * form fields.
  *
- * <p/>
+ * <p>
  * See also the W3C HTML reference:
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.10">FIELDSET</a>
@@ -124,7 +124,7 @@ public class FieldSet extends Field implements Container {
     /**
      * This property serves as a hint to the number of table columns the fieldset
      * is rendered with.
-     *<p/>
+     *<p>
      * Currently only {@link Form} acts upon this property.
      */
     protected Integer columns;
@@ -153,7 +153,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Create a FieldSet with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public FieldSet() {
@@ -164,22 +164,22 @@ public class FieldSet extends Field implements Container {
     /**
      * Add a Field to the FieldSet at the specified index and return the added
      * instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * All controls are available on the {@link #getControls() controls} list
      * at the index they were inserted. If you are only interested in Fields,
      * note that fields are available on {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * The specified index only applies to {@link #getControls() controls}, not
      * {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the specified control already has a parent assigned,
      * it will automatically be removed from that parent and inserted into the
      * fieldSet.
@@ -304,15 +304,15 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Add a Control to the fieldset and return the added instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * All controls are available on the {@link #getControls() controls} list
      * in the order they were added. If you are only interested in Fields,
      * note fields are available on {@link #getFieldList() fieldList}.
@@ -331,15 +331,15 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Add the field to the fieldSet, and set the fields form property.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
-     * <p/>
+     * <p>
      * Fields are available on {@link #getFieldList() fieldList}.
      *
      * @see #add(org.apache.click.Control)
@@ -356,17 +356,17 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Add the field to the fieldset and specify the field width in columns.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
-     * <p/>
+     * <p>
      * Fields are available on {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * Note Button and HiddenField types are not valid arguments for this method.
      *
      * @param field the field to add to the fieldset
@@ -382,17 +382,17 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Add the control to the fieldset and specify the control's width in columns.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * Controls are available on the {@link #getControls() controls} list.
-     * <p/>
+     * <p>
      * Note Button and HiddenField types are not valid arguments for this method.
      *
      * @param control the control to add to the fieldSet
@@ -532,7 +532,7 @@ public class FieldSet extends Field implements Container {
     /**
      * Return true if the FieldSet is disabled. The FieldSet will also be
      * disabled if the parent Form is disabled.
-     * <p/>
+     * <p>
      * <b>Important Note</b>: disabled fieldset also disables all its fields
      * which will not submit their values in a HTML form POST. This may cause
      * validation issues in a form submission. Please note this is a HTML
@@ -552,7 +552,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Set the FieldSet disabled flag which in turn will disable all its fields.
-     * <p/>
+     * <p>
      * <b>Important Note</b>: disabled fieldset also disables all its fields
      * which will not submit their values in a HTML form POST. This may cause
      * validation issues in a form submission. Please note this is a HTML
@@ -595,9 +595,9 @@ public class FieldSet extends Field implements Container {
     /**
      * Return the number of fieldset layout table columns. This property supplies
      * a hint to the number of table columns the fieldset should be rendered with.
-     * <p/>
+     * <p>
      * <b>Note</b> currently only {@link Form} acts upon the column value.
-     * <p/>
+     * <p>
      * By default this property inherits its value from the parent Form, but
      * can be specified to override the form value.
      *
@@ -614,7 +614,7 @@ public class FieldSet extends Field implements Container {
     /**
      * Set the number of fieldset layout table columns. This property supplies
      * a hint to the number of table columns the fieldset should be rendered with.
-     * <p/>
+     * <p>
      * <b>Note</b> currently only {@link Form} acts upon the column value.
      *
      * @param columns the number of fieldset layout table columns
@@ -656,10 +656,10 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Return the ordered list of FieldSet fields, excluding buttons.
-     * <p/>
+     * <p>
      * The order of the fields is the same order they were added to the
      * FieldSet.
-     * <p/>
+     * <p>
      * The returned list only includes fields directly added to the FieldSet.
      *
      * @return the ordered List of fieldset fields
@@ -709,7 +709,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Return the fieldset Legend element value: &lt;legend&gt;
-     * <p/>
+     * <p>
      * If the legend value is null, this method will attempt to find a
      * localized label message in the parent messages using the key:
      * <blockquote>
@@ -935,7 +935,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Render the HTML representation of the FieldSet.
-     * <p/>
+     * <p>
      * The size of buffer is determined by {@link #getControlSizeEst()}.
      *
      * @param buffer the specified buffer to render the control's output to
@@ -1005,7 +1005,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Restore the FieldSet state from the session for the given request context.
-     * <p/>
+     * <p>
      * This method delegates to {@link #setState(java.lang.Object)} to set the
      * field restored state.
      *
@@ -1021,7 +1021,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Save the FieldSet state to the session for the given request context.
-     * <p/>
+     * <p>
      * * This method delegates to {@link #getState()} to retrieve the field state
      * to save.
      *
@@ -1036,7 +1036,7 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Returns the HTML representation of the FieldSet.
-     * <p/>
+     * <p>
      * The rendering of the FieldSet is delegated to
      * {@link #render(org.apache.click.util.HtmlStringBuffer)}. The size of buffer
      * is determined by {@link #getControlSizeEst()}.

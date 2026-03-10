@@ -111,7 +111,7 @@ public class PageLink extends AbstractLink {
 
     /**
      * Create an PageLink with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name and target pageClass must be
      * defined before it is valid.
      */

@@ -47,13 +47,13 @@ import org.apache.click.util.HtmlStringBuffer;
 /**
  * Provides a default implementation of the {@link Control} interface
  * to make it easier for developers to create their own controls.
- * <p/>
+ * <p>
  * Subclasses are expected to at least override {@link #getTag()}
  * to differentiate the control. However some controls do not map cleanly
  * to an html <em>tag</em>, in which case you can override
  * {@link #render(org.apache.click.util.HtmlStringBuffer)} for complete control
  * over the output.
- * <p/>
+ * <p>
  * Below is an example of creating a new control called MyField:
  * <pre class="prettyprint">
  * public class MyField extends AbstractControl {
@@ -84,12 +84,12 @@ import org.apache.click.util.HtmlStringBuffer;
  * }
  * </pre>
  * By overriding {@link #getTag()} one can specify the html tag to render.
- * <p/>
+ * <p>
  * Overriding {@link #onProcess()} allows one to bind the servlet request
  * parameter to MyField value. The {@link #dispatchActionEvent()} method
  * registers the listener for this control on the Context. Once the onProcess
  * event has finished, all registered listeners will be fired.
- * <p/>
+ * <p>
  * To view the html rendered by MyField invoke the control's {@link #toString()}
  * method:
  *
@@ -198,11 +198,11 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Returns the controls html tag.
-     * <p/>
+     * <p>
      * Subclasses should override this method and return the correct tag.
-     * <p/>
+     * <p>
      * This method returns <code>null</code> by default.
-     * <p/>
+     * <p>
      * Example tags include <code>table</code>, <code>form</code>, <code>a</code> and
      * <code>input</code>.
      *
@@ -256,7 +256,7 @@ public abstract class AbstractControl implements Control {
     /**
      * Add the given <code>Behavior</code> to the control's Set of
      * {@link #getBehaviors() Behaviors}.
-     * <p/>
+     * <p>
      * In addition, the Control will be registered with the
      * {@link org.apache.click.ControlRegistry#registerAjaxTarget(org.apache.click.Control) ControlRegistry}
      * as a potential <code>Ajax target control</code> and to have it's
@@ -302,7 +302,7 @@ public abstract class AbstractControl implements Control {
     /**
      * Returns <code>true</code> if this control is an AJAX target, <code>false</code>
      * otherwise.
-     * <p/>
+     * <p>
      * The control is defined as an Ajax target if the control {@link #getId() ID}
      * is send as a request parameter.
      *
@@ -341,7 +341,7 @@ public abstract class AbstractControl implements Control {
      * Set the control attribute with the given attribute name and value. You would
      * generally use attributes if you were creating the entire Control
      * programmatically and rendering it with the {@link #toString()} method.
-     * <p/>
+     * <p>
      * For example given the ActionLink:
      *
      * <pre class="codeJava">
@@ -468,14 +468,14 @@ public abstract class AbstractControl implements Control {
      * Return the localized message for the given key or null if not found.
      * The resource message returned will use the Locale obtained from the
      * Context.
-     * <p/>
+     * <p>
      * This method will attempt to lookup the localized message in the
      * parent's messages, which resolves to the Page's resource bundle.
-     * <p/>
+     * <p>
      * If the message was not found, this method will attempt to look up the
      * value in the <code>/click-control.properties</code> message properties file,
      * through the method {@link #getMessages()}.
-     * <p/>
+     * <p>
      * If still not found, this method will return null.
      *
      * @param name the name of the message resource
@@ -501,7 +501,7 @@ public abstract class AbstractControl implements Control {
      * Return the formatted message for the given resource name and message
      * format arguments or null if no message was found. The resource
      * message returned will use the Locale obtained from the Context.
-     * <p/>
+     * <p>
      * {@link #getMessage(java.lang.String)} is invoked to retrieve the message
      * for the specified name.
      *
@@ -567,13 +567,13 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Set the controls event listener.
-     * <p/>
+     * <p>
      * The method signature of the listener is:<ul>
      * <li>must have a valid Java method name</li>
      * <li>takes no arguments</li>
      * <li>returns a boolean value</li>
      * </ul>
-     * <p/>
+     * <p>
      * An example event listener method would be:
      *
      * <pre class="codeJava">
@@ -680,7 +680,7 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Set the control CSS style name and value pair.
-     * <p/>
+     * <p>
      * For example given the ActionLink:
      *
      * <pre class="codeJava">
@@ -784,7 +784,7 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Add the CSS class attribute. Null values will be ignored.
-     * <p/>
+     * <p>
      * For example given the ActionLink:
      *
      * <pre class="prettyprint">
@@ -881,10 +881,10 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Render the control's output to the specified buffer.
-     * <p/>
+     * <p>
      * If {@link #getTag()} returns null, this method will return an empty
      * string.
-     * <p/>
+     * <p>
      * @see org.apache.click.Control#render(org.apache.click.util.HtmlStringBuffer)
      *
      * @param buffer the specified buffer to render the control's output to
@@ -899,7 +899,7 @@ public abstract class AbstractControl implements Control {
 
     /**
      * Returns the HTML representation of this control.
-     * <p/>
+     * <p>
      * This method delegates the rendering to the method
      * {@link #render(org.apache.click.util.HtmlStringBuffer)}. The size of buffer
      * is determined by {@link #getControlSizeEst()}.
@@ -953,10 +953,10 @@ public abstract class AbstractControl implements Control {
      * is <em>not</em> rendered by this control. It is up to subclasses
      * whether to render the name attribute or not. Generally only
      * {@link org.apache.click.control.Field} controls render the name attribute.
-     * <p/>
+     * <p>
      * <b>Please note:</b> the tag will not be closed by this method. This
      * enables callers of this method to append extra attributes as needed.
-     * <p/>
+     * <p>
      * For example the following example:
      *
      * <pre class="prettyprint">

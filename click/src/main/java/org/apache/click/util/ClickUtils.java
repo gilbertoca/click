@@ -94,7 +94,7 @@ public class ClickUtils {
     /**
      * The resource <code>versioning</code> request attribute: key: &nbsp;
      * <code>enable-resource-version</code>.
-     * <p/>
+     * <p>
      * If this attribute is set to <code>true</code> and Click is running in
      * <code>production</code> or <code>profile</code> mode, Click resources returned
      * from {@link org.apache.click.Control#getHeadElements()} will have a
@@ -152,7 +152,7 @@ public class ClickUtils {
 
     /**
      * The array of escaped HTML character values, indexed on char value.
-     * <p/>
+     * <p>
      * HTML entities values were derived from Jakarta Commons Lang
      * <code>org.apache.commons.lang.Entities</code> class.
      */
@@ -444,7 +444,7 @@ public class ClickUtils {
 
     /**
      * The array of escaped XML character values, indexed on char value.
-     * <p/>
+     * <p>
      * XML entities values were derived from Jakarta Commons Lang
      * <code>org.apache.commons.lang.Entities</code> class.
      */
@@ -466,7 +466,7 @@ public class ClickUtils {
      * values as name value pairs. If the compress value is true, this method
      * will attempt to gzip compress the response content if requesting
      * browser accepts "gzip" encoding.
-     * <p/>
+     * <p>
      * Once this method has returned you should not attempt to write to the
      * servlet response.
      *
@@ -560,20 +560,20 @@ public class ClickUtils {
      * event, this method can be used to bind a submitted Field value during
      * the <code>"onInit"</code> event, which occurs <b>before</b> the
      * <code>"onProcess"</code> event.
-     * <p/>
+     * <p>
      * This is especially useful for dynamic Form and Page behavior where Field
      * values are inspected during the <code>"onInit"</code> event to add or remove
      * specific Fields.
-     * <p/>
+     * <p>
      * <b>Please note</b>: this method won't bind disabled fields, unless the
      * field has an incoming request parameter matching its name. If an incoming
      * request parameter is present, this method will switch off the Field's
      * disabled property.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #canBind(org.apache.click.Control, org.apache.click.Context)}
      * to check if the Field value can be bound.
-     * <p/>
+     * <p>
      * <pre class="prettyprint">
      * public void onInit() {
      *     Form form = new Form("form");
@@ -604,7 +604,7 @@ public class ClickUtils {
      * A helper method that binds the submitted request value to the Link's
      * value. See {@link #bind(org.apache.click.control.Field)} for a detailed
      * description.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #canBind(org.apache.click.Control, org.apache.click.Context)}
      * to check if the Link value can be bound.
@@ -622,11 +622,11 @@ public class ClickUtils {
      * A helper method that binds the submitted request values of all Fields
      * and Links inside the given container or child containers. See
      * {@link #bind(org.apache.click.control.Field)} for a detailed description.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #canBind(org.apache.click.Control, org.apache.click.Context)}
      * to check if the Container Fields and Links can be bound.
-     * <p/>
+     * <p>
      * Below is an example to bind Form Field's during the onInit event:
      *
      * <pre class="prettyprint">
@@ -665,16 +665,16 @@ public class ClickUtils {
      * value. This method will return true if the validation succeeds, false
      * otherwise. See {@link #bind(org.apache.click.control.Field)} for a
      * detailed description.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #canBind(org.apache.click.Control, org.apache.click.Context)}
      * to check if the Field value can be bound and validated.
-     * <p/>
+     * <p>
      * <b>Please note</b>: this method won't bind and validate disabled fields,
      * unless the field has an incoming request parameter matching its name.
      * If an incoming request parameter is present, this method will switch off
      * the Field's disabled property.
-     * <p/>
+     * <p>
      * <pre class="prettyprint">
      * public void onInit() {
      *     Form form = new Form("form");
@@ -710,7 +710,7 @@ public class ClickUtils {
      * of all Fields and Links inside the given container or child containers.
      * This method will return true if the validation succeeds, false
      * otherwise.
-     * <p/>
+     * <p>
      * See {@link #bindAndValidate(org.apache.click.control.Form)} for a
      * detailed description.
      *
@@ -730,11 +730,11 @@ public class ClickUtils {
      * * A helper method that binds and validates the submitted request values
      * of all Fields and Links inside the given Form or child containers. Note,
      * the Form itself is also validated.
-     * <p/>
+     * <p>
      * This method will return true if the validation succeeds, false otherwise.
      * See {@link #bind(org.apache.click.control.Field)} for a detailed
      * description.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #canBind(org.apache.click.Control, org.apache.click.Context)}
      * to check if the Form Fields and Links can be bound and validated.
@@ -818,7 +818,7 @@ public class ClickUtils {
     /**
      * Return true if the given control's request value can be bound, false
      * otherwise.
-     * <p/>
+     * <p>
      * The following algorithm is used to determine if the Control can be
      * bound to a request value or not.
      * <ul>
@@ -890,7 +890,7 @@ public class ClickUtils {
     /**
      * Creates a template model of key/value pairs which can be used by template
      * engines such as Velocity and Freemarker.
-     * <p/>
+     * <p>
      * The following objects will be added to the model:
      * <ul>
      * <li>the Page {@link org.apache.click.Page#model model} Map key/value
@@ -1011,7 +1011,7 @@ public class ClickUtils {
 
     /**
      * Invalidate the specified cookie and delete it from the response object.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1028,12 +1028,12 @@ public class ClickUtils {
 
     /**
      * Return true is this is an Ajax request, false otherwise.
-     * <p/>
+     * <p>
      * An Ajax request is identified by the presence of the request <code>header</code>
      * or request <code>parameter</code>: "<code>X-Requested-With</code>".
      * "<code>X-Requested-With</code>" is the de-facto standard identifier used by
      * Ajax libraries.
-     * <p/>
+     * <p>
      * <b>Note:</b> incoming requests that contains a request <code>parameter</code>
      * "<code>X-Requested-With</code>" will result in this method returning true, even
      * though the request itself was not initiated through a <code>XmlHttpRequest</code>
@@ -1064,7 +1064,7 @@ public class ClickUtils {
      * Invalidate the specified cookie and delete it from the response object. Deletes only cookies mapped
      * against the root "/" path. Otherwise use
      * {@link #invalidateCookie(HttpServletRequest, HttpServletResponse, String, String)}
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1222,7 +1222,7 @@ public class ClickUtils {
 
     /**
      * Returns the specified Cookie object, or null if the cookie does not exist.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1249,13 +1249,13 @@ public class ClickUtils {
 
     /**
      * Sets the given cookie values in the servlet response.
-     * <p/>
+     * <p>
      * This will also put the cookie in a list of cookies to send with this request's response
      * (so that in case of a redirect occurring down the chain, the first filter
      * will always try to set this cookie again)
-     * <p/>
+     * <p>
      * The cookie secure flag is set if the request is secure.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1284,7 +1284,7 @@ public class ClickUtils {
     /**
      * Returns the value of the specified cookie as a String. If the cookie
      * does not exist, the method returns null.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1335,7 +1335,7 @@ public class ClickUtils {
      * Return Click's version indicator for static web resources
      * (eg css, js and image files) if resource versioning is active,
      * otherwise this method will return an empty string.
-     * <p/>
+     * <p>
      * Click's resource versioning becomes active under the following
      * conditions:
      * <ul>
@@ -1376,7 +1376,7 @@ public class ClickUtils {
      * If resource versioning is active this method will return the
      * application version indicator for static web resources
      * (eg JavaScript and Css) otherwise this method will return an empty string.
-     * <p/>
+     * <p>
      * Application resource versioning becomes active under the following
      * conditions:
      * <ul>
@@ -1388,7 +1388,7 @@ public class ClickUtils {
      * The version indicator is based on the application version.
      * For example if the application version is 1.2 this method will
      * return the string <code>"_1.2"</code>.
-     * <p/>
+     * <p>
      * The application version can be set through the static method
      * {@link #setApplicationVersion(java.lang.String)}.
      *
@@ -1423,10 +1423,10 @@ public class ClickUtils {
 
     /**
      * Return the given control CSS selector or null if no selector can be found.
-     * <p/>
+     * <p>
      * <b>Please note:</b> it is highly recommended to set a control's ID
      * attribute when dealing with Ajax requests.
-     * <p/>
+     * <p>
      * The CSS selector is calculated as follows:
      * <ol>
      *   <li>if control.getId() is set, prepend it with a '#' char
@@ -1502,7 +1502,7 @@ public class ClickUtils {
 
     /**
      * Populate the given object's attributes with the Form's field values.
-     * <p/>
+     * <p>
      * The specified Object can either be a POJO (plain old java object) or
      * a {@link java.util.Map}. If a POJO is specified, its attributes are
      * populated from  matching form fields. If a map is specified, its
@@ -1520,7 +1520,7 @@ public class ClickUtils {
 
     /**
      * Populate the given Form field values with the object's attributes.
-     * <p/>
+     * <p>
      * The specified Object can either be a POJO (plain old java object) or
      * a {@link java.util.Map}. If a POJO is specified, its attributes are
      * copied to matching form fields. If a map is specified, its key/value
@@ -1539,10 +1539,10 @@ public class ClickUtils {
     /**
      * Deploy the specified classpath resource to the given target directory
      * under the web application root directory.
-     * <p/>
+     * <p>
      * This method will <b>not</b> override any existing resources found in the
      * target directory.
-     * <p/>
+     * <p>
      * If an IOException or SecurityException occurs this method will log a
      * warning message.
      *
@@ -1669,14 +1669,14 @@ public class ClickUtils {
 
     /**
      * Deploys required files (from a file list) for a control that repsects a specific convention.
-     * <p/>
+     * <p>
      * <b>Convention:</b>
-     * <p/>
+     * <p>
      * There's a descriptor file generated by the <code>tools/standalone/dev-tasks/ListFilesTask</code>.
      * The files to deploy are all in a subdirectory placed in the same directory with the control.
-     * See documentation for more details. <p/>
+     * See documentation for more details. <p>
      *
-     * <b>Usage:</b><p/>
+     * <b>Usage:</b><p>
      * In your Control simply use the code below, and everything should work automatically.
      * <pre class="prettyprint">
      * public void onDeploy(ServletContext servletContext) {
@@ -1827,11 +1827,11 @@ public class ClickUtils {
 
     /**
      * Builds a cookie string containing a username and password.
-     * <p/>
+     * <p>
      * Note: with open source this is not really secure, but it prevents users
      * from snooping the cookie file of others and by changing the XOR mask and
      * character offsets, you can easily tweak results.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1851,11 +1851,11 @@ public class ClickUtils {
     /**
      * Builds a cookie string containing a username and password, using offsets
      * to customize the encoding.
-     * <p/>
+     * <p>
      * Note: with open source this is not really secure, but it prevents users
      * from snooping the cookie file of others and by changing the XOR mask and
      * character offsets, you can easily tweak results.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1893,7 +1893,7 @@ public class ClickUtils {
 
     /**
      * Decodes a cookie string containing a username and password.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1912,7 +1912,7 @@ public class ClickUtils {
 
     /**
      * Decodes a cookie string containing a username and password.
-     * <p/>
+     * <p>
      * This method was derived from Atlassian <code>CookieUtils</code> method of
      * the same name, release under the BSD License.
      *
@@ -1961,10 +1961,10 @@ public class ClickUtils {
 
     /**
      * URL encode the specified value using the "UTF-8" encoding scheme.
-     * <p/>
+     * <p>
      * For example <code>(http://host?name=value with spaces)</code> will become
      * <code>(http://host?name=value+with+spaces)</code>.
-     * <p/>
+     * <p>
      * This method uses {@link URLEncoder#encode(java.lang.String, java.lang.String)}
      * internally.
      *
@@ -1985,10 +1985,10 @@ public class ClickUtils {
 
     /**
      * URL decode the specified value using the "UTF-8" encoding scheme.
-     * <p/>
+     * <p>
      * For example <code>(http://host?name=value+with+spaces)</code> will become
      * <code>(http://host?name=value with spaces)</code>.
-     * <p/>
+     * <p>
      * This method uses {@link URLDecoder#decode(java.lang.String, java.lang.String)}
      * internally.
      *
@@ -2011,10 +2011,10 @@ public class ClickUtils {
      * Return an encoded URL value for the given object using the context
      * request character encoding or "UTF-8" if the request character encoding
      * is not specified.
-     * <p/>
+     * <p>
      * For example <code>(http://host?name=value with spaces)</code> will become
      * <code>(http://host?name=value+with+spaces)</code>.
-     * <p/>
+     * <p>
      * This method uses
      * {@link URLEncoder#encode(java.lang.String, java.lang.String)} internally.
      *
@@ -2178,7 +2178,7 @@ public class ClickUtils {
     /**
      * Return the value string limited to maxlength characters. If the string
      * gets curtailed, "..." is appended to it.
-     * <p/>
+     * <p>
      * Adapted from Velocity Tools Formatter.
      *
      * @param value the string value to limit the length of
@@ -2192,7 +2192,7 @@ public class ClickUtils {
     /**
      * Return the value string limited to maxlength characters. If the string
      * gets curtailed and the suffix parameter is appended to it.
-     * <p/>
+     * <p>
      * Adapted from Velocity Tools Formatter.
      *
      * @param value the string value to limit the length of
@@ -2239,7 +2239,7 @@ public class ClickUtils {
 
     /**
      * Return the mime-type or content-type for the given filename/extension.
-     * <p/>
+     * <p>
      * Example:
      * <pre class="prettyprint">
      * // Lookup mimetype for file
@@ -2277,7 +2277,7 @@ public class ClickUtils {
 
     /**
      * Return the given control's top level parent's localized messages Map.
-     * <p/>
+     * <p>
      * This method will walk up to the control's parent page object and
      * return pages messages. If the control's top level parent is a control
      * then the parent's messages map will be returned. If the top level
@@ -2322,14 +2322,14 @@ public class ClickUtils {
     /**
      * Return the given control's top level parent's localized message for the
      * specified name.
-     * <p/>
+     * <p>
      * This method will walk up to the control's parent page object and for each
      * parent control found, look for a message of the specified name. A
      * message found in a parent control will override the message of a child
      * control.
-     * <p/>
+     * <p>
      * Given the following property files:
-     * <p/>
+     * <p>
      * MyPage.properties
      * <pre class="prettyprint">
      * myfield.label=Page </pre>
@@ -2362,7 +2362,7 @@ public class ClickUtils {
      * at that stage MyForm is the highest level parent of field.
      * <code>getParentMessage</code> will find the property <code>myfield.label</code>
      * in the MyForm message properties and return <code>Form</code>
-     * <p/>
+     * <p>
      * The second (2.) println statement will output <code>Page</code> as now
      * MyPage is the highest level parent. On its first pass up the hierarchy,
      * <code>getParentMessage</code> will find the property <code>myfield.label</code>
@@ -2635,7 +2635,7 @@ public class ClickUtils {
     /**
      * Restore the control state from the session for the given stateful control,
      * control name and request context.
-     * <p/>
+     * <p>
      * This method delegates to {@link org.apache.click.Stateful#setState(java.lang.Object)}
      * to restore the control state.
      *
@@ -2665,7 +2665,7 @@ public class ClickUtils {
     /**
      * Save the control state in the session for the given stateful control,
      * control name and request context.
-     * <p/>
+     * <p>
      * * This method delegates to {@link org.apache.click.Stateful#getState()}
      * to retrieve the control state to save.
      *
@@ -2740,7 +2740,7 @@ public class ClickUtils {
      * Return a field label string from the given field name. For example:
      * <pre class="codeHtml">
      * <span class="blue">faxNumber</span> &nbsp; -&gt; &nbsp; <span class="red">Fax Number</span> </pre>
-     * <p/>
+     * <p>
      * <b>Note</b> toLabel will return an empty String ("") if a <code>null</code>
      * String name is specified.
      *
@@ -2788,7 +2788,7 @@ public class ClickUtils {
     /**
      * Return an 32 char MD5 encoded string from the given plain text.
      * The returned value is MD5 hash compatible with Tomcat catalina Realm.
-     * <p/>
+     * <p>
      * Adapted from <code>org.apache.catalina.util.MD5Encoder</code>
      *
      * @param plaintext the plain text value to encode
@@ -2823,10 +2823,10 @@ public class ClickUtils {
 
     /**
      * Return a field name string from the given field label.
-     * <p/>
+     * <p>
      * A label of <code>" OK do it!"</code> is returned as <code>"okDoIt"</code>. Any <code>&amp;nbsp;</code>
      * characters will also be removed.
-     * <p/>
+     * <p>
      * A label of <code>"customerSelect"</code> is returned as <code>"customerSelect"</code>.
      *
      * @param label the field label or caption
@@ -2897,7 +2897,7 @@ public class ClickUtils {
      * Returns true if Click resources (JavaScript, CSS, images etc) packaged
      * in jars can be deployed to the root directory of the webapp, false
      * otherwise.
-     * <p/>
+     * <p>
      * This method will return false in restricted environments where write
      * access to the underlying file system is disallowed. Examples where
      * write access is not allowed include the WebLogic JEE server (this can be
@@ -3091,7 +3091,7 @@ public class ClickUtils {
     /**
      * A helper method that binds the submitted request values of all Fields
      * and Links inside the given container or child containers.
-     * <p/>
+     * <p>
      * For Field controls, this method delegates to
      * {@link #bindField(org.apache.click.control.Field, org.apache.click.Context)}.
      *
@@ -3126,7 +3126,7 @@ public class ClickUtils {
     /**
      * A helper method that binds and validates the submitted request values
      * of all Fields and Links inside the given container or child containers.
-     * <p/>
+     * <p>
      * For Field controls, this method delegates to
      * {@link #bindField(org.apache.click.control.Field, org.apache.click.Context)}.
      *
@@ -3173,7 +3173,7 @@ public class ClickUtils {
      * A helper method that binds and validates the submitted request values
      * of all Fields and Links inside the given Form or child containers. Note,
      * the Form itself is also validated.
-     * <p/>
+     * <p>
      * For Field controls, this method delegates to
      * {@link #bindField(org.apache.click.control.Field, org.apache.click.Context)}.
      *
@@ -3207,7 +3207,7 @@ public class ClickUtils {
     /**
      * A helper method that binds and validates the Field's submitted request
      * value.
-     * <p/>
+     * <p>
      * This method delegates to
      * {@link #bindField(org.apache.click.control.Field, org.apache.click.Context)}
      * to bind the field value.
@@ -3242,7 +3242,7 @@ public class ClickUtils {
     /**
      * Bind the field to its incoming request parameter, returning true if the
      * field value was bound, false otherwise.
-     * <p/>
+     * <p>
      * <b>Please note</b>: this method won't bind disabled fields,
      * unless the field has an incoming request parameter matching its name.
      * If an incoming request parameter is present, this method will switch off

@@ -56,15 +56,15 @@ import org.xml.sax.SAXException;
 
 /**
  * Provides a Click XML configuration service class.
- * <p/>
+ * <p>
  * This class reads Click configuration information from a file named
  * <code>click.xml</code>. The service will first lookup the <code>click.xml</code>
  * under the applications <code>WEB-INF</code> directory, and if not found
  * attempt to load the configuration file from the classpath root.
- * <p/>
+ * <p>
  * Configuring Click through the <code>click.xml</code> file is the most common
  * technique.
- * <p/>
+ * <p>
  * However you can instruct Click to use a different service implementation.
  * Please see {@link ConfigService} for more details.
  */
@@ -462,12 +462,12 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * Return true if the given path is a Page class template, false
      * otherwise. By default this method returns true if the path has a
      * <code>.htm</code> or <code>.jsp</code> extension.
-     * <p/>
+     * <p>
      * If you want to map alternative templates besides <code>.htm</code> and
      * <code>.jsp</code> files you can override this method and provide extra
      * checks against the given path whether it should be added as a
      * template or not.
-     * <p/>
+     * <p>
      * Below is an example showing how to allow <code>.xml</code> paths to
      * be recognized as Page class templates.
      *
@@ -530,7 +530,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * The reason being that Click ships with some default templates such as
      * {@link ConfigService#ERROR_PATH} and {@link ConfigService#NOT_FOUND_PATH}
      * that must be mapped as <code>.htm</code>.
-     * <p/>
+     * <p>
      * Please see the ConfigService <a href="#config">javadoc</a> for details
      * on how to configure a custom ConfigService implementation.
      *
@@ -839,11 +839,11 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /**
      * Find and return the page class for the specified pagePath and
      * pagesPackage.
-     * <p/>
+     * <p>
      * For example if the pagePath is <code>'/edit-customer.htm'</code> and
      * package is <code>'com.mycorp'</code>, the matching page class will be:
      * <code>com.mycorp.EditCustomer</code> or <code>com.mycorp.EditCustomerPage</code>.
-     * <p/>
+     * <p>
      * If the page path is <code>'/admin/add-customer.htm'</code> and package is
      * <code>'com.mycorp'</code>, the matching page class will be:
      * <code>com.mycorp.admin.AddCustomer</code> or
@@ -960,7 +960,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * Returns true if Click resources (JavaScript, CSS, images etc) packaged
      * in jars can be deployed to the root directory of the webapp, false
      * otherwise.
-     * <p/>
+     * <p>
      * By default this method will return false in restricted environments where
      * write access to the underlying file system is disallowed. Example
      * environments where write access is not allowed include the WebLogic JEE
@@ -1119,7 +1119,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /**
      * Build the {@link #pageByPathMap} by associating template files with
      * matching Java classes found on the classpath.
-     * <p/>
+     * <p>
      * This method also rebuilds the {@link #excludesList}. This list contains
      * URL paths that should not be auto-mapped.
      *
@@ -1370,7 +1370,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * Deploy from the classpath all resources found under the directory
      * 'META-INF/resources/'. For backwards compatibility resources under the
      * directory 'META-INF/web/' are also deployed.
-     * <p/>
+     * <p>
      * Only jars and folders available on the classpath are scanned.
      *
      * @throws IOException if the resources cannot be deployed
@@ -1956,7 +1956,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /**
      * Provide an Excluded Page class.
-     * <p/>
+     * <p>
      * <b>PLEASE NOTE</b> this class is <b>not</b> for public use, and can be
      * ignored.
      */

@@ -147,7 +147,7 @@ public class ActionEventDispatcher {
     /**
      * Returns true if an ActionEventDispatcher instance is available on the
      * current thread, false otherwise.
-     * <p/>
+     * <p>
      * Unlike {@link #getThreadLocalDispatcher()} this method can safely be used
      * and will not throw an exception if an ActionEventDispatcher is not
      * available on the current thread.
@@ -214,7 +214,7 @@ public class ActionEventDispatcher {
     /**
      * Fire the actions for the given listener list and event source list which
      * return true if the page should continue processing.
-     * <p/>
+     * <p>
      * This method can be overridden if you need to customize the way events
      * are fired.
      *
@@ -244,7 +244,7 @@ public class ActionEventDispatcher {
     /**
      * Fire the action for the given listener and event source which
      * return true if the page should continue processing.
-     * <p/>
+     * <p>
      * This method can be overridden if you need to customize the way events
      * are fired.
      *
@@ -262,7 +262,7 @@ public class ActionEventDispatcher {
     /**
      * Fire the AjaxBehaviors for the given control set and return true if the page
      * should continue processing, false otherwise.
-     * <p/>
+     * <p>
      * This method can be overridden if you need to customize the way
      * AjaxBehaviors are fired.
      *
@@ -296,7 +296,7 @@ public class ActionEventDispatcher {
      * page should continue processing, false otherwise. AjaxBehaviors will
      * only fire if their {@link org.apache.click.ajax.AjaxBehavior#isAjaxTarget(org.apache.click.Context) isAjaxTarget()}
      * method returns true.
-     * <p/>
+     * <p>
      * This method can be overridden if you need to customize the way
      * AjaxBehaviors are fired.
      *

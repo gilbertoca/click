@@ -27,7 +27,7 @@ import javax.servlet.ServletContext;
 
 /**
  * Mock implementation of {@link javax.servlet.ServletConfig}.
- * <p/>
+ * <p>
  * Implements all of the methods from the standard ServletConfig class plus
  * helper methods to aid setting up a config.
  */

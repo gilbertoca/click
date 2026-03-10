@@ -36,7 +36,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * control can also be used for creating image areas where the user clicks on
  * a point on the image and the clicked x and y coordinates are submitted
  * with the name of the control.
- * <p/>
+ * <p>
  *
  * See also W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
@@ -112,7 +112,7 @@ public class ImageSubmit extends Submit {
 
     /**
      * Create an ImageSubmit button with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public ImageSubmit() {

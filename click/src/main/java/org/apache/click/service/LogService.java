@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
  *
  * <h3>Configuration</h3>
  * The default {@link LogService} implementation is {@link ConsoleLogService}.
- * <p/>
+ * <p>
  * You can instruct Click to use a different implementation by adding
  * the following element to your <code>click.xml</code> configuration file.
  *
@@ -58,7 +58,7 @@ public interface LogService {
 
     /**
      * Initialize the LogService with the given application servlet context.
-     * <p/>
+     * <p>
      * This method is invoked after the LogService has been constructed.
      *
      * @param servletContext the application servlet context

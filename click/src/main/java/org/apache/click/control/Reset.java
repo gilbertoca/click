@@ -79,7 +79,7 @@ public class Reset extends Button {
 
     /**
      * Create a Reset field with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Reset() {

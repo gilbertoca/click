@@ -84,7 +84,7 @@ public class ActionButton extends Button {
 
     /**
      * Create an ActionButton for the given name.
-     * <p/>
+     * <p>
      * Please note the name 'actionButton' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -97,7 +97,7 @@ public class ActionButton extends Button {
 
     /**
      * Create an ActionButton for the given name and label.
-     * <p/>
+     * <p>
      * Please note the name 'actionButton' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -130,7 +130,7 @@ public class ActionButton extends Button {
     /**
      * Create an ActionButton for the given name, listener object and listener
      * method.
-     * <p/>
+     * <p>
      * Please note the name 'actionButton' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -154,7 +154,7 @@ public class ActionButton extends Button {
     /**
      * Create an ActionButton for the given name, label, listener object and
      * listener method.
-     * <p/>
+     * <p>
      * Please note the name 'actionButton' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -181,7 +181,7 @@ public class ActionButton extends Button {
 
     /**
      * Create an ActionButton with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public ActionButton() {
@@ -202,7 +202,7 @@ public class ActionButton extends Button {
     /**
      * Set the name of the Control. Each control name must be unique in the
      * containing Page model or the containing Form.
-     * <p/>
+     * <p>
      * Please note the name 'actionButton' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -360,12 +360,12 @@ public class ActionButton extends Button {
      * Defines a button parameter that will have its value bound to a matching
      * request parameter. {@link #setParameter(java.lang.String, java.lang.String) setParameter}
      * implicitly defines a parameter as well.
-     * <p/>
+     * <p>
      * <b>Please note:</b> parameters need only be defined for Ajax requests.
      * For non-Ajax requests, <code>all</code> incoming request parameters
      * are bound, whether they are defined or not. This behavior may change in a
      * future release.
-     * <p/>
+     * <p>
      * <b>Also note:</b> button parameters are bound to request parameters
      * during the {@link #onProcess()} event, so button parameters must be defined
      * in the Page constructor or <code>onInit()</code> event.
@@ -595,7 +595,7 @@ public class ActionButton extends Button {
     /**
      * This method binds the submitted request parameters to the buttons
      * parameters.
-     * <p/>
+     * <p>
      * For non-Ajax requests this method will bind <code>all</code> incoming request
      * parameters to the link. For Ajax requests this method will only bind
      * the parameters already defined on the link.

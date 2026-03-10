@@ -175,7 +175,7 @@ public class RadioGroup extends Field {
 
     /**
      * Create a RadioGroup field with no name.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public RadioGroup() {
@@ -224,7 +224,7 @@ public class RadioGroup extends Field {
      * Add the given Map of radio values and labels to the RadioGroup.
      * The Map entry key will be used as the radio value and the Map entry
      * value will be used as the radio label.
-     * <p/>
+     * <p>
      * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the radio items.
      *
@@ -547,11 +547,11 @@ public class RadioGroup extends Field {
 
     /**
      * Validate the RadioGroup request submission.
-     * <p/>
+     * <p>
      * A field error message is displayed if a validation error occurs.
      * These messages are defined in the resource bundle: <blockquote>
      * <pre>org.apache.click.control.MessageProperties</pre></blockquote>
-     * <p/>
+     * <p>
      * Error message bundle key names include: <blockquote><ul>
      * <li>select-error</li>
      * </ul></blockquote>

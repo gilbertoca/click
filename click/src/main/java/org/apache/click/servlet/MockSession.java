@@ -32,7 +32,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Mock implementation of {@link javax.servlet.http.HttpSession}.
- * <p/>
+ * <p>
  * Implements all of the methods from the standard HttpSession class plus
  * helper methods to aid setting up a session.
  */
@@ -286,7 +286,7 @@ public class MockSession implements HttpSession {
 
     /**
      * Return a string representation of the session.
-     * <p/>
+     * <p>
      * The string will print all attributes of the session.
      *
      * @return string representation of the session

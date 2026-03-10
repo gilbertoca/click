@@ -29,16 +29,16 @@ import org.apache.commons.lang.Validate;
 /**
  * Provides a centralized registry where Controls can be registered and interact
  * with the Click runtime.
- * <p/>
+ * <p>
  * The primary use of the ControlRegistry is for Controls to register themselves
  * as potential <code>targets</code> of Ajax requests
  * (If a control is an Ajax request target, it's <code>onProcess()</code>
  * method is invoked while other controls are not processed).
- * <p/>
+ * <p>
  * Registering controls as Ajax targets serves a dual purpose. In addition to
  * being potential Ajax targets, these controls will have all their Behaviors
  * processed by the Click runtime.
- * <p/>
+ * <p>
  * Thus the ControlRegistry provides the Click runtime  with easy access to Controls
  * that want to be processed for Ajax requests. It also provides quick access
  * to Controls that have Behaviors, and particularly AjaxBehaviors that want to
@@ -136,7 +136,7 @@ public class ControlRegistry {
     /**
      * Returns true if a ControlRegistry instance is available on the current
      * thread, false otherwise.
-     * <p/>
+     * <p>
      * Unlike {@link #getThreadLocalRegistry()} this method can safely be used
      * and will not throw an exception if a ControlRegistry is not available on
      * the current thread.
@@ -158,7 +158,7 @@ public class ControlRegistry {
      * {@link Control#isAjaxTarget(org.apache.click.Context)} method returns true.
      * Once a target control is identified, Click invokes its
      * {@link Control#onProcess()} method.
-     * <p/>
+     * <p>
      * This method serves a dual purpose as all controls registered here
      * will also have their Behaviors (if any) processed. Processing
      * {@link org.apache.click.Behavior Behaviors}

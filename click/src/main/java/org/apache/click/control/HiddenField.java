@@ -29,7 +29,7 @@ import org.apache.click.util.HtmlStringBuffer;
 
 /**
  * Provides a Hidden Field control: &nbsp; &lt;input type='hidden'&gt;.
- * <p/>
+ * <p>
  * The HiddenField control is useful for storing state information in a Form,
  * such as object ids, instead of using the Session object. This control is
  * capable of supporting the following classes:<blockquote><ul>
@@ -43,7 +43,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * <li>String</li>
  * <li>Serializable</li>
  * </ul></blockquote>
- * <p/>
+ * <p>
  * Serializable non-primitive objects will be serialized, compressed and
  * Base64 encoded, using {@link org.apache.click.util.ClickUtils#encode(Object)}
  * method, and decoded using the corresponding

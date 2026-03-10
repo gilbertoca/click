@@ -170,12 +170,12 @@ public class Context {
      * false otherwise. Unlike {@link #getThreadLocalContext()} this method
      * can safely be used and will not throw an exception if Context is not
      * available on the current thread.
-     * <p/>
+     * <p>
      * This method is very useful inside a {@link Control} constructor which
      * might need access to the Context. As Controls could potentially be
      * instantiated during Click startup (in order to deploy their resources),
      * this check can be used to determine whether Context is available or not.
-     * <p/>
+     * <p>
      * For example:
      *
      * <pre class="prettyprint">
@@ -292,12 +292,12 @@ public class Context {
 
     /**
      * Return true is this is an Ajax request, false otherwise.
-     * <p/>
+     * <p>
      * An Ajax request is identified by the presence of the request <code>header</code>
      * or request <code>parameter</code>: "<code>X-Requested-With</code>".
      * "<code>X-Requested-With</code>" is the de-facto standard identifier used by
      * Ajax libraries.
-     * <p/>
+     * <p>
      * <b>Note:</b> incoming requests that contains a request <code>parameter</code>
      * "<code>X-Requested-With</code>" will result in this method returning true, even
      * though the request itself was not initiated through a <code>XmlHttpRequest</code>
@@ -401,10 +401,10 @@ public class Context {
 
     /**
      * Return the named session attribute, or null if not defined.
-     * <p/>
+     * <p>
      * If the session is not defined this method will return null, and a
      * session will not be created.
-     * <p/>
+     * <p>
      * This method supports {@link FlashAttribute} which when accessed are then
      * removed from the session.
      *
@@ -429,7 +429,7 @@ public class Context {
 
     /**
      * This method will set the named object in the HttpSession.
-     * <p/>
+     * <p>
      * This method will create a session if one does not already exist.
      *
      * @param name the storage name for the object in the session
@@ -472,7 +472,7 @@ public class Context {
 
     /**
      * This method will set the named object as a flash HttpSession object.
-     * <p/>
+     * <p>
      * The flash object will exist in the session until it is accessed once,
      * and then removed. Flash objects are typically used to display a message
      * once.
@@ -506,7 +506,7 @@ public class Context {
 
     /**
      * Sets the given cookie value in the servlet response with the path "/".
-     * <p/>
+     * <p>
      * @see ClickUtils#setCookie(HttpServletRequest, HttpServletResponse, String, String, int, String)
      *
      * @param name the cookie name
@@ -539,7 +539,7 @@ public class Context {
 
     /**
      * Return a new Page instance for the given path.
-     * <p/>
+     * <p>
      * This method can be used to create a target page for the
      * {@link Page#setForward(Page)}, for example:
      *
@@ -569,7 +569,7 @@ public class Context {
 
     /**
      * Return a new Page instance for the given class.
-     * <p/>
+     * <p>
      * This method can be used to create a target page for the
      * {@link Page#setForward(Page)}, for example:
      *
@@ -624,7 +624,7 @@ public class Context {
 
     /**
      * Return the Click application charset or ISO-8859-1 if not is defined.
-     * <p/>
+     * <p>
      * The charset is defined in click.xml through the charset attribute
      * on the click-app element.
      *
@@ -675,7 +675,7 @@ public class Context {
      * Returns the value of a request parameter as a FileItem, for
      * "multipart" POST requests (file uploads), or null if the parameter
      * is not found.
-     * <p/>
+     * <p>
      * If there were multivalued parameters in the request (ie two or more
      * file upload fields with the same name), the first fileItem
      * in the array is returned.
@@ -702,14 +702,14 @@ public class Context {
 
     /**
      * Return the users Locale.
-     * <p/>
+     * <p>
      * If the users Locale is stored in their session this will be returned.
      * Else if the click-app configuration defines a default Locale this
      * value will be returned, otherwise the request's Locale will be returned.
-     * <p/>
+     * <p>
      * To override the default request Locale set the users Locale using the
      * {@link #setLocale(Locale)} method.
-     * <p/>
+     * <p>
      * Pages and Controls obtain the users Locale using this method.
      *
      * @return the users Locale in the session, or if null the request Locale
@@ -733,7 +733,7 @@ public class Context {
     /**
      * This method stores the given Locale in the users session. If the given
      * Locale is null, the "locale" attribute will be removed from the session.
-     * <p/>
+     * <p>
      * The Locale object is stored in the session using the {@link #LOCALE}
      * key.
      *
@@ -760,10 +760,10 @@ public class Context {
     /**
      * Return a rendered Velocity template and model for the given
      * class and model data.
-     * <p/>
+     * <p>
      * This method will merge the class <code>.htm</code> Velocity template and
      * model data using the applications Velocity Engine.
-     * <p/>
+     * <p>
      * An example of the class template resolution is provided below:
      * <pre class="codeConfig">
      * <span class="cm">// Full class name</span>
@@ -800,7 +800,7 @@ public class Context {
 
     /**
      * Return a rendered Velocity template and model data.
-     * <p/>
+     * <p>
      * Example method usage:
      * <pre class="codeJava">
      * <span class="kw">public String</span> toString() {

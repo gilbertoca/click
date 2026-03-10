@@ -25,12 +25,12 @@ import java.io.Serializable;
  * existing session attribute providing a marker to the Context and SessionMap
  * classes that the session attribute should be removed once it has been
  * accessed.
- * <p/>
+ * <p>
  * Flash session attributes appear only once in a session, after they have been
  * accessed they are removed from the session. Flash attributes are typically
  * used for display information messages to a user, and can be used with page
  * redirects.
- * <p/>
+ * <p>
  * Note you generally do not use FlashAttribute directly, but indirectly via the
  * Context setFlashAttribute() method. For example:
  *

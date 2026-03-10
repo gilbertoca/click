@@ -25,7 +25,7 @@ import org.apache.click.util.HtmlStringBuffer;
 
 /**
  * Provides a select Option element: &nbsp; &lt;option&gt;&lt;/option&gt;.
- * <p/>
+ * <p>
  * The Option class uses an immutable design so Option instances can be
  * shared by multiple Pages in the multi-threaded Servlet environment.
  * This enables Option instances to be cached as static variables.
@@ -115,7 +115,7 @@ public class Option implements Serializable {
 
     /**
      * Create an Option with the given value and display label.
-     * <p/>
+     * <p>
      * <b>Note:</b> the specified value and label will be converted to a String.
      *
      * @param value the Option value
@@ -133,7 +133,7 @@ public class Option implements Serializable {
     /**
      * Create an Option with the given value. The value will also be used
      * for the display label.
-     * <p/>
+     * <p>
      * <b>Note:</b> the specified value will be converted to a String.
      *
      * @param value the Option value and display label

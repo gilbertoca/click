@@ -59,11 +59,11 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Mock implementation of {@link javax.servlet.ServletContext}.
- * <p/>
+ * <p>
  * This implementation supports all of the standard context methods except for
  * request dispatching which just indicates what is being dispatched to, rather
  * than performing an actual dispatch.
- * <p/>
+ * <p>
  * The context can be configured with a path parameter that should point to an
  * directory location that represents the place where the contents of
  * the WAR bundle are located. The path can either be an absolute or relative
@@ -72,7 +72,7 @@ import org.apache.commons.lang.StringUtils;
  * functionality to work as in a fully functioning web application. If this
  * value is not set then not resource location functionality will work and
  * instead null will always be returned.
- * <p/>
+ * <p>
  * This class was adapted from <a href="http://wicket.apache.org">Apache Wicket</a>.
  */
 public class MockServletContext implements ServletContext {
@@ -214,7 +214,7 @@ public class MockServletContext implements ServletContext {
 
     /**
      * Default constructor for this mock object.
-     * <p/>
+     * <p>
      * The servlet context name is set to 'mock'.
      * The web content root and temporary work direcotry are set to null.
      */
@@ -226,15 +226,15 @@ public class MockServletContext implements ServletContext {
      * Create the mock object. As part of the creation, the context sets the
      * root directory where web application content is stored. This must be an
      * ABSOLUTE directory relative to where the tests are being executed.
-     * <p/>
+     * <p>
      * For example: <code>System.getProperty("user.dir") + "/src/webapp"</code>
-     * <p/>
+     * <p>
      * In addition to setting the web root directory, this constructor also sets
      * up a temporary work directory for things like file uploads.
-     * <p/>
+     * <p>
      * <b>Note</b> this temporary work directory is set as the value of the
      * ServletContext attribute 'javax.servlet.context.tempdir'.
-     * <p/>
+     * <p>
      * The temporary work directory defaults to
      * System.getProperty("java.io.tmpdir").
      *
@@ -250,12 +250,12 @@ public class MockServletContext implements ServletContext {
      * Create the mock object. As part of the creation, the context sets the
      * root directory where web application content is stored. This must be an
      * ABSOLUTE directory relative to where the tests are being executed.
-     * <p/>
+     * <p>
      * For example: <code>System.getProperty("user.dir") + "/src/webapp"</code>
-     * <p/>
+     * <p>
      * In addition to setting the web root directory, this constructor also sets
      * up a temporary work directory for things like file uploads.
-     * <p/>
+     * <p>
      * <b>Note</b> this temporary work directory is set as the value of the
      * ServletContext attribute 'javax.servlet.context.tempdir'.
      *
@@ -438,7 +438,7 @@ public class MockServletContext implements ServletContext {
 
     /**
      * Sets the mock web application path to the specified webappPath.
-     * <p/>
+     * <p>
      * <b>Note:</b> this method will also set the web application's temporary
      * directory to the value {@link #getTempPath()}. If {@link #getTempPath()}
      * is not set, this method will default tempPath to:

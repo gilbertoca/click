@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * An interface to provide data on demand to controls.
- * <p/>
+ * <p>
  * Example usage:
  *
  * <pre class="prettyprint">

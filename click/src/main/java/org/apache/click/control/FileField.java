@@ -39,14 +39,14 @@ import org.apache.commons.lang.StringUtils;
  * The FileField control uses the Jakarta Commons
  * <a href="http://jakarta.apache.org/commons/fileupload/">FileUpload</a>
  * library to provide file processing functionality.
- * <p/>
+ * <p>
  * You can control the {@link org.apache.click.service.CommonsFileUploadService#sizeMax maximum request size}
  * and {@link org.apache.click.service.CommonsFileUploadService#fileSizeMax maximum file size}
  * by configuring {@link org.apache.click.service.CommonsFileUploadService}.
- * <p/>
+ * <p>
  * Note Browsers enforce the JavaScript <code>value</code> property as readonly
  * to prevent script based stealing of users files.
- * <p/>
+ * <p>
  * You can make the file field invisible by setting the CSS display attribute, for
  * example:
  *
@@ -57,7 +57,7 @@ import org.apache.commons.lang.StringUtils;
  *    &lt;input type="button" value="show value" onclick="alert(fileName)"&gt;
  * &lt;/form&gt; </pre>
  *
- * <p/>
+ * <p>
  * Please also see the references:
  * <ul>
  * <li><a target="blank" href="http://commons.apache.org/fileupload/using.html">Apache Commons - Using FileUpload</a></li>
@@ -161,7 +161,7 @@ public class FileField extends Field {
 
     /**
      * Create an FileField with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public FileField() {
@@ -343,7 +343,7 @@ public class FileField extends Field {
 
     /**
      * Validate the FileField request submission.
-     * <p/>
+     * <p>
      * A field error message is displayed if a validation error occurs.
      * These messages are defined in the resource bundle:
      * <blockquote>

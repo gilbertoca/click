@@ -43,11 +43,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Mock implementation of {@link javax.servlet.http.HttpServletResponse}.
- * <p/>
+ * <p>
  * Implements all of the methods from the standard HttpServletResponse class
  * plus helper methods to aid viewing the generated
  * response.
- * <p/>
+ * <p>
  * This class was adapted from <a href="http://wicket.apache.org">Apache Wicket</a>.
  */
 public class MockResponse implements HttpServletResponse {
@@ -519,7 +519,7 @@ public class MockResponse implements HttpServletResponse {
 
     /**
      * Indicate sending of a redirectUrl to a particular named resource.
-     * <p/>
+     * <p>
      * This implementation just keeps hold of the redirectUrl info and
      * makes it available for querying.
      *

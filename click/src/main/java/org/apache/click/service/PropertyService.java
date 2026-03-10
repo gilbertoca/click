@@ -30,7 +30,7 @@ import javax.servlet.ServletContext;
  * The default {@link PropertyService} implementation is {@link OGNLPropertyService} for
  * backward compatibility reasons. Please note {@link MVELPropertyService} provides
  * better property write performance than the OGNL property service.
- * <p/>
+ * <p>
  * You can instruct Click to use a different implementation by adding
  * the following element to your <code>click.xml</code> configuration file.
  *
@@ -49,7 +49,7 @@ public interface PropertyService {
     /**
      * Initialize the PropertyService with the given application configuration
      * service instance.
-     * <p/>
+     * <p>
      * This method is invoked after the PropertyService has been constructed.
      *
      * @param servletContext the application servlet context

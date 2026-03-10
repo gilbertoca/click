@@ -88,7 +88,7 @@ public class Button extends Field {
 
     /**
      * Create a button with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Button() {

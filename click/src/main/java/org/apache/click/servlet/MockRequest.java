@@ -65,10 +65,10 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Mock implementation of {@link javax.servlet.http.HttpServletRequest}.
- * <p/>
+ * <p>
  * Implements all of the methods from the standard HttpServletRequest class
  * plus helper methods to aid setting up a request.
- * <p/>
+ * <p>
  * This class was adapted from <a href="http://wicket.apache.org">Apache Wicket</a>.
  */
 public class MockRequest implements HttpServletRequest {
@@ -618,7 +618,7 @@ public class MockRequest implements HttpServletRequest {
 
     /**
      * Get the method.
-     * <p/>
+     * <p>
      * The returned string will be in upper case eg. <code>POST</code>.
      *
      * @return The method
@@ -794,7 +794,7 @@ public class MockRequest implements HttpServletRequest {
     /**
      * Return the name of the {@link #userPrincipal} if set, otherwise
      * the value of the {@value #REMOTE_USER} header.
-     * <p/>
+     * <p>
      * To set the remote user, create an instance of a {@link MockPrincipal}
      * and set it on the request through the method
      * {@link #setUserPrincipal(java.security.Principal)}.
@@ -1218,7 +1218,7 @@ public class MockRequest implements HttpServletRequest {
     /**
      * Returns true if the {@link #getUserPrincipal() authenticated user} is
      * included in the given role, false otherwise.
-     * <p/>
+     * <p>
      * To mock up roles for a user, create a {@link MockPrincipal user principal}
      * and set the necessary roles. See {@link MockPrincipal} for an example.
      *

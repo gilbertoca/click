@@ -36,7 +36,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * When used with a RadioGroup the Radio control will derive its name from the
  * parent RadioGroup, if the Radio's name is not defined.
  *
- * <p/>
+ * <p>
  * See also W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>
@@ -187,10 +187,10 @@ public class Radio extends Field {
 
     /**
      * Return the field display label.
-     * <p/>
+     * <p>
      * If the label value is null, this method will attempt to find a
      * localized label message in the parent messages using the key:
-     * <p/>
+     * <p>
      * If the Radio name attribute is not null:
      * <blockquote>
      * <code>super.getName() + ".label"</code>
@@ -203,7 +203,7 @@ public class Radio extends Field {
      * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Field name will be
      * the radio value.
-     * <p/>
+     * <p>
      * For example given a <code>CustomerPage</code> with the properties file
      * <code>CustomerPage.properties</code>:
      *

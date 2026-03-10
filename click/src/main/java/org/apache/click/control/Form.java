@@ -136,13 +136,13 @@ import org.apache.commons.lang.StringUtils;
  * </ul>
  * To debug the data binding being performed, use the Click application mode to
  * "<code>debug</code>" or use the debug copy methods.
- * <p/>
+ * <p>
  * Binding of nested data objects is supported using the
  * <a target="blank" href="http://mvel.codehaus.org/">MVEL</a> library. To use
  * nested objects in your form, simply specify the object path as the Field
  * name. Note in the object path you exclude the root object, so the path
  * <code>customer.address.state</code> is specified as <code>address.state</code>.
- * <p/>
+ * <p>
  * For example:
  *
  * <pre class="prettyprint">
@@ -163,7 +163,7 @@ import org.apache.commons.lang.StringUtils;
  * When populating an object from a form post Click will automatically create
  * any null nested objects so their properties can be set. To do this Click
  * uses the no-args constructor of the nested objects class.
- * <p/>
+ * <p>
  * {@link #copyTo(Object)} and {@link #copyFrom(Object)} also supports
  * <code>java.util.Map</code> as an argument. Examples of using
  * <code>java.util.Map</code> are shown in the respective method descriptions.
@@ -174,26 +174,26 @@ import org.apache.commons.lang.StringUtils;
  * The Form control supports automatic field validation. By default when a POST
  * request is made the form will validate the field values. To disable
  * automatic validation set {@link #setValidate(boolean)} to false.
- * <p/>
+ * <p>
  * Form also provides a {@link #validate()} method where subclasses can provide
  * custom cross-field validation.
- * <p/>
+ * <p>
  * <b>File Upload Validation</b>
- * <p/>
+ * <p>
  * The Form's {@link #validateFileUpload()} provides validation for multipart
  * requests (multipart requests are used for uploading files from the browser).
  * The {@link #validateFileUpload()} method checks that files being uploaded do not exceed the
  * {@link org.apache.click.service.CommonsFileUploadService#sizeMax maximum request size}
  * or the {@link org.apache.click.service.CommonsFileUploadService#fileSizeMax maximum file size}.
- * <p/>
+ * <p>
  * <b>Note:</b> if the <code>maximum request size</code> or <code>maximum file size</code>
  * is exceeded, the request is deemed invalid ({@link #hasPostError hasPostError}
  * will return true), and no further processing is performed on the form or fields.
  * Instead the form will display the appropriate error message for the invalid request.
  * See {@link #validateFileUpload()} for details of the error message properties.
- * <p/>
+ * <p>
  * <b>JavaScript Validation</b>
- * <p/>
+ * <p>
  * The Form control also supports client side JavaScript validation. By default
  * JavaScript validation is not enabled. To enable JavaScript validation set
  * {@link #setJavaScriptValidation(boolean)} to true. For example:
@@ -308,10 +308,10 @@ import org.apache.commons.lang.StringUtils;
  * </ul>
  * The hidden field is used by Click to determine which form was posted on
  * a page which may contain multiple forms.
- * <p/>
+ * <p>
  * Alternatively you can use the Form {@link #startTag()} and {@link #endTag()}
  * methods to render this information.
- * <p/>
+ * <p>
  * An example of a manually laid out Login form is provided below:
  *
  * <pre class="codeHtml">
@@ -364,12 +364,12 @@ import org.apache.commons.lang.StringUtils;
  * Velocity Macros
  * (<a target="topic" href="../../../../../velocity/user-guide.html#Velocimacros">velocimacros</a>)
  * are a great way to encapsulate customized forms.
- * <p/>
+ * <p>
  * To create a generic form layout you can use the Form {@link #getFieldList()} and
  * {@link #getButtonList()} properties within a Velocity macro. If you want to
  * access <em>all</em> Form Controls from within a Velocity template or macro use
  * {@link #getControls()}.
- * <p/>
+ * <p>
  * The example below provides a generic <span class="green">writeForm()</span>
  * macro which you could use through out an application. This Velocity macro code
  * would be contained in a macro file, e.g. <code>macro.vm</code>.
@@ -448,14 +448,14 @@ import org.apache.commons.lang.StringUtils;
  *
  * Users may accidentally make multiple form submissions by refreshing a page
  * or by pressing the back button.
- * <p/>
+ * <p>
  * To prevent multiple form posts from page refreshes use the Post
  * Redirect pattern. With this pattern once the user has posted a form you
  * redirect to another page. If the user then presses the refresh button, they
  * will making a GET request on the current page. Please see the
  * <a target="blank" href="http://www.theserverside.com/articles/content/RedirectAfterPost/article.html">Redirect After Post</a>
  * article for more information on this topic.
- * <p/>
+ * <p>
  * To prevent multiple form posts from use of the browser back button use one
  * of the Form {@link #onSubmitCheck(org.apache.click.Page, String)} methods. For example:
  *
@@ -478,7 +478,7 @@ import org.apache.commons.lang.StringUtils;
  * based upon user selection. For example if a checkbox is ticked another Field
  * is added to the Form. A simple way to achieve this is using JavaScript
  * to submit the Form when the Field is changed or clicked.
- * <p/>
+ * <p>
  * When submitting a Form using JavaScript, it is often desirable to <em>not</em>
  * validate the fields since the user is still filling out the form.
  * To cater for this use case, Form provides the {@link #setValidate(boolean)}
@@ -501,7 +501,7 @@ import org.apache.commons.lang.StringUtils;
  *     }
  * } </pre>
  *
- * <p>&nbsp;<p/>
+ * <p>&nbsp;</p>
  * See also the W3C HTML reference:
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.3">FORM</a>
@@ -609,7 +609,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * The number of form layout table columns, default value: <code>1</code>.
-     * <p/>
+     * <p>
      * This property is used to layout the number of table columns the form
      * is rendered with using a flow layout style.
      */
@@ -617,7 +617,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * The default field size, default value: <code>0</code>.
-     * <p/>
+     * <p>
      * If the form default field size is greater than 0, when fields are added
      * to the form the field's size will be set to the default value.
      */
@@ -682,7 +682,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Create a form with no name.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Form() {
@@ -693,23 +693,23 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Add the control to the form at the specified index, and return the
      * added instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the form contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * All controls are available on the {@link #getControls() controls} list
      * at the index they were inserted. If you are only interested in Fields,
      * note that Buttons are available on the {@link #getButtonList() buttonList}
      * while other fields are available on {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * The specified index only applies to {@link #getControls() controls}, not
      * {@link #getButtonList() buttonList} or {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the specified control already has a parent assigned,
      * it will automatically be removed from that parent and inserted into the
      * form.
@@ -788,15 +788,15 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Add a Control to the form and return the added instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the form contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * All controls are available on the {@link #getControls() controls} list
      * in the order they were added. If you are only interested in Fields,
      * note that Buttons are available on the {@link #getButtonList() buttonList}
@@ -817,15 +817,15 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Add the field to the form, and set the fields form property.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the form contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
-     * <p/>
+     * <p>
      * Buttons are available on the {@link #getButtonList() buttonList} while
      * other fields are available on {@link #getFieldList() fieldList}.
      *
@@ -843,17 +843,17 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Add the field to the form and specify the field's width in columns.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the form contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
-     * <p/>
+     * <p>
      * Fields are available on {@link #getFieldList() fieldList}.
-     * <p/>
+     * <p>
      * Note Button and HiddenField types are not valid arguments for this method.
      *
      * @see #add(org.apache.click.Control)
@@ -872,17 +872,17 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Add the control to the form and specify the control's width in columns.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the form contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
      * where the key is the Control name and value is the Control instance.
-     * <p/>
+     * <p>
      * Controls are available on the {@link #getControls() controls} list.
-     * <p/>
+     * <p>
      * Note Button and HiddenField types are not valid arguments for this method.
      *
      * @see #add(org.apache.click.Control)
@@ -1060,12 +1060,12 @@ public class Form extends AbstractContainer implements Stateful {
      * page containing the form. This is the default behaviour for most scenarios.
      * However if you explicitly specify the form "action" URL attribute, this
      * value will be used instead.
-     * <p/>
+     * <p>
      * Setting the form action attribute is useful for situations where you want
      * a form to submit to a different page. This can also be used to have a
      * form submit to the J2EE Container for authentication, by setting the
      * action URL to "<code>j_security_check</code>".
-     * <p/>
+     * <p>
      * The action URL will always be encoded by the response to ensure it includes
      * the Session ID if required.
      *
@@ -1087,7 +1087,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Return the form "action" attribute URL value. By setting this value you
      * will override the default action URL which points to the page containing
      * the form.
-     * <p/>
+     * <p>
      * Setting the form action attribute is useful for situations where you want
      * a form to submit to a different page. This can also be used to have a
      * form submit to the J2EE Container for authentication, by setting the
@@ -1269,7 +1269,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Return true if the page request is a submission from this form.
-     * <p/>
+     * <p>
      * A form submission requires the following criteria:
      * <ul>
      *   <li>the Form name must be present as a request parameter (Form
@@ -1361,9 +1361,9 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Return the ordered list of form fields, excluding buttons.
-     * <p/>
+     * <p>
      * The order of the fields is the same order they were added to the form.
-     * <p/>
+     * <p>
      * The returned list includes only fields added directly to the Form.
      *
      * @return the ordered List of form fields, excluding buttons
@@ -1375,7 +1375,7 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Return the Map of form fields (including buttons), keyed
      * on field name.
-     * <p/>
+     * <p>
      * The returned map includes only fields added directly to the Form.
      *
      * @see #getControlMap()
@@ -1431,9 +1431,9 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Return the ordered list of {@link Button}s.
-     * <p/>
+     * <p>
      * The order of the buttons is the same order they were added to the form.
-     * <p/>
+     * <p>
      * The returned list includes only buttons added directly to the Form.
      *
      * @return the ordered list of {@link Button}s.
@@ -1682,7 +1682,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Set the label &lt;td&gt; "style" attribute value.
-     * <p/>
+     * <p>
      * This value can be overridden by Fields through their
      * {@link Field#setParentStyleHint(java.lang.String)} property.
      *
@@ -1736,7 +1736,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Copy the given object's attributes into the Form's field values. In
      * other words automatically populate Form's field values with the
      * given objects attributes.
-     * <p/>
+     * <p>
      * The following example populates the Form field with Customer
      * attributes:
      *
@@ -1748,11 +1748,11 @@ public class Form extends AbstractContainer implements Stateful {
      * } </pre>
      *
      * copyForm also supports <code>java.util.Map</code> as an argument.
-     * <p/>
+     * <p>
      * By specifying a map, the Form's field values will be populated by
      * matching key/value pairs. A match occurs when the map's key is equal to
      * a field's name.
-     * <p/>
+     * <p>
      * The following example populates the Form fields with a map's
      * key/value pairs:
      *
@@ -1784,7 +1784,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Copy the given object's attributes into the Form's field values. In other
      * words automatically populate Forms field values with the given objects
      * attributes. copyFrom also supports <code>java.util.Map</code> as an argument.
-     * <p/>
+     * <p>
      * If the debug parameter is true, debugging messages will be
      * logged.
      *
@@ -1802,7 +1802,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Copy the Form's field values into the given object's attributes. In
      * other words automatically populate Object attributes with the Form's
      * field values.
-     * <p/>
+     * <p>
      * The following example populates the Customer attributes with the
      * Form's field values:
      *
@@ -1817,11 +1817,11 @@ public class Form extends AbstractContainer implements Stateful {
      * } </pre>
      *
      * copyTo also supports <code>java.util.Map</code> as an argument.
-     * <p/>
+     * <p>
      * By specifying a map, the map's key/value pairs are populated from
      * matching Form field names. A match occurs when a field's name is
      * equal to a map's key.
-     * <p/>
+     * <p>
      * The following example populates the map with the Form field values:
      *
      * <pre class="prettyprint">
@@ -1855,7 +1855,7 @@ public class Form extends AbstractContainer implements Stateful {
      * Copy the Form's field values into the given object's attributes. In other
      * words automatically populate Object attributes with the Forms field
      * values. copyTo also supports <code>java.util.Map</code> as an argument.
-     * <p/>
+     * <p>
      * If the debug parameter is true, debugging messages will be
      * logged.
      *
@@ -1923,10 +1923,10 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Process the Form and its child controls only if the Form was submitted
      * by the user.
-     * <p/>
+     * <p>
      * This method invokes {@link #isFormSubmission()} to check whether the form
      * was submitted or not.
-     * <p/>
+     * <p>
      * The Forms processing order is:
      * <ol>
      * <li>All {@link Field} controls in the order they were added</li>
@@ -1999,7 +1999,7 @@ public class Form extends AbstractContainer implements Stateful {
      * The validate method is invoked by {@link #onProcess()} to validate
      * the request submission. A Form subclass can override this method
      * to implement cross-field validation logic.
-     * <p/>
+     * <p>
      * If the Form determines that the submission is invalid it should set the
      * {@link #error} property with an appropriate error message. For example:
      *
@@ -2027,10 +2027,10 @@ public class Form extends AbstractContainer implements Stateful {
      * clicking the Form submit button twice, in quick succession. If the form
      * submit is valid this method will return true, otherwise set the page to
      * redirect to the given redirectPath and return false.
-     * <p/>
+     * <p>
      * This method will add a token to the user's session and a hidden field
      * to the form to validate future submits.
-     * <p/>
+     * <p>
      * Form submit checks should be performed before the pages controls are
      * processed in the Page onSecurityCheck method. For example:
      *
@@ -2045,7 +2045,7 @@ public class Form extends AbstractContainer implements Stateful {
      *
      * Form submit checks should generally be combined with the Post-Redirect
      * pattern which provides a better user experience when pages are refreshed.
-     * <p/>
+     * <p>
      * <b>Please note:</b> a call to onSubmitCheck always succeeds for Ajax
      * requests.
      *
@@ -2077,10 +2077,10 @@ public class Form extends AbstractContainer implements Stateful {
      * form submission by using the browser back button. If the form submit
      * is valid this method will return true, otherwise set the page to
      * redirect to the given Page class and return false.
-     * <p/>
+     * <p>
      * This method will add a token to the user's session and a hidden field
      * to the form to validate future submits.
-     * <p/>
+     * <p>
      * Form submit checks should be performed before the pages controls are
      * processed in the Page onSecurityCheck method. For example:
      *
@@ -2095,7 +2095,7 @@ public class Form extends AbstractContainer implements Stateful {
      *
      * Form submit checks should generally be combined with the Post-Redirect
      * pattern which provides a better user experience when pages are refreshed.
-     * <p/>
+     * <p>
      * <b>Please note:</b> a call to onSubmitCheck always succeeds for Ajax
      * requests.
      *
@@ -2127,10 +2127,10 @@ public class Form extends AbstractContainer implements Stateful {
      * form submission by using the browser back button. If the form submit
      * is valid this method will return true, otherwise the given listener
      * object and method will be invoked.
-     * <p/>
+     * <p>
      * This method will add a token to the users session and a hidden field
      * to the form to validate future submit's.
-     * <p/>
+     * <p>
      * Form submit checks should be performed before the pages controls are
      * processed in the Page onSecurityCheck method. For example:
      *
@@ -2151,7 +2151,7 @@ public class Form extends AbstractContainer implements Stateful {
      *
      * Form submit checks should generally be combined with the Post-Redirect
      * pattern which provides a better user experience when pages are refreshed.
-     * <p/>
+     * <p>
      * <b>Please note:</b> a call to onSubmitCheck always succeeds for Ajax
      * requests.
      *
@@ -2201,7 +2201,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Restore the Form state from the session for the given request context.
-     * <p/>
+     * <p>
      * This method delegates to {@link #setState(java.lang.Object)} to set the
      * form restored state.
      *
@@ -2216,7 +2216,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Save the Form state to the session for the given request context.
-     * <p/>
+     * <p>
      * * This method delegates to {@link #getState()} to retrieve the form state
      * to save.
      *
@@ -2264,7 +2264,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Render the HTML representation of the Form.
-     * <p/>
+     * <p>
      * If the form contains errors after processing, these errors will be
      * rendered.
      *
@@ -2448,7 +2448,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Render the non hidden Form Fields to the string buffer.
-     * <p/>
+     * <p>
      * This method delegates the rendering of the form fields to
      * {@link #renderControls(HtmlStringBuffer, Container, List, Map, int)}.
      *
@@ -2479,7 +2479,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Render the specified controls of the container to the string buffer.
-     * <p/>
+     * <p>
      * fieldWidths is a map specifying the width for specific fields contained
      * in the list of controls. The fieldWidths map is keyed on field name.
      *
@@ -2829,7 +2829,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Close the form tag and render any additional content after the Form.
-     * <p/>
+     * <p>
      * Additional content includes <code>javascript validation</code> and
      * <code>javascript focus</code> scripts.
      *
@@ -2973,7 +2973,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Validate the request for any file upload (multipart) errors.
-     * <p/>
+     * <p>
      * A form error message is displayed if a file upload error occurs.
      * These messages are defined in the resource bundle:
      * <blockquote>

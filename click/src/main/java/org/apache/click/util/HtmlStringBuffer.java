@@ -24,7 +24,7 @@ import java.util.Map;
  * Provides a HTML element StringBuffer for rendering, automatically
  * escaping string values. HtmlStringBuffer is used by Click controls
  * for HTML rendering.
- * <p/>
+ * <p>
  * For example the following code:
  * <pre class="codeJava">
  * <span class="kw">public</span> String toString() {
@@ -220,7 +220,7 @@ public class HtmlStringBuffer {
     /**
      * Append the given HTML attribute name and value to the string buffer, and
      * do not escape the attribute value.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    appendAttribute(<span class="st">"size"</span>, 10)  <span class="green">-&gt;</span>  <span class="st">size="10"</span> </pre>
@@ -249,14 +249,14 @@ public class HtmlStringBuffer {
     /**
      * Append the given attribute name and value to the buffer, if the value
      * is not null.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    appendAttribute(<span class="st">"class"</span>, <span class="st">"required"</span>)  <span class="green">-></span>  <span class="st">class="required"</span> </pre>
      *
      * The attribute value will be escaped. The following characters are escaped:
      * &lt;, &gt;, &quot;, &#039;, &amp;.
-     * <p/>
+     * <p>
      * If the attribute name is a JavaScript event handler the value will
      * not be escaped.
      *
@@ -286,7 +286,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append the given HTML attribute name and value to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    appendAttribute(<span class="st">"size"</span>, 10)  <span class="green">-&gt;</span>  <span class="st">size="10"</span> </pre>
@@ -311,7 +311,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append the HTML "disabled" attribute to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    appendAttributeDisabled()  <span class="green">-></span>  <span class="st">disabled="disabled"</span> </pre>
@@ -326,7 +326,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append the HTML "readonly" attribute to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    appendAttributeReadonly()  <span class="green">-></span>  <span class="st">readonly="readonly"</span> </pre>
@@ -391,7 +391,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append a HTML element end to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    elementEnd(<span class="st">"textarea"</span>)  <span class="green">-></span>  <span class="st">&lt;/textarea&gt;</span> </pre>
@@ -413,7 +413,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append a HTML element end to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    closeTag()  <span class="green">-></span>  <span class="st">&gt;</span> </pre>
@@ -428,7 +428,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append a HTML element end to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    elementEnd()  <span class="green">-></span>  <span class="st">/&gt;</span> </pre>
@@ -443,7 +443,7 @@ public class HtmlStringBuffer {
 
     /**
      * Append a HTML element start to the string buffer.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="javaCode">
      *    elementStart(<span class="st">"input"</span>)  <span class="green">-></span>  <span class="st">&lt;input</span> </pre>

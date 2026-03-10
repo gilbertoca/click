@@ -50,7 +50,7 @@ public class ContainerUtils {
 
     /**
      * Populate the given object attributes from the Containers field values.
-     * <p/>
+     * <p>
      * If a Field and object attribute matches, the object attribute is set to
      * the Object returned from the method
      * {@link org.apache.click.control.Field#getValueObject()}. If an object
@@ -58,11 +58,11 @@ public class ContainerUtils {
      * {@link org.apache.click.control.Field#getValueObject()} will be converted
      * into the specific primitive e.g. Integer will become int and Boolean will
      * become boolean.
-     * <p/>
+     * <p>
      * The fieldList specifies which fields to copy to the object. This allows
      * one to include or exclude certain Container fields before populating the
      * object.
-     * <p/>
+     * <p>
      * The following example shows how to exclude disabled fields from
      * populating a customer object:
      * <pre class="prettyprint">
@@ -194,17 +194,17 @@ public class ContainerUtils {
 
     /**
      * Populate the given Container field values from the object attributes.
-     * <p/>
+     * <p>
      * If a Field and object attribute matches, the Field value is set to the
      * object attribute using the method
      * {@link org.apache.click.control.Field#setValueObject(java.lang.Object)}. If
      * an object attribute is a primitive it is first converted to its proper
      * wrapper class e.g. int will become Integer and boolean will become
      * Boolean.
-     * <p/>
+     * <p>
      * The fieldList specifies which fields to populate from the object. This
      * allows one to exclude or include specific fields.
-     * <p/>
+     * <p>
      * The specified Object can either be a POJO (plain old java object) or
      * a {@link java.util.Map}. If a POJO is specified, its attributes are
      * copied to matching container fields. If a map is specified, its key/value
@@ -306,7 +306,7 @@ public class ContainerUtils {
     /**
      * Find and return the first control with a matching name in the specified
      * container.
-     * <p/>
+     * <p>
      * If no matching control is found in the specified container, child
      * containers will be recursively scanned for a match.
      *
@@ -373,7 +373,7 @@ public class ContainerUtils {
     /**
      * Return a list of container fields which are not valid, not hidden and not
      * disabled.
-     * <p/>
+     * <p>
      * The list of returned fields will exclude any <code>Button</code> fields.
      *
      * @param container the container to obtain the invalid fields from
@@ -393,7 +393,7 @@ public class ContainerUtils {
     /**
      * Return a map of all Fields for the given Container, recursively including
      * any Fields contained in child containers.
-     * <p/>
+     * <p>
      * The map's key / value pair will consist of the control name and instance.
      *
      * @param container the container to obtain the fields from
@@ -485,15 +485,15 @@ public class ContainerUtils {
     /**
      * Add the given control to the container at the specified index, and return
      * the added instance.
-     * <p/>
+     * <p>
      * <b>Please note</b>: an exception is raised if the container contains a
      * control with the same name as the given control. It is the responsibility
      * of the caller to replace existing controls.
-     * <p/>
+     * <p>
      * <b>Also note</b> if the specified control already has a parent assigned,
      * it will automatically be removed from that parent and inserted as a child
      * of the container instead.
-     * <p/>
+     * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
@@ -502,7 +502,7 @@ public class ContainerUtils {
      * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#insert(org.apache.click.Control, int) insert},
      * one can delegate to this method.
-     * <p/>
+     * <p>
      * For example, a custom Container that extends <code>Field</code> and
      * implements <code>Container</code> could implement the <code>insert</code> method
      * as follows:
@@ -584,11 +584,11 @@ public class ContainerUtils {
     /**
      * Replace the current control in the container at the specified index, and
      * return the newly added control.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the new control already has a parent assigned,
      * it will automatically be removed from that parent and inserted as a child
      * of the container instead.
-     * <p/>
+     * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
@@ -597,7 +597,7 @@ public class ContainerUtils {
      * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#replace(org.apache.click.Control, org.apache.click.Control) replace},
      * one can delegate to this method.
-     * <p/>
+     * <p>
      * For example, a custom Container that extends <code>Field</code> and
      * implements <code>Container</code> could implement the <code>replace</code> method
      * as follows:
@@ -695,7 +695,7 @@ public class ContainerUtils {
      * Remove the given control from the container, returning <code>true</code> if
      * the control was found in the container and removed, or <code>false</code> if
      * the control was not found.
-     * <p/>
+     * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
      * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
@@ -704,7 +704,7 @@ public class ContainerUtils {
      * <code>AbstractContainer</code> as well. In such scenarios instead of
      * reimplementing {@link org.apache.click.control.Container#remove(org.apache.click.Control) remove},
      * one can delegate to this method.
-     * <p/>
+     * <p>
      * For example, a custom Container that extends <code>Field</code> and
      * implements <code>Container</code> could implement the <code>remove</code> method
      * as follows:
@@ -757,7 +757,7 @@ public class ContainerUtils {
 
     /**
      * Extract and return the specified object property names.
-     * <p/>
+     * <p>
      * If the object is a Map instance, this method returns the maps key set.
      *
      * @param object the object to extract property names from
@@ -818,7 +818,7 @@ public class ContainerUtils {
     /**
      * This method ensures that the object can safely be navigated according
      * to the specified path.
-     * <p/>
+     * <p>
      * If any object in the graph is null, a new instance of that object class
      * is instantiated.
      *
@@ -885,7 +885,7 @@ public class ContainerUtils {
 
     /**
      * Find the object getter method for the given property.
-     * <p/>
+     * <p>
      * If this method cannot find a 'get' property it tries to lookup an 'is'
      * property.
      *
@@ -1261,7 +1261,7 @@ public class ContainerUtils {
     /**
      * Add all the Fields for the given Container to the specified map,
      * recursively including any Fields contained in child containers.
-     * <p/>
+     * <p>
      * The map's key / value pair will consist of the control name and instance.
      *
      * @param container the container to obtain the fields from
@@ -1287,7 +1287,7 @@ public class ContainerUtils {
     /**
      * Add the list of container fields to the specified list of fields, which
      * are not valid, not hidden and not disabled.
-     * <p/>
+     * <p>
      * The list of returned invalid fields will exclude any <code>Button</code>
      * fields.
      *

@@ -48,10 +48,10 @@ public class PropertyUtils {
     /**
      * Return the property value for the given object and property name. This
      * method uses reflection internally to get the property value.
-     * <p/>
+     * <p>
      * This method is thread-safe, and caches reflected accessor methods in an
      * internal synchronized cache.
-     * <p/>
+     * <p>
      * If the given source object is a <code>Map</code> this method will simply
      * return the value for the given key name.
      *
@@ -86,13 +86,13 @@ public class PropertyUtils {
     /**
      * Return the property value for the given object and property name. This
      * method uses reflection internally to get the property value.
-     * <p/>
+     * <p>
      * This method caches the reflected property methods in the given Map cache.
      * You must NOT modify the cache. Also note cache is ONLY valid for the
      * current thread, as access to the cache is not synchronized. If you need
      * multi-threaded access to shared cache use a thread-safe Map object, such
      * as <code>Collections.synchronizedMap(new HashMap())</code>.
-     * <p/>
+     * <p>
      * If the given source object is a <code>Map</code> this method will simply
      * return the value for the given key name.
      *
@@ -226,7 +226,7 @@ public class PropertyUtils {
 
     /**
      * See DRY Performance article by Kirk Pepperdine.
-     * <p/>
+     * <p>
      * http://www.javaspecialists.eu/archive/Issue134.html
      */
     public static class CacheKey {

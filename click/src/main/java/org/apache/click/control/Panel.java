@@ -38,7 +38,7 @@ import org.apache.click.util.SessionMap;
 /**
  * Provides a Panel container that has its own {@link #template} and
  * {@link #model}.
- * <p/>
+ * <p>
  * Panels are powerful components for creating modular, reusable
  * and customized layout sections within a page.
  *
@@ -57,12 +57,12 @@ import org.apache.click.util.SessionMap;
  * have been added to the Panel. Furthermore the Panel's parent
  * {@link org.apache.click.Page#model Page model} is also made available to the
  * Panel template.
- * <p/>
+ * <p>
  *
  * <h3>Example 1 - A Simple Panel</h3>
  *
  * This example shows how to create a basic Panel and adding it to a Page.
- * <p/>
+ * <p>
  * First we create the <code>/panel/simple-panel.htm</code> that references the
  * variable <span class="st">$time</span>:
  *
@@ -103,14 +103,14 @@ import org.apache.click.util.SessionMap;
  * Since the Panel model and Page model are merged at runtime, the Panel template
  * can access the Page messages.
  *
- * <p/>
+ * <p>
  * First we create the <code>SimplePanelDemo.properties</code> file which specifies
  * two properties: <span style="color:#7F0055">heading</span> and <span style="color:#7F0055">content</span>.
  * <pre class="codeConfig">
  * <span style="color:#7F0055">heading</span>=Welcome
  * <span style="color:#7F0055">content</span>=Welcome to MyCorp&lt;p/&gt;MyCorp is your telecommuting office portal. Its just like being there at the office!</pre>
  *
- * <p/>
+ * <p>
  * Then we create the <code>/panel/simple-panel.htm</code> that references the
  * localized Page properties. Since a Page properties are made available through
  * the <span class="st">$messages</span> map, the Panel can access the Page
@@ -136,7 +136,7 @@ import org.apache.click.util.SessionMap;
  * declaring a <code>public</code> Panel field. Autobinding will automatically add
  * the Panel to the Page model.
  *
- * <p/>
+ * <p>
  * The SimplePanelDemo template, <code>/simple-panel-demo.htm</code>, would
  * reference the panel control:
  *
@@ -147,7 +147,7 @@ import org.apache.click.util.SessionMap;
  * <fieldset style="margin:2em;width:550px;">
  * <legend><b>Welcome</b></legend>
  * Welcome to MyCorp.
- * <p/>
+ * <p>
  * MyCorp is your telecommuting office portal. Its just like being there at the
  * office!
  * </fieldset>
@@ -157,11 +157,11 @@ import org.apache.click.util.SessionMap;
  * Panels provide a good way to create reusable components, and since Panel is
  * a Container it can hold child controls, even other Panels.
  *
- * <p/>
+ * <p>
  * In this example we create a reusable <code>CustomerPanel</code> which is added
  * to a Border Panel.
  *
- * <p/>
+ * <p>
  * First we create the <code>/panel/customer-panel.htm</code> template which references
  * the <span class="st">$form</span> variable:
  *
@@ -300,7 +300,7 @@ public class Panel extends AbstractContainer {
 
     /**
      * Create a Panel with no name or template defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Panel() {
@@ -325,12 +325,12 @@ public class Panel extends AbstractContainer {
 
     /**
      * Add the control to the panel and return the specified control.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the Panel contains a control with the same name as
      * the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
      * by the given control. If a control has no name defined it cannot be replaced.
-     * <p/>
+     * <p>
      * In addition to the requirements specified by
      * {@link Container#add(org.apache.click.Control)}, note the following:
      * <ul>
@@ -447,7 +447,7 @@ public class Panel extends AbstractContainer {
      * Remove the control from the panel and returning true if the control was
      * found in the container and removed, or false if the control was not
      * found.
-     * <p/>
+     * <p>
      * In addition to the requirements specified by
      * {@link Container#remove(org.apache.click.Control)}, the controls name
      * must also be set.
@@ -572,7 +572,7 @@ public class Panel extends AbstractContainer {
 
     /**
      * Return the panel display label.
-     * <p/>
+     * <p>
      * If the label value is null, this method will attempt to find a
      * localized label message in the parent messages using the key:
      * <blockquote>
@@ -582,7 +582,7 @@ public class Panel extends AbstractContainer {
      * <code>/click-control.properties</code> file using the same key.
      * If a value still cannot be found then the Panel name will be converted
      * into a label using the method: {@link ClickUtils#toLabel(String)}
-     * <p/>
+     * <p>
      * Typically the label property is used as a header for a particular panel.
      * For example:
      *
@@ -615,7 +615,7 @@ public class Panel extends AbstractContainer {
 
     /**
      * Add the named object value to the Panels model map.
-     * <p/>
+     * <p>
      * <b>Please note</b>: if the Panel contains an object with a matching name,
      * that object will be replaced by the given value.
      *
@@ -686,7 +686,7 @@ public class Panel extends AbstractContainer {
 
     /**
      * Initialize the panel.
-     * <p/>
+     * <p>
      * <b>Please note</b>: {@link #isActive() inactive} panels are not
      * initialized.
      *
@@ -702,7 +702,7 @@ public class Panel extends AbstractContainer {
     /**
      * This method processes the Panel request returning true to continue
      * processing or false otherwise.
-     * <p/>
+     * <p>
      * <b>Please note</b>: {@link #isDisabled() Disabled} and
      * {@link #isActive() inactive} panels are not processed.
      *
@@ -726,7 +726,7 @@ public class Panel extends AbstractContainer {
     /**
      * Perform any pre rendering logic and invoke the <code>onRender()</code> method
      * of any child controls.
-     * <p/>
+     * <p>
      * <b>Please note</b>: {@link #isActive() inactive} panels are not rendered.
      *
      * @see org.apache.click.Control#onRender()
@@ -742,7 +742,7 @@ public class Panel extends AbstractContainer {
      * Render the HTML string representation of the Panel. The panel will be
      * rendered by merging the {@link #template} with the template
      * model. The template model is created using {@link #createTemplateModel()}.
-     * <p/>
+     * <p>
      * If a Panel template is not defined, a template based on the classes
      * name will be loaded. For more details please see {@link Context#renderTemplate(Class, Map)}.
      *
@@ -769,7 +769,7 @@ public class Panel extends AbstractContainer {
      * include the pages model values, plus any Panel defined model values, and
      * a number of automatically added model values. Note panel model values
      * will override any page defined model values.
-     * <p/>
+     * <p>
      * The following values automatically added to the Model:
      * <ul>
      * <li>attributes - the panel HTML attributes map</li>

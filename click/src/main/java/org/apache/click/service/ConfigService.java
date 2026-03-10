@@ -31,7 +31,7 @@ import org.apache.click.util.Format;
 
 /**
  * Provides a Click application configuration service interface.
- * <p/>
+ * <p>
  * A single application ConfigService instance is created by the ClickServlet at
  * startup. Once the ConfigService has been initialized it is stored in the
  * ServletContext using the key {@value #CONTEXT_NAME}.
@@ -39,18 +39,18 @@ import org.apache.click.util.Format;
  * <a href="#" name="config"></a>
  * <h3>Configuration</h3>
  * The default ConfigService is {@link XmlConfigService}.
- * <p/>
+ * <p>
  * However it is possible to specify a different implementation.
- * <p/>
+ * <p>
  * For example you can subclass XmlConfigService and override methods such as
  * {@link #onInit(javax.servlet.ServletContext)} to alter initialization
  * behavior.
- * <p/>
+ * <p>
  * For Click to recognize your custom service class you must set the
  * context initialization parameter,
  * {@link org.apache.click.ClickServlet#CONFIG_SERVICE_CLASS config-service-class}
  * in your <code>web.xml</code> file.
- * <p/>
+ * <p>
  * Below is an example of a custom service class
  * <code>com.mycorp.service.CustomConfigService</code>:
  *
@@ -74,7 +74,7 @@ import org.apache.click.util.Format;
  *
  * <b>Please note</b> that the custom ConfigService implementation must have a
  * no-argument constructor so Click can instantiate the service.
- * <p/>
+ * <p>
  * Also define the new service in your <code>web.xml</code> as follows:
  *
  * <pre class="prettyprint">
@@ -130,7 +130,7 @@ public interface ConfigService {
 
     /**
      * Initialize the ConfigurationService with the given application servlet context.
-     * <p/>
+     * <p>
      * This method is invoked after the ConfigurationService has been constructed.
      *
      * @param servletContext the application servlet context
@@ -229,7 +229,7 @@ public interface ConfigService {
     /**
      * Return true if the given resource is a Page class template, false
      * otherwise.
-     * <p/>
+     * <p>
      * Below is an example showing how to map <code>.htm</code> and <code>.jsp</code>
      * files as Page class templates.
      *

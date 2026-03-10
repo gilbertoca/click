@@ -25,10 +25,10 @@ import org.apache.click.Page;
  * Provides the base error handling Page. The ErrorPage handles any
  * unexpected Exceptions. When the application is not in "production" mode the
  * ErrorPage will provide diagnostic information.
- * <p/>
+ * <p>
  * The ErrorPage template "<span class="blue">click/error.htm</span>" can be
  * customized to your needs.
- * <p/>
+ * <p>
  * Applications which require additional error handling logic must subclass
  * the ErrorPage. For example to rollback a Connection if an SQLException occurred:
  *
@@ -101,7 +101,7 @@ public class ErrorPage extends Page {
     /**
      * This method initializes the ErrorPage, populating the model with error
      * diagnostic information.
-     * <p/>
+     * <p>
      * The following values are added to ErrorPage model for rendering by the
      * error page template:
      *
@@ -162,7 +162,7 @@ public class ErrorPage extends Page {
     /**
      * Set the application mode: <code>["production", "profile", "development",
      * debug", "trace"]</code>
-     * <p/>
+     * <p>
      * The application mode is added to the model by the {@link #onInit()} method.
      * This property is used to determines whether the error page template
      * should display error diagnostic information. The default "error.htm" will

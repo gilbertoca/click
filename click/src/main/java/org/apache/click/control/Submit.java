@@ -32,10 +32,10 @@ import org.apache.commons.lang.StringUtils;
  *
  * The Submit control supports server side processing and can be used to invoke
  * Control listeners.
- * <p/>
+ * <p>
  * For an Submit code example see the {@link org.apache.click.control.Form}
  * Javadoc example.
- * <p/>
+ * <p>
  * See also the W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>
@@ -117,7 +117,7 @@ public class Submit extends Button {
 
     /**
      * Create an Submit button with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Submit() {
@@ -192,10 +192,10 @@ public class Submit extends Button {
 
     /**
      * Process the submit event and return true to continue event processing.
-     * <p/>
+     * <p>
      * If the submit button is clicked and a Control listener is defined, the
      * listener method will be invoked.
-     * <p/>
+     * <p>
      * Submit buttons will be processed after all the non Button Form Controls
      * have been processed. Submit buttons will be processed in the order
      * they were added to the Form.

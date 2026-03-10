@@ -30,7 +30,7 @@ package org.apache.click.control;
  *
  * For an PasswordField code example see the {@link org.apache.click.control.Form}
  * Javadoc example.
- * <p/>
+ * <p>
  * See also W3C HTML reference
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>
@@ -111,7 +111,7 @@ public class PasswordField extends TextField {
 
     /**
      * Create a PasswordField with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public PasswordField() {

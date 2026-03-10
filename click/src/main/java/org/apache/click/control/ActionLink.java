@@ -36,7 +36,7 @@ import org.apache.commons.lang.StringUtils;
  * This control can render the "href" URL attribute using
  * {@link #getHref()}, or the entire ActionLink anchor tag using
  * {@link #toString()}.
- * <p/>
+ * <p>
  * ActionLink support invoking control listeners.
  *
  * <h3>ActionLink Example</h3>
@@ -70,7 +70,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * ActionLink can also support a value parameter which is accessible
  * using {@link #getValue()}.
- * <p/>
+ * <p>
  * For example a products table could include rows
  * of products, each with a get product details ActionLink and add product
  * ActionLink. The ActionLinks include the product's id as a parameter to
@@ -162,7 +162,7 @@ public class ActionLink extends AbstractLink {
 
     /**
      * Create an ActionLink for the given name.
-     * <p/>
+     * <p>
      * Please note the name 'actionLink' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -175,7 +175,7 @@ public class ActionLink extends AbstractLink {
 
     /**
      * Create an ActionLink for the given name and label.
-     * <p/>
+     * <p>
      * Please note the name 'actionLink' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -210,7 +210,7 @@ public class ActionLink extends AbstractLink {
     /**
      * Create an ActionLink for the given name, listener object and listener
      * method.
-     * <p/>
+     * <p>
      * Please note the name 'actionLink' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -234,7 +234,7 @@ public class ActionLink extends AbstractLink {
     /**
      * Create an ActionLink for the given name, label, listener object and
      * listener method.
-     * <p/>
+     * <p>
      * Please note the name 'actionLink' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *
@@ -348,7 +348,7 @@ public class ActionLink extends AbstractLink {
     /**
      * Set the name of the Control. Each control name must be unique in the
      * containing Page model or the containing Form.
-     * <p/>
+     * <p>
      * Please note the name 'actionLink' is reserved as a control request
      * parameter name and cannot be used as the name of the control.
      *

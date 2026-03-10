@@ -34,7 +34,7 @@ import ognl.TypeConverter;
 
 /**
  * Provides an OGNL TypeConverter class.
- * <p/>
+ * <p>
  * This class is adapted from the OGNL <code>DefaultTypeConverter</code>, by
  * Luke Blanshard and Drew Davidson, and provides additional Date conversion
  * capabilities.

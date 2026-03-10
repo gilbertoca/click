@@ -34,10 +34,10 @@ import org.apache.click.util.ClickUtils;
 
 /**
  * Provides a mock {@link org.apache.click.Context} object for unit testing.
- * <p/>
+ * <p>
  * <b>Note:</b> if you want to test your Click Page instances use
  * {@link MockContainer} instead.
- * <p/>
+ * <p>
  * This class defines a couple of helper methods to quickly create all the mock
  * objects needed for unit testing. Please see the following methods:
  * <ul>
@@ -140,7 +140,7 @@ public class MockContext extends Context {
 
     /**
      * Creates and returns a new Context instance.
-     *<p/>
+     *<p>
      * <b>Note:</b> servletPath will default to '/mock.htm'.
      *
      * @return new Context instance
@@ -396,7 +396,7 @@ public class MockContext extends Context {
 
     /**
      * Cleanup the MockContext.
-     * <p/>
+     * <p>
      * This method removes any lingering ThreadLocal variables from the Mock stack.
      */
     void cleanup() {

@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * Provides a JavaScript HEAD element for importing <code>external</code> JavaScript
  * files using the &lt;script&gt; tag.
- * <p/>
+ * <p>
  * Example usage:
  * <pre class="prettyprint">
  * public class MyPage extends Page {
@@ -59,7 +59,7 @@ public class JsImport extends ResourceElement {
 
     /**
      * Constructs a new JavaScript import element.
-     * <p/>
+     * <p>
      * The JsImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
@@ -71,11 +71,11 @@ public class JsImport extends ResourceElement {
     /**
      * Construct a new JavaScript import element with the specified
      * <code>src</code> attribute.
-     * <p/>
+     * <p>
      * The JsImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>src</code> begins with a
      * <tt class="wr">"/"</code> character the src will be prefixed with the web
      * application <code>context path</code>.
@@ -89,12 +89,12 @@ public class JsImport extends ResourceElement {
     /**
      * Construct a new JavaScript import element with the specified <code>src</code>
      * attribute.
-     * <p/>
+     * <p>
      * If useApplicationVersionIndicator is true the
      * {@link #setVersionIndicator(java.lang.String) version indicator} will
      * automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>src</code> begins with a
      * <tt class="wr">"/"</code> character the src will be prefixed with the web
      * application <code>context path</code>.
@@ -113,7 +113,7 @@ public class JsImport extends ResourceElement {
     /**
      * Construct a new JavaScript import element with the specified <code>src</code>
      * attribute and version indicator.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>src</code> begins with a
      * <tt class="wr">"/"</code> character the src will be prefixed with the web
      * application <code>context path</code>.
@@ -157,7 +157,7 @@ public class JsImport extends ResourceElement {
     /**
      * Sets the <code>src</code> attribute. If the given src argument is
      * <code>null</code>, the <code>src</code> attribute will be removed.
-     * <p/>
+     * <p>
      * If the given <code>src</code> begins with a <tt class="wr">"/"</code> character
      * the src will be prefixed with the web application <code>context path</code>.
      * Note if the given src is already prefixed with the <code>context path</code>,

@@ -41,10 +41,10 @@ import org.apache.commons.lang.Validate;
 
 /**
  * Provides a localized read only messages Map for Page and Control classes.
- * <p/>
+ * <p>
  * A MessagesMap instance is available in each Velocity page using the name
  * "<span class="blue">messages</span>".
- * <p/>
+ * <p>
  * For example suppose you have a localized page title, which is stored in the
  * Page's properties file. You can access page "title" message in your page
  * template via:
@@ -63,7 +63,7 @@ import org.apache.commons.lang.Validate;
  * Please note if the specified message does not exist in your Page's
  * properties file, or if the Page does not have a properties file, then
  * a <code>MissingResourceException</code> will be thrown.
- * <p/>
+ * <p>
  * The ClickServlet adds a MessagesMap instance to the Velocity Context before
  * it is merged with the page template.
  */
@@ -100,7 +100,7 @@ public class MessagesMap implements Map<String, String> {
      * Create a resource bundle messages <code>Map</code> adaptor for the given
      * object's class resource bundle, the global resource bundle and
      * <code>Context</code>.
-     * <p/>
+     * <p>
      * Messages located in the object's resource bundle will override any
      * messages defined in the global resource bundle.
      *
@@ -115,7 +115,7 @@ public class MessagesMap implements Map<String, String> {
      * Create a resource bundle messages <code>Map</code> adaptor for the given
      * object's class resource bundle, the global resource bundle and
      * <code>Context</code>.
-     * <p/>
+     * <p>
      * Messages located in the object's resource bundle will override any
      * messages defined in the global resource bundle.
      *
@@ -271,13 +271,13 @@ public class MessagesMap implements Map<String, String> {
      * Return the ResourceBundle for the given resource name and locale. By
      * default this method will create a ResourceBundle using the standard JDK
      * method: {@link java.util.ResourceBundle#getBundle(java.lang.String, java.util.Locale, java.lang.ClassLoader)}.
-     * <p/>
+     * <p>
      * You can create your own custom ResourceBundle by overriding this method.
-     * <p/>
+     * <p>
      * In order for Click to use your custom MessagesMap implementation, you
      * need to provide your own {@link org.apache.click.service.MessagesMapService}
      * or extend {@link org.apache.click.service.DefaultMessagesMapService}.
-     * <p/>
+     * <p>
      * The method {@link org.apache.click.service.MessagesMapService#createMessagesMap(java.lang.Class, java.lang.String, java.util.Locale)  createMessagesMap},
      * can be implemented to return your custom MessagesMap instances.
      *
@@ -293,7 +293,7 @@ public class MessagesMap implements Map<String, String> {
     /**
      * This method initializes and populates the internal{@link #messages} map
      * and cache {@link #getMessagesCache()} if it is not already initialized.
-     * <p/>
+     * <p>
      * <b>Please Note:</b> populating the cache {@link #getMessagesCache()} is not thread safe
      * and access to the cache must be properly synchronized.
      */
@@ -396,7 +396,7 @@ public class MessagesMap implements Map<String, String> {
 
     /**
      * See DRY Performance article by Kirk Pepperdine.
-     * <p/>
+     * <p>
      * http://www.javaspecialists.eu/archive/Issue134.html
      */
     private static class CacheKey {

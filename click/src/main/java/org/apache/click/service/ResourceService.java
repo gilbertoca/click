@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * <h3>Configuration</h3>
  * The default ResourceService is {@link ClickResourceService}.
- * <p/>
+ * <p>
  * However you can instruct Click to use a different implementation by adding
  * the following element to your <code>click.xml</code> configuration file.
  *
@@ -48,7 +48,7 @@ public interface ResourceService {
     /**
      * Initialize the ResourceService with the given application configuration
      * service instance.
-     * <p/>
+     * <p>
      * This method is invoked after the ResourceService has been constructed.
      *
      * @param servletContext the application servlet context

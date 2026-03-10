@@ -26,7 +26,7 @@ import java.util.Set;
  * Mock implementation of a user {@link java.security.Principal principal}.
  * This class also provides convenient methods for specifying the user principal
  * roles.
- * <p/>
+ * <p>
  * Example usage with MockContext:
  * <pre class="prettyprint">
  * MockContext mockContext = MockContext.initContext();
@@ -37,7 +37,7 @@ import java.util.Set;
  * // Set the user principal on the request object
  * mockContext.getMockRequest().setUserPrincipal(principal); </pre>
  *
- * <p/>
+ * <p>
  * Example usage with MockContainer:
  * <pre class="prettyprint">
  * MockContainer container = new MockContainer("c:/dev/myapp/web");

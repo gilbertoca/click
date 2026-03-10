@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * Provides a HEAD element for including <code>inline</code> JavaScript using the
  * &lt;script&gt; tag.
- * <p/>
+ * <p>
  * Example usage:
  *
  * <pre class="prettyprint">
@@ -56,7 +56,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *
  * Below is an example showing how to render inline Javascript from a
  * Velocity template.
- * <p/>
+ * <p>
  * First we create a Velocity template <code>(/js/mycorp-template.js)</code> which
  * contains the variable <code>$divId</code> that must be replaced at runtime with
  * the real Div ID attribute:
@@ -138,7 +138,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  * Notice the CDATA tags are commented out which ensures older browsers that
  * don't understand the CDATA tag, will ignore it and only process the actual
  * content.
- * <p/>
+ * <p>
  * For an overview of XHTML validation and CDATA tags please see
  * <a target="_blank" href="http://javascript.about.com/library/blxhtml.htm">http://javascript.about.com/library/blxhtml.htm</a>.
  */
@@ -192,11 +192,11 @@ public class JsScript extends ResourceElement {
     /**
      * Construct a new inline JavaScript element for the given template path
      * and template model.
-     * <p/>
+     * <p>
      * When the JsScript is rendered the template and model will be merged and
      * the result will be rendered together with any JsScript
      * {@link #setContent(java.lang.String) content}.
-     * <p/>
+     * <p>
      *
      * For example:
      * <pre class="prettyprint">
@@ -291,15 +291,15 @@ public class JsScript extends ResourceElement {
     /**
      * Sets whether the JsScript content must be executed as soon as the browser
      * DOM is ready.
-     * <p/>
+     * <p>
      * If this flag is true, the JsScript content will be registered with
      * the "<code>Click.addLoadEvent</code>" function from the JavaScript file
      * "<code>/click/control.js</code>".
-     * <p/>
+     * <p>
      * <b>Please note:</b> when setting this flag to true, the JavaScript
      * file "<code>/click/control.js</code>" must already be included in the Page or
      * Control, it won't be included automatically.
-     * <p/>
+     * <p>
      * <b>Also note:</b> for {@link org.apache.click.Context#isAjaxRequest() Ajax}
      * requests the JsScript content won't be registered with the
      * "<code>Click.addLoadEvent</code>" function because Ajax requests does not trigger
@@ -326,7 +326,7 @@ public class JsScript extends ResourceElement {
 
     /**
      * Set the path of the template to render.
-     * <p/>
+     * <p>
      * If the {@link #template} property is set, the template and {@link #model}
      * will be merged and the result will be rendered together with any JsScript
      * {@link #setContent(java.lang.String) content}.
@@ -351,7 +351,7 @@ public class JsScript extends ResourceElement {
 
     /**
      * Set the model of the template to render.
-     * <p/>
+     * <p>
      * If the {@link #template} property is set, the template and {@link #model}
      * will be merged and the result will be rendered together with any JsScript
      * {@link #setContent(java.lang.String) content}.
@@ -465,7 +465,7 @@ public class JsScript extends ResourceElement {
     /**
      * Render the JsScript {@link #setContent(java.lang.String) content}
      * to the specified buffer.
-     * <p/>
+     * <p>
      * <b>Please note:</b> if the {@link #setTemplate(java.lang.String) template}
      * property is set, this method will merge the {@link #setTemplate(java.lang.String) template}
      * and {@link #setModel(java.util.Map) model} and the result will be

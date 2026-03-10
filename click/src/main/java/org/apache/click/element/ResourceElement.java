@@ -25,9 +25,9 @@ import org.apache.commons.lang.StringUtils;
  * Provides a base class for rendering HEAD resources of an HTML page, for
  * example JavaScript (&lt;script&gt;) and Cascading Stylesheets
  * (&lt;link&gt;/&lt;style&gt;).
- * <p/>
+ * <p>
  * Subclasses should override {@link #getTag()} to return a specific HTML tag.
- * <p/>
+ * <p>
  * Below are some example Resource elements:
  * <ul>
  * <li>{@link JsImport}, for importing <code>external</code> JavaScript using the
@@ -46,7 +46,7 @@ import org.apache.commons.lang.StringUtils;
  * the {@link #isUnique()} property. Thus if the same Resource is imported
  * multiple times by the Page or different Controls, only one Resource will be
  * rendered, if {@link #isUnique()} returns <code>true</code>.
- * <p/>
+ * <p>
  * The rules for defining a unique Resource is as follows:
  * <ul>
  * <li>{@link JsImport} and {@link CssImport} is unique based on the
@@ -108,10 +108,10 @@ import org.apache.commons.lang.StringUtils;
  * suggests <em>versioning</em> the resources so that each new release of the
  * web application renders resources with different paths, forcing the browser
  * to download the new resources.
- * <p/>
+ * <p>
  * For detailed information on versioning JavaScript, Css and image resources
  * see the <a href="../../../../extras-api/org/apache/click/extras/filter/PerformanceFilter.html">PerformanceFilter</a>.
- * <p/>
+ * <p>
  * To enable versioning of JavaScript, Css and image resources the following
  * conditions must be met:
  * <ul>
@@ -129,14 +129,14 @@ import org.apache.commons.lang.StringUtils;
  *
  * Sometimes it is necessary to provide additional JavaScript and Css for
  * Internet Explorer because it deviates quite often from the standards.
- * <p/>
+ * <p>
  * Conditional comments allows you to wrap the resource in a special comment
  * which only IE understands, meaning other browsers won't process the resource.
- * <p/>
+ * <p>
  * You can read more about conditional comments
  * <a target="_blank" href="http://msdn.microsoft.com/en-us/library/ms537512(VS.85).aspx#syntax">here</a>
  * and <a target="_blank" href="http://www.quirksmode.org/css/condcom.html">here</a>
- * <p/>
+ * <p>
  * It has to be said that IE7 and up has much better support for Css, thus
  * conditional comments are mostly used for IE6 and below.
  * <pre class="prettyprint">
@@ -276,7 +276,7 @@ public class ResourceElement extends Element {
 
     /**
      * Set the element render {@link #getId() ID} attribute status.
-     * <p/>
+     * <p>
      * If renderId is false the element {@link #getId() ID} attribute will not
      * be rendered.
      *
@@ -311,7 +311,7 @@ public class ResourceElement extends Element {
     /**
      * Render the HTML representation of the Resource element to the specified
      * buffer.
-     * <p/>
+     * <p>
      * If {@link #getTag()} returns null, this method will return an empty
      * string.
      *

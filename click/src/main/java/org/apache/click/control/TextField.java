@@ -52,7 +52,7 @@ import org.apache.click.util.HtmlStringBuffer;
  *
  * For another example using TextField see the {@link org.apache.click.control.Form}
  * Javadoc example.
- * <p/>
+ * <p>
  * See also the W3C HTML reference:
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.4">INPUT</a>
@@ -91,7 +91,7 @@ public class TextField extends Field {
     /**
      * The maximum field length validation constraint. If the value is zero this
      * validation constraint is not applied. The default value is zero.
-     * <p/>
+     * <p>
      * If maxLength is greater than zero, then maxLength is rendered as the
      * HTML attribute 'maxlength'.
      */
@@ -186,7 +186,7 @@ public class TextField extends Field {
 
     /**
      * Create a TextField with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public TextField() {
@@ -235,7 +235,7 @@ public class TextField extends Field {
      * Returns the maximum field length validation constraint. If the
      * {@link #maxLength} property is greater than zero, the Field values length
      * will be validated against this constraint when processed.
-     * <p/>
+     * <p>
      * If maxLength is greater than zero, it is rendered as the field
      * attribute 'maxlength'
      *
@@ -249,7 +249,7 @@ public class TextField extends Field {
      * Sets the maximum field length. If the {@link #maxLength} property is
      * greater than zero, the Field values length will be validated against
      * this constraint when processed.
-     * <p/>
+     * <p>
      * If maxLength is greater than zero, it is rendered as the field
      * attribute 'maxlength'
      *
@@ -283,7 +283,7 @@ public class TextField extends Field {
 
     /**
      * Return the input field HTML5 placeholder attribute.
-     * <p/>
+     * <p>
      * If the placeholder value is null, this method will attempt to find a
      * localized placeholder message in the parent messages using the key:
      * <blockquote>
@@ -413,11 +413,11 @@ public class TextField extends Field {
 
     /**
      * Validate the TextField request submission.
-     * <p/>
+     * <p>
      * A field error message is displayed if a validation error occurs.
      * These messages are defined in the resource bundle: <blockquote>
      * <pre>org.apache.click.control.MessageProperties</pre></blockquote>
-     * <p/>
+     * <p>
      * Error message bundle key names include: <blockquote><ul>
      * <li>field-maxlength-error</li>
      * <li>field-minlength-error</li>
@@ -451,7 +451,7 @@ public class TextField extends Field {
 
     /**
      * Return the field JavaScript client side validation function.
-     * <p/>
+     * <p>
      * The function name must follow the format <code>validate_[id]</code>, where
      * the id is the DOM element id of the fields focusable HTML element, to
      * ensure the function has a unique name.

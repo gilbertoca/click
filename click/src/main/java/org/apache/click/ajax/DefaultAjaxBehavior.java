@@ -24,12 +24,12 @@ import org.apache.click.ActionResult;
 
 /**
  * Provides a default implementation of the AjaxBehavior interface.
- * <p/>
+ * <p>
  * This class also provides the method,
  * {@link #addHeadElementsOnce(org.apache.click.Control) addHeadElementsOnce},
  * that subclasses can implement if they need to add HTML HEAD elements only to
  * the <code>first</code> Control that this Behavior is registered with.
- * <p/>
+ * <p>
  * If this Behavior should add HTML HEAD elements to all the Controls it is
  * registered with, rather implement
  * {@link #preRenderHeadElements(org.apache.click.Control) preRenderHeadElements}.
@@ -104,7 +104,7 @@ public class DefaultAjaxBehavior implements AjaxBehavior {
      * Provides a method for adding HTML HEAD elements to the first Control
      * this Behavior was registered with. This method will only be called once,
      * passing in the first Control the Behavior was registered with.
-     * <p/>
+     * <p>
      * Subclasses can implement this method instead of
      * {@link #preRenderHeadElements(org.apache.click.Control)} if HTML HEAD
      * elements should only be added to one Control, even if the Behavior is

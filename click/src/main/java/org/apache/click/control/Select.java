@@ -59,7 +59,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * <h4><a name="single-select-example"></a>Single Item Select</h4>
  * A single item Select, will only allow users to select one item from the list.
  * By default the Select {@link #multiple} item property is false.
- * <p/>
+ * <p>
  * If a Select is required, an item after the first in the list must be selected
  * for the Field to be valid. This forces the user to make an active selection.
  *
@@ -113,11 +113,11 @@ import org.apache.click.util.HtmlStringBuffer;
  * A multiple item Select, will allow users to select multiple items from the list.
  * By default the Select {@link #multiple} item property is false, and must be
  * enabled for multiple item selects.
- * <p/>
+ * <p>
  * If multiple item Select is required, the user must select an item(s) in
  * the list for the Field to be valid. A valid selection can include any item
  * including the first item.
- * <p/>
+ * <p>
  * An example of a single item Select is provided below along with the
  * rendered HTML.
  *
@@ -217,7 +217,7 @@ import org.apache.click.util.HtmlStringBuffer;
  * which allows the Select to fetch data when needed. This is
  * particularly useful if retrieving Select data is expensive e.g. loading
  * from a database.
- * <p/>
+ * <p>
  * Below is a simple example:
  *
  * <pre class="prettyprint">
@@ -385,7 +385,7 @@ public class Select extends Field {
 
     /**
      * Create a Select field with no name defined.
-     * <p/>
+     * <p>
      * <b>Please note</b> the control's name must be defined before it is valid.
      */
     public Select() {
@@ -520,7 +520,7 @@ public class Select extends Field {
      * Add the given Map of option values and labels to the Select.
      * The Map entry key will be used as the option value and the Map entry
      * value will be used as the option label.
-     * <p/>
+     * <p>
      * It is recommended that <code>LinkedHashMap</code> is used as the Map
      * parameter to maintain the order of the option vales.
      *
@@ -542,7 +542,7 @@ public class Select extends Field {
 
     /**
      * Add the given array of string options to the Select option list.
-     * <p/>
+     * <p>
      * The options array string value will be used for the {@link Option#value}
      * and {@link Option#label}.
      *
@@ -566,10 +566,10 @@ public class Select extends Field {
      * and optionLabelProperty. If the optionLabelProperty is null, the
      * optionValueProperty will be used as both the value and label of the
      * options.
-     * <p/>
+     * <p>
      * The collection objects can either be POJOs (plain old java objects) or
      * {@link java.util.Map} instances.
-     * <p/>
+     * <p>
      * Example usage:
      *
      * <pre class="prettyprint">
@@ -662,7 +662,7 @@ public class Select extends Field {
     /**
      * Set the select option list DataProvider. The dataProvider can return any
      * mixture of Option and OptionGroup values.
-     * <p/>
+     * <p>
      * Example usage:
      *
      * <pre class="prettyprint">
@@ -781,7 +781,7 @@ public class Select extends Field {
     /**
      * Set the Select default option. The default option will be the first option
      * added to the Select {@link #getOptionList() optionList}.
-     * <p/>
+     * <p>
      * <b>Please note</b>: this property is used in conjunction with the Select
      * {@link #setDataProvider(org.apache.click.dataprovider.DataProvider) dataProvider},
      * where the DataProvider does not return a sensible default, non-selecting
@@ -789,12 +789,12 @@ public class Select extends Field {
      * database, the list won't include a default empty ("") option to choose
      * from. By setting the defaultOption property, the Select will add this
      * Option as the first option of the Select {@link #getOptionList() optionList}.
-     * <p/>
+     * <p>
      * In addition, if the Select is {@link #setRequired(boolean) required},
      * the defaultOption is used to check whether the Select is valid or not.
      * In other words, if the user's selected value equals the defaultOption value,
      * the Select won't be valid since no selection was made by the user.
-     * <p/>
+     * <p>
      * Example usage:
      * <pre class="prettyprint">
      * public void onInit() {
@@ -1111,16 +1111,16 @@ public class Select extends Field {
 
     /**
      * Validate the Select request submission.
-     * <p/>
+     * <p>
      * If a Select is {@link #required} then the user must select a value
      * other than the first value is the list, otherwise the Select will
      * have a validation error. If the Select is not required then no
      * validation errors will occur.
-     * <p/>
+     * <p>
      * A field error message is displayed if a validation error occurs.
      * These messages are defined in the resource bundle: <blockquote>
      * <pre>/click-control.properties</pre></blockquote>
-     * <p/>
+     * <p>
      * Error message bundle key names include: <blockquote><ul>
      * <li>select-error</li>
      * </ul></blockquote>

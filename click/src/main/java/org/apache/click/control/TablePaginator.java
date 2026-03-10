@@ -198,7 +198,7 @@ public class TablePaginator implements Renderable {
 
     /**
      * Returns the HTML representation of this paginator.
-     * <p/>
+     * <p>
      * This method delegates the rendering to the method
      * {@link #render(org.apache.click.util.HtmlStringBuffer)}.
      *

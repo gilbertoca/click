@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * Provides a Css HEAD element for importing <code>external</code> Cascading
  * Stylesheet files using the &lt;link&gt; tag.
- * <p/>
+ * <p>
  * Example usage:
  * <pre class="prettyprint">
  * public class MyPage extends Page {
@@ -59,7 +59,7 @@ public class CssImport extends ResourceElement {
 
     /**
      * Constructs a new Css import element.
-     * <p/>
+     * <p>
      * The CssImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
@@ -71,11 +71,11 @@ public class CssImport extends ResourceElement {
     /**
      * Construct a new Css import element with the specified <code>href</code>
      * attribute.
-     * <p/>
+     * <p>
      * The CssImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>href</code> begins with a
      * <tt class="wr">"/"</code> character the href will be prefixed with the web
      * application <code>context path</code>.
@@ -89,12 +89,12 @@ public class CssImport extends ResourceElement {
     /**
      * Construct a new Css import element with the specified <code>href</code>
      * attribute.
-     * <p/>
+     * <p>
      * If useApplicationVersionIndicator is true the
      * CssImport {@link #setVersionIndicator(java.lang.String) version indicator}
      * will automatically be set to the
      * {@link ClickUtils#getApplicationResourceVersionIndicator() application version indicator}.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>href</code> begins with a
      * <tt class="wr">"/"</code> character the href will be prefixed with the web
      * application <code>context path</code>.
@@ -113,7 +113,7 @@ public class CssImport extends ResourceElement {
     /**
      * Construct a new Css import element with the specified <code>href</code>
      * attribute and version indicator.
-     * <p/>
+     * <p>
      * <b>Please note</b> if the given <code>href</code> begins with a
      * <tt class="wr">"/"</code> character the href will be prefixed with the web
      * application <code>context path</code>.
@@ -158,7 +158,7 @@ public class CssImport extends ResourceElement {
     /**
      * Sets the <code>href</code> attribute. If the given href argument is
      * <code>null</code>, the <code>href</code> attribute will be removed.
-     * <p/>
+     * <p>
      * If the given <code>href</code> begins with a <tt class="wr">"/"</code> character
      * the href will be prefixed with the web applications <code>context path</code>.
      * Note if the given href is already prefixed with the <code>context path</code>,

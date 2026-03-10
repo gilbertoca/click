@@ -22,7 +22,7 @@ package org.apache.click.dataprovider;
  * An interface to provide paginated data on demand to controls. It allows
  * specifying the total number of results represented by this DataProvider
  * through the {@link #size()} method.
- * <p/>
+ * <p>
  * Example usage:
  *
  * <pre class="prettyprint">
@@ -56,7 +56,7 @@ package org.apache.click.dataprovider;
  * <b>Please note</b>: when providing paginated data to controls that support
  * sorting e.g. Tables, you are responsible for sorting the data, as the Table
  * does not have access to all the data.
- * <p/>
+ * <p>
  * Here is an example demonstrating both paging and sorting:
  *
  * <pre class="prettyprint">

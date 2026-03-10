@@ -34,11 +34,11 @@ import org.apache.click.util.ClickUtils;
  * Provides an ActionResult that is returned by Page Actions and AjaxBehaviors.
  * ActionResults are often used to return a partial response to the browser
  * instead of the full page content.
- * <p/>
+ * <p>
  * An ActionResult can consist of a String (HTML, JSON, XML, plain text) or a byte
  * array (jpg, gif, png, pdf or excel documents). The ActionResult {@link #contentType}
  * must be set appropriately in order for the browser to recognize the action result.
- * <p/>
+ * <p>
  * ActionResults are returned by {@link org.apache.click.ajax.AjaxBehavior Ajax Behaviors}
  * and <code>Page Action</code> methods.
  *
@@ -100,7 +100,7 @@ import org.apache.click.util.ClickUtils;
  * in order for the client to recognize the response. ActionResult provides constants
  * for some of the common <code>content types</code>, including: {@link #XML text/xml},
  * {@link #HTML text/html}, {@link #JSON application/json}, {@link #TEXT text/plain}.
- * <p/>
+ * <p>
  * For example:
  * <pre class="prettyprint">
  * ActionResult actionResult = new ActionResult("alert('hello world');", ActionResult.JAVASCRIPT);
@@ -180,10 +180,10 @@ public class ActionResult {
 
     /**
      * Construct the ActionResult for the given template and model.
-     * <p/>
+     * <p>
      * When the ActionResult is rendered the template and model will be merged and
      * the result will be streamed back to the client.
-     * <p/>
+     * <p>
      * For example:
      * <pre class="prettyprint">
      * public class MyPage extends Page {
@@ -284,7 +284,7 @@ public class ActionResult {
     /**
      * Set whether the action result should be cached by the client browser or
      * not.
-     * <p/>
+     * <p>
      * If false, Click will set the following headers to prevent browsers
      * from caching the result:
      * <pre class="prettyprint">
@@ -440,7 +440,7 @@ public class ActionResult {
 
     /**
      * Set the model of the ActionResult template to render.
-     * <p/>
+     * <p>
      * If the {@link #template} property is set, the template and {@link #model}
      * will be merged and the result will be streamed back to the client.
      *
