@@ -47,7 +47,7 @@ The Mock utilities (e.g., MockContainer, MockRequest) are packaged as a classifi
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>2.5.0-SNAPSHOT</version>
     <classifier>mock</classifier>
     <scope>test</scope>
 </dependency>
