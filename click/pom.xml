@@ -80,6 +80,33 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>create-mock-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <!-- This creates click-3.0.0-mock.jar -->
+                            <classifier>mock</classifier> 
+                            <includes>
+                                <!-- Exact paths to the mock classes you moved back -->
+                                <include>org/apache/click/fileupload/Mock*</include>
+                                <include>org/apache/click/servlet/Mock*</include>
+                                <include>org/apache/click/MockContainer*</include>
+                                <!-- Include license/notice just like the Ant task did -->
+                                <include>META-INF/LICENSE.txt</include>
+                                <include>META-INF/NOTICE.txt</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>            
         </plugins>
     </build>
 </project>
