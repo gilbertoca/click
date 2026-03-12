@@ -26,6 +26,7 @@
     <artifactId>user-guide</artifactId>
     <packaging>pom</packaging>
     <name>Click user Guide</name>
+   
     <description>
         Click is a Java web application framework that takes simplicity, 
         separation of concerns and ease of development to a whole new level. 
@@ -35,42 +36,50 @@
         component model backed by POJO data beans that can easily be 
         persisted using your favorite technology. 
     </description>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>agilejava</id>
-            <url>http://agilejava.com/maven/</url>
-        </pluginRepository>
-    </pluginRepositories>
-    <properties>
-    </properties>
-    <dependencies>
-        <!--dependency>
-            <groupId>org.apache.click</groupId>
-            <artifactId>click-extras</artifactId>
-            <version>${project.version}</version>            
-        </dependency-->
-        <dependency>
-            <groupId>org.apache.click</groupId>
-            <artifactId>click</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+   
     <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/docbkx</directory>
+                <!-- Change this to true to enable variable replacement -->
+                <filtering>true</filtering> 
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>filter-docbook</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/filtered-docs</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/docbkx</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/*.xml</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>                
+            </plugin>
+            
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <version>2.0.17</version>
-                <!--dependencies>
-                    <dependency>
-                        <groupId>net.sf.docbook</groupId>
-                        <artifactId>docbook-xml</artifactId>
-                        <version>5.0-all</version>
-                        <classifier>resources</classifier>
-                        <type>zip</type>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies-->
                 <executions>
                     <execution>
                         <goals>
@@ -80,8 +89,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <sourceDirectory>${project.build.directory}/filtered-docs</sourceDirectory>
                     <includes>click-book.xml</includes>
-                    <sourceDirectory>src/docbkx</sourceDirectory>
                     <imgSrcPath/>
                     <htmlStylesheet>src/docbkx/css/stylesheet.css</htmlStylesheet>
                     <htmlCustomization>src/docbkx/xsl/html/custom.xsl</htmlCustomization>
@@ -96,12 +105,6 @@
                     <hyphenateVerbatim>true</hyphenateVerbatim>
                     <!-- callouts -->
                     <calloutsExtension>1</calloutsExtension>
-                    <entities>
-                        <entity>
-                            <name>version</name>
-                            <value>${project.version}</value>
-                        </entity>
-                    </entities>
                     <preProcess>
                         <copy todir="${project.build.directory}/docbkx/generated/images">
                             <fileset dir="src/docbkx/images"/>

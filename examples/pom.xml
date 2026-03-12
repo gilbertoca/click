@@ -36,88 +36,64 @@
         persisted using your favorite technology. 
     </description>
     <properties>
-        <spring.version>5.2.9.RELEASE</spring.version>
-        <cayenne.version>3.0</cayenne.version>
-        <hibernate.version>3.3.0.GA</hibernate.version>
+        <!-- Keep these here since they are unique to Examples -->
+        <quartz.version>1.8.6</quartz.version>
+        <poi.version>3.6</poi.version>
+        <spring.version>5.3.31</spring.version> <!-- Latest stable 5.3.x -->
+        <spring.security.version>5.8.11</spring.security.version> <!-- Compatible with Spring 5.3 -->
     </properties>    
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>opensymphony</groupId>
-                <artifactId>quartz-all</artifactId>
-                <version>1.6.3</version>
-            </dependency>            
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>3.6</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>javax.annotation</groupId>
-                <artifactId>javax.annotation-api</artifactId>
-                <version>1.2</version>
-                <type>jar</type>
-            </dependency>  
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>5.2.7.RELEASE</version>
-            </dependency>        
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-config</artifactId>
-                <version>5.2.7.RELEASE</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>5.2.7.RELEASE</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>quartz-all</artifactId>
-        </dependency>        
-        <dependency>
-            <groupId>org.apache.click</groupId>
-            <artifactId>click</artifactId>
-        </dependency>                                
         <dependency>
             <groupId>org.apache.click</groupId>
             <artifactId>extras</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+        </dependency>            
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-        </dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+            <type>jar</type>
+        </dependency>  
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.2</version> <!-- Modern version compatible with Java 17 -->
+            <scope>runtime</scope>
+        </dependency>        
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -127,6 +103,17 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
+            <!-- Add this to pick up the .txt files from the Java package -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.txt</include>
+                    <include>**/*.csv</include>
+                    <include>**/*.htm</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering> <!-- Usually false for these to avoid corrupting binaries -->
+            </resource>            
             <resource>
                 <directory>src/main/webapp/WEB-INF</directory>
                 <filtering>true</filtering>

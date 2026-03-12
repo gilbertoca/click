@@ -92,7 +92,8 @@
         <!-- Encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <!-- Add this to silence the specific Resources Plugin warning -->
+        <maven.resources.skipEmptyConfigs>true</maven.resources.skipEmptyConfigs>
         <maven.compiler.release>17</maven.compiler.release>
 
         <!-- Project Versions -->
@@ -112,7 +113,6 @@
         <hamcrest.version>2.0.0.0</hamcrest.version>
         <forbiddenapis.version>2.6</forbiddenapis.version>
         <velocity.version>1.7</velocity.version>
-        <freemarker.version>2.3.16</freemarker.version>
         <ognl.version>2.6.9</ognl.version>
         <mvel2.version>2.5.2.Final</mvel2.version>
     </properties>
@@ -164,11 +164,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mvel</groupId>
@@ -245,6 +240,15 @@
                     <exclude>**/*.java</exclude>
                     <exclude>**/package.html</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <!-- Change this to true to enable variable replacement -->
+                <filtering>true</filtering> 
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
             </resource>
             <resource>
                 <filtering>false</filtering>
@@ -394,9 +398,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.3.1</version>
-                    <configuration>
-                        <encoding>${project.build.sourceEncoding}</encoding>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <inherited>true</inherited>
