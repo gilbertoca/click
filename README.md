@@ -25,7 +25,8 @@ mvn clean install
 
 # Run the Click Examples application
 cd examples
-mvn jetty:run
+mvn clean javadoc:javadoc jetty:run
+
 ```
 ## 📦 Testing Strategy
 In this modernized version, the Mock utilities and their tests are fully integrated into the click runtime module. You no longer need to build a separate test module.

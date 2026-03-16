@@ -371,6 +371,7 @@
                                 <version>${hamcrest.version}</version>
                             </additionalDependency>
                         </additionalDependencies>
+                        <locale>en_US</locale>
                         <minmemory>128m</minmemory>
                         <maxmemory>256m</maxmemory>
                         <quiet>true</quiet>
@@ -394,6 +395,11 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>                
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>

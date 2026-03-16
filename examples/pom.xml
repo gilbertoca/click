@@ -103,10 +103,12 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
-            <!-- Add this to pick up the .txt files from the Java package -->
+            <!-- Add this to pick up the .txt, .properties and .java files from the Java package -->
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.java</include>
                     <include>**/*.txt</include>
                     <include>**/*.csv</include>
                     <include>**/*.htm</include>
@@ -128,6 +130,22 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <!-- This matches the directory you're generating into -->
+                            <directory>src/main/webapp/javadoc</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
@@ -139,6 +157,14 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <reportOutputDirectory>${project.basedir}/src/main/webapp/javadoc</reportOutputDirectory>
+                    <destDir>.</destDir> <!-- This keeps files directly in /javadoc/ instead of /javadoc/apidocs/ -->
+                </configuration>            
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
