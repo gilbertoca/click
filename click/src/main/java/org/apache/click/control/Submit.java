@@ -19,7 +19,7 @@
 package org.apache.click.control;
 
 import org.apache.click.Context;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a Submit control: {@code <input type='submit'>}.

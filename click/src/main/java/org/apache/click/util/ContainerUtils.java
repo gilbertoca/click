@@ -41,7 +41,7 @@ import org.apache.click.control.Label;
 import org.apache.click.service.ConfigService;
 import org.apache.click.service.LogService;
 import org.apache.click.service.PropertyService;
-import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
  * Provides Container access and copy utilities.

@@ -28,8 +28,8 @@ import org.apache.click.ajax.AjaxBehavior;
 import org.apache.click.service.ConfigService;
 import org.apache.click.service.LogService;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Provides a control ActionListener and AjaxBehavior dispatcher. The

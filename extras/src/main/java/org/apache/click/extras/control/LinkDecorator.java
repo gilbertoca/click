@@ -35,7 +35,7 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.PropertyService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a table column AbstractLink and ActionButton Decorator.

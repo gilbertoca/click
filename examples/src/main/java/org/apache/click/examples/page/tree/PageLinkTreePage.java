@@ -30,7 +30,7 @@ import org.apache.click.examples.page.velocity.SimpleTable;
 import org.apache.click.extras.tree.Tree;
 import org.apache.click.extras.tree.TreeNode;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
  * Demonstrates how to customize the rendering of tree nodes.

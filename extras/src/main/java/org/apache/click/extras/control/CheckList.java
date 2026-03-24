@@ -38,8 +38,8 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.PropertyService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a check list control. This is an implementation of the Checklist
@@ -696,19 +696,19 @@ public class CheckList extends Field {
                 }
                 // Script to execute
                 buffer.append("Sortable.create('");
-                buffer.append(StringEscapeUtils.escapeJavaScript(checkListId));
+                buffer.append(StringEscapeUtils.escapeEcmaScript(checkListId));
                 buffer.append("-ul'");
 
                 if (getHeight() != null) {
                     buffer.append(", { scroll : '");
-                    buffer.append(StringEscapeUtils.escapeJavaScript(checkListId));
+                    buffer.append(StringEscapeUtils.escapeEcmaScript(checkListId));
                     buffer.append("'}");
                 }
                 buffer.append(");");
 
             } else {
                 buffer.append("initChecklist('");
-                buffer.append(StringEscapeUtils.escapeJavaScript(checkListId));
+                buffer.append(StringEscapeUtils.escapeEcmaScript(checkListId));
                 buffer.append("-ul');\n");
             }
             script.setContent(buffer.toString());

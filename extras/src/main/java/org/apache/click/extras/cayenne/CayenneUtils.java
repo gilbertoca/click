@@ -41,7 +41,7 @@ import org.apache.click.control.Field;
 import org.apache.click.control.Form;
 import org.apache.click.control.TextArea;
 import org.apache.click.control.TextField;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Provides Cayenne DataObject utility methods to looking up object by their

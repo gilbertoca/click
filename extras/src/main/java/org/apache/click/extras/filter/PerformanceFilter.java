@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.click.service.ConfigService;
 import org.apache.click.util.ClickUtils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a filter for improving the performance of web applications by

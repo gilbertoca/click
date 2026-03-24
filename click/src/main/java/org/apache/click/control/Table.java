@@ -37,8 +37,8 @@ import org.apache.click.util.ClickUtils;
 import org.apache.click.dataprovider.DataProvider;
 import org.apache.click.util.HtmlStringBuffer;
 import org.apache.click.dataprovider.PagingDataProvider;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Provides a HTML Table control: &lt;table&gt;.

@@ -37,7 +37,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.click.Context;
 import org.apache.click.service.ConfigService;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Provides a localized read only messages Map for Page and Control classes.

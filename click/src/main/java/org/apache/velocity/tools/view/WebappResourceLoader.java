@@ -23,7 +23,11 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import javax.servlet.ServletContext;
-import org.apache.commons.collections.ExtendedProperties;
+import java.io.Reader;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.UnsupportedEncodingException;
+import org.apache.velocity.util.ExtProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
@@ -69,7 +73,7 @@ public class WebappResourceLoader extends ResourceLoader
      * @param configuration the {@link ExtendedProperties} associated with
      *        this resource loader.
      */
-    public void init(ExtendedProperties configuration)
+    public void init(ExtProperties configuration)
     {
         log.trace("WebappResourceLoader: initialization starting.");
 
@@ -187,6 +191,33 @@ public class WebappResourceLoader extends ResourceLoader
             }
         }
         return result;
+    }
+
+    /**
+     * Get a Reader so that the Runtime can build a template with it.
+     *
+     * @param name name of template to get
+     * @param encoding asked encoding
+     * @return Reader containing the template
+     * @throws ResourceNotFoundException if template not found
+     */
+    @Override
+    public Reader getResourceReader(String name, String encoding)
+            throws ResourceNotFoundException
+    {
+        InputStream result = getResourceStream(name);
+
+        try
+        {
+            // Use the buildReader helper from the base ResourceLoader class 
+            // if available, or a standard BufferedReader.
+            return new BufferedReader(new InputStreamReader(result, encoding));
+        }
+        catch (UnsupportedEncodingException uee)
+        {
+            throw new ResourceNotFoundException("WebappResourceLoader: " +
+                "Unsupported encoding '" + encoding + "' for template '" + name + "'", uee);
+        }
     }
 
     private File getCachedFile(String rootPath, String fileName)

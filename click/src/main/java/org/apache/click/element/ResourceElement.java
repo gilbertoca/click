@@ -19,7 +19,7 @@
 package org.apache.click.element;
 
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a base class for rendering HEAD resources of an HTML page, for

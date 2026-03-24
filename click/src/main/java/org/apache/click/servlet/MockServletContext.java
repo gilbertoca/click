@@ -55,7 +55,7 @@ import javax.servlet.descriptor.JspConfigDescriptor;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Mock implementation of {@link javax.servlet.ServletContext}.

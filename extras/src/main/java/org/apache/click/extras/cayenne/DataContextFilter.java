@@ -43,7 +43,7 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.LogService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a servlet filter which binds DataContext objects to the current

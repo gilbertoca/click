@@ -22,7 +22,7 @@ import org.apache.click.Context;
 import org.apache.click.Control;
 import org.apache.click.Page;
 import org.apache.click.Stateful;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.ContainerUtils;

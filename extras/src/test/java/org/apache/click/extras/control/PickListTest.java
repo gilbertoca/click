@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.apache.click.MockContainer;
 import org.apache.click.MockContext;
 import org.apache.click.control.Option;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides tests for the PickList control.

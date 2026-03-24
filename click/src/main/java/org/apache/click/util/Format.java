@@ -31,8 +31,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.click.Context;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides the default object for formatting the display of model objects
@@ -606,7 +606,8 @@ public class Format implements Serializable {
      */
     public String javascript(String value) {
         if (value != null) {
-            return StringEscapeUtils.escapeJavaScript(value);
+            // This is the modern, non-deprecated method in Commons Text
+            return StringEscapeUtils.escapeEcmaScript(value);
         } else {
             return "";
         }

@@ -35,20 +35,16 @@ import org.apache.click.Page;
 
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.ErrorReport;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.exception.TemplateInitException;
-import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.tools.view.WebappResourceLoader;
-import org.apache.velocity.util.SimplePool;
 
 /**
  * Provides a <a target="_blank" href="http://velocity.apache.org//">Velocity</a> TemplateService class.
@@ -188,14 +184,6 @@ public class VelocityTemplateService implements TemplateService {
 
     // -------------------------------------------------------------- Constants
 
-    /** The logger instance Velocity application attribute key. */
-    private static final String LOG_INSTANCE =
-        LogChuteAdapter.class.getName() + ".LOG_INSTANCE";
-
-    /** The velocity logger instance Velocity application attribute key. */
-    private static final String LOG_LEVEL =
-        LogChuteAdapter.class.getName() + ".LOG_LEVEL";
-
     /**
      * The default velocity properties filename: &nbsp;
      * "<code>/WEB-INF/velocity.properties</code>".
@@ -219,9 +207,6 @@ public class VelocityTemplateService implements TemplateService {
      */
     protected static final String VM_FILE_PATH = "/click/VM_global_library.vm";
 
-    /** The Velocity writer buffer size. */
-    protected static final int WRITER_BUFFER_SIZE = 32 * 1024;
-
     // -------------------------------------------------------------- Variables
 
     /** The application configuration service. */
@@ -235,9 +220,6 @@ public class VelocityTemplateService implements TemplateService {
 
     /** The VelocityEngine instance. */
     protected VelocityEngine velocityEngine = new VelocityEngine();
-
-    /** Cache of velocity writers. */
-    protected SimplePool writerPool = new SimplePool(40);
 
     // --------------------------------------------------------- Public Methods
 
@@ -253,15 +235,10 @@ public class VelocityTemplateService implements TemplateService {
 
         this.configService = ClickUtils.getConfigService(servletContext);
 
-        // Set the velocity logging level
-        Integer logLevel = getInitLogLevel();
-
-        velocityEngine.setApplicationAttribute(LOG_LEVEL, logLevel);
-
-        // Set ConfigService instance for LogChuteAdapter
-        velocityEngine.setApplicationAttribute(ConfigService.class.getName(),
-                                               configService);
-
+        // Velocity 2.3+ uses SLF4J by default. 
+        // We no longer need to manually set log levels or LogChuteAdapters.
+        // The engine will use the SLF4J configuration of your application.
+        
         // Set ServletContext instance for WebappResourceLoader
         velocityEngine.setApplicationAttribute(ServletContext.class.getName(),
                                                configService.getServletContext());
@@ -272,15 +249,9 @@ public class VelocityTemplateService implements TemplateService {
         // Initialize VelocityEngine
         velocityEngine.init(properties);
 
-        // Turn down the Velocity logging level
-        if (configService.isProductionMode() || configService.isProfileMode()) {
-            LogChuteAdapter logChuteAdapter = (LogChuteAdapter)
-                velocityEngine.getApplicationAttribute(LOG_INSTANCE);
-            if (logChuteAdapter != null) {
-                logChuteAdapter.logLevel = LogChute.WARN_ID;
-            }
-        }
-
+        // REMOVED: LogChuteAdapter and ProductionMode log level overrides.
+        // Use logback.xml or slf4j config to control Velocity's output now.
+        
         // Attempt to load click error page and not found templates from the
         // web click directory
         try {
@@ -299,10 +270,10 @@ public class VelocityTemplateService implements TemplateService {
     /**
      * @see TemplateService#onDestroy()
      */
+    @Override
     public void onDestroy() {
         // Dereference any allocated objects
         velocityEngine = null;
-        writerPool = null;
         configService = null;
     }
 
@@ -315,6 +286,7 @@ public class VelocityTemplateService implements TemplateService {
      * @throws IOException if an IO error occurs
      * @throws TemplateException if template error occurs
      */
+    @Override
     public void renderTemplate(Page page, Map<String, ?> model, Writer writer)
         throws IOException, TemplateException {
 
@@ -339,6 +311,7 @@ public class VelocityTemplateService implements TemplateService {
      * @throws IOException if an IO error occurs
      * @throws TemplateException if an error occurs
      */
+    @Override
     public void renderTemplate(String templatePath, Map<String, ?> model, Writer writer)
         throws IOException, TemplateException {
 
@@ -346,30 +319,6 @@ public class VelocityTemplateService implements TemplateService {
     }
 
     // Protected Methods ------------------------------------------------------
-
-    /**
-     * Return the Velocity Engine initialization log level.
-     *
-     * @return the Velocity Engine initialization log level
-     */
-    protected Integer getInitLogLevel() {
-
-        // Set Velocity log levels
-        Integer initLogLevel = LogChute.ERROR_ID;
-        String mode = configService.getApplicationMode();
-
-        if (mode.equals(ConfigService.MODE_DEVELOPMENT)) {
-            initLogLevel = LogChute.WARN_ID;
-
-        } else if (mode.equals(ConfigService.MODE_DEBUG)) {
-            initLogLevel = LogChute.WARN_ID;
-
-        } else if (mode.equals(ConfigService.MODE_TRACE)) {
-            initLogLevel = LogChute.INFO_ID;
-        }
-
-        return initLogLevel;
-    }
 
     /**
      * Return the Velocity Engine initialization properties.
@@ -383,13 +332,15 @@ public class VelocityTemplateService implements TemplateService {
         final Properties velProps = new Properties();
 
         // Set default velocity runtime properties.
-
         velProps.setProperty(RuntimeConstants.RESOURCE_LOADER, "webapp, class");
-        velProps.setProperty("webapp.resource.loader.class",
-                             WebappResourceLoader.class.getName());
-        velProps.setProperty("class.resource.loader.class",
-                             ClasspathResourceLoader.class.getName());
+        velProps.setProperty("webapp.resource.loader.class", WebappResourceLoader.class.getName());
+        velProps.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
 
+        // Velocity 2.3 Backward Compatibility Flags
+        velProps.setProperty("space.gobbling", "bc");
+        velProps.setProperty("velocimacro.enable_bc_mode", "true");
+        velProps.setProperty("parser.allow_hyphen_in_identifiers", "true");
+        
         if (configService.isProductionMode() || configService.isProfileMode()) {
             velProps.put("webapp.resource.loader.cache", "true");
             velProps.put("webapp.resource.loader.modificationCheckInterval", "0");
@@ -403,9 +354,8 @@ public class VelocityTemplateService implements TemplateService {
             velProps.put("velocimacro.library.autoreload", "true");
         }
 
-        velProps.put(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-                     LogChuteAdapter.class.getName());
-
+        // REMOVED: RUNTIME_LOG_LOGSYSTEM_CLASS (Velocity 2.x uses SLF4J automatically)
+        
         velProps.put("directive.if.tostring.nullcheck", "false");
 
         // Use 'macro.vm' exists set it as default VM library
@@ -504,126 +454,40 @@ public class VelocityTemplateService implements TemplateService {
      * @throws IOException if an IO error occurs
      * @throws TemplateException if template error occurs
      */
-    protected void internalRenderTemplate(String templatePath,
-                                          Page page,
-                                          Map<String, ?> model,
-                                          Writer writer)
+    protected void internalRenderTemplate(String templatePath, Page page, Map<String, ?> model, Writer writer)
         throws IOException, TemplateException {
 
-        final VelocityContext velocityContext = new VelocityContext(model);
+        @SuppressWarnings("unchecked")
+        final VelocityContext velocityContext = new VelocityContext((Map<String, Object>) model);
 
-        // May throw parsing error if template could not be obtained
-        Template template = null;
-        VelocityWriter velocityWriter = null;
         try {
             String charset = configService.getCharset();
-            if (charset != null) {
-                template = velocityEngine.getTemplate(templatePath, charset);
+            Template template = (charset != null) 
+                ? velocityEngine.getTemplate(templatePath, charset)
+                : velocityEngine.getTemplate(templatePath);
 
-            } else {
-                template = velocityEngine.getTemplate(templatePath);
-            }
-
-            velocityWriter = (VelocityWriter) writerPool.get();
-
-            if (velocityWriter == null) {
-                velocityWriter =
-                    new VelocityWriter(writer, WRITER_BUFFER_SIZE, true);
-
-            } else {
-                velocityWriter.recycle(writer);
-            }
-
-            template.merge(velocityContext, velocityWriter);
-
-        } catch (ParseErrorException pee) {
-            TemplateException te = new TemplateException(pee,
-                                                         pee.getTemplateName(),
-                                                         pee.getLineNumber(),
-                                                         pee.getColumnNumber());
-
-            // Exception occurred merging template and model. It is possible
-            // that some output has already been written, so we will append the
-            // error report to the previous output.
-            ErrorReport errorReport =
-                new ErrorReport(te,
-                                ((page != null) ? page.getClass() : null),
-                                configService.isProductionMode(),
-                                Context.getThreadLocalContext().getRequest(),
-                                configService.getServletContext());
-
-
-            if (velocityWriter == null) {
-                velocityWriter =
-                    new VelocityWriter(writer, WRITER_BUFFER_SIZE, true);
-            }
-
-            velocityWriter.write(errorReport.toString());
-
-            throw te;
-
-        } catch (TemplateInitException tie) {
-            TemplateException te = new TemplateException(tie,
-                                                         tie.getTemplateName(),
-                                                         tie.getLineNumber(),
-                                                         tie.getColumnNumber());
-
-            // Exception occurred merging template and model. It is possible
-            // that some output has already been written, so we will append the
-            // error report to the previous output.
-            ErrorReport errorReport =
-                new ErrorReport(te,
-                                ((page != null) ? page.getClass() : null),
-                                configService.isProductionMode(),
-                                Context.getThreadLocalContext().getRequest(),
-                                configService.getServletContext());
-
-
-            if (velocityWriter == null) {
-                velocityWriter =
-                    new VelocityWriter(writer, WRITER_BUFFER_SIZE, true);
-            }
-
-            velocityWriter.write(errorReport.toString());
-
-            throw te;
+            // Directly merge to the writer - Velocity 2.3 is optimized for this
+            template.merge(velocityContext, writer);
 
         } catch (Exception error) {
-            TemplateException te = new TemplateException(error);
-
-            // Exception occurred merging template and model. It is possible
-            // that some output has already been written, so we will append the
-            // error report to the previous output.
-            ErrorReport errorReport =
-                new ErrorReport(te,
-                                ((page != null) ? page.getClass() : null),
-                                configService.isProductionMode(),
-                                Context.getThreadLocalContext().getRequest() ,
-                                configService.getServletContext());
-
-            if (velocityWriter == null) {
-                velocityWriter =
-                    new VelocityWriter(writer, WRITER_BUFFER_SIZE, true);
+            // Standardize your exception handling
+            TemplateException te;
+            if (error instanceof ParseErrorException pee) {
+                te = new TemplateException(pee, pee.getTemplateName(), pee.getLineNumber(), pee.getColumnNumber());
+            } else if (error instanceof TemplateInitException tie) {
+                te = new TemplateException(tie, tie.getTemplateName(), tie.getLineNumber(), tie.getColumnNumber());
+            } else {
+                te = new TemplateException(error);
             }
 
-            velocityWriter.write(errorReport.toString());
-
+            // Render error report directly to the provided writer
+            ErrorReport errorReport = new ErrorReport(te, (page != null ? page.getClass() : null),
+                configService.isProductionMode(), Context.getThreadLocalContext().getRequest(), configService.getServletContext());
+            
+            writer.write(errorReport.toString());
             throw te;
 
         } finally {
-            if (velocityWriter != null) {
-                // flush and put back into the pool don't close to allow
-                // us to play nicely with others.
-                velocityWriter.flush();
-
-                // Clear the VelocityWriter's reference to its
-                // internal Writer to allow the latter
-                // to be GC'd while vw is pooled.
-                velocityWriter.recycle(null);
-
-                writerPool.put(velocityWriter);
-            }
-
             writer.flush();
             writer.close();
         }
@@ -631,154 +495,12 @@ public class VelocityTemplateService implements TemplateService {
 
     // Inner Classes ----------------------------------------------------------
 
-    /**
-     * Provides a Velocity <code>LogChute</code> adapter class around the application
-     * log service to enable the Velocity Runtime to log to the application
-     * LogService.
-     * <p>
-     * Please see the {@link VelocityTemplateService} class for more details on
-     * Velocity logging.
-     * <p>
-     * <b>PLEASE NOTE</b> this class is <b>not</b> for public use.
+    /*
+     * NOTE: The LogChuteAdapter inner class was removed in the migration to 
+     * Velocity 2.x (Issue #17). Velocity now uses SLF4J natively, making 
+     * custom log adapters and the LogChute interface obsolete.
+     * 
+     * Logging levels should now be configured via the application's 
+     * slf4j-provider (e.g., logback.xml or log4j2.xml).
      */
-    public static class LogChuteAdapter implements LogChute {
-
-        private static final String MSG_PREFIX = "Velocity: ";
-
-        /** The application configuration service. */
-        protected ConfigService configService;
-
-        /** The application log service. */
-        protected LogService logger;
-
-        /** The log level. */
-        protected int logLevel;
-
-        /**
-         * Initialize the logger instance for the Velocity runtime. This method
-         * is invoked by the Velocity runtime.
-         *
-         * @see LogChute#init(RuntimeServices)
-         *
-         * @param rs the Velocity runtime services
-         * @throws Exception if an initialization error occurs
-         */
-        public void init(RuntimeServices rs) throws Exception {
-
-            // Swap the default logger instance with the global application logger
-            ConfigService configService = (ConfigService)
-                rs.getApplicationAttribute(ConfigService.class.getName());
-
-            this.logger = configService.getLogService();
-
-            Integer level = (Integer) rs.getApplicationAttribute(LOG_LEVEL);
-            if (level != null) {
-                logLevel = level;
-
-            } else {
-                String msg = "Could not retrieve LOG_LEVEL from Runtime attributes";
-                throw new IllegalStateException(msg);
-            }
-
-            rs.setApplicationAttribute(LOG_INSTANCE, this);
-        }
-
-        /**
-         * Tell whether or not a log level is enabled.
-         *
-         * @see LogChute#isLevelEnabled(int)
-         *
-         * @param level the logging level to test
-         * @return true if the given logging level is enabled
-         */
-        public boolean isLevelEnabled(int level) {
-            if (level <= LogChute.TRACE_ID && logger.isTraceEnabled()) {
-                return true;
-
-            } else if (level <= LogChute.DEBUG_ID && logger.isDebugEnabled()) {
-                return true;
-
-            } else if (level <= LogChute.INFO_ID && logger.isInfoEnabled()) {
-                return true;
-
-            } else if (level == LogChute.WARN_ID || level == LogChute.ERROR_ID) {
-                return true;
-
-            } else {
-                return false;
-            }
-        }
-
-        /**
-         * Log the given message and optional error at the specified logging level.
-         *
-         * @see LogChute#log(int, java.lang.String)
-         *
-         * @param level the logging level
-         * @param message the message to log
-         */
-        public void log(int level, String message) {
-            if (level < logLevel) {
-                return;
-            }
-
-            if (level == TRACE_ID) {
-                logger.trace(MSG_PREFIX + message);
-
-            } else if (level == DEBUG_ID) {
-                logger.debug(MSG_PREFIX + message);
-
-            } else if (level == INFO_ID) {
-                logger.info(MSG_PREFIX + message);
-
-            } else if (level == WARN_ID) {
-                logger.warn(MSG_PREFIX + message);
-
-            } else if (level == ERROR_ID) {
-                logger.error(MSG_PREFIX + message);
-
-            } else {
-                throw new IllegalArgumentException("Invalid log level: " + level);
-            }
-        }
-
-        /**
-         * Log the given message and optional error at the specified logging level.
-         * <p>
-         * If you need to customise the Click and Velocity runtime logging for your
-         * application modify this method.
-         *
-         * @see LogChute#log(int, java.lang.String, java.lang.Throwable)
-         *
-         * @param level the logging level
-         * @param message the message to log
-         * @param error the optional error to log
-         */
-        public void log(int level, String message, Throwable error) {
-            if (level < logLevel) {
-                return;
-            }
-
-            if (level == TRACE_ID) {
-                logger.trace(MSG_PREFIX + message, error);
-
-            } else if (level == DEBUG_ID) {
-                logger.debug(MSG_PREFIX + message, error);
-
-            } else if (level == INFO_ID) {
-                logger.info(MSG_PREFIX + message, error);
-
-            } else if (level == WARN_ID) {
-                logger.warn(MSG_PREFIX + message, error);
-
-            } else if (level == ERROR_ID) {
-                logger.error(MSG_PREFIX + message, error);
-
-            } else {
-                throw new IllegalArgumentException("Invalid log level: " + level);
-            }
-        }
-
-    }
-
 }

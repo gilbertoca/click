@@ -20,7 +20,7 @@ package org.apache.click.examples.page.wizard;
 
 import org.apache.click.Context;
 import org.apache.click.examples.domain.Client;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  *

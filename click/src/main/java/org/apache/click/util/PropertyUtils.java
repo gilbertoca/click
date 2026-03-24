@@ -27,7 +27,7 @@ import javax.servlet.ServletContext;
 import org.apache.click.Context;
 import org.apache.click.service.ConfigService;
 import org.apache.click.service.PropertyService;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 
 /**

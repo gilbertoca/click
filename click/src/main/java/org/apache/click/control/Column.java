@@ -31,7 +31,7 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.PropertyService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Provides the Column table data &lt;td&gt; and table header &lt;th&gt;

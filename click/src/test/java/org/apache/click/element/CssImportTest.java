@@ -19,7 +19,7 @@
 package org.apache.click.element;
 
 import junit.framework.TestCase;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provide tests for CssImport.

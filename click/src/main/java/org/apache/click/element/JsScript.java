@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.click.Context;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Provides a HEAD element for including <code>inline</code> JavaScript using the

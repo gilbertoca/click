@@ -61,7 +61,7 @@ import javax.servlet.http.Part;
 import org.apache.click.util.ClickUtils;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Mock implementation of {@link javax.servlet.http.HttpServletRequest}.

@@ -20,7 +20,7 @@ package org.apache.click.service;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a template exception class for use by the template service. This is

@@ -41,7 +41,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.click.Page;
 import org.apache.click.service.TemplateException;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides an HTML &lt;div&gt; error report for the display of page error

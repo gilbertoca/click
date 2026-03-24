@@ -23,7 +23,7 @@ import org.apache.click.Context;
 import org.apache.click.control.Panel;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang3.ClassUtils;
 
 /**
  * A panel with fallback render functionality which allows the panel controls

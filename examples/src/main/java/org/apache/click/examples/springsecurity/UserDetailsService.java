@@ -38,7 +38,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     /**
      * @param username
      * @return 
-     * @see org.springframework.security.userdetails.UserDetailsService#loadUserByUsername(String)
+     * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(String)
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

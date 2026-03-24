@@ -23,7 +23,7 @@ import java.util.Locale;
 import junit.framework.TestCase;
 import org.apache.click.MockContext;
 import org.apache.click.servlet.MockRequest;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides DateField JUnit TestCase.

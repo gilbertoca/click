@@ -24,7 +24,7 @@ import org.apache.click.Context;
 import org.apache.click.util.HtmlStringBuffer;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a File Field control: &nbsp; &lt;input type='file'&gt;.

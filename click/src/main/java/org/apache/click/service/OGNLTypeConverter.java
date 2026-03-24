@@ -24,9 +24,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Map;
 
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import ognl.OgnlOps;
 import ognl.OgnlRuntime;
@@ -58,8 +57,9 @@ public class OGNLTypeConverter implements TypeConverter {
      * @return Converted value of type toType or TypeConverter.NoConversionPossible
      *  to indicate that the conversion was not possible.
      */
+    @Override
     @SuppressWarnings("rawtypes")
-    public Object convertValue(Map context,
+    public Object convertValue(ognl.OgnlContext context, // Changed from Map to OgnlContext
                                Object target,
                                Member member,
                                String propertyName,

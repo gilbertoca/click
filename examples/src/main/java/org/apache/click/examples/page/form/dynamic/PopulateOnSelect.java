@@ -33,7 +33,7 @@ import org.apache.click.element.JsScript;
 import org.apache.click.examples.page.BorderPage;
 import org.apache.click.extras.control.TabbedForm;
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Demonstrate how to dynamically populate Select controls.

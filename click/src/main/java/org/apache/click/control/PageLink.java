@@ -22,7 +22,7 @@ import org.apache.click.ActionListener;
 import org.apache.click.Context;
 import org.apache.click.Page;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a Page Link control: &nbsp; &lt;a href="" &gt;&lt;/a&gt;.

@@ -19,14 +19,17 @@
 package org.apache.click.service;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
+import ognl.AbstractMemberAccess;
 
-import ognl.DefaultMemberAccess;
 import ognl.MemberAccess;
 import ognl.Ognl;
+import ognl.OgnlContext;
 import ognl.OgnlException;
 import ognl.TypeConverter;
 
@@ -128,11 +131,14 @@ public class OGNLPropertyService implements PropertyService {
      * @param value the property value to set
      */
     public void setValue(Object target, String name, Object value) {
-
-        Map<?, ?> ognlContext = Ognl.createDefaultContext(target,
-                                                          null,
-                                                          getTypeConverter(),
-                                                          getMemberAccess());
+        // 1. OGNL 3.4+ returns OgnlContext, not a Map
+        // 2. The signature is now: (root, memberAccess, classResolver, converter)
+        OgnlContext ognlContext = Ognl.createDefaultContext(
+            target,
+            getMemberAccess(),
+            new ognl.DefaultClassResolver(), // Add this missing ClassResolver
+            getTypeConverter()
+        );
 
         try {
             Object expression = getExpressionCache().get(name);
@@ -141,8 +147,8 @@ public class OGNLPropertyService implements PropertyService {
                 getExpressionCache().put(name, expression);
             }
 
+            // 3. Ognl.setValue now requires the OgnlContext object
             Ognl.setValue(expression, ognlContext, target, value);
-
 
         } catch (OgnlException oe) {
             throw new RuntimeException(oe.toString(), oe);
@@ -158,9 +164,15 @@ public class OGNLPropertyService implements PropertyService {
      */
     protected MemberAccess getMemberAccess() {
         if (memberAccess == null) {
-            memberAccess = new DefaultMemberAccess(true);
+            // Replace DefaultMemberAccess with a custom implementation
+            memberAccess = new AbstractMemberAccess() {
+                @Override
+                public boolean isAccessible(OgnlContext oc, Object o, Member member, String string) {
+                    int modifiers = member.getModifiers();
+                    return Modifier.isPublic(modifiers);
+                }
+            };
         }
-
         return memberAccess;
     }
 

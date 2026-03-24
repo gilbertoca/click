@@ -29,7 +29,7 @@ import org.apache.click.element.CssImport;
 import org.apache.click.element.Element;
 import org.apache.click.util.ClickUtils;
 
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Provides a tabbed panel with multiple sub-panels in 'tabs'.

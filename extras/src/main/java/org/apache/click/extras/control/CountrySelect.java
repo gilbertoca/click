@@ -29,7 +29,7 @@ import org.apache.click.control.Option;
 import org.apache.click.control.Select;
 import org.apache.click.util.HtmlStringBuffer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a Country Select control: &nbsp; &lt;select&gt;&lt;/select&gt;.

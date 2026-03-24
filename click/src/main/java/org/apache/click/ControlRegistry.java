@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.click.service.ConfigService;
 import org.apache.click.service.LogService;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Provides a centralized registry where Controls can be registered and interact

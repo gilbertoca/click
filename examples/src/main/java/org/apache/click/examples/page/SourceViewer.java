@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.click.Page;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides a Java source code, HTML and XML examples rendering page.

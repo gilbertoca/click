@@ -51,7 +51,7 @@ import org.apache.click.examples.domain.User;
 import org.apache.click.examples.quartz.ExampleJob;
 import org.apache.click.examples.quartz.SchedulerService;
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.text.WordUtils;
 import org.quartz.JobDetail;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.quartz.impl.StdSchedulerFactory;

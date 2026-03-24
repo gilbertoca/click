@@ -30,7 +30,7 @@ import org.apache.click.service.LogService;
 import org.apache.click.service.TemplateException;
 import org.apache.click.service.TemplateService;
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.Validate;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;

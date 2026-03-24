@@ -27,7 +27,7 @@ import org.apache.click.control.HiddenField;
 import org.apache.click.util.ClickUtils;
 
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

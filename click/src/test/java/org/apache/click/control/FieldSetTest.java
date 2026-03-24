@@ -23,7 +23,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.apache.click.Control;
 import org.apache.click.MockContext;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Test FieldSet behavior.
