@@ -22,10 +22,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.cayenne.BaseContext;
 
 import org.apache.cayenne.DataRow;
 import org.apache.cayenne.access.DataContext;
-import org.apache.cayenne.query.NamedQuery;
+import org.apache.cayenne.query.MappedSelect;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.click.Context;
 import org.apache.click.control.Decorator;
@@ -116,8 +117,8 @@ public class QuerySelect extends Select {
     /** The flag specifying whether the cache should be ignored. */
     protected boolean expireCache;
 
-    /** The option list Cayenne <code>NamedQuery</code>. */
-    protected NamedQuery namedQuery;
+    /** The option list Cayenne <code>MappedSelect</code>. */
+    protected MappedSelect namedQuery;
 
     /** The name of the configured select query. */
     protected String queryName;
@@ -237,7 +238,7 @@ public class QuerySelect extends Select {
      *
      * @return the <code>NamedQuery</code> to populate the options list with
      */
-    public NamedQuery getNamedQuery() {
+    public MappedSelect getNamedQuery() {
         return namedQuery;
     }
 
@@ -246,7 +247,7 @@ public class QuerySelect extends Select {
      *
      * @param namedQuery to populate the options list with
      */
-    public void setNamedQuery(NamedQuery namedQuery) {
+    public void setNamedQuery(MappedSelect namedQuery) {
         this.namedQuery = namedQuery;
     }
 
@@ -433,7 +434,7 @@ public class QuerySelect extends Select {
             return;
         }
 
-        DataContext dataContext = DataContext.getThreadDataContext();
+        DataContext dataContext = (DataContext) BaseContext.getThreadObjectContext();
 
         List list = Collections.emptyList();
 

@@ -31,7 +31,7 @@ import org.apache.click.util.ContainerUtils;
 import org.apache.click.util.HtmlStringBuffer;
 
 import org.apache.cayenne.DataObject;
-import org.apache.cayenne.DataObjectUtils;
+import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.PersistenceState;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.validation.ValidationException;
@@ -362,7 +362,7 @@ public class CayenneForm extends Form {
 
             if (dataObject.getClass().getName().equals(classField.getValue())) {
                 if (isPersistent(dataObject)) {
-                    Object pk = DataObjectUtils.pkForObject(dataObject);
+                    Object pk = Cayenne.pkForObject(dataObject);
                     oidField.setValue(pk.toString());
                 }
 
@@ -522,7 +522,7 @@ public class CayenneForm extends Form {
             getDataContext().commitChanges();
 
             // update oidField with new/generated primary key value
-            Object pk = DataObjectUtils.pkForObject(localDataObject);
+            Object pk = Cayenne.pkForObject(localDataObject);
             oidField.setValue(pk.toString());
 
             return true;
@@ -583,7 +583,7 @@ public class CayenneForm extends Form {
             && isPersistent(dataObject)
             && StringUtils.isEmpty(oidField.getValue())) {
 
-            Object pk = DataObjectUtils.pkForObject(dataObject);
+            Object pk = Cayenne.pkForObject(dataObject);
             oidField.setValueObject(pk.toString());
         }
         super.render(buffer);

@@ -39,7 +39,7 @@
     <properties>
         <freemarker.version>2.3.16</freemarker.version>
         <spring.version>5.2.9.RELEASE</spring.version>
-        <cayenne.version>3.0</cayenne.version>
+        <cayenne.version>4.2.3</cayenne.version>
         <hibernate.version>3.3.0.GA</hibernate.version>
     </properties>
     <dependencyManagement>
@@ -53,21 +53,13 @@
                 <groupId>org.apache.cayenne</groupId>
                 <artifactId>cayenne-server</artifactId>
                 <version>${cayenne.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>velocity</groupId>
-                        <artifactId>velocity</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>log4j</groupId>
-                        <artifactId>log4j</artifactId>
-                    </exclusion>                    
-                </exclusions>                
             </dependency>
+        <dependency>
+            <groupId>org.apache.cayenne</groupId>
+            <artifactId>cayenne-web</artifactId>
+            <version>${cayenne.version}</version>
+        </dependency>        
+            
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
@@ -133,6 +125,10 @@
             <groupId>org.apache.cayenne</groupId>
             <artifactId>cayenne-server</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.cayenne</groupId>
+            <artifactId>cayenne-web</artifactId>
+        </dependency>        
         <dependency>
             <groupId>org.apache.click</groupId>
             <artifactId>click</artifactId>

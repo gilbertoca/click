@@ -34,9 +34,9 @@ import org.apache.cayenne.BaseContext;
 import org.apache.cayenne.LifecycleListener;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.access.DataDomain;
-import org.apache.cayenne.cache.OSQueryCacheFactory;
-import org.apache.cayenne.conf.Configuration;
-import org.apache.cayenne.conf.ServletUtil;
+import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.configuration.web.WebUtil;
 import org.apache.cayenne.map.LifecycleEvent;
 import org.apache.cayenne.reflect.LifecycleCallbackRegistry;
 import org.apache.click.service.ConfigService;
@@ -237,10 +237,10 @@ public class DataContextFilter implements Filter {
          buffer.append("DataContextFilter initialized: ");
 
         filterConfig = config;
-
-        ServletUtil.initializeSharedConfiguration(config.getServletContext());
-
-        dataDomain = Configuration.getSharedConfiguration().getDomain();
+        ServletContext context = filterConfig.getServletContext();
+        // WebUtil returns CayenneRuntime, so cast it to ServerRuntime
+        ServerRuntime runtime = (ServerRuntime) WebUtil.getCayenneRuntime(context);
+        this.dataDomain = runtime.getDataDomain();
 
         String value = null;
 
@@ -264,12 +264,8 @@ public class DataContextFilter implements Filter {
         buffer.append(", shared-cache=");
         buffer.append((sharedCache != null) ? sharedCache : "default");
 
-        value = config.getInitParameter("oscache-enabled");
-        boolean oscacheEnabled = "true".equalsIgnoreCase(value);
-        if (oscacheEnabled) {
-            dataDomain.setQueryCacheFactory(new OSQueryCacheFactory());
-        }
-        buffer.append(", oscache-enabled=" + oscacheEnabled);
+        // OSCache/OSQueryCacheFactory is gone. 4.2 uses JCache or a built-in provider.
+        // Removed the OSCache initialization logic.
 
         String classname = config.getInitParameter("lifecycle-listener");
 
@@ -310,7 +306,14 @@ public class DataContextFilter implements Filter {
      * Destroy the DataContextFilter.
      */
     public void destroy() {
-        Configuration.getSharedConfiguration().shutdown();
+        // 1. Get the runtime using WebUtil
+        ServerRuntime runtime = (ServerRuntime) WebUtil.getCayenneRuntime(filterConfig.getServletContext());
+
+        // 2. Shut down the runtime (closes connections, pools, and cleaners)
+        if (runtime != null) {
+            runtime.shutdown();
+        }
+
         this.filterConfig = null;
     }
 
@@ -404,14 +407,21 @@ public class DataContextFilter implements Filter {
         if (sessionScope) {
             HttpSession session = request.getSession(true);
 
-            DataContext dataContext = (DataContext)
-                session.getAttribute(ServletUtil.DATA_CONTEXT_KEY);
+            // ServletUtil is gone. Use a hardcoded string or a custom constant.
+            // "org.apache.cayenne.access.DataContext" was the value in 3.0.
+            DataContext dataContext = (DataContext) 
+                session.getAttribute("org.apache.cayenne.access.DataContext");
 
             if (dataContext == null) {
                 synchronized (session) {
-                    dataContext = createDataContext();
+                    // Check again inside sync block
+                     dataContext = (DataContext) 
+                    session.getAttribute("org.apache.cayenne.access.DataContext");
 
-                    session.setAttribute(ServletUtil.DATA_CONTEXT_KEY, dataContext);
+                    if (dataContext == null) {
+                        dataContext = createDataContext();
+                        session.setAttribute("org.apache.cayenne.access.DataContext", dataContext);
+                    }
                 }
             }
 
@@ -430,14 +440,13 @@ public class DataContextFilter implements Filter {
      * @return the DataContext object
      */
     protected DataContext createDataContext() {
+        // 1. Get the Runtime from the ServletContext
+        ServerRuntime runtime = (ServerRuntime) WebUtil.getCayenneRuntime(filterConfig.getServletContext());
 
-        DataContext dataContext = null;
-        if (sharedCache != null) {
-            dataContext = dataDomain.createDataContext(sharedCache);
-
-        } else {
-            dataContext = dataDomain.createDataContext();
-        }
+        // 2. Create the context. 
+        // Note: shared-cache is now managed globally in the ServerRuntime builder, 
+        // not passed per context creation call.
+        DataContext dataContext = (DataContext) runtime.newContext();
 
         if (logger.isTraceEnabled()) {
             HtmlStringBuffer buffer = new HtmlStringBuffer();
@@ -445,13 +454,9 @@ public class DataContextFilter implements Filter {
             if (sessionScope) {
                 buffer.append("session scope");
             } else {
-                buffer.append("request scope");
+                buffer.append("request scope.");
             }
-            if (sharedCache != null) {
-                buffer.append(", and shared cache ");
-                buffer.append(sharedCache);
-            }
-            buffer.append(".");
+            // sharedCache boolean check is now usually a global Runtime setting
             logger.trace(buffer);
         }
 

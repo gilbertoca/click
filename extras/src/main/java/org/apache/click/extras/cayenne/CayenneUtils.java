@@ -47,7 +47,7 @@ import org.apache.commons.lang3.Validate;
  * Provides Cayenne DataObject utility methods to looking up object by their
  * primary key.
  * <p/>
- * This class was derived from the Cayenne <code>DataObjectUtils</code> class.
+ * This class was derived from the Cayenne <code>Cayenne</code> class.
  */
 public final class CayenneUtils {
 
@@ -71,7 +71,7 @@ public final class CayenneUtils {
         try {
             ObjectContext oc = BaseContext.getThreadObjectContext();
             ObjEntity objEntity =
-                oc.getEntityResolver().lookupObjEntity(dataObjectClass);
+                oc.getEntityResolver().getObjEntity(dataObjectClass);
 
             setObjEntityFieldConstraints(form, null, objEntity);
 
@@ -105,7 +105,7 @@ public final class CayenneUtils {
         Validate.notNull(objectContext, "Null pk parameter");
 
         ObjEntity entity =
-            objectContext.getEntityResolver().lookupObjEntity(dataObjectClass);
+            objectContext.getEntityResolver().getObjEntity(dataObjectClass);
 
         if (entity == null) {
             String msg = "Non-existent ObjEntity for class: " + dataObjectClass;
@@ -127,7 +127,7 @@ public final class CayenneUtils {
 
         DbAttribute attr = pkAttributes.iterator().next();
 
-        return new ObjectId(entity.getName(), attr.getName(), pk);
+        return ObjectId.of(entity.getName(), attr.getName(), pk);
     }
 
     /**
@@ -177,7 +177,7 @@ public final class CayenneUtils {
         Validate.notNull(dataObjectClass, "Null dataObjectClass parameter.");
 
         ObjEntity objEntity =
-            objectContext.getEntityResolver().lookupObjEntity(dataObjectClass);
+            objectContext.getEntityResolver().getObjEntity(dataObjectClass);
 
         if (objEntity == null) {
             throw new CayenneRuntimeException("Unmapped DataObject Class: "
@@ -223,7 +223,7 @@ public final class CayenneUtils {
         Validate.notNull(dataObjectClass, "Null dataObjectClass parameter.");
 
         ObjEntity objEntity =
-            objectContext.getEntityResolver().lookupObjEntity(dataObjectClass);
+            objectContext.getEntityResolver().getObjEntity(dataObjectClass);
 
         if (objEntity == null) {
             throw new CayenneRuntimeException("Unmapped DataObject Class: "

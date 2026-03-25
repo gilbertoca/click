@@ -24,10 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cayenne.DataObject;
-import org.apache.cayenne.DataObjectUtils;
+import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.access.DataContext;
-import org.apache.cayenne.query.NamedQuery;
+import org.apache.cayenne.query.MappedSelect;
 import org.apache.cayenne.query.Ordering;
+import org.apache.cayenne.query.SortOrder;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.click.Context;
 import org.apache.click.control.Decorator;
@@ -137,7 +138,7 @@ public class PropertySelect extends Select {
     protected String queryName;
 
     /** The option list Cayenne <code>NamedQuery</code>. */
-    protected NamedQuery namedQuery;
+    protected MappedSelect namedQuery;
 
     /**
      * The flag indicating whether the option list includes an empty option
@@ -289,7 +290,7 @@ public class PropertySelect extends Select {
      *
      * @return the <code>NamedQuery</code> to populate the options list with
      */
-    public NamedQuery getNamedQuery() {
+    public MappedSelect getNamedQuery() {
         return namedQuery;
     }
 
@@ -298,7 +299,7 @@ public class PropertySelect extends Select {
      *
      * @param namedQuery to populate the options list with
      */
-    public void setNamedQuery(NamedQuery namedQuery) {
+    public void setNamedQuery(MappedSelect namedQuery) {
         this.namedQuery = namedQuery;
     }
 
@@ -501,7 +502,7 @@ public class PropertySelect extends Select {
                         (DataObject) method.invoke(dataObject);
 
                     if (property != null) {
-                        Object propPk = DataObjectUtils.pkForObject(property);
+                        Object propPk = Cayenne.pkForObject(property);
                         setValue(propPk.toString());
                     }
 
@@ -597,7 +598,7 @@ public class PropertySelect extends Select {
                     orderingApplied = true;
 
                 } else if (getOptionLabel() != null && !orderingApplied) {
-                    query.addOrdering(getOptionLabel(), true);
+                    query.addOrdering(getOptionLabel(), SortOrder.ASCENDING);
                     orderingApplied = true;
                 }
 
@@ -622,7 +623,7 @@ public class PropertySelect extends Select {
                     orderingApplied = true;
 
                 } else if (getOptionLabel() != null && !orderingApplied) {
-                    query.addOrdering(getOptionLabel(), true);
+                    query.addOrdering(getOptionLabel(), SortOrder.ASCENDING);
                     orderingApplied = true;
                 }
 
@@ -640,7 +641,7 @@ public class PropertySelect extends Select {
 
             for (int i = 0; i < list.size(); i++) {
                 DataObject dataObject = (DataObject) list.get(i);
-                String value = DataObjectUtils.pkForObject(dataObject).toString();
+                String value = Cayenne.pkForObject(dataObject).toString();
 
                 Object label = null;
 

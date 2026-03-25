@@ -28,13 +28,12 @@ import java.util.Map;
 import org.apache.cayenne.BaseContext;
 import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.DataObject;
-import org.apache.cayenne.DataObjectUtils;
+import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.DeleteDenyException;
 import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.access.DataNode;
-import org.apache.cayenne.conf.Configuration;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbAttribute;
@@ -148,7 +147,15 @@ public class CayenneTemplate {
      * @throws SQLException if a database connection could not be obtained
      */
     protected Connection getConnection() throws SQLException {
-        DataDomain domain = Configuration.getSharedConfiguration().getDomain();
+        // Get the context already bound to the thread
+        DataContext context = getDataContext();
+
+        // In 4.2, you can reach the DataNode through the EntityResolver/Runtime
+        DataDomain domain = context.getParentDataDomain();
+        
+        if (domain.getDataNodes().isEmpty()) {
+            throw new SQLException("No Cayenne DataNodes found in the domain.");
+        }
 
         DataNode node = domain.getDataNodes().iterator().next();
 
@@ -167,9 +174,10 @@ public class CayenneTemplate {
             return (DataContext) BaseContext.getThreadObjectContext();
 
         } catch (IllegalStateException ise) {
-            DataContext dataContext = DataContext.createDataContext();
-            BaseContext.bindThreadObjectContext(dataContext);
-            return dataContext;
+            // If we reach here, it means the DataContextFilter didn't run 
+            // or failed to bind the context.
+            throw new IllegalStateException("No Cayenne DataContext bound to the thread. " 
+                    + "Please ensure DataContextFilter is configured in web.xml.", ise);
         }
     }
 
@@ -201,7 +209,7 @@ public class CayenneTemplate {
         Validate.notNull(persistentClass, "Null persistentClass parameter.");
 
         ObjEntity objEntity =
-            getDataContext().getEntityResolver().lookupObjEntity(persistentClass);
+            getDataContext().getEntityResolver().getObjEntity(persistentClass);
 
         if (objEntity == null) {
             throw new CayenneRuntimeException("Unmapped DataObject Class: "
@@ -210,13 +218,13 @@ public class CayenneTemplate {
 
         String pkName = getPkName(persistentClass);
 
-        ObjectId objectId = new ObjectId(objEntity.getName(), pkName, id);
+        ObjectId objectId = ObjectId.of(objEntity.getName(), pkName, id);
 
         int refreshMode = (refresh) ? ObjectIdQuery.CACHE_REFRESH : ObjectIdQuery.CACHE;
 
         ObjectIdQuery objectIdQuery = new ObjectIdQuery(objectId, false, refreshMode);
 
-        return (T) DataObjectUtils.objectForQuery(getDataContext(), objectIdQuery);
+        return (T) Cayenne.objectForQuery(getDataContext(), objectIdQuery);
     }
 
     /**
@@ -229,7 +237,7 @@ public class CayenneTemplate {
         Validate.notNull(persistentClass, "Null persistentClass parameter.");
 
         ObjEntity objEntity =
-            getDataContext().getEntityResolver().lookupObjEntity(persistentClass);
+            getDataContext().getEntityResolver().getObjEntity(persistentClass);
 
         if (objEntity == null) {
             throw new CayenneRuntimeException("Unmapped DataObject Class: "
