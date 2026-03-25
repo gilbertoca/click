@@ -162,6 +162,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <outputDirectory>${project.basedir}/src/main/webapp/javadoc</outputDirectory>
                     <reportOutputDirectory>${project.basedir}/src/main/webapp/javadoc</reportOutputDirectory>
                     <destDir>.</destDir> <!-- This keeps files directly in /javadoc/ instead of /javadoc/apidocs/ -->
                 </configuration>            
