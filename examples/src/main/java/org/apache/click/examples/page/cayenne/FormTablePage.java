@@ -19,9 +19,9 @@
 package org.apache.click.examples.page.cayenne;
 
 import java.util.List;
+import org.apache.cayenne.BaseContext;
 
 import org.apache.cayenne.DataObject;
-import org.apache.cayenne.access.DataContext;
 import org.apache.click.control.ActionLink;
 import org.apache.click.control.Column;
 import org.apache.click.control.Form;
@@ -245,7 +245,7 @@ public abstract class FormTablePage extends BorderPage {
      */
     public void saveDataObject(DataObject dataObject) {
         if (dataObject != null) {
-            DataContext.getThreadDataContext().commitChanges();
+            BaseContext.getThreadObjectContext().commitChanges();
         }
     }
 
@@ -256,8 +256,8 @@ public abstract class FormTablePage extends BorderPage {
      */
     public void deleteDataObject(DataObject dataObject) {
         if (dataObject != null) {
-            DataContext.getThreadDataContext().deleteObject(dataObject);
-            DataContext.getThreadDataContext().commitChanges();
+            BaseContext.getThreadObjectContext().deleteObject(dataObject);
+            BaseContext.getThreadObjectContext().commitChanges();
         }
     }
 

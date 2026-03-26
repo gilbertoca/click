@@ -41,6 +41,7 @@
         <poi.version>3.6</poi.version>
         <spring.version>5.3.31</spring.version> <!-- Latest stable 5.3.x -->
         <spring.security.version>5.8.11</spring.security.version> <!-- Compatible with Spring 5.3 -->
+        <cayenne.version>4.2.3</cayenne.version>
     </properties>    
     <dependencies>
         <dependency>
@@ -128,6 +129,14 @@
             </resource>
         </resources>        
         <plugins>
+            <plugin>
+                <groupId>org.apache.cayenne.plugins</groupId>
+                <artifactId>cayenne-modeler-maven-plugin</artifactId>
+                <version>${cayenne.version}</version>
+                <configuration>
+                    <modelFile>${project.basedir}/src/main/resources/cayenne.xml</modelFile>
+                </configuration>
+            </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>

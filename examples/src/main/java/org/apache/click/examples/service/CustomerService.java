@@ -28,11 +28,13 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbEntity;
 import org.apache.cayenne.map.EntityResolver;
+import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.IndirectQuery;
 import org.apache.cayenne.query.Query;
 import org.apache.cayenne.query.QueryCacheStrategy;
 import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.cayenne.query.SortOrder;
 import org.apache.click.examples.domain.Customer;
 import org.apache.click.extras.cayenne.CayenneTemplate;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +52,7 @@ public class CustomerService extends CayenneTemplate {
     @SuppressWarnings("unchecked")
     public List<Customer> getCustomers() {
         SelectQuery query = new SelectQuery(Customer.class);
-        query.addOrdering(Customer.NAME_PROPERTY, true);
+        query.addOrdering(Customer.NAME_PROPERTY, SortOrder.ASCENDING);
         return (List<Customer>) performQuery(query);
     }
 
@@ -67,7 +69,7 @@ public class CustomerService extends CayenneTemplate {
 
         SelectQuery query = new SelectQuery(Customer.class);
         if (property != null) {
-            query.addOrdering(property, ascending);
+            query.addOrdering(property, SortOrder.ASCENDING);
         }
 
         if (useSharedCache) {
@@ -93,8 +95,8 @@ public class CustomerService extends CayenneTemplate {
             query.andQualifier(ExpressionFactory.greaterOrEqualExp(Customer.DATE_JOINED_PROPERTY, startDate));
         }
 
-        query.addOrdering(Customer.NAME_PROPERTY, true);
-        query.addOrdering(Customer.DATE_JOINED_PROPERTY, true);
+        query.addOrdering(Customer.NAME_PROPERTY, SortOrder.ASCENDING);
+        query.addOrdering(Customer.DATE_JOINED_PROPERTY, SortOrder.ASCENDING);
 
         return (List<Customer>) performQuery(query);
     }
@@ -105,7 +107,7 @@ public class CustomerService extends CayenneTemplate {
 
         query.andQualifier(ExpressionFactory.likeIgnoreCaseExp(Customer.NAME_PROPERTY, "%" + name + "%"));
 
-        query.addOrdering(Customer.NAME_PROPERTY, true);
+        query.addOrdering(Customer.NAME_PROPERTY, SortOrder.ASCENDING);
 
         query.setFetchLimit(10);
 
@@ -130,7 +132,7 @@ public class CustomerService extends CayenneTemplate {
         }
 
         SelectQuery query = new SelectQuery(Customer.class, qual);
-        query.addOrdering(Customer.DATE_JOINED_PROPERTY, true);
+        query.addOrdering(Customer.DATE_JOINED_PROPERTY, SortOrder.ASCENDING);
 
         return (List<Customer>) performQuery(query);
     }
@@ -138,7 +140,7 @@ public class CustomerService extends CayenneTemplate {
     @SuppressWarnings("unchecked")
     public List<Customer> getCustomersSortedByName(int rows) {
         SelectQuery query = new SelectQuery(Customer.class);
-        query.addOrdering(Customer.NAME_PROPERTY, true);
+        query.addOrdering(Customer.NAME_PROPERTY, SortOrder.ASCENDING);
         query.setFetchLimit(rows);
         return (List<Customer>) performQuery(query);
     }
@@ -146,7 +148,7 @@ public class CustomerService extends CayenneTemplate {
     @SuppressWarnings("unchecked")
     public List<Customer> getCustomersSortedByDateJoined(int rows) {
         SelectQuery query = new SelectQuery(Customer.class);
-        query.addOrdering(Customer.DATE_JOINED_PROPERTY, true);
+        query.addOrdering(Customer.DATE_JOINED_PROPERTY, SortOrder.ASCENDING);
         query.setFetchLimit(rows);
         return (List<Customer>) performQuery(query);
     }
@@ -193,8 +195,8 @@ public class CustomerService extends CayenneTemplate {
 
     @SuppressWarnings("unchecked")
     public List<Customer> getCustomersForName(String value) {
-        Expression template = Expression.fromString("name likeIgnoreCase $name");
-        Expression e = template.expWithParameters(toMap(Customer.NAME_PROPERTY, "%" + value + "%"));
+        Expression template = ExpressionFactory.exp("name likeIgnoreCase $name");
+        Expression e = template.params(toMap(Customer.NAME_PROPERTY, "%" + value + "%"));
         return (List<Customer>) performQuery(new SelectQuery(Customer.class, e));
     }
 
@@ -210,7 +212,7 @@ public class CustomerService extends CayenneTemplate {
 
         SelectQuery query = new SelectQuery(Customer.class);
         if (StringUtils.isNotBlank(sortColumn)) {
-            query.addOrdering(sortColumn, ascending);
+            query.addOrdering(sortColumn, SortOrder.ASCENDING);
         }
         query.setFetchOffset(offset);
         query.setFetchLimit(pageSize);
@@ -263,7 +265,7 @@ public class CustomerService extends CayenneTemplate {
 
         @SuppressWarnings("deprecation")
         protected Query createReplacementQuery(EntityResolver resolver) {
-            DbEntity entity = resolver.lookupDbEntity(objectClass);
+            ObjEntity entity = resolver.getObjEntity(objectClass);
 
             if (entity == null) {
                 throw new CayenneRuntimeException(

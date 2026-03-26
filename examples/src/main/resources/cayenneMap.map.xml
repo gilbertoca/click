@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<data-map xmlns="http://cayenne.apache.org/schema/3.0/modelMap"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap"
-  project-version="3.0">
+<data-map xmlns="http://cayenne.apache.org/schema/10/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/10/modelMap https://cayenne.apache.org/schema/10/modelMap.xsd"
+	 project-version="10">
 	<property name="defaultPackage" value="org.apache.click.examples.domain"/>
 	<property name="defaultSuperclass" value="org.apache.click.examples.domain.BaseEntity"/>
 	<db-entity name="ADDRESS">
@@ -138,22 +138,22 @@
 	<db-relationship name="client" source="ADDRESS" target="CLIENT" toMany="true">
 		<db-attribute-pair source="id" target="address_id"/>
 	</db-relationship>
-	<db-relationship name="address" source="CLIENT" target="ADDRESS" toMany="false">
+	<db-relationship name="address" source="CLIENT" target="ADDRESS">
 		<db-attribute-pair source="address_id" target="id"/>
 	</db-relationship>
 	<db-relationship name="ENROLLMENT" source="COURSE" target="ENROLLMENT" toMany="true">
 		<db-attribute-pair source="id" target="courseId"/>
 	</db-relationship>
-	<db-relationship name="COURSE" source="ENROLLMENT" target="COURSE" toMany="false">
+	<db-relationship name="COURSE" source="ENROLLMENT" target="COURSE">
 		<db-attribute-pair source="courseId" target="id"/>
 	</db-relationship>
-	<db-relationship name="STUDENT" source="ENROLLMENT" target="STUDENT" toDependentPK="true" toMany="false">
+	<db-relationship name="STUDENT" source="ENROLLMENT" target="STUDENT" toDependentPK="true">
 		<db-attribute-pair source="studentId" target="id"/>
 	</db-relationship>
 	<db-relationship name="ENROLLMENT" source="STUDENT" target="ENROLLMENT" toMany="true">
 		<db-attribute-pair source="id" target="studentId"/>
 	</db-relationship>
-	<db-relationship name="STUDENT_HOUSE" source="STUDENT" target="STUDENT_HOUSE" toMany="false">
+	<db-relationship name="STUDENT_HOUSE" source="STUDENT" target="STUDENT_HOUSE">
 		<db-attribute-pair source="studentHouseId" target="id"/>
 	</db-relationship>
 	<db-relationship name="STUDENT" source="STUDENT_HOUSE" target="STUDENT" toMany="true">
@@ -165,12 +165,12 @@
 	<obj-relationship name="courses" source="Student" target="Course" db-relationship-path="ENROLLMENT.COURSE"/>
 	<obj-relationship name="studentHouse" source="Student" target="StudentHouse" db-relationship-path="STUDENT_HOUSE"/>
 	<obj-relationship name="student" source="StudentHouse" target="Student" db-relationship-path="STUDENT"/>
-	<query name="states" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="SystemCode">
+	<query name="states" type="SelectQuery" root="obj-entity" root-name="SystemCode">
 		<property name="cayenne.GenericSelectQuery.cacheStrategy" value="SHARED_CACHE"/>
 		<qualifier><![CDATA[name = "STATE"]]></qualifier>
 		<ordering><![CDATA[orderBy]]></ordering>
 	</query>
-	<query name="titles" factory="org.apache.cayenne.map.SelectQueryBuilder" root="obj-entity" root-name="SystemCode">
+	<query name="titles" type="SelectQuery" root="obj-entity" root-name="SystemCode">
 		<property name="cayenne.GenericSelectQuery.cacheStrategy" value="SHARED_CACHE"/>
 		<qualifier><![CDATA[name = "TITLE"]]></qualifier>
 		<ordering><![CDATA[orderBy]]></ordering>

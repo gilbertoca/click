@@ -77,8 +77,8 @@ public class NestedCayenneForm extends CayenneForm {
     public DataContext getDataContext() {
         // #1 Use DataContext associated with DataObject
         if (dataObject != null) {
-            if (dataObject.getDataContext() != null) {
-                return dataObject.getDataContext();
+            if (dataObject.getObjectContext() != null) {
+                return (DataContext)dataObject.getObjectContext();
             }
         }
         // #2 Use nestedDataContext
@@ -89,7 +89,16 @@ public class NestedCayenneForm extends CayenneForm {
         DataContext dc = super.getDataContext();
 
         // #3 Create a nested DataContext and cache the reference
-        return nestedDataContext = dc.createChildDataContext();
+        // In 4.2, the ServerRuntime creates new contexts from existing ones
+        // If you don't have the runtime, you can use dc.getEntityResolver().getRuntime() 
+        // or better, get it from the ServletContext via WebUtil.
+        org.apache.cayenne.configuration.server.ServerRuntime runtime = 
+            (org.apache.cayenne.configuration.server.ServerRuntime) 
+            org.apache.cayenne.configuration.web.WebUtil.getCayenneRuntime(
+                org.apache.click.Context.getThreadLocalContext().getServletContext()
+            );
+
+        return nestedDataContext = (DataContext) runtime.newContext(dc);
     }
 
     /**

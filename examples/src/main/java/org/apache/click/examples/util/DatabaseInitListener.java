@@ -38,8 +38,9 @@ import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.access.DataNode;
 import org.apache.cayenne.access.DbGenerator;
-import org.apache.cayenne.conf.Configuration;
-import org.apache.cayenne.conf.ServletUtil;
+import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.configuration.web.WebUtil;
+import org.apache.cayenne.log.JdbcEventLogger;
 import org.apache.cayenne.map.DataMap;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.click.examples.domain.Course;
@@ -81,27 +82,35 @@ public class DatabaseInitListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();
 
-        ServletUtil.initializeSharedConfiguration(servletContext);
-
         try {
-            DataDomain cayenneDomain =
-                Configuration.getSharedConfiguration().getDomain();
-            DataMap dataMap = cayenneDomain.getMap("cayenneMap");
-            DataNode dataNode = cayenneDomain.getNode("cayenneNode");
+            // 1. Initialize the 4.2 ServerRuntime
+            // This replaces ServletUtil.initializeSharedConfiguration
+            ServerRuntime runtime = ServerRuntime.builder()
+                .addConfig("cayenne.xml") 
+                .build();
 
-            initDatabaseSchema(dataNode, dataMap);
+            // 2. Bind the runtime to the ServletContext so WebUtil/Filters can find it
+            WebUtil.setCayenneRuntime(servletContext, runtime);
 
-            loadDatabase();
+            // 3. Get the Domain, Map, and Node from the new Runtime
+            DataDomain cayenneDomain = runtime.getDataDomain();
+            DataMap dataMap = cayenneDomain.getDataMap("cayenneMap");
+            DataNode dataNode = cayenneDomain.getDataNode("cayenneNode");
 
+            // 4. Initialize Schema and Load Data
+            initDatabaseSchema(dataNode, dataMap, runtime);
+            
+            // In 4.2, we should use the runtime to create the context for loading
+            loadDatabase(runtime);
+
+            // 5. Quartz initialization remains similar
             StdSchedulerFactory schedulerFactory = (StdSchedulerFactory)
                 servletContext.getAttribute(QuartzInitializerListener.QUARTZ_FACTORY_KEY);
 
             SchedulerService schedulerService = new SchedulerService(schedulerFactory);
-
             loadQuartzJobs(schedulerService);
 
-            reloadTimer.schedule(new ReloadTask(schedulerService), 10000, RELOAD_TIMER_INTERVAL);
-
+            reloadTimer.schedule(new ReloadTask(schedulerService, runtime), 10000, RELOAD_TIMER_INTERVAL);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,10 +135,15 @@ public class DatabaseInitListener implements ServletContextListener {
      * @param dataMap the Cayenne DataMap
      * @throws Exception
      */
-    private void initDatabaseSchema(DataNode dataNode, DataMap dataMap)
+    private void initDatabaseSchema(DataNode dataNode, DataMap dataMap, ServerRuntime runtime)
             throws Exception {
 
-        DbGenerator generator = new DbGenerator(dataNode.getAdapter(), dataMap);
+        // 1. Get the logger from Cayenne's DI container
+        JdbcEventLogger logger = runtime.getInjector().getInstance(JdbcEventLogger.class);
+
+        // 2. Pass the logger as the 3rd argument instead of null
+        DbGenerator generator = new DbGenerator(dataNode.getAdapter(), dataMap, logger);
+           
         generator.setShouldCreateFKConstraints(true);
         generator.setShouldCreatePKSupport(true);
         generator.setShouldCreateTables(true);
@@ -144,8 +158,9 @@ public class DatabaseInitListener implements ServletContextListener {
      *
      * @throws IOException if an I/O error occurs
      */
-    private void loadDatabase() throws IOException {
-        final DataContext dataContext = DataContext.createDataContext();
+    private void loadDatabase(ServerRuntime runtime) throws IOException {
+         // 4.2 way: Create context from the DI container
+        final DataContext dataContext = (DataContext) runtime.newContext();
 
         // Load users data file
         loadUsers(dataContext);
@@ -355,19 +370,24 @@ public class DatabaseInitListener implements ServletContextListener {
     private static class ReloadTask extends TimerTask {
 
         private SchedulerService schedulerService;
+        private ServerRuntime runtime; 
 
-        public ReloadTask(SchedulerService schedulerService) {
+        public ReloadTask(SchedulerService schedulerService, ServerRuntime runtime) {
             this.schedulerService = schedulerService;
+            this.runtime = runtime; // Inject the runtime
         }
 
         @SuppressWarnings("unchecked")
         public void run() {
             DataContext dataContext = null;
             try {
-                dataContext = DataContext.createDataContext();
+                // 1. Create context from the injected runtime
+                dataContext = (DataContext) runtime.newContext();
 
-                SelectQuery query = new SelectQuery(Customer.class);
-                List<Customer> list = dataContext.performQuery(query);
+                // 2. Use ObjectSelect instead of deprecated SelectQuery
+                List<Customer> list = org.apache.cayenne.query.ObjectSelect
+                    .query(Customer.class)
+                    .select(dataContext);
 
                 if (list.size() < 60) {
                     dataContext.deleteObjects(list);

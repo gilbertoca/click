@@ -19,7 +19,7 @@
 package org.apache.click.examples.domain;
 
 import org.apache.cayenne.CayenneDataObject;
-import org.apache.cayenne.DataObjectUtils;
+import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.PersistenceState;
 
 /**
@@ -37,7 +37,7 @@ public class BaseEntity extends CayenneDataObject {
      * @return the primary key of this Entity.
      */
     public Integer getId() {
-        return (Integer) DataObjectUtils.pkForObject(this);
+        return (Integer) Cayenne.pkForObject(this);
     }
 
     /**

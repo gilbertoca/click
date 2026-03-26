@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.Ordering;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.cayenne.query.SortOrder;
 import org.apache.click.examples.domain.Course;
 import org.apache.click.examples.domain.Student;
 import org.apache.click.examples.domain.StudentHouse;
@@ -41,7 +42,7 @@ public class StudentService extends CayenneTemplate {
     public List<Student> getStudents() {
         SelectQuery query = new SelectQuery(Student.class);
         query.addPrefetch("studentHouse");
-        query.addOrdering("db:id", true);
+        query.addOrdering("db:id", SortOrder.ASCENDING);
         return performQuery(query);
     }
 
@@ -102,7 +103,7 @@ public class StudentService extends CayenneTemplate {
     @SuppressWarnings("unchecked")
     public List<Course> getCourses() {
         SelectQuery query = new SelectQuery(Course.class);
-        query.addOrdering("db:id", true);
+        query.addOrdering("db:id", SortOrder.ASCENDING);
         return (List<Course>) performQuery(query);
     }
 
@@ -125,7 +126,7 @@ public class StudentService extends CayenneTemplate {
         query.addPrefetch("studentHouse");
 
         // Add in-memory ordering
-        Ordering ordering = new Ordering("studentHouse.name", true);
+        Ordering ordering = new Ordering("studentHouse.name", SortOrder.ASCENDING);
         List<Student> result = performQuery(query);
         ordering.orderList(result);
         return result;
@@ -134,7 +135,7 @@ public class StudentService extends CayenneTemplate {
     @SuppressWarnings("unchecked")
     public List<StudentHouse> getStudentHouses() {
         SelectQuery query = new SelectQuery(StudentHouse.class);
-        query.addOrdering(StudentHouse.NAME_PROPERTY, true);
+        query.addOrdering(StudentHouse.NAME_PROPERTY, SortOrder.ASCENDING);
         return (List<StudentHouse>) performQuery(query);
     }
 

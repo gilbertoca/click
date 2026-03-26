@@ -24,6 +24,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.apache.cayenne.query.Ordering;
+import org.apache.cayenne.query.SortOrder;
 import org.apache.click.ActionListener;
 import org.apache.click.Context;
 import org.apache.click.Control;
@@ -284,7 +285,7 @@ public class QuartzJobSchedulerPage extends BorderPage {
 
         if (getSchedulerService() != null) {
             List<JobAndSimpleTrigger> rowList = getSchedulerService().getJobAndTriggerList();
-            Collections.sort(rowList, new Ordering("job.name", Ordering.ASC));
+            Collections.sort(rowList, new Ordering("job.name", SortOrder.ASCENDING));
             table.setRowList(rowList);
         }
     }

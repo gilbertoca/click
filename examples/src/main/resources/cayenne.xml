@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<domains project-version="3.0">
-<domain name="cayenne">
+<domain xmlns="http://cayenne.apache.org/schema/10/domain"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/10/domain https://cayenne.apache.org/schema/10/domain.xsd"
+	 project-version="10">
 	<property name="cayenne.DataDomain.queryCacheFactory" value="org.apache.cayenne.cache.OSQueryCacheFactory"/>
-
-	<map name="cayenneMap" location="cayenneMap.map.xml"/>
-
+	<map name="cayenneMap"/>
 	<node name="cayenneNode"
-		 datasource="cayenneNode.driver.xml"
-		 factory="org.apache.cayenne.conf.DriverDataSourceFactory">
-			<map-ref name="cayenneMap"/>
-	 </node>
+		 factory="org.apache.cayenne.configuration.server.XMLPoolingDataSourceFactory">
+		<map-ref name="cayenneMap"/>
+		<data-source>
+			<driver value="org.hsqldb.jdbcDriver"/>
+			<url value="jdbc:hsqldb:mem:examples"/>
+			<connectionPool min="10" max="20"/>
+			<login/>
+		</data-source>
+	</node>
 </domain>
-</domains>

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.cayenne.query.SortOrder;
 
 import org.apache.click.examples.domain.PostCode;
 import org.apache.click.extras.cayenne.CayenneTemplate;
@@ -41,7 +42,7 @@ public class PostCodeService extends CayenneTemplate {
 
         query.andQualifier(ExpressionFactory.likeIgnoreCaseExp(PostCode.LOCALITY_PROPERTY, location + "%"));
 
-        query.addOrdering(PostCode.LOCALITY_PROPERTY, true);
+        query.addOrdering(PostCode.LOCALITY_PROPERTY, SortOrder.ASCENDING);
 
         query.setFetchLimit(10);
 
