@@ -37,7 +37,7 @@ th { color: white; }
   <th>Delete</th>
  </tr>
 #foreach( $customer in $customers )
- #if( $velocityCount % 2 == 0) <tr bgcolor="#f7f7e7"> #else <tr> #end
+ #if( $foreach.count % 2 == 0) <tr bgcolor="#f7f7e7"> #else <tr> #end
   <td align="left" valign="middle">
    $customer.id
   </td>

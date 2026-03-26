@@ -23,7 +23,7 @@
 #foreach( $customer in $customers )
 
     <!-- Alter background for odd/even panels -->
-    #set( $background = "#if ($velocityCount % 2 == 0)DDDDDD #{else}FFFFFF #end")
+    #set( $background = "#if ($foreach.count % 2 == 0)DDDDDD #{else}FFFFFF #end")
 <div id="customer-$customer.id" style="width: 220px; position: relative;margin-top: 5px; border:1px solid black;background:#$background">
     $customer.name
     <br/>$customer.email

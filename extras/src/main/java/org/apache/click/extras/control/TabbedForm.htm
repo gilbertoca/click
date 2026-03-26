@@ -85,15 +85,15 @@ $form.startTag()
 				<tr>
 					<td class="tf_separator"> &#160;&#160; </td>
 					#foreach ($tabSheet in $form.tabSheets)
-					<td id="tab-title-${velocityCount}" 
-						#if ($velocityCount == $form.displayTab)
+					<td id="tab-title-$foreach.count" 
+						#if ($foreach.count == $form.displayTab)
 						style="border-bottom:0px;background-color:${form.backgroundColor};"
 						#end
 						class="tf_tab">
 						<a href="#"
 						   class="tb_label"
 						   style="color:#404040;font-weight:bold;text-decoration:none;"
-						   onclick="onShowTab(${velocityCount})"
+						   onclick="onShowTab($foreach.count)"
 						   >${tabSheet.label}</a>
 					</td>
 					<td class="tf_separator"> &#160; </td>
@@ -112,8 +112,8 @@ $form.startTag()
 			height="${form.tabHeight};"
 			style="background-color:${form.backgroundColor};">
 			#foreach ($tabSheet in $form.tabSheets)
-			<div id="tab-sheet-${velocityCount}" 
-				 #if ($velocityCount == $form.displayTab) style="display:block;" #else style="display:none;" #end
+			<div id="tab-sheet-$foreach.count" 
+				 #if ($foreach.count == $form.displayTab) style="display:block;" #else style="display:none;" #end
                  class="tf_sheet">
 				${tabSheet}
 			</div>

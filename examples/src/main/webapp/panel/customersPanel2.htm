@@ -31,7 +31,7 @@
             <br/>$customer.investments
             <br/>$format.date($customer.dateJoined)
         </td>
-            #if( $velocityCount % 4 == 0 )
+            #if( $foreach.count % 4 == 0 )
             </tr><tr>
             #end
         #end

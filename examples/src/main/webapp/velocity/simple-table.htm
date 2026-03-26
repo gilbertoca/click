@@ -28,7 +28,7 @@
   </tr>
 
 #foreach( $key in $properties.keySet() )
-  <tr #if($velocityCount % 2 == 0) bgcolor="#f7f7e7" #end> 
+  <tr #if($foreach.count % 2 == 0) bgcolor="#f7f7e7" #end> 
     <td class="left-column"> $key </td> 
     <td class="right-column"> $properties.get($key) </td>
   </tr>
