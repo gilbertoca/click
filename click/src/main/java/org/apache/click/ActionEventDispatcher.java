@@ -532,7 +532,8 @@ public class ActionEventDispatcher {
         ActionEventDispatcher actionEventDispatcher = dispatcherStack.pop();
 
         if (dispatcherStack.isEmpty()) {
-            THREAD_LOCAL_DISPATCHER_STACK.set(null);
+            // Updated from .set(null) for better cleanup
+            THREAD_LOCAL_DISPATCHER_STACK.remove();
         }
 
         return actionEventDispatcher;
@@ -557,12 +558,12 @@ public class ActionEventDispatcher {
     // Inner Classes ----------------------------------------------------------
 
     /**
-     * Provides an unsynchronized Stack.
+     * Provides an unsynchronized Dispatcher Stack using ArrayDeque for efficiency.
      */
-    static class DispatcherStack extends ArrayList<ActionEventDispatcher> {
+    static final class DispatcherStack {
 
-        /** Serialization version indicator. */
-        private static final long serialVersionUID = 1L;
+        /** The underlying deque used for stack operations. */
+        private final java.util.ArrayDeque<ActionEventDispatcher> delegate;
 
         /**
          * Create a new DispatcherStack with the given initial capacity.
@@ -570,19 +571,18 @@ public class ActionEventDispatcher {
          * @param initialCapacity specify initial capacity of this stack
          */
         private DispatcherStack(int initialCapacity) {
-            super(initialCapacity);
+            this.delegate = new java.util.ArrayDeque<ActionEventDispatcher>(initialCapacity);
         }
 
         /**
          * Pushes the ActionEventDispatcher onto the top of this stack.
          *
-         * @param actionEventDispatcher the ActionEventDispatcher to push onto this stack
+         * @param dispatcher the ActionEventDispatcher to push onto this stack
          * @return the ActionEventDispatcher pushed on this stack
          */
-        private ActionEventDispatcher push(ActionEventDispatcher actionEventDispatcher) {
-            add(actionEventDispatcher);
-
-            return actionEventDispatcher;
+        private ActionEventDispatcher push(ActionEventDispatcher dispatcher) {
+            delegate.addLast(dispatcher);
+            return dispatcher;
         }
 
         /**
@@ -591,28 +591,38 @@ public class ActionEventDispatcher {
          * @return the ActionEventDispatcher at the top of this stack
          */
         private ActionEventDispatcher pop() {
-            ActionEventDispatcher actionEventDispatcher = peek();
-
-            remove(size() - 1);
-
-            return actionEventDispatcher;
+            if (delegate.isEmpty()) {
+                throw new RuntimeException("No ActionEventDispatcher available on ThreadLocal Dispatcher Stack");
+            }
+            return delegate.removeLast();
         }
 
         /**
-         * Looks at the ActionEventDispatcher at the top of this stack without
-         * removing it.
+         * Looks at the ActionEventDispatcher at the top of this stack without removing it.
          *
          * @return the ActionEventDispatcher at the top of this stack
          */
         private ActionEventDispatcher peek() {
-            int length = size();
-
-            if (length == 0) {
-                String msg = "No ActionEventDispatcher available on ThreadLocal Dispatcher Stack";
-                throw new RuntimeException(msg);
+            ActionEventDispatcher dispatcher = delegate.peekLast();
+            if (dispatcher == null) {
+                throw new RuntimeException("No ActionEventDispatcher available on ThreadLocal Dispatcher Stack");
             }
-
-            return get(length - 1);
+            return dispatcher;
         }
+
+        /** @return true if the stack is empty */
+        boolean isEmpty() {
+            return delegate.isEmpty();
+        }
+
+        /** @return the number of elements in the stack */
+        int size() {
+            return delegate.size();
+        }
+        
+        void clear() {
+            delegate.clear();
+        }                
     }
+
 }

@@ -20,7 +20,6 @@ package org.apache.click;
 
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -912,12 +911,13 @@ public class Context {
     // -------------------------------------------------- Inner Classes
 
     /**
-     * Provides an unsynchronized Context Stack.
+     * Provides an unsynchronized Context Stack using ArrayDeque for efficiency.
+     * This replaces the legacy ArrayList-based implementation (CLK-27).
      */
-    static final class ContextStack extends ArrayList<Context> {
+    static final class ContextStack {
 
-        /** Serialization version indicator. */
-        private static final long serialVersionUID = 1L;
+        /** The underlying deque used for stack operations. */
+        private final java.util.ArrayDeque<Context> delegate;
 
         /**
          * Create a new ContextStack with the given initial capacity.
@@ -925,7 +925,7 @@ public class Context {
          * @param initialCapacity specify initial capacity of this stack
          */
         private ContextStack(int initialCapacity) {
-            super(initialCapacity);
+            this.delegate = new java.util.ArrayDeque<Context>(initialCapacity);
         }
 
         /**
@@ -934,9 +934,8 @@ public class Context {
          * @param context the Context to push onto this stack
          * @return the Context pushed on this stack
          */
-        private Context push(Context context) {
-            add(context);
-
+        Context push(Context context) {
+            delegate.addLast(context);
             return context;
         }
 
@@ -945,12 +944,11 @@ public class Context {
          *
          * @return the Context at the top of this stack
          */
-        private Context pop() {
-            Context context = peek();
-
-            remove(size() - 1);
-
-            return context;
+        Context pop() {
+            if (delegate.isEmpty()) {
+                throw new RuntimeException("No Context available on ThreadLocal Context Stack");
+            }
+            return delegate.removeLast();
         }
 
         /**
@@ -958,16 +956,38 @@ public class Context {
          *
          * @return the Context at the top of this stack
          */
-        private Context peek() {
-            int length = size();
+        Context peek() {
+            Context context = delegate.peekLast();
 
-            if (length == 0) {
+            if (context == null) {
                 String msg = "No Context available on ThreadLocal Context Stack";
                 throw new RuntimeException(msg);
             }
 
-            return get(length - 1);
+            return context;
         }
+
+        /**
+         * Returns the number of elements in this stack.
+         *
+         * @return the number of elements in this stack
+         */
+        int size() {
+            return delegate.size();
+        }
+
+        /**
+         * Returns true if this stack contains no elements.
+         *
+         * @return true if this stack contains no elements
+         */
+        boolean isEmpty() {
+            return delegate.isEmpty();
+        }
+        
+        void clear() {
+            delegate.clear();
+        }        
     }
 
 }

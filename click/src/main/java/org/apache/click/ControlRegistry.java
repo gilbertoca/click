@@ -361,7 +361,7 @@ public class ControlRegistry {
         getRegistryStack().push(controlRegistry);
     }
 
-    /**
+     /**
      * Remove and return the controlRegistry instance on top of the
      * registry stack.
      *
@@ -372,16 +372,21 @@ public class ControlRegistry {
         ControlRegistry controlRegistry = registryStack.pop();
 
         if (registryStack.isEmpty()) {
-            THREAD_LOCAL_REGISTRY_STACK.set(null);
+            // FIX: Use remove() instead of set(null) for better ThreadLocal cleanup
+            THREAD_LOCAL_REGISTRY_STACK.remove();
         }
 
         return controlRegistry;
     }
 
+    /**
+     * Return the registry stack data structure.
+     */
     static RegistryStack getRegistryStack() {
         RegistryStack registryStack = THREAD_LOCAL_REGISTRY_STACK.get();
 
         if (registryStack == null) {
+            // Updated to use the new RegistryStack constructor we defined
             registryStack = new RegistryStack(2);
             THREAD_LOCAL_REGISTRY_STACK.set(registryStack);
         }
@@ -390,12 +395,12 @@ public class ControlRegistry {
     }
 
     /**
-     * Provides an unsynchronized Stack.
+     * Provides an unsynchronized Registry Stack using ArrayDeque for efficiency.
      */
-    static class RegistryStack extends ArrayList<ControlRegistry> {
+    static final class RegistryStack {
 
-        /** Serialization version indicator. */
-        private static final long serialVersionUID = 1L;
+        /** The underlying deque used for stack operations. */
+        private final java.util.ArrayDeque<ControlRegistry> delegate;
 
         /**
          * Create a new RegistryStack with the given initial capacity.
@@ -403,7 +408,7 @@ public class ControlRegistry {
          * @param initialCapacity specify initial capacity of this stack
          */
         private RegistryStack(int initialCapacity) {
-            super(initialCapacity);
+            this.delegate = new java.util.ArrayDeque<ControlRegistry>(initialCapacity);
         }
 
         /**
@@ -413,8 +418,7 @@ public class ControlRegistry {
          * @return the ControlRegistry pushed on this stack
          */
         private ControlRegistry push(ControlRegistry controlRegistry) {
-            add(controlRegistry);
-
+            delegate.addLast(controlRegistry);
             return controlRegistry;
         }
 
@@ -424,29 +428,38 @@ public class ControlRegistry {
          * @return the ControlRegistry at the top of this stack
          */
         private ControlRegistry pop() {
-            ControlRegistry controlRegistry = peek();
-
-            remove(size() - 1);
-
-            return controlRegistry;
+            if (delegate.isEmpty()) {
+                throw new RuntimeException("No ControlRegistry available on ThreadLocal Registry Stack");
+            }
+            return delegate.removeLast();
         }
 
         /**
-         * Looks at the ControlRegistry at the top of this stack without
-         * removing it.
+         * Looks at the ControlRegistry at the top of this stack without removing it.
          *
          * @return the ControlRegistry at the top of this stack
          */
         private ControlRegistry peek() {
-            int length = size();
-
-            if (length == 0) {
-                String msg = "No ControlRegistry available on ThreadLocal Registry Stack";
-                throw new RuntimeException(msg);
+            ControlRegistry registry = delegate.peekLast();
+            if (registry == null) {
+                throw new RuntimeException("No ControlRegistry available on ThreadLocal Registry Stack");
             }
-
-            return get(length - 1);
+            return registry;
         }
+
+        /** @return true if the stack is empty */
+        boolean isEmpty() {
+            return delegate.isEmpty();
+        }
+
+        /** @return the number of elements in the stack */
+        int size() {
+            return delegate.size();
+        }
+        
+        void clear() {
+            delegate.clear();
+        }                
     }
 
     static class InterceptorHolder {
