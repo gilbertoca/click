@@ -212,6 +212,12 @@ public class MockServletContext implements ServletContext {
      */
     private String contextPath = DEFAULT_CONTEXT_PATH;
 
+    private int sessionTimeout = 30;
+    
+    private String requestEncoding = "UTF-8";
+
+    private String responseEncoding = "UTF-8";
+    
     /**
      * Default constructor for this mock object.
      * <p>
@@ -824,9 +830,9 @@ public class MockServletContext implements ServletContext {
             }
     }
 
-    public Dynamic addJspFile(String s, String s1)
-    {
-            return null;
+    @Override
+    public ServletRegistration.Dynamic addJspFile(String servletName, String jspFile) {
+        return null; // Standard for mock objects unless testing JSP registration
     }
 
     @Override
@@ -1101,6 +1107,37 @@ public class MockServletContext implements ServletContext {
             name = name.substring(1);
         }
         return name;
+    }
+
+
+    @Override
+    public int getSessionTimeout() {
+        return sessionTimeout;
+    }
+
+    @Override
+    public void setSessionTimeout(int i) {
+        this.sessionTimeout = i;
+    }
+
+    @Override
+    public String getRequestCharacterEncoding() {
+        return requestEncoding;
+    }
+
+    @Override
+    public void setRequestCharacterEncoding(String encoding) {
+        this.requestEncoding = encoding;
+    }
+    
+    @Override
+    public String getResponseCharacterEncoding() {
+        return responseEncoding;
+    }
+
+    @Override
+    public void setResponseCharacterEncoding(String encoding) {
+        this.responseEncoding = encoding;
     }
     /**
      * Invocation handler for proxy interface of {@link jakarta.servlet.ServletRegistration.Dynamic}.
