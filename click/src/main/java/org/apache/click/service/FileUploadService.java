@@ -18,13 +18,12 @@
  */
 package org.apache.click.service;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
+import javax.servlet.http.Part;
 
 /**
  * Provides a file upload service interface.
@@ -57,8 +56,8 @@ public interface FileUploadService {
      *
      * @param request the servlet request
      * @return the list of FileItem instances parsed from the request
-     * @throws FileUploadException if request cannot be parsed
+     * @throws ServletException if request cannot be parsed
      */
-     public List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException;
+     public Collection<Part> parseRequest(HttpServletRequest request) throws ServletException;
 
 }

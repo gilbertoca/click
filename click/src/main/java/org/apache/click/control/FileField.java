@@ -23,7 +23,7 @@ import org.apache.click.Context;
 
 import org.apache.click.util.HtmlStringBuffer;
 
-import org.apache.commons.fileupload.FileItem;
+import javax.servlet.http.Part;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -100,7 +100,7 @@ public class FileField extends Field {
      * <a href="http://jakarta.apache.org/commons/fileupload/apidocs/org/apache/commons/fileupload/DefaultFileItem.html">DefaultFileItem</a>
      * after processing a file upload request.
      */
-    protected FileItem fileItem;
+    protected Part fileItem;
 
     // ----------------------------------------------------------- Constructors
 
@@ -188,7 +188,7 @@ public class FileField extends Field {
      *
      * @return the <code>FileItem</code> after processing a request
      */
-    public FileItem getFileItem() {
+    public Part getFileItem() {
         return fileItem;
     }
 
@@ -361,7 +361,7 @@ public class FileField extends Field {
         setError(null);
 
         if (isRequired()) {
-            FileItem localFileItem = getFileItem();
+            Part localFileItem = getFileItem();
             if (localFileItem == null || StringUtils.isBlank(localFileItem.getName())) {
                 setErrorMessage("file-required-error");
             }

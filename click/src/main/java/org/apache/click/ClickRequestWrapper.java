@@ -18,22 +18,19 @@
  */
 package org.apache.click;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.Part;
 
 import org.apache.click.service.FileUploadService;
 import org.apache.click.util.ClickUtils;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Provides a custom HttpServletRequest class for shielding users from
@@ -45,7 +42,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
     /**
      * The <code>FileItem</code> objects for <code>"multipart"</code> POST requests.
      */
-    private final Map<String, FileItem[]> fileItemMap;
+    private final Map<String, Part[]> fileItemMap;
 
     /** The request is a multi-part file upload POST request. */
     private final boolean isMultipartRequest;
@@ -71,49 +68,26 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
         if (isMultipartRequest) {
 
             Map<String, String[]> requestParams = new HashMap<String, String[]>();
-            Map<String, FileItem[]> fileItems = new HashMap<String, FileItem[]>();
+            Map<String, Part[]> fileItems = new HashMap<String, Part[]>();
 
             try {
-                List<FileItem> itemsList = new ArrayList<FileItem>();
-
-                try {
-
-                    itemsList = fileUploadService.parseRequest(request);
-
-                } catch (FileUploadException fue) {
-                    request.setAttribute(FileUploadService.UPLOAD_EXCEPTION, fue);
-                }
-
-                for (FileItem fileItem : itemsList) {
-                    String name = fileItem.getFieldName();
-                    String value = null;
-
-                    // Form fields are placed in the request parameter map,
-                    // while file uploads are placed in the file item map.
-                    if (fileItem.isFormField()) {
-
-                        if (request.getCharacterEncoding() == null) {
-                            value = fileItem.getString();
-
-                        } else {
-                            try {
-                                value = fileItem.getString(request.getCharacterEncoding());
-
-                            } catch (UnsupportedEncodingException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                        }
-
-                        // Add the form field value to the parameters.
+                // Use native Servlet 3.0+ method
+                Collection<Part> parts = request.getParts();
+                
+                for (Part part : parts) {
+                    String name = part.getName();
+                    
+                    // Native check: form fields vs uploaded files
+                    if (part.getSubmittedFileName() == null) {
+                        // Handle as standard form field
+                        String value = IOUtils.toString(part.getInputStream(), getCharacterEncoding());
                         addToMapAsString(requestParams, name, value);
-
                     } else {
-                        // Add the file item to the list of file items.
-                        addToMapAsFileItem(fileItems, name, fileItem);
+                        // Handle as file upload
+                        addToMapAsFileItem(fileItems, name, part);
                     }
                 }
-
-            } catch (Throwable t) {
+            }  catch (Throwable t) {
 
                 // Don't throw error here as it will break Context creation.
                 // Instead add the error as a request attribute.
@@ -140,7 +114,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @return map of <code>FileItem arrays</code> keyed on request parameter name
      * for "multipart" POST requests
      */
-    public Map<String, FileItem[]> getFileItemMap() {
+    public Map<String, Part[]> getFileItemMap() {
         return fileItemMap;
     }
 
@@ -250,13 +224,13 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @param name the name of the map key
      * @param value the value to add to the FileItem array
      */
-    private void addToMapAsFileItem(Map<String, FileItem[]> map, String name, FileItem value) {
-        FileItem[] oldValues = map.get(name);
-        FileItem[] newValues = null;
+    private void addToMapAsFileItem(Map<String, Part[]> map, String name, Part value) {
+        Part[] oldValues = map.get(name);
+        Part[] newValues = null;
         if (oldValues == null) {
-            newValues = new FileItem[] {value};
+            newValues = new Part[] {value};
         } else {
-            newValues = new FileItem[oldValues.length + 1];
+            newValues = new Part[oldValues.length + 1];
             System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
             newValues[oldValues.length] = value;
         }

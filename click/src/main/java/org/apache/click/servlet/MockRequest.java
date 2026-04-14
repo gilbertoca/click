@@ -59,7 +59,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 

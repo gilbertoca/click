@@ -73,7 +73,6 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.LogService;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -1057,7 +1056,10 @@ public class ClickUtils {
      * @return true if the request is a multi-part content type POST request
      */
     public static boolean isMultipartRequest(HttpServletRequest request) {
-        return ServletFileUpload.isMultipartContent(request);
+        String contentType = request.getContentType();
+        boolean isMultipart = contentType != null && contentType.startsWith("multipart/form-data");
+        
+        return isMultipart;
     }
 
     /**

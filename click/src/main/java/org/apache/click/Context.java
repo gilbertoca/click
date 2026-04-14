@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.apache.click.service.FileUploadService;
 import org.apache.click.service.LogService;
@@ -38,7 +39,6 @@ import org.apache.click.service.MessagesMapService;
 import org.apache.click.service.TemplateService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.FlashAttribute;
-import org.apache.commons.fileupload.FileItem;
 
 /**
  * Provides the HTTP request context information for pages and controls.
@@ -666,7 +666,7 @@ public class Context {
      * @return map of <code>FileItem arrays</code> keyed on request parameter name
      * for "multipart" POST requests
      */
-    public Map<String, FileItem[]> getFileItemMap() {
+    public Map<String, Part[]> getFileItemMap() {
         return findClickRequestWrapper(request).getFileItemMap();
     }
 
@@ -683,17 +683,17 @@ public class Context {
      *
      * @return the fileItem for the specified name
      */
-    public FileItem getFileItem(String name) {
+    public Part getFileItem(String name) {
         Object value = findClickRequestWrapper(request).getFileItemMap().get(name);
 
         if (value != null) {
-            if (value instanceof FileItem[]) {
-                FileItem[] array = (FileItem[]) value;
+            if (value instanceof Part[]) {
+                Part[] array = (Part[]) value;
                 if (array.length >= 1) {
                     return array[0];
                 }
-            } else if (value instanceof FileItem) {
-                return (FileItem) value;
+            } else if (value instanceof Part) {
+                return (Part) value;
             }
         }
         return null;
