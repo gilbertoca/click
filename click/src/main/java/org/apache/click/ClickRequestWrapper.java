@@ -19,6 +19,7 @@
 package org.apache.click;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -32,8 +33,8 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.click.service.FileUploadService;
 import org.apache.click.util.ClickUtils;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
 
 /**
  * Provides a custom HttpServletRequest class for shielding users from
@@ -93,11 +94,14 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
                     if (fileItem.isFormField()) {
 
                         if (request.getCharacterEncoding() == null) {
+                            
                             value = fileItem.getString();
 
                         } else {
                             try {
-                                value = fileItem.getString(request.getCharacterEncoding());
+                                
+                                Charset charset = Charset.forName(request.getCharacterEncoding());
+                                value = fileItem.getString(charset);
 
                             } catch (UnsupportedEncodingException ex) {
                                 throw new RuntimeException(ex);

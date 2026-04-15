@@ -38,7 +38,7 @@ import org.apache.click.service.MessagesMapService;
 import org.apache.click.service.TemplateService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.FlashAttribute;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * Provides the HTTP request context information for pages and controls.

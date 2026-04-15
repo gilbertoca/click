@@ -18,7 +18,7 @@
  */
 package org.apache.click.util;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 public class SampleObject {
     private Integer id;

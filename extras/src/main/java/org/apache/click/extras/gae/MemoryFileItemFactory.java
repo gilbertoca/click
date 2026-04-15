@@ -18,30 +18,37 @@
  */
 package org.apache.click.extras.gae;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload2.core.FileItemFactory;
 
 /**
  * Provides a FileItemFactory implementation that creates {@link MemoryFileItem}
  * instances which always keep their content in memory.
  */
-public class MemoryFileItemFactory implements FileItemFactory {
+public class MemoryFileItemFactory implements FileItemFactory<MemoryFileItem> {
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <B extends AbstractFileItemBuilder<MemoryFileItem, B>> B fileItemBuilder() {
+
+        return (B) new MemoryFileItemBuilder();
+    }
 
     /**
-     * Create a new {@link MemoryFileItem} instance from the supplied parameters.
-     *
-     * @param fieldName the name of the form field
-     * @param contentType the content type of the form field
-     * @param isFormField true if this is a plain form field, false otherwise
-     * @param fileName the name of the uploaded file, if any, as supplied by the
-     * browser or other client
-     * @return the newly created file item
+     * Custom builder for MemoryFileItem.
      */
-    public FileItem createItem(String fieldName, String contentType,
-        boolean isFormField, String fileName) {
+    public static class MemoryFileItemBuilder  extends AbstractFileItemBuilder<MemoryFileItem, MemoryFileItemBuilder> {
 
-        FileItem result =
-            new MemoryFileItem(fieldName, contentType, isFormField, fileName);
-        return result;
+        @Override
+        public MemoryFileItem get() {
+
+            // The AbstractFileItemBuilder provides access to:
+            // getFieldName(), getHeaders(), isFormField(), etc.
+            return new MemoryFileItem(
+                    getFieldName(),
+                    getHeaders() != null ? getHeaders().getHeader("Content-Type") : null,
+                    isFormField(),
+                    getFileName()
+            );
+        }
     }
 }

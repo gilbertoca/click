@@ -21,7 +21,7 @@ package org.apache.click.extras.gae;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.click.service.CommonsFileUploadService;
-import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload2.core.FileItemFactory;
 
 /**
  * Provides an Apache Commons In-Memory FileUploadService class.
@@ -70,7 +70,7 @@ public class MemoryFileUploadService extends CommonsFileUploadService {
      * @return a new MemoryFileItemFactory instance
      */
     @Override
-    public FileItemFactory createFileItemFactory(HttpServletRequest request) {
+    public FileItemFactory<?> createFileItemFactory(HttpServletRequest request) {
         return new MemoryFileItemFactory();
-    }
+    }    
 }

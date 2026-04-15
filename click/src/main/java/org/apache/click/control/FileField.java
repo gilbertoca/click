@@ -23,7 +23,7 @@ import org.apache.click.Context;
 
 import org.apache.click.util.HtmlStringBuffer;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 /**

@@ -40,9 +40,9 @@ import org.apache.click.service.LogService;
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.ContainerUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadByteCountLimitException;
+import org.apache.commons.fileupload2.core.FileUploadSizeException;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -2963,8 +2963,8 @@ public class Form extends AbstractContainer implements Stateful {
         Exception e = (Exception)
             getContext().getRequest().getAttribute(FileUploadService.UPLOAD_EXCEPTION);
 
-        if (e instanceof FileSizeLimitExceededException
-            || e instanceof SizeLimitExceededException) {
+        if (e instanceof FileUploadByteCountLimitException
+            || e instanceof FileUploadSizeException) {
             return true;
         }
 
@@ -3002,20 +3002,20 @@ public class Form extends AbstractContainer implements Stateful {
         String key = null;
         Object args[] = null;
 
-        if (fue instanceof SizeLimitExceededException) {
-            SizeLimitExceededException se =
-                (SizeLimitExceededException) fue;
+        if (fue instanceof FileUploadSizeException) {
+            FileUploadSizeException se =
+                (FileUploadSizeException) fue;
 
             key = "post-size-limit-exceeded-error";
 
             args = new Object[2];
-            args[0] = se.getPermittedSize();
+            args[0] = se.getPermitted();
             args[1] = se.getActualSize();
             setError(getMessage(key, args));
 
-        } else if (fue instanceof FileSizeLimitExceededException) {
-            FileSizeLimitExceededException fse =
-                (FileSizeLimitExceededException) fue;
+        } else if (fue instanceof FileUploadByteCountLimitException) {
+            FileUploadByteCountLimitException fse =
+                (FileUploadByteCountLimitException) fue;
 
             key = "file-size-limit-exceeded-error";
 
@@ -3027,7 +3027,7 @@ public class Form extends AbstractContainer implements Stateful {
 
             args = new Object[3];
             args[0] = ClickUtils.toLabel(fieldName);
-            args[1] = fse.getPermittedSize();
+            args[1] = fse.getPermitted();
             args[2] = fse.getActualSize();
             setError(getMessage(key, args));
         }

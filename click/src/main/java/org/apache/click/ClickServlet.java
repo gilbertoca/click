@@ -50,7 +50,7 @@ import org.apache.click.util.ClickUtils;
 import org.apache.click.util.ErrorPage;
 import org.apache.click.util.HtmlStringBuffer;
 import org.apache.click.util.PageImports;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -303,7 +303,7 @@ public class ClickServlet extends HttpServlet {
         if (logger.isDebugEnabled()) {
             HtmlStringBuffer buffer = new HtmlStringBuffer(200);
             buffer.append(request.getMethod());
-            if (ServletFileUpload.isMultipartContent(request)) {
+            if (ClickUtils.isMultipartRequest(request)) {
                 buffer.append(" (multipart) ");
             } else {
                 buffer.append(" ");

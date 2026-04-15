@@ -59,7 +59,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.fileupload.FileUploadBase;
+import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -404,7 +404,7 @@ public class MockRequest implements HttpServletRequest {
      */
     public String getContentType() {
         if (useMultiPartContentType) {
-            return FileUploadBase.MULTIPART_FORM_DATA + "; boundary=abcdefgABCDEFG";
+            return JavaxServletFileUpload.MULTIPART_FORM_DATA + "; boundary=abcdefgABCDEFG";
         }
 
         return null;

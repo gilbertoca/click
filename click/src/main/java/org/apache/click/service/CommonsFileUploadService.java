@@ -25,13 +25,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileItemFactory;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.lang3.Validate;
 
 /**
@@ -150,21 +149,19 @@ public class CommonsFileUploadService implements FileUploadService {
 
         Validate.notNull(request, "Null request parameter");
 
-        FileItemFactory fileItemFactory = createFileItemFactory(request);
+        FileItemFactory<DiskFileItem> fileItemFactory = (FileItemFactory<DiskFileItem>) createFileItemFactory(request);
 
-        FileUploadBase fileUpload = new ServletFileUpload();
+        JavaxServletFileUpload<DiskFileItem, FileItemFactory<DiskFileItem>> fileUpload = new JavaxServletFileUpload<>(fileItemFactory);
         fileUpload.setFileItemFactory(fileItemFactory);
 
         if (fileSizeMax > 0) {
-            fileUpload.setFileSizeMax(fileSizeMax);
+            fileUpload.setMaxFileSize(fileSizeMax);
         }
         if (sizeMax > 0) {
-            fileUpload.setSizeMax(sizeMax);
+            fileUpload.setMaxSize(sizeMax);
         }
 
-        ServletRequestContext requestContext = new ServletRequestContext(request);
-
-        return fileUpload.parseRequest(requestContext);
+        return (List<FileItem>) (List<?>) fileUpload.parseRequest(request);
     }
 
     /**
@@ -209,8 +206,8 @@ public class CommonsFileUploadService implements FileUploadService {
      * @param request the servlet request
      * @return a new Commons FileUpload FileItemFactory instance
      */
-    public FileItemFactory createFileItemFactory(HttpServletRequest request) {
-        return new DiskFileItemFactory();
+    public FileItemFactory<?> createFileItemFactory(HttpServletRequest request) {
+        return DiskFileItemFactory.builder().get();
     }
 
 }

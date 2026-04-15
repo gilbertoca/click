@@ -39,7 +39,7 @@ import org.apache.click.control.HiddenField;
 import org.apache.click.control.TextField;
 import org.apache.click.fileupload.MockFileItem;
 import org.apache.click.servlet.MockRequest;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * Tests for ClickUtils.

@@ -18,82 +18,115 @@
  */
 package org.apache.click.fileupload;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemHeaders;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileItemHeaders;
 
 /**
- * Mock implementation of <code>org.apache.commons.fileupload.FileItem</code>.
+ * Mock implementation of org.apache.commons.fileupload2.core.FileItem.
  */
-public class MockFileItem implements FileItem {
+public class MockFileItem implements FileItem<MockFileItem> {
 
     private static final long serialVersionUID = 1L;
 
-    public void delete() {
+    @Override
+    public MockFileItem delete() throws IOException {
+        return this;
     }
 
+    @Override
     public byte[] get() {
         return null;
     }
 
+    @Override
     public String getContentType() {
         return null;
     }
 
+    @Override
     public String getFieldName() {
         return null;
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
         return null;
     }
 
+    @Override
     public String getName() {
         return null;
     }
 
+    @Override
     public OutputStream getOutputStream() throws IOException {
         return null;
     }
 
+    @Override
     public long getSize() {
         return 0;
     }
 
+    @Override
     public String getString() {
         return null;
     }
 
-    public String getString(String arg0) throws UnsupportedEncodingException {
+    @Override
+    public String getString(Charset charset) throws IOException {
         return null;
     }
 
+    @Override
     public boolean isFormField() {
         return false;
     }
 
+    @Override
     public boolean isInMemory() {
         return false;
     }
 
-    public void setFieldName(String arg0) {
+    @Override
+    public MockFileItem setFieldName(String arg0) {
+        return this;
     }
 
-    public void setFormField(boolean arg0) {
+    @Override
+    public MockFileItem setFormField(boolean arg0) {
+        return this;
     }
 
-    public void write(File arg0) throws Exception {
+    @Override
+    public MockFileItem write(Path path) throws IOException {
+        return this;
     }
 
+    @Override
     public FileItemHeaders getHeaders() {
         return null;
     }
 
-    public void setHeaders(FileItemHeaders fileItemHeaders) {
+    @Override
+    public MockFileItem setHeaders(FileItemHeaders fileItemHeaders) {
+        return this;
+    }
+
+    // --- New methods in 2.x to satisfy the interface ---
+
+    public Charset getCharset() {
+        return null;
+    }
+
+    public MockFileItem setCharset(Charset charset) {
+        return this;
     }
 }
+

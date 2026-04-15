@@ -25,12 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
 
 import java.util.Map;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemHeaders;
-import org.apache.commons.fileupload.FileItemHeadersSupport;
-import org.apache.commons.fileupload.ParameterParser;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileItemHeaders;
+import org.apache.commons.fileupload2.core.ParameterParser;
 
 /**
  * Provides an In-Memory FileItem implementation which represents a file or
@@ -44,7 +45,7 @@ import org.apache.commons.fileupload.ParameterParser;
  * <a class="external" target="_blank" href="http://commons.apache.org/fileupload/">Commons FileUpload</a>
  * project.
  */
-public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
+public class MemoryFileItem implements FileItem<MemoryFileItem> {
     private static final long serialVersionUID = 1L;
 
     // -------------------------------------------------------------- Constants
@@ -115,7 +116,10 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
     /**
      * This method does nothing since the file is stored in memory only.
      */
-    public void delete() {
+    @Override
+    public MemoryFileItem delete() {
+        //do nothing
+        return this;
     }
 
     /**
@@ -123,6 +127,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the contents of the file item as an array of bytes
      */
+    @Override
     public byte[] get() {
         return content.toByteArray();
     }
@@ -132,6 +137,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the content type passed by the browser or null if not defined
      */
+    @Override
     public String getContentType() {
         return contentType;
     }
@@ -142,6 +148,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the name of the form field
      */
+    @Override
     public String getFieldName() {
         return fieldName;
     }
@@ -151,8 +158,10 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @param fieldName the name of the form field
      */
-    public void setFieldName(String fieldName) {
+    @Override
+    public MemoryFileItem setFieldName(String fieldName) {
         this.fieldName = fieldName;
+        return this;
     }
 
     /**
@@ -162,6 +171,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      * @return true if the instance represents a simple form field; false if it
      * represents an uploaded file
      */
+    @Override
     public boolean isFormField() {
         return isFormField;
     }
@@ -173,8 +183,10 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      * @param isFormField true if the instance represents a simple form field;
      * false if it represents an uploaded file
      */
-    public void setFormField(boolean isFormField) {
+    @Override
+    public MemoryFileItem setFormField(boolean isFormField) {
         this.isFormField = isFormField;
+        return this;
     }
 
     /**
@@ -185,6 +197,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      * retrieve the contents of the file
      * @throws IOException if an error occurs
      */
+    @Override
     public InputStream getInputStream() throws IOException {
         return new ByteArrayInputStream(get());
     }
@@ -205,6 +218,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the original filename in the client's filesystem.
      */
+    @Override
     public String getName() {
         return fileName;
     }
@@ -217,6 +231,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      * for storing the contents of the file
      * @throws IOException if an error occurs
      */
+    @Override
     public OutputStream getOutputStream() throws IOException {
         return content;
     }
@@ -226,6 +241,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the size of the file item, in bytes
      */
+    @Override
     public long getSize() {
         return content.size();
     }
@@ -237,6 +253,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the contents of the file, as a string.
      */
+    @Override
     public String getString() {
         byte[] rawdata = get();
         String charset = getCharSet();
@@ -265,12 +282,19 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
         return new String(get(), charset);
     }
 
+    @Override
+    public String getString(Charset chrst) throws IOException {
+        return new String(get(), chrst);        
+    }
+
+    
     /**
      * Provides a hint as to whether or not the file contents will be read
      * from memory. This method always returns true.
      *
      * @return true to indicate that the file contents will be read from memory
      */
+    @Override
     public boolean isInMemory() {
         return true;
     }
@@ -279,9 +303,18 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      * This method does nothing since the file is stored in memory only.
      *
      * @param file the File into which the uploaded item should be stored
+     * @return 
      * @throws Exception if an error occurs
      */
-    public void write(File file) throws Exception {
+    public MemoryFileItem write(File file) throws Exception {
+        //do nothing
+        return this;
+    }
+    
+    @Override
+    public MemoryFileItem write(Path path) throws IOException {
+        //do nothing
+        return this;
     }
 
     /**
@@ -289,6 +322,7 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @return the file items headers
      */
+    @Override
     public FileItemHeaders getHeaders() {
         return headers;
     }
@@ -298,8 +332,10 @@ public class MemoryFileItem implements FileItem, FileItemHeadersSupport {
      *
      * @param headers the file items headers
      */
-    public void setHeaders(FileItemHeaders headers) {
+    @Override
+    public MemoryFileItem setHeaders(FileItemHeaders headers) {
         this.headers = headers;
+        return this;
     }
 
     /**
