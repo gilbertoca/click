@@ -164,17 +164,41 @@ public class OGNLPropertyService implements PropertyService {
      */
     protected MemberAccess getMemberAccess() {
         if (memberAccess == null) {
-            // Replace DefaultMemberAccess with a custom implementation
             memberAccess = new AbstractMemberAccess() {
                 @Override
                 public boolean isAccessible(OgnlContext oc, Object o, Member member, String string) {
                     int modifiers = member.getModifiers();
-                    return Modifier.isPublic(modifiers);
+                    // Allow public, protected, and private to match @Bindable's intent
+                    return Modifier.isPublic(modifiers) || 
+                           Modifier.isProtected(modifiers) || 
+                           Modifier.isPrivate(modifiers);
+                }
+
+                @Override
+                public Object setup(OgnlContext context, Object target, Member member, String propertyName) {
+                    Object result = null;
+                    if (member instanceof java.lang.reflect.AccessibleObject) {
+                        java.lang.reflect.AccessibleObject ao = (java.lang.reflect.AccessibleObject) member;
+                        // JDK 17: canAccess() is preferred over isAccessible()
+                        if (!ao.canAccess(target)) {
+                            result = Boolean.FALSE;
+                            ao.setAccessible(true); // This requires --add-opens
+                        }
+                    }
+                    return result;
+                }
+
+                @Override
+                public void restore(OgnlContext context, Object target, Member member, String propertyName, Object state) {
+                    if (state != null && member instanceof java.lang.reflect.AccessibleObject) {
+                        ((java.lang.reflect.AccessibleObject) member).setAccessible((Boolean) state);
+                    }
                 }
             };
         }
         return memberAccess;
     }
+
 
     /**
      * Return the OGNL data marshalling TypeConverter instance.

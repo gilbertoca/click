@@ -666,7 +666,7 @@ public class Context {
      * @return map of <code>FileItem arrays</code> keyed on request parameter name
      * for "multipart" POST requests
      */
-    public Map<String, FileItem[]> getFileItemMap() {
+    public Map<String, FileItem<?>[]> getFileItemMap() {
         return findClickRequestWrapper(request).getFileItemMap();
     }
 
@@ -683,17 +683,17 @@ public class Context {
      *
      * @return the fileItem for the specified name
      */
-    public FileItem getFileItem(String name) {
+    public FileItem<?> getFileItem(String name) {
         Object value = findClickRequestWrapper(request).getFileItemMap().get(name);
 
         if (value != null) {
-            if (value instanceof FileItem[]) {
-                FileItem[] array = (FileItem[]) value;
+            if (value instanceof FileItem<?>[]) {
+                FileItem<?>[] array = (FileItem<?>[]) value;
                 if (array.length >= 1) {
                     return array[0];
                 }
-            } else if (value instanceof FileItem) {
-                return (FileItem) value;
+            } else if (value instanceof FileItem<?>) {
+                return (FileItem<?>) value;
             }
         }
         return null;

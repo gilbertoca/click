@@ -23,31 +23,30 @@ import org.apache.commons.fileupload2.core.FileItemFactory;
 /**
  * Provides a FileItemFactory implementation that creates {@link MemoryFileItem}
  * instances which always keep their content in memory.
+ * Used for Google App Engine (GAE) where disk access is restricted.
  */
 public class MemoryFileItemFactory implements FileItemFactory<MemoryFileItem> {
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <B extends AbstractFileItemBuilder<MemoryFileItem, B>> B fileItemBuilder() {
-
-        return (B) new MemoryFileItemBuilder();
+    public MemoryFileItemBuilder fileItemBuilder() {
+        return new MemoryFileItemBuilder();
     }
 
     /**
-     * Custom builder for MemoryFileItem.
+     * Builder for MemoryFileItem. Extends AbstractFileItemBuilder which
+     * already holds all the necessary fields (fieldName, contentType,
+     * isFormField, fileName, fileItemHeaders, etc.).
      */
-    public static class MemoryFileItemBuilder  extends AbstractFileItemBuilder<MemoryFileItem, MemoryFileItemBuilder> {
+    public static class MemoryFileItemBuilder
+            extends FileItemFactory.AbstractFileItemBuilder<MemoryFileItem, MemoryFileItemBuilder> {
 
         @Override
         public MemoryFileItem get() {
-
-            // The AbstractFileItemBuilder provides access to:
-            // getFieldName(), getHeaders(), isFormField(), etc.
             return new MemoryFileItem(
-                    getFieldName(),
-                    getHeaders() != null ? getHeaders().getHeader("Content-Type") : null,
-                    isFormField(),
-                    getFileName()
+                getFieldName(),
+                getContentType(),   // já disponível diretamente no builder
+                isFormField(),
+                getFileName()
             );
         }
     }

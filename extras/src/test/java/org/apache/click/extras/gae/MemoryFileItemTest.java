@@ -19,6 +19,7 @@
 package org.apache.click.extras.gae;
 
 import java.io.File;
+import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.click.MockContainer;
 import org.apache.click.control.FileField;
@@ -34,7 +35,7 @@ public class MemoryFileItemTest extends TestCase {
     /**
      * Test Google App Engine (GAE) MemoryFileItem support.
      */
-    public void testMemoryFileItem() {
+    public void testMemoryFileItem() throws IOException {
         MockContainer container = new MockContainer("web");
         container.start();
 
@@ -60,7 +61,7 @@ public class MemoryFileItemTest extends TestCase {
         // Set FORM_NAME parameter to ensure Form is submitted
         request.setParameter(Form.FORM_NAME, "form");
 
-        MemoryFileItemUploadPage page = (MemoryFileItemUploadPage) container.testPage(MemoryFileItemUploadPage.class);
+        MemoryFileItemUploadPage page = container.testPage(MemoryFileItemUploadPage.class);
 
         // Check that field parameters were processed
         assertEquals(firstname, page.getForm().getFieldValue("firstname"));

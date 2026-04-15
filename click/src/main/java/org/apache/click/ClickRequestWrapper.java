@@ -46,7 +46,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
     /**
      * The <code>FileItem</code> objects for <code>"multipart"</code> POST requests.
      */
-    private final Map<String, FileItem[]> fileItemMap;
+    private final Map<String, FileItem<?>[]> fileItemMap;
 
     /** The request is a multi-part file upload POST request. */
     private final boolean isMultipartRequest;
@@ -72,10 +72,10 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
         if (isMultipartRequest) {
 
             Map<String, String[]> requestParams = new HashMap<String, String[]>();
-            Map<String, FileItem[]> fileItems = new HashMap<String, FileItem[]>();
+            Map<String, FileItem<?>[]> fileItems = new HashMap<String, FileItem<?>[]>();
 
             try {
-                List<FileItem> itemsList = new ArrayList<FileItem>();
+                List<FileItem<?>> itemsList = new ArrayList<FileItem<?>>();
 
                 try {
 
@@ -85,7 +85,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
                     request.setAttribute(FileUploadService.UPLOAD_EXCEPTION, fue);
                 }
 
-                for (FileItem fileItem : itemsList) {
+                for (FileItem<?> fileItem : itemsList) {
                     String name = fileItem.getFieldName();
                     String value = null;
 
@@ -144,7 +144,7 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @return map of <code>FileItem arrays</code> keyed on request parameter name
      * for "multipart" POST requests
      */
-    public Map<String, FileItem[]> getFileItemMap() {
+    public Map<String, FileItem<?>[]> getFileItemMap() {
         return fileItemMap;
     }
 
@@ -254,13 +254,13 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
      * @param name the name of the map key
      * @param value the value to add to the FileItem array
      */
-    private void addToMapAsFileItem(Map<String, FileItem[]> map, String name, FileItem value) {
-        FileItem[] oldValues = map.get(name);
-        FileItem[] newValues = null;
+    private void addToMapAsFileItem(Map<String, FileItem<?>[]> map, String name, FileItem<?> value) {
+        FileItem<?>[] oldValues = map.get(name);
+        FileItem<?>[] newValues = null;
         if (oldValues == null) {
-            newValues = new FileItem[] {value};
+            newValues = new FileItem<?>[] {value};
         } else {
-            newValues = new FileItem[oldValues.length + 1];
+            newValues = new FileItem<?>[oldValues.length + 1];
             System.arraycopy(oldValues, 0, newValues, 0, oldValues.length);
             newValues[oldValues.length] = value;
         }

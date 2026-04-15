@@ -59,6 +59,6 @@ public interface FileUploadService {
      * @return the list of FileItem instances parsed from the request
      * @throws FileUploadException if request cannot be parsed
      */
-     public List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException;
+     public List<FileItem<?>> parseRequest(HttpServletRequest request) throws FileUploadException;
 
 }

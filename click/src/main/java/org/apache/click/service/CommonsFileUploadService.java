@@ -144,26 +144,22 @@ public class CommonsFileUploadService implements FileUploadService {
      * @throws FileUploadException if request cannot be parsed
      */
     @SuppressWarnings("unchecked")
-    public List<FileItem> parseRequest(HttpServletRequest request)
+    @Override
+    public List<FileItem<?>> parseRequest(HttpServletRequest request)
             throws FileUploadException {
 
         Validate.notNull(request, "Null request parameter");
 
-        FileItemFactory<DiskFileItem> fileItemFactory = (FileItemFactory<DiskFileItem>) createFileItemFactory(request);
+        FileItemFactory<?> fileItemFactory = createFileItemFactory(request);
 
-        JavaxServletFileUpload<DiskFileItem, FileItemFactory<DiskFileItem>> fileUpload = new JavaxServletFileUpload<>(fileItemFactory);
-        fileUpload.setFileItemFactory(fileItemFactory);
+        JavaxServletFileUpload<?, ?> fileUpload =
+                new JavaxServletFileUpload<>(fileItemFactory);
 
-        if (fileSizeMax > 0) {
-            fileUpload.setMaxFileSize(fileSizeMax);
-        }
-        if (sizeMax > 0) {
-            fileUpload.setMaxSize(sizeMax);
-        }
+        if (fileSizeMax > 0) { fileUpload.setMaxFileSize(fileSizeMax); }
+        if (sizeMax > 0)     { fileUpload.setMaxSize(sizeMax); }
 
-        return (List<FileItem>) (List<?>) fileUpload.parseRequest(request);
+        return (List<FileItem<?>>) (List<?>) fileUpload.parseRequest(request);
     }
-
     /**
      * Return maximum individual size in bytes. By default there is no limit.
      *
