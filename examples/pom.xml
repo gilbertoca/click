@@ -170,11 +170,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>${project.basedir}/src/main/webapp/javadoc</outputDirectory>
-                    <reportOutputDirectory>${project.basedir}/src/main/webapp/javadoc</reportOutputDirectory>
-                    <destDir>.</destDir> <!-- This keeps files directly in /javadoc/ instead of /javadoc/apidocs/ -->
-                </configuration>            
+                <executions>
+                    <execution>
+                        <id>generate-webapp-javadoc</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>javadoc</goal> <!-- Note: use 'javadoc' goal for HTML, not 'jar' -->
+                        </goals>
+                        <configuration>
+                            <reportOutputDirectory>${project.basedir}/src/main/webapp</reportOutputDirectory>
+                            <destDir>javadoc</destDir>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>

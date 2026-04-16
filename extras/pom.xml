@@ -54,11 +54,11 @@
                 <artifactId>cayenne-server</artifactId>
                 <version>${cayenne.version}</version>
             </dependency>
-        <dependency>
-            <groupId>org.apache.cayenne</groupId>
-            <artifactId>cayenne-web</artifactId>
-            <version>${cayenne.version}</version>
-        </dependency>        
+            <dependency>
+                <groupId>org.apache.cayenne</groupId>
+                <artifactId>cayenne-web</artifactId>
+                <version>${cayenne.version}</version>
+            </dependency>        
             
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -175,6 +175,10 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>            
         </plugins>
     </build>
 </project>

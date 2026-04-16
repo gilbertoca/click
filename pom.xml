@@ -227,25 +227,25 @@
     <build>
         <resources>
             <resource>
-                <filtering>false</filtering>
                 <directory>${basedir}/src/main/java</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
-                    <exclude>**/package.html</exclude>
+                    <exclude>**/package*.html</exclude>
                 </excludes>
             </resource>
             <resource>
-                <filtering>false</filtering>
                 <directory>${basedir}/src/main/resources</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
-                    <exclude>**/package.html</exclude>
+                    <exclude>**/package*.html</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -258,35 +258,44 @@
                 </includes>
             </resource>
             <resource>
-                <filtering>false</filtering>
                 <directory>${project.build.directory}/generated-res</directory>
+                <filtering>false</filtering>
                 <excludes>
                     <exclude>**/*min.min.js</exclude>
                     <exclude>**/*min.min.css</exclude>
                 </excludes>
             </resource>
+            <resource>
+                <directory>${basedir}/..</directory>
+                <targetPath>META-INF/click</targetPath>
+                <filtering>false</filtering>
+                <includes>
+                    <include>LICENSE.txt</include>
+                    <include>NOTICE.txt</include>
+                </includes>
+            </resource>            
         </resources>
         <testResources>
             <testResource>
-                <filtering>false</filtering>
                 <directory>${basedir}/src/test/java</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
-                    <exclude>**/package.html</exclude>
+                    <exclude>**/package*.html</exclude>
                 </excludes>
             </testResource>
             <testResource>
-                <filtering>false</filtering>
                 <directory>${basedir}/src/test/resources</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.java</exclude>
-                    <exclude>**/package.html</exclude>
+                    <exclude>**/package*.html</exclude>
                 </excludes>
             </testResource>
         </testResources>
