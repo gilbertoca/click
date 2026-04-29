@@ -202,8 +202,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     /** The application TemplateService. */
     private MessagesMapService messagesMapService;
 
-    /** Flag indicating whether Click is running on Google App Engine. */
-    private boolean onGoogleAppEngine = false;
+    /** Flag indicating whether Click is running on Restricted Environment. */
+    private boolean restrictedEnvironment = false;
 
     // --------------------------------------------------------- Public Methods
 
@@ -219,8 +219,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         this.servletContext = servletContext;
 
-        onGoogleAppEngine = servletContext.getServerInfo().startsWith(GOOGLE_APP_ENGINE);
-
+        restrictedEnvironment = !ClickUtils.isResourcesDeployable(servletContext);
+        
         // Set default logService early to log errors when services fail.
         logService = new ConsoleLogService();
         messagesMapService = new DefaultMessagesMapService();
@@ -246,8 +246,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 getLogService().info(msg);
             }
 
-            // Deploy click resources
-            deployFiles(rootElm);
+            // Deploy click resources or load the Resource service
+            loadResourceService(rootElm);
 
             // Load the format class
             loadFormatClass(rootElm);
@@ -275,9 +275,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             // Load the Templating service
             loadTemplateService(rootElm);
-
-            // Load the Resource service
-            loadResourceService(rootElm);
 
             // Load the Messages Map service
             loadMessagesMapService(rootElm);
@@ -956,30 +953,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         return pageClass;
     }
 
-    /**
-     * Returns true if Click resources (JavaScript, CSS, images etc) packaged
-     * in jars can be deployed to the root directory of the webapp, false
-     * otherwise.
-     * <p>
-     * By default this method will return false in restricted environments where
-     * write access to the underlying file system is disallowed. Example
-     * environments where write access is not allowed include the WebLogic JEE
-     * server and Google App Engine. (Note: WebLogic provides the property
-     * <code>"Archived Real Path Enabled"</code> that controls whether web
-     * applications can access the file system or not. See the Click user manual
-     * for details).
-     *
-     * @return true if resources can be deployed, false otherwise
-     */
-    protected boolean isResourcesDeployable() {
-        // Only deploy if writes are allowed
-        if (onGoogleAppEngine) {
-            // Google doesn't allow writes
-            return false;
-        }
-        return ClickUtils.isResourcesDeployable(servletContext);
-    }
-
     // ------------------------------------------------ Package Private Methods
 
     /**
@@ -1244,194 +1217,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     // -------------------------------------------------------- Private Methods
 
-    private Element getResourceRootElement(String path) throws IOException {
-        Document document = null;
-        InputStream inputStream = null;
-        try {
-            inputStream = ClickUtils.getResourceAsStream(path, getClass());
-
-            if (inputStream != null) {
-                document = ClickUtils.buildDocument(inputStream, this);
-            }
-
-        } finally {
-            ClickUtils.close(inputStream);
-        }
-
-        if (document != null) {
-            return document.getDocumentElement();
-
-        } else {
-            return null;
-        }
-    }
-
-    private void deployControls(Element rootElm) throws Exception {
-
-        if (rootElm == null) {
-            return;
-        }
-
-        Element controlsElm = ClickUtils.getChild(rootElm, "controls");
-
-        if (controlsElm == null) {
-            return;
-        }
-
-        for (Element deployableElm : ClickUtils.getChildren(controlsElm, "control")) {
-
-            String classname = deployableElm.getAttribute("classname");
-            if (StringUtils.isBlank(classname)) {
-                String msg =
-                    "'control' element missing 'classname' attribute.";
-                throw new RuntimeException(msg);
-            }
-
-            Class deployClass = ClickUtils.classForName(classname);
-            Control control = (Control) deployClass.getDeclaredConstructor().newInstance();
-
-            control.onDeploy(servletContext);
-        }
-    }
-
-    private void deployControlSets(Element rootElm) throws Exception {
-        if (rootElm == null) {
-            return;
-        }
-
-        Element controlsElm = ClickUtils.getChild(rootElm, "controls");
-
-        if (controlsElm == null) {
-            return;
-        }
-
-        for (Element controlSet : ClickUtils.getChildren(controlsElm, "control-set")) {
-
-            String name = controlSet.getAttribute("name");
-            if (StringUtils.isBlank(name)) {
-                String msg =
-                        "'control-set' element missing 'name' attribute.";
-                throw new RuntimeException(msg);
-            }
-            deployControls(getResourceRootElement("/" + name));
-        }
-    }
-
-    /**
-     * Deploy files from jars and Controls.
-     *
-     * @param rootElm the click.xml configuration DOM element
-     * @throws java.lang.Exception if files cannot be deployed
-     */
-    private void deployFiles(Element rootElm) throws Exception {
-
-        boolean isResourcesDeployable = isResourcesDeployable();
-
-        if (isResourcesDeployable) {
-            if (getLogService().isTraceEnabled()) {
-                String deployTarget = servletContext.getRealPath("/");
-                getLogService().trace("resource deploy folder: "
-                    + deployTarget);
-            }
-
-            deployControls(getResourceRootElement("/click-controls.xml"));
-            deployControls(getResourceRootElement("/extras-controls.xml"));
-            deployControls(rootElm);
-            deployControlSets(rootElm);
-            deployResourcesOnClasspath();
-        }
-
-        if (!isResourcesDeployable) {
-
-            HtmlStringBuffer buffer = new HtmlStringBuffer();
-            if (onGoogleAppEngine) {
-                buffer.append("Google App Engine does not support deploying");
-                buffer.append(" resources to the 'click' web folder.\n");
-
-            } else {
-                buffer.append("could not deploy Click resources to the 'click'");
-                buffer.append(" web folder.\nThis can occur if the call to");
-                buffer.append(" ServletContext.getRealPath(\"/\") returns null, which means");
-                buffer.append(" the web application cannot determine the file system path");
-                buffer.append(" to deploy files to. This issue also occurs if the web");
-                buffer.append(" application is not allowed to write to the file");
-                buffer.append(" system.\n");
-            }
-
-            buffer.append("To resolve this issue please see the Click user-guide:");
-            buffer.append(" http://click.apache.org/docs/user-guide/html/ch05s03.html#deploying-restricted-env");
-            buffer.append(" \nIgnore this warning once you have settled on a");
-            buffer.append(" deployment strategy");
-            getLogService().warn(buffer.toString());
-        }
-    }
-
-    /**
-     * Deploy from the classpath all resources found under the directory
-     * 'META-INF/resources/'. For backwards compatibility resources under the
-     * directory 'META-INF/web/' are also deployed.
-     * <p>
-     * Only jars and folders available on the classpath are scanned.
-     *
-     * @throws IOException if the resources cannot be deployed
-     */
-    private void deployResourcesOnClasspath() throws IOException {
-        long startTime = System.currentTimeMillis();
-
-        // Find all jars and directories on the classpath that contains the
-        // directory "META-INF/resources/", and deploy those resources
-        String resourceDirectory = "META-INF/resources";
-
-        List<String> resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
-        for (String resource : resources) {
-            deployFile(resource, resourceDirectory);
-        }
-
-        // For backward compatibility, find all jars and directories on the
-        // classpath that contains the directory "META-INF/web/", and deploy those
-        // resources
-        resourceDirectory = "META-INF/web";
-        resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
-        for (String resource : resources) {
-            deployFile(resource, resourceDirectory);
-        }
-
-        logService.trace("deployed files from jars and folders - "
-            + (System.currentTimeMillis() - startTime) + " ms");
-    }
-
-    /**
-     * Deploy the specified file.
-     *
-     * @param file the file to deploy
-     * @param prefix the file prefix that must be removed when the file is
-     * deployed
-     */
-    private void deployFile(String file, String prefix) {
-        // Only deploy resources containing the prefix
-        int pathIndex = file.indexOf(prefix);
-        if (pathIndex == 0) {
-            pathIndex += prefix.length();
-
-            // By default deploy to the web root dir
-            String targetDir = "";
-
-            // resourceName example -> click/table.css
-            String resourceName = file.substring(pathIndex);
-            int index = resourceName.lastIndexOf('/');
-
-            if (index != -1) {
-                // targetDir example -> click
-                targetDir = resourceName.substring(0, index);
-            }
-
-            // Copy resources to web folder
-            ClickUtils.deployFile(servletContext,
-                                  file,
-                                  targetDir);
-        }
-    }
-
     private void loadMode(Element rootElm) {
         Element modeElm = ClickUtils.getChild(rootElm, "mode");
 
@@ -1668,6 +1453,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             resourceService = (ResourceService) resourceServiceClass.getDeclaredConstructor().newInstance();
 
+            if (resourceService instanceof ClickResourceService) {
+                ((ClickResourceService) resourceService).setConfigElement(rootElm);
+            }            
+            
             Map<String, String> propertyMap = loadPropertyMap(resourceServiceElm);
 
             for (String name : propertyMap.keySet()) {
@@ -1677,12 +1466,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             }
 
         } else {
+            // Se o usuário não definiu nada, usamos a padrão
             resourceService = new ClickResourceService();
+            // Precisamos injetar o rootElm aqui também para o deploy automático funcionar no padrão
+            ((ClickResourceService) resourceService).setConfigElement(rootElm);
         }
 
         if (getLogService().isDebugEnabled()) {
-            String msg = "initializing ResourceService: "
-                + resourceService.getClass().getName();
+            String msg = "initializing ResourceService: " + resourceService.getClass().getName();
             getLogService().debug(msg);
         }
 
@@ -1795,7 +1586,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         List fileList = new ArrayList();
 
         Set resources = servletContext.getResourcePaths("/");
-        if (onGoogleAppEngine) {
+        if (restrictedEnvironment) {
             // resources could be immutable so create copy
             Set tempResources = new HashSet();
 

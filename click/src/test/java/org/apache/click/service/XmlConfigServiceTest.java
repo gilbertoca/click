@@ -30,7 +30,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.servlet.UnavailableException;
 
 import junit.framework.TestCase;
 import org.apache.click.Context;
@@ -83,7 +82,7 @@ public class XmlConfigServiceTest extends TestCase {
 
         deleteDir(tmpdir);
     }
-
+   
     public void testLocale() throws Exception {
         File tmpdir = makeTmpDir();
 
@@ -533,6 +532,33 @@ public class XmlConfigServiceTest extends TestCase {
         deleteDir(tmpdir);
     }
 
+    public void testBasicResourceService() throws Exception {
+        File tmpdir = makeTmpDir();
+
+        PrintStream pstr = makeXmlStream(tmpdir, "WEB-INF/click.xml");
+        pstr.println("<click-app>");
+        pstr.println(" <pages/>");
+        // Aqui testamos se o Click aceita a sua nova classe "limpa"
+        pstr.println(" <resource-service classname='org.apache.click.service.BasicResourceService'/>");
+        pstr.println("</click-app>");
+        pstr.close();
+
+        MockContainer container = new MockContainer(tmpdir.getAbsolutePath());
+        container.start();
+
+        ConfigService config = ClickUtils.getConfigService(container.getServletContext());
+
+        // 1. Valida se a instância é da sua nova classe
+        assertTrue(config.getResourceService() instanceof BasicResourceService);
+
+        // 2. Valida se o deploy físico foi de fato evitado (o objetivo da sua tarefa)
+        File deployedFile = new File(tmpdir, "click/control.css");
+        assertFalse("BasicResourceService should not deploy files to disk", deployedFile.exists());
+
+        container.stop();
+        deleteDir(tmpdir);
+    }
+    
     public void testTemplateService() throws Exception {
         File tmpdir = makeTmpDir();
 

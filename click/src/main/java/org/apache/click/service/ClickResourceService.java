@@ -20,298 +20,266 @@ package org.apache.click.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.click.Control;
 
 import org.apache.click.util.ClickUtils;
 import org.apache.click.util.HtmlStringBuffer;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
- * Provides a default Click static resource service class. This class will
- * serve static resources contained in the web applications JARs, under the
- * resource path META-INF/resources and which are contained under the WAR file
- * web root.
- * <p>
- * This service is useful for application servers which do not allow Click to
- * automatically deploy resources to the web root directory.
+ * Extends {@link BasicResourceService} to provide backward compatibility by
+ * automatically deploying static resources to the physical "/click" directory.
+ * <p/>
+ * This service is the default implementation and is suitable for environments
+ * where developers wish to override or customize Click's internal resources
+ * directly on the file system.
+ *
+ * @since 2.5.0
  */
-public class ClickResourceService implements ResourceService {
+public class ClickResourceService extends BasicResourceService {
 
-    /** The click resources cache. */
-    protected Map<String, byte[]> resourceCache = new ConcurrentHashMap<String, byte[]>();
-
-    /** The application log service. */
-    protected LogService logService;
-
-    /** The application configuration service. */
-    protected ConfigService configService;
-
+    
+    /** The ResourceService root element. */
+    protected Element configElement;        
+    
     /**
      * @see ResourceService#onInit(ServletContext)
      *
      * @param servletContext the application servlet context
      * @throws IOException if an IO error occurs initializing the service
      */
+    @Override
     public void onInit(ServletContext servletContext) throws IOException {
 
-        configService = ClickUtils.getConfigService(servletContext);
-        logService = configService.getLogService();
-    }
-
-    /**
-     * @see ResourceService#onDestroy()
-     */
-    public void onDestroy() {
-        resourceCache.clear();
-    }
-
-    /**
-     * @see ResourceService#isResourceRequest(HttpServletRequest)
-     *
-     * @param request the servlet request
-     * @return true if the request is for a static click resource
-     */
-    public boolean isResourceRequest(HttpServletRequest request) {
-        String resourcePath = ClickUtils.getResourcePath(request);
-
-        // If not a click page and not JSP and not a directory
-        return !configService.isTemplate(resourcePath)
-            && !resourcePath.endsWith("/");
-    }
-
-    /**
-     * @see ResourceService#renderResource(HttpServletRequest, HttpServletResponse)
-     *
-     * @param request the servlet resource request
-     * @param response the servlet response
-     * @throws IOException if an IO error occurs rendering the resource
-     */
-    public void renderResource(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
-
-        String resourcePath = ClickUtils.getResourcePath(request);
-
-        byte[] resourceData = resourceCache.get(resourcePath);
-
-        if (resourceData == null) {
-            // Lazily load resource
-            resourceData = loadResourceData(resourcePath);
-
-            if (resourceData == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
+        super.onInit(servletContext);
+        
+        try {
+              deployFiles(configElement);
+        } catch (Exception e) {
+              // Encapsula qualquer erro de Reflection ou XML em IOException
+              if (e instanceof IOException) throw (IOException) e;
+              throw new IOException("Error deploying resources", e);
         }
 
-        String mimeType = ClickUtils.getMimeType(resourcePath);
-        if (mimeType != null) {
-            response.setContentType(mimeType);
-        }
-
-        if (logService.isDebugEnabled()) {
-            HtmlStringBuffer buffer = new HtmlStringBuffer(200);
-            buffer.append("handleRequest: ");
-            buffer.append(request.getMethod());
-            buffer.append(" ");
-            buffer.append(request.getRequestURL());
-            logService.debug(buffer);
-        }
-        renderResource(response, resourceData);
     }
 
-    // ------------------------------------------------------ Protected Methods
+    public Element getConfigElement() {
+        return configElement;
+    }
 
+    public void setConfigElement(Element configElement) {
+        this.configElement = configElement;
+    }
+
+    
+    // ------------------------------------------------ Package Private Methods
+    
     /**
-     * Return the list of directories that contains cacheable resources.
+     * Returns true if Click resources (JavaScript, CSS, images etc) packaged
+     * in jars can be deployed to the root directory of the webapp, false
+     * otherwise.
      * <p>
-     * By default only resource packaged under the "<code>/click</code>" directory
-     * will be processed. To serve resources from other directories you need to
-     * override this method and return a list of directories to process.
-     * <p>
-     * For example:
+     * By default this method will return false in restricted environments where
+     * write access to the underlying file system is disallowed. Example
+     * environments where write access is not allowed include the WebLogic JEE
+     * server and Google App Engine. (Note: WebLogic provides the property
+     * <code>"Archived Real Path Enabled"</code> that controls whether web
+     * applications can access the file system or not. See the Click user manual
+     * for details).
      *
-     * <pre class="prettyprint">
-     * public class MyResourceService extends ClickResourceService {
-     *
-     *     protected List<String> getCacheableDirs() {
-     *         // Get default dirs which includes /click
-     *         List list = super.getCacheableDirs();
-     *
-     *         // Add resources packaged under the folder /clickclick
-     *         list.add("/clickclick");
-     *         // Add resources packaged under the folder /mycorp
-     *         list.add("/mycorp");
-     *     }
-     * } </pre>
-     *
-     * You also need to add a mapping in your <code>web.xml</code> to forward
-     * requests for these resources on to Click:
-     *
-     * <pre class="prettyprint">
-     * &lt;-- The default Click *.htm mapping --&gt;
-     * &lt;servlet-mapping&gt;
-     *   &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *   &lt;url-pattern&gt;*.htm&lt;/url-pattern&gt;
-     * &lt;/servlet-mapping&gt;
-     *
-     * &lt;-- Add a mapping to serve all resources under /click directly from
-     * the JARs. --&gt;
-     * &lt;servlet-mapping&gt;
-     *   &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *   &lt;url-pattern&gt;/click/*&lt;/url-pattern&gt;
-     * &lt;/servlet-mapping&gt;
-     *
-     * &lt;-- Add another mapping to serve all resources under /clickclick
-     * from the JARs. --&gt;
-     * &lt;servlet-mapping&gt;
-     *   &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *   &lt;url-pattern&gt;/clickclick/*&lt;/url-pattern&gt;
-     * &lt;/servlet-mapping&gt;
-     *
-     * &lt;-- Add a mapping to serve all resources under /mycorp
-     * from the JARs. --&gt;
-     * &lt;servlet-mapping&gt;
-     *   &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *   &lt;url-pattern&gt;/mycorp/*&lt;/url-pattern&gt;
-     * &lt;/servlet-mapping&gt;
-     * </pre>
-     *
-     * @return list of directories that should be cached
+     * @return true if resources can be deployed, false otherwise
      */
-    protected List<String> getCacheableDirs() {
-       List<String> list = new ArrayList<String>();
-       list.add("/click");
-       return list;
+    private boolean isResourcesDeployable() {
+        // Only deploy if writes are allowed
+        return ClickUtils.isResourcesDeployable(configService.getServletContext());
     }
-
-    // Private Methods --------------------------------------------------------
-
-    /**
-     * Store the resource under the given resource path.
-     *
-     * @param resourcePath the path to store the resource under
-     * @param data the resource byte array
-     */
-    private void storeResourceData(String resourcePath, byte[] data) {
-        // Only cache in production modes
-        if (configService.isProductionMode() || configService.isProfileMode()) {
-            resourceCache.put(resourcePath, data);
-        }
-    }
-
-    /**
-     * Load the resource for the given resourcePath. This method will load the
-     * resource from the servlet context, and if not found, load it from the
-     * classpath under the folder 'META-INF/resources'.
-     *
-     * @param resourcePath the path to the resource to load
-     * @return the resource as a byte array
-     * @throws IOException if the resources cannot be loaded
-     */
-    private byte[] loadResourceData(String resourcePath) throws IOException {
-
-        byte[] resourceData = null;
-
-        ServletContext servletContext = configService.getServletContext();
-
-        resourceData = getServletResourceData(servletContext, resourcePath);
-        if (resourceData != null) {
-            storeResourceData(resourcePath, resourceData);
-        } else {
-            resourceData = getClasspathResourceData("META-INF/resources"
-                + resourcePath);
-
-            if (resourceData != null) {
-                storeResourceData(resourcePath, resourceData);
-            }
-        }
-
-        return resourceData;
-    }
-
-    /**
-     * Load the resource for the given resourcePath from the servlet context.
-     *
-     * @param servletContext the application servlet context
-     * @param resourcePath the path of the resource to load
-     * @return the byte array for the given resource path
-     * @throws IOException if the resource could not be loaded
-     */
-    private byte[] getServletResourceData(ServletContext servletContext,
-        String resourcePath) throws IOException {
-
+    
+    private Element getResourceRootElement(String path) throws IOException {
+        Document document = null;
         InputStream inputStream = null;
         try {
-            inputStream = servletContext.getResourceAsStream(resourcePath);
+            inputStream = ClickUtils.getResourceAsStream(path, getClass());
 
             if (inputStream != null) {
-                return IOUtils.toByteArray(inputStream);
-            } else {
-                return null;
+                document = ClickUtils.buildDocument(inputStream, 
+                        (configService instanceof org.xml.sax.EntityResolver) ? (org.xml.sax.EntityResolver) configService : null);
             }
 
         } finally {
             ClickUtils.close(inputStream);
         }
+
+        if (document != null) {
+            return document.getDocumentElement();
+
+        } else {
+            return null;
+        }
     }
 
-    /**
-     * Load the resource for the given resourcePath from the classpath.
-     *
-     * @param resourcePath the path of the resource to load
-     * @return the byte array for the given resource path
-     * @throws IOException if the resource could not be loaded
-     */
-    private byte[] getClasspathResourceData(String resourcePath) throws IOException {
+    private void deployControls(Element rootElm) throws Exception {
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        InputStream inputStream = classLoader.getResourceAsStream(resourcePath);
-        if (inputStream == null) {
-            inputStream = getClass().getResourceAsStream(resourcePath);
+        if (rootElm == null) {
+            return;
         }
 
-        try {
+        Element controlsElm = ClickUtils.getChild(rootElm, "controls");
 
-            if (inputStream != null) {
-                return IOUtils.toByteArray(inputStream);
-            } else {
-                return null;
+        if (controlsElm == null) {
+            return;
+        }
+
+        for (Element deployableElm : ClickUtils.getChildren(controlsElm, "control")) {
+
+            String classname = deployableElm.getAttribute("classname");
+            if (StringUtils.isBlank(classname)) {
+                String msg =
+                    "'control' element missing 'classname' attribute.";
+                throw new RuntimeException(msg);
             }
 
-        } finally {
-            ClickUtils.close(inputStream);
+            Class deployClass = ClickUtils.classForName(classname);
+            Control control = (Control) deployClass.getDeclaredConstructor().newInstance();
+
+            control.onDeploy(configService.getServletContext());
+        }
+    }
+
+    private void deployControlSets(Element rootElm) throws Exception {
+        if (rootElm == null) {
+            return;
+        }
+
+        Element controlsElm = ClickUtils.getChild(rootElm, "controls");
+
+        if (controlsElm == null) {
+            return;
+        }
+
+        for (Element controlSet : ClickUtils.getChildren(controlsElm, "control-set")) {
+
+            String name = controlSet.getAttribute("name");
+            if (StringUtils.isBlank(name)) {
+                String msg =
+                        "'control-set' element missing 'name' attribute.";
+                throw new RuntimeException(msg);
+            }
+            deployControls(getResourceRootElement("/" + name));
         }
     }
 
     /**
-     * Render the given resourceData byte array to the response.
+     * Deploy from the classpath all resources found under the directory
+     * 'META-INF/resources/'. For backwards compatibility resources under the
+     * directory 'META-INF/web/' are also deployed.
+     * <p>
+     * Only jars and folders available on the classpath are scanned.
      *
-     * @param response the response object
-     * @param resourceData the resource byte array
-     * @throws IOException if the resource data could not be rendered
+     * @throws IOException if the resources cannot be deployed
      */
-    private void renderResource(HttpServletResponse response,
-        byte[] resourceData) throws IOException {
+    private void deployResourcesOnClasspath() throws IOException {
+        long startTime = System.currentTimeMillis();
 
-        OutputStream outputStream = null;
-        try {
-            response.setContentLength(resourceData.length);
+        // Find all jars and directories on the classpath that contains the
+        // directory "META-INF/resources/", and deploy those resources
+        String resourceDirectory = "META-INF/resources";
 
-            outputStream = response.getOutputStream();
-            outputStream.write(resourceData);
-            outputStream.flush();
+        List<String> resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
+        for (String resource : resources) {
+            deployFile(resource, resourceDirectory);
+        }
 
-        } finally {
-            ClickUtils.close(outputStream);
+        // For backward compatibility, find all jars and directories on the
+        // classpath that contains the directory "META-INF/web/", and deploy those
+        // resources
+        resourceDirectory = "META-INF/web";
+        resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
+        for (String resource : resources) {
+            deployFile(resource, resourceDirectory);
+        }
+
+        logService.trace("deployed files from jars and folders - "
+            + (System.currentTimeMillis() - startTime) + " ms");
+    }
+    
+    /**
+     * Deploy the specified file.
+     *
+     * @param file the file to deploy
+     * @param prefix the file prefix that must be removed when the file is
+     * deployed
+     */
+    private void deployFile(String file, String prefix) {
+        // Only deploy resources containing the prefix
+        int pathIndex = file.indexOf(prefix);
+        if (pathIndex == 0) {
+            pathIndex += prefix.length();
+
+            // By default deploy to the web root dir
+            String targetDir = "";
+
+            // resourceName example -> click/table.css
+            String resourceName = file.substring(pathIndex);
+            int index = resourceName.lastIndexOf('/');
+
+            if (index != -1) {
+                // targetDir example -> click
+                targetDir = resourceName.substring(0, index);
+            }
+
+            // Copy resources to web folder
+            ClickUtils.deployFile(configService.getServletContext(),
+                                  file,
+                                  targetDir);
         }
     }
+    
+    /**
+     * Deploy files from jars and Controls.
+     *
+     * @param rootElm the click.xml configuration DOM element
+     * @throws java.lang.Exception if files cannot be deployed
+     */
+    private void deployFiles(Element rootElm) throws Exception {
+
+        boolean isResourcesDeployable = isResourcesDeployable();
+
+        if (isResourcesDeployable) {
+            if (logService.isTraceEnabled()) {
+                String deployTarget = configService.getServletContext().getRealPath("/");
+                logService.trace("resource deploy folder: "
+                        + deployTarget);
+            }
+
+            deployControls(getResourceRootElement("/click-controls.xml"));
+            deployControls(getResourceRootElement("/extras-controls.xml"));
+            deployControls(rootElm);
+            deployControlSets(rootElm);
+            deployResourcesOnClasspath();
+        }
+
+        if (!isResourcesDeployable) {
+
+            HtmlStringBuffer buffer = new HtmlStringBuffer();
+            buffer.append("could not deploy Click resources to the 'click'");
+            buffer.append(" web folder.\nThis can occur if the call to");
+            buffer.append(" ServletContext.getRealPath(\"/\") returns null, which means");
+            buffer.append(" the web application cannot determine the file system path");
+            buffer.append(" to deploy files to. This issue also occurs if the web");
+            buffer.append(" application is not allowed to write to the file");
+            buffer.append(" system.\n");
+
+            buffer.append("To resolve this issue please see the Click user-guide:");
+            buffer.append(" http://click.apache.org/docs/user-guide/html/ch05s03.html#deploying-restricted-env");
+            buffer.append(" \nIgnore this warning once you have settled on a");
+            buffer.append(" deployment strategy");
+            logService.warn(buffer.toString());
+        }
+    }
+
 }

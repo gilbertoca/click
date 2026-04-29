@@ -25,7 +25,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.click.util.ClickUtils;
-import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileItemFactory;
 import org.apache.commons.fileupload2.core.FileUploadException;
