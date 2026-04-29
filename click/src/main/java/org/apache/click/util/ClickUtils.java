@@ -31,6 +31,9 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2908,18 +2911,24 @@ public class ClickUtils {
      */
     public static boolean isResourcesDeployable(ServletContext servletContext) {
         try {
-            boolean canWrite = (servletContext.getRealPath("/") != null);
-            if (!canWrite) {
+            String realPath = servletContext.getRealPath("/");
+            if (realPath == null) {
                 return false;
             }
 
-            // Since Google App Engine returns a value for getRealPath, check
-            // SecurityManager if writes are allowed
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkWrite("/click");
+            // Attempt to create a temporary file in the root directory
+            Path rootPath = Paths.get(realPath);
+            Path testFile = rootPath.resolve(".click-write-test-" + System.nanoTime());
+
+            try {
+                Files.createFile(testFile);
+
+                Files.delete(testFile);
+                return true;
+            } catch (IOException e) {
+                // If it fails here, we are in a restricted environment
+                return false;
             }
-            return true;
         } catch (Throwable e) {
             return false;
         }
