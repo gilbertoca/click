@@ -1,0 +1,1018 @@
+[[chapter-configuration]]
+== Configuration
+
+This section discusses how to setup and configure an Apache Click web
+application.
+
+The Click configuration files include:
+
+[width="100%",cols="30%,70%",]
+|===
+|image:configuration/config-files.png[images/configuration/config-files]
+a|
+* WEB-INF/ link:#application-configuration[click.xml]   -   Application
+Configuration ( *required*)
+* WEB-INF/ link:#servlet-configuration[web.xml]   -   Servlet
+Configuration ( *required*)
+
+|===
+
+=== Servlet Configuration
+
+For a Click web application to function the
+link:../../click-api/org/apache/click/ClickServlet.html[ClickServlet]
+must be configured in the web application's `+/WEB-INF/web.xml+` file. A
+basic web application which maps all `+*.htm+` requests to a
+ClickServlet is provided below.
+
+[source,xml]
+----
+<web-app>
+
+  <servlet>
+    <servlet-name>ClickServlet</servlet-name>
+    <servlet-class>org.apache.click.ClickServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>ClickServlet</servlet-name>
+    <url-pattern>*.htm</url-pattern>
+  </servlet-mapping>
+
+</web-app>
+----
+
+==== Servlet Mapping
+
+By convention all Click page templates should have an .htm extension,
+and the ClickServlet should be mapped to process all *.htm URL requests.
+With this convention you have all the static HTML pages use an .html
+extension and they will not be processed as Click pages.
+
+==== Load On Startup
+
+Note you should always set `+load-on-startup+` element to be 0 so the
+servlet is initialized when the server is started. This will prevent any
+delay for the first client which uses the application.
+
+The `+ClickServlet+` performs as much work as possible at startup to
+improve performance later on. The Click start up and caching strategy is
+configured with the Click application mode element in the
+"`+click.xml+`" config file, covered next.
+
+==== Type Converter Class
+
+The ClickServlet uses the MVEL library for type coercion when binding
+request parameters to bindable variables. The default type converter
+class used is
+link:click-api/org/apache/click/util/RequestTypeConverter.html[RequestTypeConverter].
+To specify your own type converter configure a `+type-converter-class+`
+init parameter with the ClickServlet. For example:
+
+[source,xml]
+----
+  <servlet>
+    <servlet-name>ClickServlet</servlet-name>
+    <servlet-class>org.apache.click.ClickServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+    <init-param>
+        <param-name>type-converter-class</param-name>
+        <param-value>com.mycorp.util.CustomTypeConverter</param-value>
+    </init-param>
+  </servlet>
+----
+
+==== Config Service Class
+
+Click uses a single application configuration service which is
+instantiated by the ClickServlet at startup. This service defines the
+application configuration and is used by the ClickServlet to map
+requests to pages amongst other things.
+
+Once the ConfigService has been initialized it is stored in the
+ServletContext using the key
+link:click-api/org/apache/click/service/ConfigService.html[ConfigService]
+The default ConfigService is
+link:click-api/org/apache/click/service/XmlConfigService.html[XmlConfigService],
+which configuration is discussed in detail in the next section.
+
+To use an alternative configuration service specify a
+`+config-service-class+` context parameter. For example:
+
+[source,xml]
+----
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
+
+ ...
+
+     <context-param>
+         <param-name>config-service-class</param-name>
+          <param-value>com.mycorp.service.CustomConfigSerivce</param-value>
+      </context-param>
+
+  ...
+
+ </web-app>
+----
+
+=== Application Configuration
+
+The heart of a Click application is the `+click.xml+` configuration
+file. This file specifies the application pages, headers, the format
+object and the applications mode.
+
+By default the ClickServlet will attempt to load the application
+configuration file using the path:   `+/WEB-INF/click.xml+`
+
+If this file is not found under the `+WEB-INF+` directory, then
+ClickServlet will attempt to load it from the classpath as
+`+/click.xml+`.
+
+See link:../../click-dtd.html[Click DTD] for the click-app XML
+definition.
+
+A complete Click configuration example is available
+link:../../click-dtd-example.html[here] which can be used as a quick
+reference when configuring Click.
+
+A basic Click app config file is provided below:
+
+[source,xml]
+----
+<click-app>
+
+  <!-- Specify the Java package where Page classes can be found -->
+  <pages package="com.mycorp.page"/>
+
+  <mode value="profile"/>
+
+</click-app>
+----
+
+An advanced config file would look like this:
+
+[source,xml]
+----
+<click-app charset="UTF-8" locale="de">
+
+  <!-- To aid Click's automapping, specify the Java package where Page classes can be found -->
+  <pages package="com.mycorp.banking.page">
+  <!-- We have to manually define the mapping between the Home page class and index.htm template
+  because this page doesn't follow the automatic mapping convention of naming the page class and
+  template the same-->
+    <page path="index.htm" classname="com.mycorp.banking.page.Home"/>
+  </pages>
+
+  <!-- Specify a second Java package where Page classes can be found -->
+  <pages package="com.mycorp.common.page"/>
+
+  <format classname="com.mycorp.util.Format"/>
+
+  <mode value="profile"/>
+
+  <log-service classname="org.apache.click.extras.service.Log4JLogService"/>
+
+</click-app>
+----
+
+The take away point is that there is not much to configure, even for
+advanced uses.
+
+==== Click App
+
+The root `+click-app+` element defines two application localization
+attributes `+charset+` and `+locale+`.
+
+....
+<!ELEMENT click-app (pages*, headers?, format?, mode?, controls?,
+                         file-upload-service?, log-service?, messages-map-service?, resource-service?, template-service?, page-interceptor*)>
+  <!ATTLIST click-app charset CDATA #IMPLIED>
+  <!ATTLIST click-app locale CDATA #IMPLIED>
+....
+
+The `+charset+` attribute defines the character encoding set for:
+
+* Velocity templates
+* HttpServletRequest character encoding
+* Page Content-Type charset, see Page
+link:../../click-api/org/apache/click/Page.html#getContentType()[getContentType()]
+
+The `+locale+` attribute defines the default application Locale. If this
+value is defined it will override Locale returned by the request. Please
+see the Context
+link:../../click-api/org/apache/click/Context.html#getLocale()[getLocale()]
+for details. For example the following configuration sets the
+application character set to UTF-8 and the default Locale as German
+(de):
+
+[source,xml]
+----
+<click-app charset="UTF-8" locale="de">
+  ..
+</click-app>
+----
+
+[[application-pages]]
+==== Pages
+
+The first child element of the click-app is the mandatory `+pages+`
+element which defines the list of Click pages.
+
+....
+<!ELEMENT pages (page*)>
+   <!ATTLIST pages package CDATA #IMPLIED>
+   <!ATTLIST pages automapping (true|false) "true">
+   <!ATTLIST pages autobinding (default|annotation|none) "default">
+....
+
+The pages element can specify a base `+package+` that Click should use
+for mapping page templates to page classes.
+
+The pages element also defines the `+automapping+` and `+autobinding+`
+attributes which is discussed in the link:#application-automapping[Page
+Automapping] and link:#application-autobinding[Page Autobinding]
+sections respectively.
+
+[[application-multiple-packages]]
+===== Multiple Pages Packages
+
+Click can support multiple pages elements to enable the automapping of
+multiple packages.
+
+[source,xml]
+----
+<click-app>
+
+  <pages package="com.mycorp.banking.page"/>
+
+  <pages package="com.mycorp.common.page"/>
+
+</click-app>
+----
+
+With multiple pages elements, pages are loaded in the order of the page
+elements, with manual page elements being loaded before automapped
+pages. Once a page template has been mapped to a Page class it will not
+be replaced by a subsequent potential match. So pages elements at the
+top take priority over lower pages elements.
+
+[[application-page]]
+==== Page
+
+The page element defines the Click application pages.
+
+....
+<!ELEMENT page(header*)>
+   <!ATTLIST page path CDATA #REQUIRED>
+   <!ATTLIST page classname CDATA #REQUIRED>
+....
+
+Each page `+path+` must be unique, as the Click application maps HTTP
+requests to the page paths.
+
+The Click application will create a new Page instance for the given
+request using the configured page `+classname+`. All pages must subclass
+link:../../click-api/org/apache/click/Page.html[Page] and provide a
+public no arguments constructor, so they can be instantiated.
+
+Pages can also define `+header+` values which are discussed in the next
+topic.
+
+When the Click application starts up it will check all the page
+definitions. If there is a critical configuration error the ClickServlet
+will log an `+ERROR+` message and throw an
+http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/UnavailableException.html[UnavailableException].
+If this occurs the click application will be permanently unavailable
+until the error is fixed and the web app is restarted.
+
+[[application-automapping]]
+===== Page Automapping
+
+Page automapping will automatically configure application pages using a
+simple set of rules. This enables you to greatly streamline your
+configuration file as you only need to define pages which don't fit the
+automapping rules.
+
+Automapping will attempt to associate each page template (*.htm) and JSP
+file in the web application (excluding those under WEB-INF) to a Page
+class. Automapped pages are loaded after the manually defined pages are
+loaded, and manually defined pages takes preference. When automapping is
+enabled the page mappings will be logged if Click is running in debug or
+trace mode.
+
+For example, given the following page path to class mapping:
+
+....
+index.htm                     => com.mycorp.page.Home
+search.htm                    => com.mycorp.page.Search
+contacts/contacts.htm         => com.mycorp.page.contacts.Contacts
+security/login.htm            => com.mycorp.page.security.Login
+security/logout.htm           => com.mycorp.page.security.Logout
+security/change-password.htm  => com.mycorp.page.security.ChangePassword
+....
+
+The above mapping could be configured manually by setting the
+`+automapping+` attribute to `+false+`, for example:
+
+[source,xml]
+----
+<click-app>
+  <pages automapping="false">
+    <page path="index.htm"                    classname="com.mycorp.page.Home"/>
+    <page path="search.htm"                   classname="com.mycorp.page.Search"/>
+    <page path="contacts/contacts.htm"        classname="com.mycorp.page.contacts.Contacts"/>
+    <page path="security/login.htm"           classname="com.mycorp.page.security.Login"/>
+    <page path="security/logout.htm"          classname="com.mycorp.page.security.Logout"/>
+    <page path="security/change-password.htm" classname="com.mycorp.page.security.ChangePassword"/>
+  </pages>
+</click-app>
+----
+
+For an application with many pages, it is cumbersome to manually map
+each page template to its associated class. This is where
+`+automapping+` comes in.
+
+By setting `+automapping+` to `+true+`, Click will automatically map
+page templates to page classes. To map a template to a page class, Click
+converts the template path to the Page classname. In the example above,
+Click will convert the template search.htm to the class Search by
+capitalizing the template name and removing the `+.htm+` extension. Of
+course this is not enough to map the template to the class. what is
+missing is the class package, com.mycorp.page. To help Click map the
+page, you can set the base `+package+` attribute as shown in the next
+example.
+
+Below is the full configuration to automatically map the templates to
+pages (except for index.htm which doesn't automatically map to Home page
+and has to be mapped manually):
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.page" automapping="true">
+    <page path="index.htm" classname="com.mycorp.page.Home"/>
+  </pages>
+</click-app>
+----
+
+Note: `+automapping+` is `+true+` by default, so it could be omitted.
+
+If a page template is placed in a `+sub folder+` of the root web folder,
+it's associated page class must be placed in an equivalently named
+`+sub package+` of the base package in order for the page to be mapped
+automatically. In the mapping above the page template
+security/change-password.htm is located in the security folder under the
+web root. In order for Click to correctly map the page template to it's
+class, the class must be located in the security package of the base
+package com.mycorp.page. The absolute page classname is thus:
+com.mycorp.page.security.ChangePassword.
+
+The page template name to classname convention is:
+
+....
+change-password.htm  =>  ChangePassword
+change_password.htm  =>  ChangePassword
+changePassword.htm   =>  ChangePassword
+ChangePassword.htm   =>  ChangePassword
+....
+
+During automapping, if a page class cannot be found, Click will add the
+'Page' suffix to the classname (if not already present) and attempt to
+map the page template to this modified classname. For example:
+
+....
+customer.htm         =>  CustomerPage
+change-password.htm  =>  ChangePasswordPage
+....
+
+[[application-excludes]]
+===== Automapping Excludes
+
+With Page automapping there can be resources where you don't want
+automapping applied. For example when using a JavaScript library with
+lots of `+.htm+` files, you don't want automapping to try and find Page
+class for each of these files. In these situations you can use the pages
+`+excludes+` element.
+
+....
+<!ELEMENT excludes (#PCDATA)>
+   <!ATTLIST excludes pattern CDATA #REQUIRED>
+....
+
+For example if our application uses the TinyMCE JavaScript library we
+could configure our pages automapping to exclude all `+.htm+` files
+under the `+/tiny_mce+` directory.
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.page">
+    <excludes pattern="/tiny_mce/*"/>
+  </pages>
+</click-app>
+----
+
+The excludes pattern can specify multiple directories or files using a
+comma separated notation. For example:
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.page">
+    <excludes pattern="/dhtml/*, /tiny_mce/*, banner.htm, about.htm"/>
+  </pages>
+</click-app>
+----
+
+HTM files excluded from Page automapping are handled by an internal Page
+class with caching headers enabled.
+
+[[application-autobinding]]
+===== Page Autobinding
+
+Autobinding is a feature that allows certain page variables to be
+handled in a special way by the ClickServlet. The autobinding attribute
+can be configured with one of the following values:
+
+* `+default+`: `+bindable+` variables include both `+public+` page
+variables and variables annotated with the
+link:../../click-api/org/apache/click/util/Bindable.html[@Bindable]
+annotation
+* `+annotation+`: `+bindable+` variables are variables annotated with
+the link:../../click-api/org/apache/click/util/Bindable.html[@Bindable]
+annotation
+* `+none+`: disables the autobinding feature
+
+By default all pages have autobinding enabled in `+default+` mode.
+
+*Please note:* we recommend using autobinding only for binding request
+parameters, not for Controls. It generally leads to code that is
+difficult to maintain. In a future release we will replace autobinding
+with a simpler implementation.
+
+With autobinding the ClickServlet will automatically:
+
+* add all `+bindable+` controls to the page, after the page constructor
+has been invoked
+* if a `+bindable+` control name is not defined, the control name will
+be set to the value of its variable name (note, if the control name is
+already defined its name will not be changed)
+* bind all request parameters to `+bindable+` page variables, after the
+page constructor has been invoked. See
+link:../../click-api/org/apache/click/ClickServlet.html#processPageRequestParams(org.apache.click.Page)[ClickServlet.processPageRequestParams(Page)]
+for more details
+* add all `+bindable+` page variables to the page model (this step
+occurs just before the page is rendered)
+
+For example:
+
+[source,java]
+----
+public class EmployeePage extends Page {
+
+    public String employeeDescription;
+
+    // Form does not have a name defined
+    public Form employeeForm = new Form();
+
+    // Table defines its own name
+    public Table employeeTable = new Table("table");
+
+}
+----
+
+Note in the example above that the `+employeeDescription+` variable and
+the `+employeeForm+` and `+employeeTable+` controls are not added to the
+page. Also note that Form name is not defined.
+
+When autobinding is enabled, ClickServlet will create a new Page and add
+the bindable variables and controls to the page. Following the example
+above the `+employeeDescription+`, `+employeeForm+` and
+`+employeeTable+` will be added to the page, which is equivalent to the
+following statements: addModel("employeeDescription",
+employeeDescription), addControl(employeeForm) and
+addControl(employeeTable).
+
+Furthermore, controls that do not have a name defined will have their
+name set to their instance variable name. In this case the Form name
+will be set to `+employeeForm+` while the Table name won't be altered
+since it already has a name defined.
+
+The above example is a shorthand way of writing the following:
+
+[source,java]
+----
+public class EmployeePage extends Page {
+
+    private String employeeDescription;
+
+    private Form employeeForm = new Form();
+
+    private Table employeeTable = new Table("table");
+
+    public void onInit() {
+        employeeForm.setName("employeeForm");
+        addControl(employeeForm);
+
+        addControl(myTable);
+    }
+}
+----
+
+Note that we did not show where employeeDescription is added to the page
+model. The reason for that is because autobinding handles non controls
+slightly differently. Non control variables are added to the model just
+before the page response is written. This allows the value of the
+variable to be set anywhere in the page. For example:
+
+[source,java]
+----
+public class EmployeePage extends Page {
+
+    private String employeeDescription;
+
+    private Form employeeForm = new Form();
+
+    private Table employeeTable = new Table("table");
+
+    ...
+
+    public boolean onSaveClick {
+        if (employeeForm.isValid()) {
+            // employeeDescription is added to the page model just before the
+            // response is written
+            employeeDescription = employee.getDescription();
+        }
+    }
+} 
+----
+
+`+employeeDescription+` will be added to the page model and can be
+referenced in the page template as `+$employeeDescription+`.
+
+Autobinding can be turned off by setting the `+autobinding+` attribute
+to `+none+` as shown below:
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.page" autobinding="none"/>
+</click-app>
+----
+
+[[application-autobinding-annotation]]
+===== Page Autobinding - Using Annotations
+
+Click provides the
+link:../../click-api/org/apache/click/util/Bindable.html[Bindable]
+annotation which enables autobinding of Page variables The Bindable
+annotation can bind `+private+`, `+protected+` and `+public+` Page
+variables.
+
+By default, Click's autobinding feature operates on both `+public+` and
+`+@Bindable+` variables. To instruct Click to operate only on
+`+@Bindable+` annotated variables, you can set the `+autobinding+`
+attribute to `+annotation+`, for example:
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.page" autobinding="annotation"/>
+</click-app>
+----
+
+Click won't autobind `+public+` variables anymore.
+
+Below is an example using the `+@Bindable+` annotation:
+
+[source,java]
+----
+public class EmployeePage extends Page {
+
+    @Bindable protected Form employeeForm = new Form();
+
+    @Bindable protected Table myTable = new Table();
+
+}
+----
+
+[[application-headers]]
+==== Headers
+
+The optional `+headers+` element defines a list of `+header+` elements
+which are applied to all pages.
+
+....
+<!ELEMENT headers (header*)>
+....
+
+The `+header+` element defines header name and value pairs which are
+applied to the
+http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html[HttpServletResponse].
+
+....
+<!ELEMENT header (#PCDATA)>
+   <!ATTLIST header name CDATA #REQUIRED>
+   <!ATTLIST header value CDATA #REQUIRED>
+   <!ATTLIST header type (String|Integer|Date) "String">
+....
+
+Page headers are set after the Page has been constructed and before
+onInit() is called. Pages can then modify their
+link:../../click-api/org/apache/click/Page.html#headers[headers]
+property using the
+link:../../click-api/org/apache/click/Page.html#setHeader(java.lang.String,%20java.lang.Object)[setHeader()]
+method.
+
+===== Browser Caching
+
+Headers are typically used to switch off browser caching. By default
+Click will use the following no caching header values if you don't
+define a `+headers+` element in your application:
+
+[source,xml]
+----
+<click-app>
+  <pages>
+     ..
+  </pages>
+  <headers>
+    <header name="Pragma" value="no-cache"/>
+    <header name="Cache-Control"
+            value="no-store, no-cache, must-revalidate, post-check=0, pre-check=0"/>
+    <header name="Expires" value="1" type="Date"/>
+  </headers>
+</click-app>
+----
+
+Alternatively you can define your headers individually in pages or for
+all application pages by setting header values. For example, to switch
+off caching in the `+Login+` page, set the following page cache control
+headers:
+
+[source,xml]
+----
+<pages package="com.mycorp.page">
+  <page path="login.htm" classname="com.mycorp.page.Login">
+    <header name="Pragma" value="no-cache"/>
+    <header name="Expires" value="1" type="Date"/>
+  </page>
+</pages>
+----
+
+Note: the value for a Date type should be a long number value.
+
+If you wanted to enable caching for a particular page you could set the
+following page cache control header. This will mark the page as cachable
+for a period of 1 hour after which it should be reloaded.
+
+[source,xml]
+----
+<pages package="com.mycorp.page">
+  <page path="home.htm" classname="com.mycorp.page.Home">
+    <header name="Cache-Control" value="max-age=3600, public, must-revalidate"/>
+  </page>
+</pages>
+----
+
+To apply header values globally define header values in the headers
+element. For example:
+
+[source,xml]
+----
+<click-app>
+  <pages>
+     ..
+  </pages>
+  <headers>
+    <header name="Pragma" value="no-cache"/>
+    <header name="Cache-Control"
+               value="no-store, no-cache, must-revalidate, post-check=0, pre-check=0"/>
+    <header name="Expires" value="1" type="Date"/>
+  </headers>
+</click-app>
+----
+
+[[application-format]]
+==== Format
+
+The optional `+format+` element defines the Format object classname
+which is applied to all pages.
+
+....
+<!ELEMENT format (#PCDATA)>
+    <ATTLIST format classname CDATA "org.apache.click.util.Format">
+....
+
+By default all Click pages are configured with a
+link:../../click-api/org/apache/click/util/Format.html[org.apache.click.util.Format]
+object. The format object is made available in the Velocity page
+templates using the name `+$format+`.
+
+To specify a custom format class configure a `+format+` element in the
+click-app descriptor. For example:
+
+[source,xml]
+----
+<click-app>
+  ..
+  <format classname="com.mycorp.util.CustomFormat"/>
+</click-app>
+----
+
+[[application-mode]]
+==== Mode
+
+The optional `+mode+` element defines the application logging and
+caching mode.
+
+....
+<!ELEMENT mode (#PCDATA)>
+    <ATTLIST mode value (production|profile|development|debug|trace) "development">
+....
+
+By default Click applications run in `+development+` mode, which
+switches off page template caching, and the logging level is set to
+`+INFO+`.
+
+To change the default application mode configure a mode element in the
+click-app descriptor. For example to specify `+production+` mode you
+would add the following mode element:
+
+[source,xml]
+----
+<click-app>
+  ..
+  <mode value="production">
+</click-app>
+----
+
+The application mode configuration can be overridden by setting the
+system property `+"click.mode"+`. This can be use in the scenario of
+debugging a problem on a production system, where you change the mode to
+`+trace+` by setting the following system property and restarting the
+application.
+
+....
+-Dclick.mode=trace
+....
+
+The Click Application modes and their settings for Page auto loading,
+template caching and logging levels are:
+
+[width="100%",cols="20%,20%,20%,20%,20%",options="header",]
+|===
+|Application mode |Page auto loading |Template caching |Click log level
+|Velocity log level
+|*production* |No |Yes |WARN |ERROR
+
+|*profile* |No |Yes |INFO |ERROR
+
+|*development* |Yes |No |INFO |ERROR
+
+|*debug* |Yes |No |DEBUG |ERROR
+
+|*trace* |Yes |No |TRACE |WARN
+|===
+
+===== Page Auto Loading
+
+When Page Auto Loading is enabled any new page templates and classes
+will be automatically loaded at runtime. These pages are loaded using
+the link:#application-automapping[Page Automapping] rules.
+
+Page auto loading is a very handy feature for rapid development as you
+do not have to restart you application server to pick up new pages.
+
+[[click-logging]]
+===== Click and Velocity Logging
+
+The Click and Velocity runtimes use
+link:../../click-api/org/apache/click/service/LogService.html[LogService]
+for logging messages. The default LogService implementation is
+link:../../click-api/org/apache/click/service/ConsoleLogService.html[ConsoleLogService]
+which will send messages to the console [System.out]. For example the
+following logging output is for a HomePage request when the application
+mode is `+trace+`:
+
+....
+[Click] [debug] GET http://localhost:8080/quickstart/home.htm
+[Click] [trace]    invoked: HomePage.<<init>>
+[Click] [trace]    invoked: HomePage.onSecurityCheck() : true
+[Click] [trace]    invoked: HomePage.onInit()
+[Click] [trace]    invoked: HomePage.onGet()
+[Click] [trace]    invoked: HomePage.onRender()
+[Click] [info ]    renderTemplate: /home.htm - 6 ms
+[Click] [trace]    invoked: HomePage.onDestroy()
+[Click] [info ] handleRequest:  /home.htm - 24 ms
+....
+
+Any unhandled `+Throwable+` errors are logged by the ClickServlet.
+
+Note that Click Extras also provide log adaptors for
+link:../../extras-api/org/apache/click/extras/service/Log4JLogService.html[Log4J]
+and the
+link:../../extras-api/org/apache/click/extras/service/JdkLogService.html[JDK
+Logging API].
+
+When an application is not in `+production+` mode the error page
+displays detailed debugging information. When the application mode is
+`+production+` no debug information is displayed to prevent sensitive
+information being revealed. This behaviour can be changed by modifying
+the deployed `+click/error.htm+` page template.
+
+[[application-controls]]
+==== Controls
+
+The optional `+controls+` element defines a list of `+control+` elements
+which will be deployed on application startup.
+
+....
+<!ELEMENT controls (control*)>
+....
+
+The `+control+` registers
+link:../../click-api/org/apache/click/Control.html[Control] classes
+which will have their
+link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
+method invoked when the click application starts.
+
+....
+<!ELEMENT control (#PCDATA)>
+   <!ATTLIST control classname CDATA #REQUIRED>
+....
+
+For example to have a `+CustomField+` control deploy its resources on
+application startup, you would add the following elements to your
+`+click.xml+` file:
+
+[source,xml]
+----
+<click-app>
+   ..
+
+   <controls>
+     <control classname="com.mycorp.control.CustomField"/>
+   </controls>
+</click-app>
+----
+
+=== Auto Deployed Files
+
+To make pre-configured resources (templates, stylesheets, etc.)
+available to web applications, Click automatically deploys configured
+classpath resources to the `+/click+` directory at startup (if not
+already present).
+
+You can modify these support files and Click will *not* overwrite them.
+These files include:
+
+* click/error.htm   -   the Page link:#page-error-handling[Error
+Handling] template
+* click/control.css   -   the Controls cascading stylesheet
+* click/control.js   -   the Controls JavaScript library
+* click/not-found.htm   -   the link:#page-not-found[Page Not Found]
+template
+
+For example to customize the control styles you can place a customized
+copy (or even a brand new version) of `+control.css+` under the
+`+/click+` folder in your web project:
+
+....
+/webapp/click/control.css
+....
+
+When Click starts up it will *not* override your copy of `+control.css+`
+with its own default version.
+
+Different controls might deploy different stylesheet, javascript or
+image files, however the above principle still applies. By placing a
+customized copy of the stylesheet, javascript or image under the
+`+/click+` folder, you will override the default resource.
+
+Be aware that some of the more complex controls (checklist, colorpicker,
+tree), deploys resources to subfolders under `+/click+`, for example
+`+/click/checklist/*+`.
+
+A control's Javadoc will normally indicate what resources are deployed
+for that control.
+
+[[deploying-restricted-env]]
+==== Deploying resources in a restricted environment
+
+Some environments place restrictions on the file system and Click won't
+be able to deploy its resources. Docker containers with read-only file
+systems, cloud platforms like Google App Engine, or hardened JEE servers
+are examples of such environments.
+
+If Click cannot deploy its resources because of limited file system
+access or permissions, warning messages will be logged.
+
+*Note:* if your application is running on a _Servlet 3.0_ compliant
+server, there is no need to deploy resources. Servlet 3.0 specifies that
+if the server cannot find a resource in the root directory of the
+webapp, it will look for the resource under _'META-INF/resources'_, and
+if found, serve it up. Click is Servlet 3.0 compliant and packages its
+resources under _'META-INF/resources'_.
+
+Click provides a number of options to make resources available in
+restricted environments:
+
+* **Option 1: Use the `BasicResourceService` (Recommended)**
+This is the most efficient way to handle resources in modern cloud
+environments. By using the `BasicResourceService`, Click stops
+attempting to write to the file system and serves resources directly
+from the Classpath.
++
+To enable this, configure your `click.xml`:
++
+[source,xml]
+----
+<click-app>
+  <resource-service 
+    classname="org.apache.click.service.BasicResourceService"/>
+</click-app>
+----
++
+**Benefits:** Zero-footprint (no `/click` folders created), 
+Docker-friendly, and fully leverages Servlet 3.0 performance.
+
+* **Option 2: Add a mapping in _web.xml_**
+This option complements the Resource Service. By adding a mapping for 
+`+/click/*+` in your `web.xml`, you ensure that the `ClickServlet` 
+intercepts requests for static resources. 
++
+If the physical files are not present on disk (either because you are 
+using `BasicResourceService` or because auto-deployment failed), the 
+configured Resource Service will serve the files directly from the 
+JARs.
++
+[source,xml]
+----
+<servlet-mapping>
+  <servlet-name>ClickServlet</servlet-name>
+  <url-pattern>/click/*</url-pattern>
+</servlet-mapping>
+----
+
+* **Option 3: Manual Deployment**
+Click resources are packaged in JARs under _META-INF/resources_. 
+You can manually copy the contents of this folder (e.g. the `/click` 
+directory) to your web application's root folder during your build 
+process. This is useful if you need to customize Click's default CSS 
+or JavaScript but are running in a restricted production environment.
+
+* **Option 4: Development Machine Export**
+You can deploy your application on a development machine without 
+restrictions, and then manually copy the generated `/click` folder 
+to your production source or artifact.
+
+
+==== Deploying Custom Resources
+
+Click supports two ways of deploying pre-configured resources
+(templates, stylesheets, JavaScript etc.) from a Jar to a web
+application. (This assumes that the environment Click is running in
+supports having write access to the file system and that the WAR is
+unpacked.)
+
+[arabic]
+. Through a Control's
+link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
+event handler. See the link:#application-controls[Controls] section
+above.
+. By packaging the resources (stylesheets, JavaScript, Images etc.) into
+a special folder called _'META-INF/resources'_.
+
+As option #1 was already discussed above in section
+link:#application-controls[Controls], lets look at option #2.
+
+When Click starts up, it scans each Jar and folder on the classpath for
+specially marked entries starting with 'META-INF/resources/'. (Please
+note that even though Click will scan the entire classpath it is
+strongly recommended to host your Jar files under your WAR lib folder
+e.g. WEB-INF/lib. Sharing Jars on the classpath can lead to class
+loading issues.)
+
+Click will then copy all files found under 'META-INF/resources/' to the
+root directory of the webapp.
+
+For example, given a Jar file with the following entries:
+
+* META-INF/resources/mycorp/edit_customer.js
+* META-INF/resources/mycorp/edit_customer.css
+* mycorp/pages/EditCustomerPage.class
+
+Click will copy the files _'/mycorp/edit_customer.js'_ and
+_'/mycorp/edit_customer.css'_ to the web application folder.
+
+Thus if the web application is called 'webapp', the files will be
+deployed as _'webapp/mycorp/edit_customer.js'_ and
+_'webapp/mycorp/edit_customer.css'_.
+
+Option #2 is the recommended approach for deploying your own resources
+since it makes the managing and maintenance of resources much easier.

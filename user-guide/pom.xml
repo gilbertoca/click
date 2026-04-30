@@ -23,103 +23,106 @@
         <version>2.5.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+    
     <artifactId>user-guide</artifactId>
     <packaging>pom</packaging>
-    <name>Click user Guide</name>
-   
-    <description>
-        Click is a Java web application framework that takes simplicity, 
-        separation of concerns and ease of development to a whole new level. 
-        Click pages can be mocked up, previewed and later revised using 
-        standard WYSIWYG HTML design tools. Dynamic content processing and 
-        form handling is all handled in Java code using a first-class 
-        component model backed by POJO data beans that can easily be 
-        persisted using your favorite technology. 
-    </description>
-   
+    <name>Click User Guide</name>
+
+    <properties>
+        <!-- Sync these with your click-parent or define here -->
+        <asciidoctorj.maven.plugin.version>3.2.0</asciidoctorj.maven.plugin.version>
+        <asciidoctorj.version>3.0.0</asciidoctorj.version>
+        <asciidoctorj.pdf.version>2.3.20</asciidoctorj.pdf.version>
+        <jruby.version>9.4.12.1</jruby.version>
+        
+        <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
+        <revisiondate>${maven.build.timestamp}</revisiondate>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <build>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/docbkx</directory>
-                <!-- Change this to true to enable variable replacement -->
-                <filtering>true</filtering> 
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctorj.maven.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jruby</groupId>
+                        <artifactId>jruby-complete</artifactId>
+                        <version>${jruby.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj</artifactId>
+                        <version>${asciidoctorj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-pdf</artifactId>
+                        <version>${asciidoctorj.pdf.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <sourceDocumentName>index.adoc</sourceDocumentName>
+                    <sourceDirectory>src/main/asciidoc</sourceDirectory>
+                    <logHandler>
+                        <failIf>
+                            <severity>ERROR</severity>
+                        </failIf>
+                    </logHandler>
+                </configuration>
                 <executions>
+                    <!-- HTML5 Output (Modern replacement for chunked HTML) -->
                     <execution>
-                        <id>filter-docbook</id>
-                        <phase>initialize</phase>
+                        <id>asciidoc-to-html</id>
+                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>process-asciidoc</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/filtered-docs</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/docbkx</directory>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>**/*.xml</include>
-                                    </includes>
-                                </resource>
-                            </resources>
+                            <backend>html5</backend>
+                            <attributes>
+                                <project-version>${project.version}</project-version>
+                                <imagesdir>images</imagesdir>
+                                <revnumber>${project.version}</revnumber>
+                                <revdate>${revisiondate}</revdate>
+                                <doctype>book</doctype>
+                                <icons>font</icons>
+                                <toc>left</toc>
+                                <sectanchors>true</sectanchors>
+                                <idprefix/>
+                                <idseparator>-</idseparator>
+                                <source-highlighter>coderay</source-highlighter>
+                            </attributes>
                         </configuration>
                     </execution>
-                </executions>                
-            </plugin>
-            
-            <plugin>
-                <groupId>com.agilejava.docbkx</groupId>
-                <artifactId>docbkx-maven-plugin</artifactId>
-                <version>2.0.17</version>
-                <executions>
+                    <!-- PDF Output (Replacement for FOP/XSL-FO) -->
                     <execution>
+                        <id>asciidoc-to-pdf</id>
+                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>generate-html</goal>
+                            <goal>process-asciidoc</goal>
                         </goals>
-                        <phase>generate-sources</phase>
+                        <configuration>
+                            <backend>pdf</backend>
+                            <attributes>
+                                <project-version>${project.version}</project-version>
+                                <imagesdir>images</imagesdir>
+                                <revnumber>${project.version}</revnumber>
+                                <revdate>${revisiondate}</revdate>
+                                <doctype>book</doctype>
+                                <icons>font</icons>
+                                <pagenums/>
+                                <toc/>
+                                <idprefix/>
+                                <idseparator>-</idseparator>
+                                <pdf-fontsdir>src/theme/fonts</pdf-fontsdir>
+                            </attributes>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <sourceDirectory>${project.build.directory}/filtered-docs</sourceDirectory>
-                    <includes>click-book.xml</includes>
-                    <imgSrcPath/>
-                    <htmlStylesheet>src/docbkx/css/stylesheet.css</htmlStylesheet>
-                    <htmlCustomization>src/docbkx/xsl/html/custom.xsl</htmlCustomization>
-                    <chunkedOutput>false</chunkedOutput>
-                    <foCustomization>src/docbkx/xsl/pdf/custom.xsl</foCustomization>
-                    <xincludeSupported>true</xincludeSupported>
-                    <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
-                    <!-- use extensions -->
-                    <useExtensions>1</useExtensions>
-                    <highlightSource>1</highlightSource>
-                    <hyphenate>true</hyphenate>
-                    <hyphenateVerbatim>true</hyphenateVerbatim>
-                    <!-- callouts -->
-                    <calloutsExtension>1</calloutsExtension>
-                    <preProcess>
-                        <copy todir="${project.build.directory}/docbkx/generated/images">
-                            <fileset dir="src/docbkx/images"/>
-                        </copy>
-                        <copy todir="${project.build.directory}/docbkx/generated/css">
-                            <fileset dir="src/docbkx/css"/>
-                        </copy>
-                        <copy todir="${project.build.directory}/docbkx/html/images">
-                            <fileset dir="src/docbkx/images"/>
-                        </copy>
-                        <copy todir="${project.build.directory}/docbkx/html/css">
-                            <fileset dir="src/docbkx/css"/>
-                        </copy>
-                    </preProcess>
-                </configuration>
             </plugin>
         </plugins>
     </build>

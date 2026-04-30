@@ -1,0 +1,787 @@
+[[chapter-best-practices]]
+== Best Practices
+
+This chapter discusses Best Practices for designing and building Apache
+Click applications.
+
+=== Security
+
+For application security it is highly recommended that you use the
+declarative JEE Servlet path role based security model. While Click
+pages provide an onSecurityCheck() method for rolling your own
+programmatic security model, the declarative JEE model provides numerous
+advantages.
+
+These advantages include:
+
+* Its an industry standard pattern making development and maintenance
+easier.
+* Application servers generally provide numerous ways of integration
+with an organisations security infrastructure, including LDAP
+directories and relational databases.
+* Servlet security model support users bookmarking pages. When users go
+to access these pages later, the container will automatically
+authenticate them before allowing them to access the resource.
+* Using this security model you can keep your Page code free of security
+concerns. This makes you code more reusable, or at least easier to
+write.
+
+If your application has very fine grained or complex security
+requirements you may need to combine both the JEE declarative security
+model and a programmatic security model to meet your needs. In these
+cases its recommended you use declarative security for course grained
+access and programmatic security for finner grained access control.
+
+==== Declarative Security
+
+The declarative JEE Servlet security model requires users to be
+authenticated and in the right roles before they can access secure
+resources. Relative to many of the JEE specifications the Servlet
+security model is surprisingly simple.
+
+For example to secure admin pages, you add a security constraint in your
+`+web.xml+` file. This requires users to be in the `+admin+` role before
+they can access to any resources under the `+admin+` directory:
+
+[source,xml]
+----
+<security-constraint>
+   <web-resource-collection>
+      <web-resource-name>admin</web-resource-name>
+      <url-pattern>/admin/*</url-pattern>
+   </web-resource-collection>
+   <auth-constraint>
+      <role-name>admin</role-name>
+   </auth-constraint>
+</security-constraint>
+----
+
+The application user roles are defined in the `+web.xml+` file as
+`+security-role+` elements:
+
+[source,xml]
+----
+<security-role>
+   <role-name>admin</role-name>
+</security-role>
+----
+
+The Servlet security model supports three different authentication
+method:
+
+* `+BASIC+` - only recommended for internal applications where security
+is not important. This is the easiest authentication method, which
+simply displays a dialog box to users requiring them to authenticate
+before accessing secure resources. The BASIC method is relatively
+insecure as the username and password are posted to the server as a
+Base64 encoded string.
+* `+DIGEST+` - recommended for internal applications with a moderate
+level of security. As with BASIC authentication, this method simply
+displays a dialog box to users requiring them to authenticate before
+accessing secure resources. Not all application servers support DIGEST
+authentication, with only more recent versions of Apache Tomcat
+supporting this method.
+* `+FORM+` - recommended applications for where you need a customised
+login page. For applications requiring a high level of security it is
+recommended that you use the FORM method over HTTPS.
+
+The authentication method is specified in the <login-method> element.
+For example to use the BASIC authentication method you would specify:
+
+[source,xml]
+----
+<login-config>
+   <auth-method>BASIC</auth-method>
+   <realm-name>Admin Realm</realm-name>
+</login-config>
+----
+
+To use the FORM method you also need to specify the path to the login
+page and the login error page:
+
+[source,xml]
+----
+<login-config>
+   <auth-method>FORM</auth-method>
+   <realm-name>Secure Realm</realm-name>
+   <form-login-config>
+      <form-login-page>/login.htm</form-login-page>
+      <form-error-page>/login.htm?auth-error=true</form-error-page>
+   </form-login-config>
+</login-config>
+----
+
+In your Click `+login.htm+` page you need to include a special
+`+j_security_check+` form which includes the input fields `+j_username+`
+and `+j_password+`. For example:
+
+[source,xml]
+----
+#if ($request.getParameter("auth-error"))
+<div style="margin-bottom:1em;margin-top:1em;color:red;">
+  Invalid User Name or Password, please try again.<br/>
+  Please ensure Caps Lock is off.
+</div>
+#end
+
+<form method="POST" action="j_security_check" name="form">
+<table border="0" style="margin-left:0.25em;">
+ <tr>
+   <td><label>User Name</label><font color="red">*</font></td>
+   <td><input type="text" name="j_username" maxlength="20" style="width:150px;"/></td>
+   <td>&nbsp;</td>
+  </tr>
+  <tr>
+   <td><label>User Password</label><font color="red">*</font></td>
+   <td><input type="password" name="j_password" maxlength="20" style="width:150px;"/></td>
+   <td><input type="image" src="$context/images/login.png" title="Click to Login"/></td>
+  </tr>
+</table>
+</form>
+
+<script type="text/javascript">
+  document.form.j_username.focus();
+</script>
+----
+
+When using FORM based authentication do *NOT* put application logic in a
+Click Login Page class, as the role of this page is to simply render the
+login form. If you attempt to put navigation logic in your Login Page
+class, the JEE Container may simply ignore it or throw errors.
+
+Putting this all together below is a `+web.xml+` snippet which features
+security constraints for pages under the admin path and the user path.
+This configuration uses the FORM method for authentication, and will
+also redirect unauthorized (403) requests to the `+/not-authorized.htm+`
+page.
+
+[source,xml]
+----
+<web-app>
+
+    ..
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/not-authorized.htm</location>
+    </error-page>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>admin</web-resource-name>
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>user</web-resource-name>
+            <url-pattern>/user/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>Secure Zone</realm-name>
+        <form-login-config>
+            <form-login-page>/login.htm</form-login-page>
+            <form-error-page>/login.htm?auth-error=true</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+
+</web-app>
+----
+
+==== Alternative Security solutions
+
+There are also alternative security solutions that provide extra
+features not available in JEE, such as RememberMe functionality, better
+resource mapping and `+Post Logon Page+` support. (`+Post Logon Page+`
+support allows one to specify a default URL where the user will be
+forwarded after successful login. This feature allows one to embed a
+login form in all non-secure pages and after successful authentication
+the user will be forwarded to their home page.)
+
+Below are some of the alternative security solutions available:
+
+* http://static.springframework.org/spring-security/site/index.html[Spring
+Security]
+* http://securityfilter.sourceforge.net/[SecurityFilter]
+* http://incubator.apache.org/shiro/[Apache Shiro]
+
+==== Resources
+
+For more information on using security see the resources below:
+
+* http://www.scribd.com/doc/34531398/Form-Based-Authentication[Form
+Based Authentication] by Louis E. Mauget
+* http://java.sun.com/products/servlet/download.html[Servlet
+Specification] by Sun Microsystems
+* http://en.wikipedia.org/wiki/Basic_authentication_scheme[Basic
+authentication scheme]
+* http://en.wikipedia.org/wiki/Digest_access_authentication[Digest
+authentication scheme]
+* http://en.wikipedia.org/wiki/Https[Https URI scheme]
+
+[[packages-classes]]
+=== Packages and Classes
+
+An excellent way to design your project package structure is to classify
+packages initially by technology. So in a Click application all of our
+pages would be contained under a page package. This also works very well
+with the Page automapping feature.
+
+All the projects domain entity classes would be contained under a entity
+package, and service classes would be contained under a service
+directory. Note alternative names for the entity package include domain
+or model. We also typically have a util package for any stray classes
+which don't quite fit into the other packages.
+
+In Java, package names are singular by convention, so we have a util
+package rather than a utils package.
+
+An example project structure for a MyCorp web application is illustrated
+below:
+
+In this example application we use declarative role and path based
+security. All the pages in the admin package and directory require the
+`+"admin"+` role to be access, while all the pages in the user package
+and directory require the `+"user"+` role to be accessed.
+
+==== Page Classes
+
+A best practice when developing application Page classes is to place
+common methods in a base page class. This is typically used for
+providing access methods to application services and logger objects.
+
+For example the BasePage below provides access to Spring configured
+service objects and a Log4J logger object:
+
+[source,java]
+----
+public class BasePage extends Page implements ApplicationContextAware {
+
+    /** The Spring application context. */
+    protected ApplicationContext applicationContext;
+
+    /** The page Logger instance. */
+    protected Logger logger;
+
+    /**
+     * Return the Spring configured Customer service.
+     *
+     * @return the Spring configured Customer service
+     */
+    public CustomerService getCustomerService() {
+        return (CustomerService) getBean("customerService");
+    }
+
+    /**
+     * Return the Spring configured User service.
+     *
+     * @return the Spring configured User service
+     */
+    public UserService getUserService() {
+        return (UserService) getBean("userService");
+    }
+
+    /**
+     * Return the page Logger instance.
+     *
+     * @return the page Logger instance
+     */
+    public Logger getLogger() {
+        if (logger == null) {
+            logger = Logger.getLogger(getClass());
+        }
+        return logger;
+    }
+
+    /**
+     * @see ApplicationContextAware#setApplicationContext(ApplicationContext)
+     */
+    public void setApplicationContext(ApplicationContext applicationContext)  {
+        this.applicationContext = applicationContext;
+    }
+
+    /**
+     * Return the configured Spring Bean for the given name.
+     *
+     * @param beanName the configured name of the Java Bean
+     * @return the configured Spring Bean for the given name
+     */
+    public Object getBean(String beanName) {
+        return applicationContext.getBean(beanName);
+    }
+
+}
+----
+
+Applications typically use a border template and have a `+BorderPage+`
+which extends `+BasePage+` and defines the template. For example:
+
+[source,java]
+----
+public class BorderPage extends BasePage {
+
+    /** The root Menu item. */
+    public Menu rootMenu = new Menu();
+
+    /**
+     * @see Page#getTemplate()
+     */
+    public String getTemplate() {
+        return "/border-template.htm";
+    }
+}
+----
+
+Most application pages subclass `+BorderPage+`, except AJAX pages which
+have no need for a HTML border template and typically extend
+`+BasePage+`. The `+BorderPage+` class should not include common logic,
+other than that required for rendering the border template. Common page
+logic should be defined in the `+BasePage+` class.
+
+To prevent these base Page classes being auto mapped, and becoming
+directly acessible web pages, ensure that there are no page templates
+which could match their class name. For example the `+BorderPage+` class
+above will not be auto mapped to `+border-template.htm+`.
+
+[[automapping]]
+=== Page Auto Mapping
+
+You should use the Click page automapping configuration feature. See the
+link:#application-automapping[Page Automapping] topic for details.
+
+Automapping will save you from having to manually configure URL path to
+Page class mappings in your `+click.xml+` file. If you follow this
+convention it is very easy to maintain and refactor applications.
+
+You can also quickly determine what the corresponding Page class is for
+a page HTML template and visa versa, and if you use the ClickIDE Eclipse
+plugin you can switch between a page's class and template by pressing
+Ctrl+Alt+S.
+
+An example `+click.xml+` automapping configuration is provided below
+(automapping is enabled by default):
+
+[source,xml]
+----
+<click-app>
+  <pages package="com.mycorp.dashboard.page"/>
+</click-app>
+----
+
+To see how the page templates are mapped to Page classes set the
+application link:#application-mode[mode] to `+debug+` and at startup the
+mappings will be listed out. An example Click startup listing is
+provided below:
+
+....
+[Click] [debug] automapped pages:
+[Click] [debug] /category-tree.htm -> com.mycorp.dashboard.page.CategoryTree
+[Click] [debug] /process-list.htm -> com.mycorp.dashboard.page.ProcessList
+[Click] [debug] /user-list.htm -> com.mycorp.dashboard.page.UserList
+....
+
+=== Navigation
+
+When navigating between Pages using forwards and redirects, you should
+refer to the target page using the Page class rather than using path.
+This provides you compile time checking and will save you from having to
+update path strings in Java code if you move pages about.
+
+To forward to another page using the Page class:
+
+[source,java]
+----
+public class CustomerListPage extends Page {
+
+    public ActionLink customerLink = new ActionLink(this,"onCustomerClick");
+
+    ..
+
+    public boolean onCustomerClick() {
+        Integer id = customerLink.getValueInteger();
+        Customer customer = getCustomerService().getCustomer(id);
+
+        CustomerDetailPage customerDetailPage = (CustomerDetailPage)
+            getContext().createPage(CustomerDetailPage.class);
+
+        customerDetailPage.setCustomer(customer);
+        setForward(customerDetailPage);
+
+        return false;
+    }
+}
+----
+
+To redirect to another page using the Page class you can obtain the
+pages path from the `+Context+`. In the example below we are passing
+through the customer id as a request parameter to the target page.
+
+[source,java]
+----
+public class CustomerListPage extends Page {
+
+    public ActionLink customerLink = new ActionLink(this, "onCustomerClick");
+
+    ..
+
+    public boolean onCustomerClick() {
+        String id = customerLink.getValueInteger();
+
+        String path = getContext().getPagePath(CustomerDetailPage.class);
+        setRedirect(path + "?id=" + id);
+
+        return false;
+    }
+}
+----
+
+A quick way of redirecting to another page is to simply refer to the
+target class. The example below logs a user out, by invalidating their
+session, and then redirects them to the application home page.
+
+[source,java]
+----
+public boolean onLogoutClick() {
+    getContext().getSession().invalidate();
+
+    setRedirect(HomePage.class);
+
+    return false;
+}
+----
+
+=== Templating
+
+Use Page templating it is highly recommended. Page templates provide
+numerous advantages including:
+
+* greatly reduce the amount of HTML you need to maintain
+* ensure you have a common look and feel across your application
+* make global application changes very easy
+
+To see how to use templates see the link:#page-templating[Page
+Templating] topic. Also see the Click link:../../examples.html[Examples]
+use of page templating.
+
+=== Menus
+
+For many applications using the
+link:../../extras-api/org/apache/click/extras/control/Menu.html[Menu]
+control to centralize application navigation is very useful. Menus are
+defined in a `+WEB-INF/menu.xml+` file which is very easy to change.
+
+A menu is typically defined in the a page border template so they are
+available through out the application. The Menu control does not support
+HTML rendering, so you need to define a Velocity macro to
+programmatically render the menu. You would call the macro in your
+border template with code like this:
+
+....
+#writeMenu($rootMenu)
+....
+
+An advantage of using a macro to render your menu is that you can reuse
+the code across different applications, and to modify an applications
+menu you simply need to edit the `+WEB-INF/menu.xml+` file. A good place
+to define your macros is in the webroot `+/macro.vm+` file as it is
+automatically included by Click.
+
+Using macros you can create dynamic menu behaviour such as only
+rendering menu items a user is authorized to access with
+link:../../extras-api/org/apache/click/extras/control/Menu.html#isUserInRoles()[isUserInRoles()].
+
+....
+#if ($menu.isUserInRoles())
+   ..
+#end
+....
+
+You can also use JavaScript to add dynamic behaviour such as drop down
+menus, for example see the Menu page in Click
+link:../../examples.html[Examples].
+
+=== Logging
+
+For application logging you should use one of the well established
+logging libraries such as Java Util Logging (JUL) or Log4J.
+
+The library you use will largely depend upon the application server you
+are targeting. For Apache Tomcat or RedHat JBoss the
+http://logging.apache.org/log4j/[Log4j] library is a good choice. While
+for the IBM WebSphere or Oracle WebLogic application servers Java Util
+Logging is better choice as this library is better supported.
+
+If you have to target multiple application servers you should consider
+using the http://www.slf4j.org/[SLF4J] library which uses compile time
+bindings to an underlying logging implementation.
+
+As a general principle you should probably avoid
+http://jakarta.apache.org/commons/logging/[Commons Logging] because of
+the class loading issues associated with it. If you are using Commons
+Logging please make sure you have the latest version.
+
+It is a best place to define a logger method in a common base page, for
+example:
+
+[source,java]
+----
+public class BasePage extends Page {
+
+    protected Logger logger;
+
+    public Logger getLogger() {
+        if (logger == null) {
+            logger = Logger.getLogger(getClass());
+        }
+        return logger;
+    }
+}
+----
+
+Using this pattern all your application bases should extend `+BasePage+`
+so they can use the getLogger() method.
+
+[source,java]
+----
+public class CustomerListPage extends BasePage {
+
+    public void onGet() {
+        try {
+            ..
+        } catch (Exception e) {
+            getLogger().error(e);
+        }
+    }
+}
+----
+
+If you have some very heavy debug statement you should possibly use an
+isDebugEnabled switch so it is not invoked if debug is not required.
+
+[source,java]
+----
+public class CustomerListPage extends BasePage {
+
+    public void onGet() {
+        if (getLogger().isDebugEnabled()) {
+            String msg = ..
+
+            getLogger().debug(msg);
+        }
+
+        ..
+    }
+}
+----
+
+Please note the Click logging facility is not designed for application
+use, and is for Click internal use only. When Click is running in
+`+production+` mode it will not produce any logging output. By default
+Click logs to the console using
+link:../../click-api/org/apache/click/service/ConsoleLogService.html[ConsoleLogService].
+
+If you need to configure Click to log to an alternative destination
+please configure a LogService such as
+link:../../extras-api/org/apache/click/extras/service/JdkLogService.html[JdkLogService],
+link:../../extras-api/org/apache/click/extras/service/Log4JLogService.html[Log4JLogService]
+or
+link:../../extras-api/org/apache/click/extras/service/Slf4jLogService.html[Slf4jLogService].
+
+=== Error Handling
+
+In Click unhandled errors are directed to the
+link:../../click-api/org/apache/click/util/ErrorPage.html[ErrorPage] for
+display. If applications require additional error handling they can
+create and register a custom error page in `+WEB-INF/click.xml+`. For
+example:
+
+[source,xml]
+----
+<pages package="com.mycorp.page" autobinding="annotation"/>
+  <page path="click/error.htm" classname="com.mycorp.page.ErrorPage"/>
+</pages>
+----
+
+Generally applications handle transactional errors using service layer
+code or via a servlet
+http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/Filter.html[Filter]
+and would not need to include error handling logic in an error page.
+
+Potential uses for a custom error page include custom logging. For
+example if an application requires unhandled errors to be logged to an
+application log (rather than System.out) then a custom
+link:../../click-api/org/apache/click/util/ErrorPage.html[ErrorPage]
+could be configured. An example `+ErrorPage+` error logging page is
+provided below:
+
+[source,java]
+----
+package com.mycorp.page.ErrorPage;
+..
+
+public class ErrorPage extends org.apache.click.util.ErrorPage {
+
+    public void onDestroy() {
+        Logger.getLogger(getClass()).error(getError());
+    }
+}
+----
+
+=== Performance
+
+Yahoo published a list of
+http://developer.yahoo.com/performance/rules.html[best practices] for
+improving web application performance.
+
+Click Framework provides a
+link:../../extras-api/org/apache/click/extras/filter/PerformanceFilter.html[PerformanceFilter]
+which caters for some of these rules. However not all rules can be
+easily automated.
+
+This section outlines how to apply some important rules which are not
+covered by the PerformanceFilter namely,
+http://developer.yahoo.com/performance/rules.html#num_http[Minimize HTTP
+Requests (by combining files)] and
+http://developer.yahoo.com/performance/rules.html#minify[Minify
+JavaScript and CSS].
+
+The Rule,
+http://developer.yahoo.com/performance/rules.html#num_http[Minimize HTTP
+Requests], also mentions http://alistapart.com/articles/sprites[CSS
+Sprites], a method for combining multiple images into a single master
+image. CSS Sprites can boost performance when your application has many
+images, however it is harder to create and maintain. Note that CSS
+Sprites is not covered here.
+
+It is worth pointing out that its not necessary to optimize every page
+in your application. Instead concentrate on popular pages, for example a
+web site's _Home Page_ would be a good candidate.
+
+There are a couple of tools that are useful in applying the rules
+"Minimize HTTP Requests" and "Minify JavaScript and CSS":
+
+* http://developer.yahoo.com/yui/compressor/[YUICompressor] - minifies
+and compresses JavaScript and CSS files so less bytes have to be
+transferred across the wire.
+* http://code.google.com/p/javaflight-code/[Ant Task for YUICompressor]
+- an Ant task that uses YUICompressor to compress JavaScript and CSS
+files.
+* http://www.crockford.com/javascript/jsmin.html[JSMin] - similar to
+YUICompressor but only minifies (remove whitespace and newlines)
+JavaScript files and does no compression at all. An advantage of JSMin
+over YUICompressor is that its faster and can be used at runtime to
+minify JavaScript, while YUICompressor is most often used at build time.
+
+Below are some articles outlining how to use YUICompressor and Ant to
+concatenate and compress JavaScript and CSS files:
+
+* http://www.julienlecomte.net/blog/2007/09/16/[Article] explaining how
+to use Ant and YUICompressor for compression.
+* http://javaflight.blogspot.com/2008/01/introducing-yui-compressor-ant-task.html[Article]
+outlining how to use a special YUICompressor Ant Task for compression.
+
+Using one of the approaches above you can concatenate and compress all
+JavaScript and CSS for your Pages into two separate files, for example
+`+home-page.css+` and `+home-page.js+`. Note that the two files must
+include all the JavaScript and CSS that is generated by the Page and its
+Controls. Then you can instruct Click to _only_ include the two
+compressed files, home-page.css and home-page.js.
+
+The Click Page class exposes the property
+link:../../click-api/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
+that indicates whether Controls have their CSS and JavaScript resources
+included or not.
+
+To optimize Page loading one can override
+link:../../click-api/org/apache/click/Page.html#getHeadElements()[Page.getHeadElements()],
+and import the JavaScript and CSS files and then set the property
+link:../../click-api/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
+to `+false+`, indicating that Controls won't contribute their own
+JavaScript and CSS resources.
+
+Here is an example:
+
+[source,java]
+----
+public class HomePage extends Page {
+
+    private Form form = new Form("form");
+
+    public void onInit() {
+        // Indicate that Controls should not import their head elements
+        setIncludeControlHeadElements(false);
+
+        form.add(new EmailField("email");
+        addControl(form);
+    }
+
+    public List getHeadElements() {
+        if (headElements == null) {
+            headElements = super.getHeadElements();
+
+            headElements.add(new CssImport("/assets/css/home-page.css"));
+            headElements.add(new JsImport("/assets/js/home-page.js"));
+        }
+        return headElements;
+    }
+}
+----
+
+Using the following `+border-template.htm+`:
+
+[source,xml]
+----
+<html>
+  <head>
+    <title>Click Examples</title>
+    ${headElements}
+  </head>
+  <body>
+
+  ...
+
+  ${jsElements}
+  </body>
+</html>
+----
+
+the rendered HTML will include one CSS and one JavaScript import:
+
+[source,xml]
+----
+<html>
+  <head>
+    <title>Click Examples</title>
+    <link type="text/css" rel="stylesheet"
+          href="/click-examples/assets/css/home-page.css" title="Style"/>
+  </head>
+  <body>
+
+  ...
+
+  <script type="text/javascript" src="/click-examples/assets/js/home-page.js"></script>
+  </body>
+</html>
+----
+
+A live demo is available
+http://click.avoka.com/click-examples/general/page-imports-example.htm[here]
