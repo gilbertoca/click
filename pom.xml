@@ -465,6 +465,32 @@
                     <artifactId>maven-surefire-report-plugin</artifactId>
                     <version>${maven.surefire.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.6.0</version>
+                    <configuration>
+                        <!-- The primary config file -->
+                        <configLocation>${project.parent.basedir}/checkstyle/checkstyle-checks.xml</configLocation>
+        
+                        <!-- Inject the variable into the XML file above -->
+                        <propertyExpansion>
+                            config_loc=${project.parent.basedir}/checkstyle
+                        </propertyExpansion>
+
+                        <consoleOutput>true</consoleOutput>
+                        <logViolationsToConsole>false</logViolationsToConsole>    
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>validate</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>                
             </plugins>
         </pluginManagement>
     </build>
