@@ -1300,7 +1300,7 @@ public class Column implements Serializable {
      * @throws RuntimeException if an error occurred obtaining the property
      */
     public Object getProperty(String name, Object row) {
-        if (row instanceof Map<?,?> map) {
+        if (row instanceof Map<?, ?> map) {
 
             Object object = map.get(name);
             if (object != null) {

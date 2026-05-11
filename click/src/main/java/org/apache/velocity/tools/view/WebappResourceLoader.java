@@ -1,5 +1,3 @@
-package org.apache.velocity.tools.view;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,6 +16,7 @@ package org.apache.velocity.tools.view;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.velocity.tools.view;
 
 import java.io.File;
 import java.io.InputStream;
@@ -33,64 +32,64 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
 
 /**
- * Resource loader that uses the ServletContext of a webapp to
- * load Velocity templates.  (it's much easier to use with servlets than
- * the standard FileResourceLoader, in particular the use of war files
- * is transparent).
+ * Resource loader that uses the ServletContext of a webapp to load Velocity
+ * templates. (it's much easier to use with servlets than the standard
+ * FileResourceLoader, in particular the use of war files is transparent).
  *
- * The default search path is '/' (relative to the webapp root), but
- * you can change this behaviour by specifying one or more paths
- * by mean of as many webapp.resource.loader.path properties as needed
- * in the velocity.properties file.
+ * The default search path is '/' (relative to the webapp root), but you can
+ * change this behaviour by specifying one or more paths by mean of as many
+ * webapp.resource.loader.path properties as needed in the velocity.properties
+ * file.
  *
  * All paths must be relative to the root of the webapp.
  *
  * To enable caching and cache refreshing the webapp.resource.loader.cache and
- * webapp.resource.loader.modificationCheckInterval properties need to be
- * set in the velocity.properties file ... auto-reloading of global macros
- * requires the webapp.resource.loader.cache property to be set to 'false'.
+ * webapp.resource.loader.modificationCheckInterval properties need to be set in
+ * the velocity.properties file ... auto-reloading of global macros requires the
+ * webapp.resource.loader.cache property to be set to 'false'.
  *
  * @author <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
  * @author Nathan Bubna
  * @author <a href="mailto:claude@savoirweb.com">Claude Brisson</a>
- * @version $Id$  */
-
-public class WebappResourceLoader extends ResourceLoader
-{
-    /** The root paths for templates (relative to webapp's root). */
-    protected String[] paths = null;
-    protected HashMap templatePaths = null;
-    protected ServletContext servletContext = null;
-
+ * @version $Id$
+ */
+public class WebappResourceLoader extends ResourceLoader {
 
     /**
-     *  This is abstract in the base class, so we need it.
-     *  <br>
-     *  NOTE: this expects that the ServletContext has already
-     *        been placed in the runtime's application attributes
-     *        under its full class name (i.e. "javax.servlet.ServletContext").
-     *
-     * @param configuration the {@link ExtendedProperties} associated with
-     *        this resource loader.
+     * The root paths for templates (relative to webapp's root).
      */
-    public void init(ExtProperties configuration)
-    {
+    protected String[] paths = null;
+    /**
+     * Map of template paths.
+     */    
+    protected HashMap templatePaths = null;
+    /**
+     * The context servlet.
+     */
+    protected ServletContext servletContext = null;
+
+    /**
+     * This is abstract in the base class, so we need it.
+     * <br>
+     * NOTE: this expects that the ServletContext has already been placed in the
+     * runtime's application attributes under its full class name (i.e.
+     * "javax.servlet.ServletContext").
+     *
+     * @param configuration the {@link ExtendedProperties} associated with this
+     * resource loader.
+     */
+    public void init(ExtProperties configuration) {
         log.trace("WebappResourceLoader: initialization starting.");
 
         /* get configured paths */
         paths = configuration.getStringArray("path");
-        if (paths == null || paths.length == 0)
-        {
+        if (paths == null || paths.length == 0) {
             paths = new String[1];
             paths[0] = "/";
-        }
-        else
-        {
+        } else {
             /* make sure the paths end with a '/' */
-            for (int i=0; i < paths.length; i++)
-            {
-                if (!paths[i].endsWith("/"))
-                {
+            for (int i = 0; i < paths.length; i++) {
+                if (!paths[i].endsWith("/")) {
                     paths[i] += '/';
                 }
                 log.info("WebappResourceLoader: added template path - '" + paths[i] + "'");
@@ -99,12 +98,9 @@ public class WebappResourceLoader extends ResourceLoader
 
         /* get the ServletContext */
         Object obj = rsvc.getApplicationAttribute(ServletContext.class.getName());
-        if (obj instanceof ServletContext)
-        {
-            servletContext = (ServletContext)obj;
-        }
-        else
-        {
+        if (obj instanceof ServletContext) {
+            servletContext = (ServletContext) obj;
+        } else {
             log.error("WebappResourceLoader: unable to retrieve ServletContext");
         }
 
@@ -115,59 +111,45 @@ public class WebappResourceLoader extends ResourceLoader
     }
 
     /**
-     * Get an InputStream so that the Runtime can build a
-     * template with it.
+     * Get an InputStream so that the Runtime can build a template with it.
      *
      * @param name name of template to get
      * @return InputStream containing the template
-     * @throws ResourceNotFoundException if template not found
-     *         in  classpath.
+     * @throws ResourceNotFoundException if template not found in classpath.
      */
     public synchronized InputStream getResourceStream(String name)
-        throws ResourceNotFoundException
-    {
+            throws ResourceNotFoundException {
         InputStream result = null;
 
-        if (name == null || name.length() == 0)
-        {
+        if (name == null || name.length() == 0) {
             throw new ResourceNotFoundException("WebappResourceLoader: No template name provided");
         }
 
         /* since the paths always ends in '/',
          * make sure the name never starts with one */
-        while (name.startsWith("/"))
-        {
+        while (name.startsWith("/")) {
             name = name.substring(1);
         }
 
         Exception exception = null;
-        for (int i = 0; i < paths.length; i++)
-        {
+        for (int i = 0; i < paths.length; i++) {
             String path = paths[i] + name;
-            try
-            {
+            try {
                 result = servletContext.getResourceAsStream(path);
 
                 /* save the path and exit the loop if we found the template */
-                if (result != null)
-                {
+                if (result != null) {
                     templatePaths.put(name, paths[i]);
                     break;
                 }
-            }
-            catch (NullPointerException npe)
-            {
+            } catch (NullPointerException npe) {
                 /* no servletContext was set, whine about it! */
                 throw npe;
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 /* only save the first one for later throwing */
-                if (exception == null)
-                {
-                    if (log.isDebugEnabled())
-                    {
-                        log.debug("WebappResourceLoader: Could not load "+path, e);
+                if (exception == null) {
+                    if (log.isDebugEnabled()) {
+                        log.debug("WebappResourceLoader: Could not load " + path, e);
                     }
                     exception = e;
                 }
@@ -175,17 +157,13 @@ public class WebappResourceLoader extends ResourceLoader
         }
 
         /* if we never found the template */
-        if (result == null)
-        {
+        if (result == null) {
             String msg = "WebappResourceLoader: Resource '" + name + "' not found.";
 
             /* convert to a general Velocity ResourceNotFoundException */
-            if (exception == null)
-            {
+            if (exception == null) {
                 throw new ResourceNotFoundException(msg);
-            }
-            else
-            {
+            } else {
                 msg += "  Due to: " + exception;
                 throw new ResourceNotFoundException(msg, exception);
             }
@@ -203,45 +181,37 @@ public class WebappResourceLoader extends ResourceLoader
      */
     @Override
     public Reader getResourceReader(String name, String encoding)
-            throws ResourceNotFoundException
-    {
+            throws ResourceNotFoundException {
         InputStream result = getResourceStream(name);
 
-        try
-        {
+        try {
             // Use the buildReader helper from the base ResourceLoader class 
             // if available, or a standard BufferedReader.
             return new BufferedReader(new InputStreamReader(result, encoding));
-        }
-        catch (UnsupportedEncodingException uee)
-        {
-            throw new ResourceNotFoundException("WebappResourceLoader: " +
-                "Unsupported encoding '" + encoding + "' for template '" + name + "'", uee);
+        } catch (UnsupportedEncodingException uee) {
+            throw new ResourceNotFoundException("WebappResourceLoader: "
+                    + "Unsupported encoding '" + encoding + "' for template '" + name + "'", uee);
         }
     }
 
-    private File getCachedFile(String rootPath, String fileName)
-    {
+    private File getCachedFile(String rootPath, String fileName) {
         // we do this when we cache a resource,
         // so do it again to ensure a match
-        while (fileName.startsWith("/"))
-        {
+        while (fileName.startsWith("/")) {
             fileName = fileName.substring(1);
         }
 
-        String savedPath = (String)templatePaths.get(fileName);
+        String savedPath = (String) templatePaths.get(fileName);
         return new File(rootPath + savedPath, fileName);
     }
-
 
     /**
      * Checks to see if a resource has been deleted, moved or modified.
      *
-     * @param resource Resource  The resource to check for modification
-     * @return boolean  True if the resource has been modified
+     * @param resource Resource The resource to check for modification
+     * @return boolean True if the resource has been modified
      */
-    public boolean isSourceModified(Resource resource)
-    {
+    public boolean isSourceModified(Resource resource) {
         String rootPath = servletContext.getRealPath("/");
         if (rootPath == null) {
             // rootPath is null if the servlet container cannot translate the
@@ -253,8 +223,7 @@ public class WebappResourceLoader extends ResourceLoader
         // first, try getting the previously found file
         String fileName = resource.getName();
         File cachedFile = getCachedFile(rootPath, fileName);
-        if (!cachedFile.exists())
-        {
+        if (!cachedFile.exists()) {
             /* then the source has been moved and/or deleted */
             return true;
         }
@@ -262,11 +231,9 @@ public class WebappResourceLoader extends ResourceLoader
         /* check to see if the file can now be found elsewhere
          * before it is found in the previously saved path */
         File currentFile = null;
-        for (int i = 0; i < paths.length; i++)
-        {
+        for (int i = 0; i < paths.length; i++) {
             currentFile = new File(rootPath + paths[i], fileName);
-            if (currentFile.canRead())
-            {
+            if (currentFile.canRead()) {
                 /* stop at the first resource found
                  * (just like in getResourceStream()) */
                 break;
@@ -274,27 +241,24 @@ public class WebappResourceLoader extends ResourceLoader
         }
 
         /* if the current is the cached and it is readable */
-        if (cachedFile.equals(currentFile) && cachedFile.canRead())
-        {
+        if (cachedFile.equals(currentFile) && cachedFile.canRead()) {
             /* then (and only then) do we compare the last modified values */
             return (cachedFile.lastModified() != resource.getLastModified());
-        }
-        else
-        {
-            /* we found a new file for the resource
-             * or the resource is no longer readable. */
+        } else {
+            /* we found a new file for the resource or the resource is no 
+             * longer readable.  */
             return true;
         }
     }
 
     /**
-     * Checks to see when a resource was last modified
+     * Checks to see when a resource was last modified.
      *
      * @param resource Resource the resource to check
-     * @return long The time when the resource was last modified or 0 if the file can't be read
+     * @return long The time when the resource was last modified or 0 if the
+     * file can't be read
      */
-    public long getLastModified(Resource resource)
-    {
+    public long getLastModified(Resource resource) {
         String rootPath = servletContext.getRealPath("/");
         if (rootPath == null) {
             // rootPath is null if the servlet container cannot translate the
@@ -304,12 +268,9 @@ public class WebappResourceLoader extends ResourceLoader
         }
 
         File cachedFile = getCachedFile(rootPath, resource.getName());
-        if (cachedFile.canRead())
-        {
+        if (cachedFile.canRead()) {
             return cachedFile.lastModified();
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }

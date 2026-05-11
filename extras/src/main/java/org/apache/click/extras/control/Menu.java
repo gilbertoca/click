@@ -1117,6 +1117,7 @@ public class Menu extends AbstractControl {
      * To test if the given menu is contained, this method will test against
      * both the menu object reference as well as the menu name.
      *
+     * @param menu
      * @return true if this menu contains the given menu, false otherwise
      */
     public boolean contains(Menu menu) {

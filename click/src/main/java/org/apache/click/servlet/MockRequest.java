@@ -66,56 +66,84 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Mock implementation of {@link javax.servlet.http.HttpServletRequest}.
  * <p>
- * Implements all of the methods from the standard HttpServletRequest class
- * plus helper methods to aid setting up a request.
+ * Implements all of the methods from the standard HttpServletRequest class plus
+ * helper methods to aid setting up a request.
  * <p>
- * This class was adapted from <a href="http://wicket.apache.org">Apache Wicket</a>.
+ * This class was adapted from <a href="http://wicket.apache.org">Apache
+ * Wicket</a>.
  */
 public class MockRequest implements HttpServletRequest {
 
     // -------------------------------------------------------- Constants
-
-    /** Newline indicator. */
+    /**
+     * Newline indicator.
+     */
     private static final String CRLF = "\r\n";
 
-    /** File attachment boundary indicator. */
+    /**
+     * File attachment boundary indicator.
+     */
     private static final String BOUNDARY = "--abcdefgABCDEFG";
 
-    /** The REMOTE_USER header. */
+    /**
+     * The REMOTE_USER header.
+     */
     public static final String REMOTE_USER = "REMOTE_USER";
 
     // -------------------------------------------------------- Variables
-
-    /** The request default locale. */
+    /**
+     * The request default locale.
+     */
     private Locale locale = Locale.getDefault();
 
-    /** The request attributes map. */
+    /**
+     * The request attributes map.
+     */
     private final Map<String, Object> attributes = new HashMap<String, Object>();
 
-    /** The request authentication type (BASIC, FORM, DIGEST, CLIENT_CERT). */
+    /**
+     * The request authentication type (BASIC, FORM, DIGEST, CLIENT_CERT).
+     */
     private String authType;
 
-    /** The request character encoding. */
+    /**
+     * The request character encoding.
+     */
     private String characterEncoding;
 
-    /** The request servlet context. */
+    /**
+     * The request servlet context.
+     */
     private ServletContext servletContext;
 
-    /** The request list of cookies. */
+    /**
+     * The request list of cookies.
+     */
     private final List<Cookie> cookies = new ArrayList<Cookie>();
 
-    /** The request headers map. */
+    /**
+     * The request headers map.
+     */
     private final Map<String, List<String>> headers = new HashMap<>();
 
-    /** The name of the HTTP method with which this request was made. */
+    /**
+     * The name of the HTTP method with which this request was made.
+     */
     private String method = "POST";
 
-    /** The request parameter map. */
+    /**
+     * The request parameter map.
+     */
     private final Map<String, String[]> parameters = new HashMap<>();
-    
-    private final LinkedHashMap<String, Part> parts = new LinkedHashMap<>();    
 
-    /** The request HTTP session. */
+    /**
+     * The parts map.
+     */
+    private final LinkedHashMap<String, Part> parts = new LinkedHashMap<>();
+
+    /**
+     * The request HTTP session.
+     */
     private HttpSession session;
 
     /**
@@ -130,34 +158,55 @@ public class MockRequest implements HttpServletRequest {
      */
     private boolean useMultiPartContentType;
 
-    /** The url that was forwarded to. */
+    /**
+     * The url that was forwarded to.
+     */
     private String forward;
 
-    /** The list of server side included url's. */
+    /**
+     * The list of server side included url's.
+     */
     private List<String> includes = new ArrayList<String>();
 
-    /** The scheme used to make this request, defaults to "http". */
+    /**
+     * The scheme used to make this request, defaults to "http".
+     */
     private String scheme = "http";
 
-    /** The request context path, defaults to {@link MockServletContext#DEFAULT_CONTEXT_PATH}. */
+    /**
+     * The request context path, defaults to
+     * {@link MockServletContext#DEFAULT_CONTEXT_PATH}.
+     */
     private String contextPath = MockServletContext.DEFAULT_CONTEXT_PATH;
 
-    /** The request servlet path, defaults to an empty String "". */
+    /**
+     * The request servlet path, defaults to an empty String "".
+     */
     private String servletPath = "";
 
-    /** The request path info, defaults to an empty String "". */
+    /**
+     * The request path info, defaults to an empty String "".
+     */
     private String pathInfo = "";
 
-    /** The host name to which the request was sent, defaults to "localhost". */
+    /**
+     * The host name to which the request was sent, defaults to "localhost".
+     */
     private String serverName = "localhost";
 
-    /** The port number to which the request was sent, defaults to 8080. */
+    /**
+     * The port number to which the request was sent, defaults to 8080.
+     */
     private int serverPort = 8080;
 
-    /** A random number generator to create unique session id's. */
+    /**
+     * A random number generator to create unique session id's.
+     */
     private Random random = new Random();
 
-    /** The user principal. */
+    /**
+     * The user principal.
+     */
     private Principal userPrincipal;
 
     /**
@@ -203,7 +252,7 @@ public class MockRequest implements HttpServletRequest {
      * @param servletContext The current servlet context
      */
     public MockRequest(final Locale locale, final ServletContext servletContext,
-        final HttpSession session) {
+            final HttpSession session) {
         this(locale, MockServletContext.DEFAULT_CONTEXT_PATH, "", servletContext, session);
     }
 
@@ -217,7 +266,7 @@ public class MockRequest implements HttpServletRequest {
      * @param session the request session
      */
     public MockRequest(Locale locale, String contextPath, String servletPath,
-        final ServletContext servletContext, final HttpSession session) {
+            final ServletContext servletContext, final HttpSession session) {
         if (locale != null) {
             this.locale = locale;
         }
@@ -229,7 +278,6 @@ public class MockRequest implements HttpServletRequest {
     }
 
     // -------------------------------------------------------- Mock intialization methods
-
     /**
      * Set the request's servletContext instance.
      *
@@ -258,8 +306,8 @@ public class MockRequest implements HttpServletRequest {
     }
 
     /**
-     * Add an uploaded file to the request. Use this to simulate a file that
-     * has been uploaded to a field.
+     * Add an uploaded file to the request. Use this to simulate a file that has
+     * been uploaded to a field.
      *
      * @param fieldName The fieldname of the upload field.
      * @param file The file to upload.
@@ -273,14 +321,14 @@ public class MockRequest implements HttpServletRequest {
 
         if (file.exists() == false) {
             throw new IllegalArgumentException(
-                "File does not exist. You must provide an existing file: "
-                + file.getAbsolutePath());
+                    "File does not exist. You must provide an existing file: "
+                    + file.getAbsolutePath());
         }
 
         if (file.isFile() == false) {
             throw new IllegalArgumentException(
-                "You can only add a File, which is not a directory. Only files "
-                + "can be uploaded.");
+                    "You can only add a File, which is not a directory. Only files "
+                    + "can be uploaded.");
         }
 
         if (uploadedFiles == null) {
@@ -315,7 +363,7 @@ public class MockRequest implements HttpServletRequest {
      * @param value the header value
      */
     public void setHeader(String name, String value) {
-        setHeader(name, new String[] {value});
+        setHeader(name, new String[]{value});
     }
 
     /**
@@ -350,7 +398,6 @@ public class MockRequest implements HttpServletRequest {
     }
 
     // -------------------------------------------------------- HttpServletRequest methods
-
     /**
      * Get the auth type.
      *
@@ -370,7 +417,8 @@ public class MockRequest implements HttpServletRequest {
     }
 
     /**
-     * True will force Request to generate multiPart ContentType and ContentLength.
+     * True will force Request to generate multiPart ContentType and
+     * ContentLength.
      *
      * @param useMultiPartContentType true if the request is multi-part, false
      * otherwise
@@ -399,8 +447,8 @@ public class MockRequest implements HttpServletRequest {
     /**
      * If useMultiPartContentType set as true return the correct content-type.
      *
-     * @return The correct multipart content-type if useMultiPartContentType
-     * is true. Else null.
+     * @return The correct multipart content-type if useMultiPartContentType is
+     * true. Else null.
      */
     public String getContentType() {
         if (useMultiPartContentType) {
@@ -431,7 +479,7 @@ public class MockRequest implements HttpServletRequest {
      * @throws IllegalArgumentException If the header cannot be converted
      */
     public long getDateHeader(final String name)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         String value = getHeader(name);
         if (value == null) {
             return -1;
@@ -507,17 +555,17 @@ public class MockRequest implements HttpServletRequest {
             final ByteArrayInputStream bais = new ByteArrayInputStream(request);
 
             return new ServletInputStream() {
-		private boolean isFinished = false;
+                private boolean isFinished = false;
                 private boolean isReady = true;
 
                 @Override
                 public boolean isFinished() {
-                        return isFinished;
+                    return isFinished;
                 }
 
                 @Override
                 public boolean isReady() {
-                        return isReady;
+                    return isReady;
                 }
 
                 @Override
@@ -526,24 +574,24 @@ public class MockRequest implements HttpServletRequest {
 
                 @Override
                 public int read() {
-                        isFinished = true;
-                        isReady = false;
-                        return bais.read();
+                    isFinished = true;
+                    isReady = false;
+                    return bais.read();
                 }
             };
         } else {
             return new ServletInputStream() {
-		private boolean isFinished = false;
+                private boolean isFinished = false;
                 private boolean isReady = true;
 
                 @Override
                 public boolean isFinished() {
-                        return isFinished;
+                    return isFinished;
                 }
 
                 @Override
                 public boolean isReady() {
-                        return isReady;
+                    return isReady;
                 }
 
                 @Override
@@ -552,7 +600,7 @@ public class MockRequest implements HttpServletRequest {
 
                 @Override
                 public int read() {
-                        return -1;
+                    return -1;
                 }
             };
         }
@@ -642,14 +690,14 @@ public class MockRequest implements HttpServletRequest {
         }
     }
 
-/**
-	 * Get the map of all of the parameters.
-	 *
-	 * @return The parameters
-	 */
-    	public Map<String, String[]> getParameterMap() {
-            return parameters;
-        }    
+    /**
+     * Get the map of all of the parameters.
+     *
+     * @return The parameters
+     */
+    public Map<String, String[]> getParameterMap() {
+        return parameters;
+    }
 
     /**
      * Get the names of all of the parameters.
@@ -742,7 +790,7 @@ public class MockRequest implements HttpServletRequest {
                     }
                 }
             } catch (UnsupportedEncodingException e) {
-            // Should never happen!
+                // Should never happen!
             }
             return buf.toString();
         }
@@ -792,11 +840,11 @@ public class MockRequest implements HttpServletRequest {
     }
 
     /**
-     * Return the name of the {@link #userPrincipal} if set, otherwise
-     * the value of the {@value #REMOTE_USER} header.
+     * Return the name of the {@link #userPrincipal} if set, otherwise the value
+     * of the {@value #REMOTE_USER} header.
      * <p>
-     * To set the remote user, create an instance of a {@link MockPrincipal}
-     * and set it on the request through the method
+     * To set the remote user, create an instance of a {@link MockPrincipal} and
+     * set it on the request through the method
      * {@link #setUserPrincipal(java.security.Principal)}.
      *
      * @return the name of the remote user
@@ -845,9 +893,9 @@ public class MockRequest implements HttpServletRequest {
     }
 
     /**
-     * Returns a RequestDispatcher for the specified path. The dispatcher
-     * will not dispatch to the resource. It only records the specified path
-     * so that one can test if the correct path was dispatched to.
+     * Returns a RequestDispatcher for the specified path. The dispatcher will
+     * not dispatch to the resource. It only records the specified path so that
+     * one can test if the correct path was dispatched to.
      *
      * @param path a String specifying the pathname to the resource
      * @return a dispatcher for the specified path
@@ -973,8 +1021,8 @@ public class MockRequest implements HttpServletRequest {
      * Returns the portion of the request URI that indicates the context of the
      * request.
      *
-     * @return the portion of the request URI that indicates the context of
-     * the request.
+     * @return the portion of the request URI that indicates the context of the
+     * request.
      */
     public String getContextPath() {
 
@@ -990,7 +1038,7 @@ public class MockRequest implements HttpServletRequest {
         if (servletContext instanceof MockServletContext) {
             MockServletContext mockServletContext = (MockServletContext) servletContext;
             if (!MockServletContext.DEFAULT_CONTEXT_PATH.equals(mockServletContext.getContextPath())) {
-               return mockServletContext.getContextPath();
+                return mockServletContext.getContextPath();
             }
         }
 
@@ -1041,13 +1089,13 @@ public class MockRequest implements HttpServletRequest {
     public String changeSessionId() {
         final HttpSession oldSession = getSession(false);
         if (oldSession == null) {
-                throw new IllegalStateException("There is no active session associated with the current request");
+            throw new IllegalStateException("There is no active session associated with the current request");
         }
         oldSession.invalidate();
         final HttpSession newSession = getSession(true);
         return newSession.getId();
     }
-    
+
     /**
      * Set the current HttpSession associated with this request.
      *
@@ -1136,10 +1184,10 @@ public class MockRequest implements HttpServletRequest {
     public void reset() {
         initialize();
     }
-    
+
     @Override
     public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
-            return false;
+        return false;
     }
 
     @Override
@@ -1149,26 +1197,26 @@ public class MockRequest implements HttpServletRequest {
     @Override
     public void logout() throws ServletException {
     }
-        
+
     @Override
     public Collection<Part> getParts() throws IOException, ServletException {
-            return parts.values();
+        return parts.values();
     }
 
     @Override
     public Part getPart(String name) throws IOException, ServletException {
-            return parts.get(name);
+        return parts.get(name);
     }
 
     @Override
     public <T extends HttpUpgradeHandler> T upgrade(Class<T> aClass) throws IOException, ServletException {
-            return null;
+        return null;
     }
 
     public MockRequest setPart(String name, Part part) {
-            parts.put(name, part);
-            return this;
-    }    
+        parts.put(name, part);
+        return this;
+    }
 
     /**
      * Check whether session id is from a cookie. Always returns true.
@@ -1219,8 +1267,9 @@ public class MockRequest implements HttpServletRequest {
      * Returns true if the {@link #getUserPrincipal() authenticated user} is
      * included in the given role, false otherwise.
      * <p>
-     * To mock up roles for a user, create a {@link MockPrincipal user principal}
-     * and set the necessary roles. See {@link MockPrincipal} for an example.
+     * To mock up roles for a user, create a
+     * {@link MockPrincipal user principal} and set the necessary roles. See
+     * {@link MockPrincipal} for an example.
      *
      * @param role the role name
      * @return true if the user is included in the specified role, false
@@ -1269,7 +1318,7 @@ public class MockRequest implements HttpServletRequest {
      * @throws UnsupportedEncodingException If encoding not supported
      */
     public void setCharacterEncoding(final String encoding)
-        throws UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
         characterEncoding = encoding;
     }
 
@@ -1301,11 +1350,10 @@ public class MockRequest implements HttpServletRequest {
      * @param value The value
      */
     public void setParameter(final String name, final String value) {
-	if (value == null) {
+        if (value == null) {
             parameters.remove(name);
-        }
-        else {
-            parameters.put(name, new String[] { value });
+        } else {
+            parameters.put(name, new String[]{value});
         }
     }
 
@@ -1350,7 +1398,8 @@ public class MockRequest implements HttpServletRequest {
     /**
      * Returns the url that was forwarded to, otherwise return null.
      *
-     * @see org.apache.click.servlet.MockRequestDispatcher#forward(javax.servlet.ServletRequest,
+     * @see
+     * org.apache.click.servlet.MockRequestDispatcher#forward(javax.servlet.ServletRequest,
      * javax.servlet.ServletResponse)
      *
      * @return url that was forwarded to
@@ -1362,7 +1411,8 @@ public class MockRequest implements HttpServletRequest {
     /**
      * Returns the list of server side included url's.
      *
-     * @see org.apache.click.servlet.MockRequestDispatcher#include(javax.servlet.ServletRequest,
+     * @see
+     * org.apache.click.servlet.MockRequestDispatcher#include(javax.servlet.ServletRequest,
      * javax.servlet.ServletResponse)
      *
      * @return list of urls that were included
@@ -1401,7 +1451,6 @@ public class MockRequest implements HttpServletRequest {
     }
 
     // -------------------------------------------------------- Private methods
-
     /**
      * Helper method to create some default headers for the request.
      */
@@ -1411,9 +1460,9 @@ public class MockRequest implements HttpServletRequest {
         addHeader("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
         Locale l = locale;
         addHeader("Accept-Language", l.getLanguage().toLowerCase() + "-"
-            + l.getCountry().toLowerCase() + "," + l.getLanguage().toLowerCase() + ";q=0.5");
+                + l.getCountry().toLowerCase() + "," + l.getLanguage().toLowerCase() + ";q=0.5");
         addHeader("User-Agent",
-            "Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7) Gecko/20040707 Firefox/0.9.2");
+                "Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.7) Gecko/20040707 Firefox/0.9.2");
     }
 
     /**
@@ -1491,13 +1540,13 @@ public class MockRequest implements HttpServletRequest {
      */
     private String createSessionId() {
         String mockId = getRemoteAddr().replaceAll("\\.", "") + "_"
-            + System.currentTimeMillis() + "_"
-            + Math.abs(random.nextLong());
+                + System.currentTimeMillis() + "_"
+                + Math.abs(random.nextLong());
         try {
             //make it look secure ;-)
             mockId = ClickUtils.toMD5Hash(mockId);
         } catch (Exception e) {
-        //ignore
+            //ignore
         }
         return mockId;
     }
@@ -1509,13 +1558,19 @@ public class MockRequest implements HttpServletRequest {
      */
     private static class UploadedFile {
 
-        /** Name of the file field. */
+        /**
+         * Name of the file field.
+         */
         private String fieldName;
 
-        /** The uploaded file. */
+        /**
+         * The uploaded file.
+         */
         private File file;
 
-        /** The uploaded file content type. */
+        /**
+         * The uploaded file content type.
+         */
         private String contentType;
 
         /**
@@ -1589,9 +1644,10 @@ public class MockRequest implements HttpServletRequest {
             this.file = file;
         }
     }
+
     @Override
     public DispatcherType getDispatcherType() {
-            return null;
+        return null;
     }
 
     @Override
@@ -1627,5 +1683,5 @@ public class MockRequest implements HttpServletRequest {
     @Override
     public AsyncContext getAsyncContext() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }    
+    }
 }

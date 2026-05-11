@@ -309,7 +309,7 @@ public class ControlRegistry {
     }
 
     /**
-     * Checks if any AJAX target control have been registered.
+     * @return Checks if any AJAX target control have been registered.
      */
     boolean hasAjaxTargetControls() {
         if (ajaxTargetControls == null || ajaxTargetControls.isEmpty()) {
@@ -331,7 +331,7 @@ public class ControlRegistry {
     }
 
     /**
-     * Checks if any control interceptors have been registered.
+     * @return Checks if any control interceptors have been registered.
      */
     boolean hasInterceptors() {
         if (interceptors == null || interceptors.isEmpty()) {
@@ -380,7 +380,7 @@ public class ControlRegistry {
     }
 
     /**
-     * Return the registry stack data structure.
+     * @return Return the registry stack data structure.
      */
     static RegistryStack getRegistryStack() {
         RegistryStack registryStack = THREAD_LOCAL_REGISTRY_STACK.get();

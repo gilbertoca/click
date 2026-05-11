@@ -1794,7 +1794,7 @@ public class Tree extends AbstractControl {
      * The specified node will be at the start of the array and the root node will be
      * at the end of the array. Thus array[0] will return the specified node, while
      * array[n - 1] where n is the size of the array, will return the root node.
-     *
+     * @param treeNode
      * @return list of all nodes from the specified node to the root node
      */
     private TreeNode[] getPathToRoot(TreeNode treeNode) {

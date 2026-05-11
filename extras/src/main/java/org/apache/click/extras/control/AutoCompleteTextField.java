@@ -467,6 +467,7 @@ public abstract class AutoCompleteTextField extends TextField {
     /**
      * Render the suggested auto completion list to the servlet response.
      *
+     * @param buffer
      * @param autoCompleteList the suggested list of auto completion values
      */
     protected void renderAutoCompleteList(HtmlStringBuffer buffer, List<?> autoCompleteList) {

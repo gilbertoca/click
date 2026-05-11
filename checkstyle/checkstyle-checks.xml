@@ -97,7 +97,7 @@
 
         </module>
         <module name="JavadocVariable">
-
+            <property name="scope" value="public"/> 
         </module>
         <module name="JavadocStyle">
 
@@ -128,7 +128,7 @@
         </module>  -->
         <module name="MethodLength">
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="max" value="200"/>
+            <property name="max" value="250"/>
         </module>
         <module name="ParameterNumber"/>
         

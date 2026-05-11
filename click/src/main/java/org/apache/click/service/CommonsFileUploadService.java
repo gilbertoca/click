@@ -41,36 +41,39 @@ import org.apache.commons.lang3.Validate;
  * <p>
  * For example:
  * <pre class="prettyprint">
- * &lt;file-upload-service&gt;
- *     &lt;!-- Set the total request maximum size to 10mb (10 x 1024 x 1024 = 10485760). --&gt;
- *     &lt;property name="sizeMax" value="10485760"/&gt;
+ * &lt;file-upload-service&gt; &lt;!-- Set the total request maximum size to
+ * 10mb (10 x 1024 x 1024 = 10485760). --&gt; &lt;property name="sizeMax"
+ * value="10485760"/&gt;
  *
- *     &lt;!-- Set the maximum individual file size to 2mb (2 x 1024 x 1024 = 2097152). --&gt;
- *     &lt;property name="fileSizeMax" value="2097152"/&gt;
+ * &lt;!-- Set the maximum individual file size to 2mb (2 x 1024 x 1024 =
+ * 2097152). --&gt; &lt;property name="fileSizeMax" value="2097152"/&gt;
  * &lt;/file-upload-service&gt; </pre>
  *
  * Note that this is a global configuration and applies to the all file uploads
  * of the application.
  * <p>
- * If you would like to specify a custom FileUploadService implementation
- * use the <code>classname</code> attribute:
+ * If you would like to specify a custom FileUploadService implementation use
+ * the <code>classname</code> attribute:
  * <pre class="prettyprint">
- * &lt;file-upload-service classname="com.mycorp.util.CustomFileUploadService"&gt;
- *     &lt;property name="customProperty" value="customValue"/&gt;
- * &lt;/file-upload-service&gt; </pre>
+ * &lt;file-upload-service
+ * classname="com.mycorp.util.CustomFileUploadService"&gt; &lt;property
+ * name="customProperty" value="customValue"/&gt; &lt;/file-upload-service&gt;
+ * </pre>
  */
 public class CommonsFileUploadService implements FileUploadService {
 
     // -------------------------------------------------------------- Constants
-
-    /** The total request maximum size in bytes. By default there is no limit. */
+    /**
+     * The total request maximum size in bytes. By default there is no limit.
+     */
     protected long sizeMax;
 
-    /** The maximum individual file size in bytes. By default there is no limit. */
+    /**
+     * The maximum individual file size in bytes. By default there is no limit.
+     */
     protected long fileSizeMax;
 
     // --------------------------------------------------------- Public Methods
-
     /**
      * @see FileUploadService#onInit(ServletContext)
      * @param servletContext the application servlet context
@@ -113,19 +116,19 @@ public class CommonsFileUploadService implements FileUploadService {
 
         if (logWarning) {
             logService.warn("The java.io.tmpdir directory, '" + tmpdir
-                + "', does not exist. This can cause file uploading to fail"
-                + " as uploaded files are saved to the directory specified by"
-                + " the 'java.io.tmpdir' property.");
+                    + "', does not exist. This can cause file uploading to fail"
+                    + " as uploaded files are saved to the directory specified by"
+                    + " the 'java.io.tmpdir' property.");
         }
 
         if (restrictedEnvironment) {
             // Probably deploying on Google App Engine which throws
             // Security Exception if accessing temp folder
             logService.warn("If you are deploying to Google App Engine,"
-                + " please note that Click's default"
-                + " 'org.apache.click.service.CommonsFileUploadService'"
-                + " does not work with Google App Engine. Instead use"
-                + " 'org.apache.click.extras.gae.MemoryFileUploadService'.");
+                    + " please note that Click's default"
+                    + " 'org.apache.click.service.CommonsFileUploadService'"
+                    + " does not work with Google App Engine. Instead use"
+                    + " 'org.apache.click.extras.gae.MemoryFileUploadService'.");
         }
     }
 
@@ -151,14 +154,19 @@ public class CommonsFileUploadService implements FileUploadService {
 
         FileItemFactory<?> fileItemFactory = createFileItemFactory(request);
 
-        JavaxServletFileUpload<?, ?> fileUpload =
-                new JavaxServletFileUpload<>(fileItemFactory);
+        JavaxServletFileUpload<?, ?> fileUpload
+                = new JavaxServletFileUpload<>(fileItemFactory);
 
-        if (fileSizeMax > 0) { fileUpload.setMaxFileSize(fileSizeMax); }
-        if (sizeMax > 0)     { fileUpload.setMaxSize(sizeMax); }
+        if (fileSizeMax > 0) {
+            fileUpload.setMaxFileSize(fileSizeMax);
+        }
+        if (sizeMax > 0) {
+            fileUpload.setMaxSize(sizeMax);
+        }
 
         return (List<FileItem<?>>) (List<?>) fileUpload.parseRequest(request);
     }
+
     /**
      * Return maximum individual size in bytes. By default there is no limit.
      *
@@ -178,7 +186,8 @@ public class CommonsFileUploadService implements FileUploadService {
     }
 
     /**
-     * Return the total request maximum size in bytes. By default there is no limit.
+     * Return the total request maximum size in bytes. By default there is no
+     * limit.
      *
      * @return the setSizeMax
      */
@@ -187,7 +196,8 @@ public class CommonsFileUploadService implements FileUploadService {
     }
 
     /**
-     * Set the total request maximum size in bytes. By default there is no limit.
+     * Set the total request maximum size in bytes. By default there is no
+     * limit.
      *
      * @param value the setSizeMax to set
      */

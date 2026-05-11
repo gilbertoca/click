@@ -303,7 +303,7 @@ public class MemoryFileItem implements FileItem<MemoryFileItem> {
      * This method does nothing since the file is stored in memory only.
      *
      * @param file the File into which the uploaded item should be stored
-     * @return 
+     * @return this
      * @throws Exception if an error occurs
      */
     public MemoryFileItem write(File file) throws Exception {

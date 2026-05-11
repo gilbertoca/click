@@ -549,7 +549,7 @@ public class SpringClickServlet extends ClickServlet {
     // Private Methods --------------------------------------------------------
 
     /**
-     * Load the pageClass bean setter methods
+     * Load the pageClass bean setter methods.
      *
      * @param pageClass the page class
      */

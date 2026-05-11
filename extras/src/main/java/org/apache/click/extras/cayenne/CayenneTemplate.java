@@ -64,6 +64,7 @@ public class CayenneTemplate {
      * Instantiate and register a new persistent object. Object class must
      * have a default constructor.
      *
+     * @param <T>
      * @param persistentClass the persistent object class to create and register
      * @return the new registered persistent object
      */
@@ -75,6 +76,7 @@ public class CayenneTemplate {
      * Instantiates new object and registers it with itself. Object class must
      * have a default constructor.
      *
+     * @param <T>
      * @deprecated since 2.3.0, use {@link #newObject(java.lang.Class)} instead.
      *
      * @param persistentClass the persistent object class to create and register
@@ -112,6 +114,7 @@ public class CayenneTemplate {
      * Find the persistent object for the specified class, property name and property
      * value, or null if no persistent object was found.
      *
+     * @param <T>
      * @param persistentClass the persistent object class to find
      * @param property the name of the property
      * @param value the value of the property
@@ -186,6 +189,7 @@ public class CayenneTemplate {
      * class and the primary key. This method will perform a database query
      * and refresh the object cache.
      *
+     * @param <T>
      * @param persistentClass the persistent object class to retrieve
      * @param id the data object primary key
      * @return the data object for the given class and id
@@ -200,6 +204,7 @@ public class CayenneTemplate {
      * database query will be performed, otherwise the a query against the
      * object cache will be performed first.
      *
+     * @param <T>
      * @param persistentClass the persistent object class to retrieve
      * @param id the persistent object primary key
      * @param refresh the refresh the object cache mode

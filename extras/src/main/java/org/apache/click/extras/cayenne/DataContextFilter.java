@@ -34,7 +34,6 @@ import org.apache.cayenne.BaseContext;
 import org.apache.cayenne.LifecycleListener;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.access.DataDomain;
-import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.configuration.web.WebUtil;
 import org.apache.cayenne.map.LifecycleEvent;

@@ -906,6 +906,7 @@ public class DateField extends TextField {
 
     /**
      * Return the names of months and weekdays as a script.
+     * @param headElements
      */
     protected void addCalenderTranslations(List<Element> headElements) {
         JsScript script = new JsScript();

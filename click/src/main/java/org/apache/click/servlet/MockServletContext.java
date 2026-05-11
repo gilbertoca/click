@@ -65,42 +65,53 @@ import org.apache.commons.lang3.StringUtils;
  * than performing an actual dispatch.
  * <p>
  * The context can be configured with a path parameter that should point to an
- * directory location that represents the place where the contents of
- * the WAR bundle are located. The path can either be an absolute or relative
- * path. If the path is not found, the classpath will be checked for such a
- * directory. Setting this value allows all of the resource location
- * functionality to work as in a fully functioning web application. If this
- * value is not set then not resource location functionality will work and
- * instead null will always be returned.
+ * directory location that represents the place where the contents of the WAR
+ * bundle are located. The path can either be an absolute or relative path. If
+ * the path is not found, the classpath will be checked for such a directory.
+ * Setting this value allows all of the resource location functionality to work
+ * as in a fully functioning web application. If this value is not set then not
+ * resource location functionality will work and instead null will always be
+ * returned.
  * <p>
- * This class was adapted from <a href="http://wicket.apache.org">Apache Wicket</a>.
+ * This class was adapted from <a href="http://wicket.apache.org">Apache
+ * Wicket</a>.
  */
 public class MockServletContext implements ServletContext {
 
     // -------------------------------------------------------- Constants
-
     /**
      * The servlet context default context path, <em>"/mock"</em>.
      */
     public static final String DEFAULT_CONTEXT_PATH = "/mock";
 
     // -------------------------------------------------------- Private variables
-
-    /** Map of attributes. */
+    /**
+     * Map of attributes.
+     */
     private final Map<String, Object> attributes = new HashMap<String, Object>();
 
-    /** Map of initialization parameters. */
+    /**
+     * Map of initialization parameters.
+     */
     private final Map<String, String> initParameters = new HashMap<String, String>();
 
-    /** Map of mime types. */
+    /**
+     * Map of mime types.
+     */
     private final Map<String, String> mimeTypes = new HashMap<String, String>();
+    /**
+     * Map of ServletRegistration.Dynamic.
+     */
+    private final Map<String, ServletRegistration.Dynamic> servletRegistration = new HashMap<>();
 
-    private final Map<String, ServletRegistration.Dynamic> servletRegistration = new HashMap<>();    
-    
-    /** The context temporary path. */
+    /**
+     * The context temporary path.
+     */
     private String tempPath;
 
-    /** The web application path. */
+    /**
+     * The web application path.
+     */
     private String webappPath;
 
     /**
@@ -109,9 +120,15 @@ public class MockServletContext implements ServletContext {
      */
     private File webappRoot;
 
-    /** The servlet context name, <em>"mock"</em>. */
+    /**
+     * The servlet context name, <em>"mock"</em>.
+     */
     private String servletContextName = "mock";
 
+    /**
+     * The instance that may be used to configure various properties of cookies 
+     * used for session tracking purposes.
+     */
     private final SessionCookieConfig sessionCookieConfig = new SessionCookieConfig() {
         private boolean secure;
         private String path;
@@ -124,105 +141,109 @@ public class MockServletContext implements ServletContext {
 
         @Override
         public void setSecure(boolean secure) {
-                this.secure = secure;
+            this.secure = secure;
         }
 
         @Override
         public void setPath(String path) {
-                this.path = path;
+            this.path = path;
         }
 
         @Override
         public void setName(String name) {
-                this.name = name;
+            this.name = name;
         }
 
         @Override
         public void setMaxAge(int maxAge) {
-                this.maxAge = maxAge;
+            this.maxAge = maxAge;
         }
 
         @Override
         public void setHttpOnly(boolean httpOnly) {
-                this.httpOnly = httpOnly;
+            this.httpOnly = httpOnly;
         }
 
         @Override
         public void setDomain(String domain) {
-                this.domain = domain;
+            this.domain = domain;
         }
 
         @Override
         public void setComment(String comment) {
-                this.comment = comment;
+            this.comment = comment;
         }
 
         @Override
         public boolean isSecure() {
-                return secure;
+            return secure;
         }
 
         @Override
         public boolean isHttpOnly() {
-                return httpOnly;
+            return httpOnly;
         }
 
         @Override
         public String getPath() {
-                return path;
+            return path;
         }
 
         @Override
         public String getName() {
-                return name;
+            return name;
         }
 
         @Override
         public int getMaxAge() {
-                return maxAge;
+            return maxAge;
         }
 
         public void setAttribute(String s, String s1) {
-                attributes.put(s, s1);
+            attributes.put(s, s1);
         }
 
         public String getAttribute(String s) {
-                return attributes.get(s);
+            return attributes.get(s);
         }
 
         public Map<String, String> getAttributes() {
-                return Map.copyOf(attributes);
+            return Map.copyOf(attributes);
         }
 
         @Override
-        public String getDomain()
-        {
-                return domain;
+        public String getDomain() {
+            return domain;
         }
 
         @Override
-        public String getComment()
-        {
-                return comment;
+        public String getComment() {
+            return comment;
         }
-    };    
+    };
     /**
      * The context path, by default its value is set to
      * {@link #DEFAULT_CONTEXT_PATH}.
      */
     private String contextPath = DEFAULT_CONTEXT_PATH;
-
+    /**
+     * Session timeout.
+     */
     private int sessionTimeout = 30;
-    
+    /**
+     * Request encoding.
+     */
     private String requestEncoding = "UTF-8";
-
+    /**
+     * Response encoding.
+     */
     private String responseEncoding = "UTF-8";
-    
+
     /**
      * Default constructor for this mock object.
      * <p>
-     * The servlet context name is set to 'mock'.
-     * The web content root and temporary work direcotry are set to null.
+     * The servlet context name is set to 'mock'. The web content root and
+     * temporary work direcotry are set to null.
      */
     public MockServletContext() {
         this(DEFAULT_CONTEXT_PATH, null, null);
@@ -248,7 +269,7 @@ public class MockServletContext implements ServletContext {
      * @param webappPath The path to the root of the web application
      */
     public MockServletContext(final String contextPath,
-        final String webappPath) {
+            final String webappPath) {
         this(contextPath, webappPath, System.getProperty("java.io.tmpdir"));
     }
 
@@ -270,7 +291,7 @@ public class MockServletContext implements ServletContext {
      * @param tempPath the temporary work directory
      */
     public MockServletContext(final String contextPath,
-        final String webappPath, final String tempPath) {
+            final String webappPath, final String tempPath) {
         setContextPath(contextPath);
 
         //Setup temp path, before webapp path, since setWebappPath() will
@@ -292,8 +313,8 @@ public class MockServletContext implements ServletContext {
     /**
      * Creates the web application root File {@link #getWebappRoot()}.
      *
-     * @throws IllegalStateException if the {@link #getWebappPath()} cannot
-     * be found
+     * @throws IllegalStateException if the {@link #getWebappPath()} cannot be
+     * found
      */
     public void createWebappRoot() {
         webappRoot = null;
@@ -306,7 +327,7 @@ public class MockServletContext implements ServletContext {
         if (webappRoot.exists() && webappRoot.isDirectory()) {
             //If the webappRoot is a legal directory, we can return
             System.out.println("    WEB root directory defined at -> "
-                + webappRoot.getAbsolutePath());
+                    + webappRoot.getAbsolutePath());
             return;
         }
 
@@ -327,19 +348,19 @@ public class MockServletContext implements ServletContext {
                     //If the webappRoot is a legal directory on the classpath
                     //we can return
                     System.out.println("    WEB root directory defined at -> "
-                        + webappRoot.getAbsolutePath());
+                            + webappRoot.getAbsolutePath());
                     return;
                 }
             }
             if (webappRoot == null) {
                 checkedPaths += ". Also note that the path '" + getWebappPath()
-                    + "' was checked but not found on the classpath";
+                        + "' was checked but not found on the classpath";
             } else {
                 checkedPaths += ", " + webappRoot.getAbsolutePath();
             }
         } catch (Exception ex) {
             String msg = "error occurred while checking for existence of the web"
-                + " application root directory at : " + url;
+                    + " application root directory at : " + url;
             throw new RuntimeException(msg, ex);
         }
 
@@ -347,9 +368,9 @@ public class MockServletContext implements ServletContext {
         //valid directory, so throw an exception so user can provide the
         //correct path
         throw new IllegalStateException("ERROR: The "
-            + "directory cannot be found: " + getWebappPath() + ". "
-            + "The following absolute locations were checked for the path: "
-            + checkedPaths + ".");
+                + "directory cannot be found: " + getWebappPath() + ". "
+                + "The following absolute locations were checked for the path: "
+                + checkedPaths + ".");
     }
 
     /**
@@ -369,12 +390,12 @@ public class MockServletContext implements ServletContext {
                 deleteDirectoryOnShutdown(tempDirectory);
                 attributes.put("javax.servlet.context.tempdir", tempDirectory);
                 System.out.println("    WEB temp directory defined at -> "
-                    + tempDirectory.getAbsolutePath());
+                        + tempDirectory.getAbsolutePath());
             } else {
                 throw new IllegalStateException("ERROR: The "
-                    + "directory cannot be found: " + getTempPath() + ". "
-                    + "The following absolute locations were checked for the "
-                    + "path: " + tempDirectory.getAbsolutePath());
+                        + "directory cannot be found: " + getTempPath() + ". "
+                        + "The following absolute locations were checked for the "
+                        + "path: " + tempDirectory.getAbsolutePath());
             }
         }
     }
@@ -423,8 +444,8 @@ public class MockServletContext implements ServletContext {
     }
 
     /**
-     * Return the web application path where resources like javascript, css
-     * and images can be picked up.
+     * Return the web application path where resources like javascript, css and
+     * images can be picked up.
      *
      * @return the web application path
      */
@@ -520,7 +541,6 @@ public class MockServletContext implements ServletContext {
     }
 
     // -------------------------------------------------------- ServletContext interface methods
-
     /**
      * Get the context for the given URL path.
      *
@@ -570,9 +590,9 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public boolean setInitParameter(String name, String value) {
-            return false;
+        return false;
     }
-    
+
     /**
      * Return the major version of the Servlet spec that this package supports,
      * defaults to 3.
@@ -585,9 +605,9 @@ public class MockServletContext implements ServletContext {
     }
 
     /**
-     * Get the mime type for the given file. Uses a hardcoded map of mime
-     * types set at initialization time. If the mime type was not explicitly
-     * set, this method will fallback to
+     * Get the mime type for the given file. Uses a hardcoded map of mime types
+     * set at initialization time. If the mime type was not explicitly set, this
+     * method will fallback to
      * {@link org.apache.click.util.ClickUtils#getMimeType(String)}.
      *
      * @param name The name to get the mime type for
@@ -620,14 +640,14 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public int getEffectiveMajorVersion() {
-	return 3;
+        return 3;
     }
-        
+
     @Override
     public int getEffectiveMinorVersion() {
-            return 0;
-    }    
-    
+        return 0;
+    }
+
     /**
      * Get the real file path of the given resource name.
      *
@@ -652,9 +672,9 @@ public class MockServletContext implements ServletContext {
     }
 
     /**
-     * Returns a RequestDispatcher for the specified path. The dispatcher
-     * will not dispatch to the resource. It only records the specified path
-     * so that one can test if the correct path was dispatched to.
+     * Returns a RequestDispatcher for the specified path. The dispatcher will
+     * not dispatch to the resource. It only records the specified path so that
+     * one can test if the correct path was dispatched to.
      *
      * @param path a String specifying the pathname to the resource
      * @return a dispatcher for the specified path
@@ -664,9 +684,9 @@ public class MockServletContext implements ServletContext {
     }
 
     /**
-     * Returns a RequestDispatcher for the specified name. The dispatcher
-     * will not dispatch to the resource. It only records the specified name
-     * so that one can test if the correct name was dispatched to.
+     * Returns a RequestDispatcher for the specified name. The dispatcher will
+     * not dispatch to the resource. It only records the specified name so that
+     * one can test if the correct name was dispatched to.
      *
      * @param name a String specifying the name of a servlet to wrap
      * @return a dispatcher for the specified name
@@ -699,9 +719,9 @@ public class MockServletContext implements ServletContext {
     }
 
     /**
-     * Get an input stream for a particular resource that is relative to the
-     * web app root directory or the current classpath. If the webappRoot is
-     * not set, this method will try and load the resource from the classpath.
+     * Get an input stream for a particular resource that is relative to the web
+     * app root directory or the current classpath. If the webappRoot is not
+     * set, this method will try and load the resource from the classpath.
      *
      * @param name The name of the resource to get
      * @return The input stream for the resource, or null if resource is not
@@ -739,7 +759,7 @@ public class MockServletContext implements ServletContext {
     public Set<String> getResourcePaths(String name) {
         if (!name.startsWith("/")) {
             throw new IllegalArgumentException("Path " + name
-                + " does not start with a \"/\" character");
+                    + " does not start with a \"/\" character");
         }
         if (webappRoot == null) {
             return new HashSet<String>();
@@ -763,7 +783,7 @@ public class MockServletContext implements ServletContext {
             boolean match = false;
             for (int f = 0; f < files.length; f++) {
                 if (files[f].getName().equals(elements[i])
-                    && files[f].isDirectory()) {
+                        && files[f].isDirectory()) {
                     current = files[f];
                     match = true;
                     break;
@@ -799,17 +819,16 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public ServletRegistration.Dynamic addServlet(String servletName, String className) {
-        try  {
+        try {
             return addServlet(servletName, Class.forName(className).asSubclass(Servlet.class));
-        }
-        catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
-        Dynamic mockRegistration = (Dynamic)Proxy.newProxyInstance(Dynamic.class.getClassLoader(),
+        Dynamic mockRegistration = (Dynamic) Proxy.newProxyInstance(Dynamic.class.getClassLoader(),
                 new Class<?>[]{Dynamic.class}, new MockedServletRegistationHandler(servletName));
 
         servletRegistration.put(servletName, mockRegistration);
@@ -818,16 +837,12 @@ public class MockServletContext implements ServletContext {
     }
 
     @Override
-    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass)
-    {
-            try
-            {
-                    return addServlet(servletName, servletClass.getDeclaredConstructor().newInstance());
-            }
-            catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-            {
-                    throw new RuntimeException(e);
-            }
+    public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
+        try {
+            return addServlet(servletName, servletClass.getDeclaredConstructor().newInstance());
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -836,61 +851,57 @@ public class MockServletContext implements ServletContext {
     }
 
     @Override
-    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException
-    {
-            try
-            {
-                    return clazz.getDeclaredConstructor().newInstance();
-            }
-            catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-            {
-                    throw new RuntimeException(e);
-            }
+    public <T extends Servlet> T createServlet(Class<T> clazz) throws ServletException {
+        try {
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public ServletRegistration getServletRegistration(String servletName) {
-            return servletRegistration.get(servletName);
+        return servletRegistration.get(servletName);
     }
 
     @Override
     public Map<String, ? extends ServletRegistration> getServletRegistrations() {
-            return servletRegistration;
+        return servletRegistration;
     }
 
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, String className) {
-            return null;
+        return null;
     }
 
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
-            return null;
+        return null;
     }
 
     @Override
     public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
-            return null;
+        return null;
     }
 
     @Override
     public <T extends Filter> T createFilter(Class<T> clazz) throws ServletException {
-            return null;
+        return null;
     }
 
     @Override
     public FilterRegistration getFilterRegistration(String filterName) {
-            return null;
+        return null;
     }
 
     @Override
     public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
-            return null;
+        return null;
     }
 
     @Override
     public SessionCookieConfig getSessionCookieConfig() {
-            return sessionCookieConfig;
+        return sessionCookieConfig;
     }
 
     @Override
@@ -899,12 +910,12 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
-            return EnumSet.of(SessionTrackingMode.COOKIE);
+        return EnumSet.of(SessionTrackingMode.COOKIE);
     }
 
     @Override
     public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
-            return getDefaultSessionTrackingModes();
+        return getDefaultSessionTrackingModes();
     }
 
     @Override
@@ -921,17 +932,17 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public <T extends EventListener> T createListener(Class<T> clazz) throws ServletException {
-            return null;
+        return null;
     }
 
     @Override
     public JspConfigDescriptor getJspConfigDescriptor() {
-            return null;
+        return null;
     }
 
     @Override
     public ClassLoader getClassLoader() {
-            return null;
+        return null;
     }
 
     @Override
@@ -940,9 +951,9 @@ public class MockServletContext implements ServletContext {
 
     @Override
     public String getVirtualServerName() {
-            return "Apache Click Tester 2.4.x";
+        return "Apache Click Tester 2.4.x";
     }
-    
+
     /**
      * NOT USED - Servlet Spec requires that this always returns null.
      *
@@ -1109,7 +1120,6 @@ public class MockServletContext implements ServletContext {
         return name;
     }
 
-
     @Override
     public int getSessionTimeout() {
         return sessionTimeout;
@@ -1129,7 +1139,7 @@ public class MockServletContext implements ServletContext {
     public void setRequestCharacterEncoding(String encoding) {
         this.requestEncoding = encoding;
     }
-    
+
     @Override
     public String getResponseCharacterEncoding() {
         return responseEncoding;
@@ -1139,29 +1149,31 @@ public class MockServletContext implements ServletContext {
     public void setResponseCharacterEncoding(String encoding) {
         this.responseEncoding = encoding;
     }
+
     /**
-     * Invocation handler for proxy interface of {@link jakarta.servlet.ServletRegistration.Dynamic}.
-     * This class intercepts invocation for method {@link jakarta.servlet.ServletRegistration.Dynamic#getMappings}
-     * and returns the servlet name.
+     * Invocation handler for proxy interface of
+     * {@link jakarta.servlet.ServletRegistration.Dynamic}. This class
+     * intercepts invocation for method
+     * {@link jakarta.servlet.ServletRegistration.Dynamic#getMappings} and
+     * returns the servlet name.
      *
      * @author andrea del bene
      */
     class MockedServletRegistationHandler implements InvocationHandler {
 
-           private final Collection<String> servletName;
+        private final Collection<String> servletName;
 
-           public MockedServletRegistationHandler(String servletName) {
-                   this.servletName = Arrays.asList(servletName);
-           }
+        public MockedServletRegistationHandler(String servletName) {
+            this.servletName = Arrays.asList(servletName);
+        }
 
-           @Override
-           public Object invoke(Object object, Method method, Object[] args) throws Throwable {
-                   if (method.getName().equals("getMappings"))
-                   {
-                           return servletName;
-                   }
+        @Override
+        public Object invoke(Object object, Method method, Object[] args) throws Throwable {
+            if (method.getName().equals("getMappings")) {
+                return servletName;
+            }
 
-                   return null;
-           }
-    }    
+            return null;
+        }
+    }
 }

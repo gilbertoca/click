@@ -427,6 +427,7 @@ public class MockContainer {
      * This method simulates a browser requesting (GET) or submitting (POST)
      * the url associated with the specified pageClass and parameters.
      *
+     * @param <T>
      * @see #testPage(Class)
      *
      * @param pageClass specifies the class of the Page to test
@@ -454,6 +455,7 @@ public class MockContainer {
      * The container forwards the request to {@link org.apache.click.ClickServlet}
      * for processing and returns the Page instance that was created.
      *
+     * @param <T>
      * @param pageClass specifies the class of the Page to test
      * @return the Page instance for the specified pageClass
      */

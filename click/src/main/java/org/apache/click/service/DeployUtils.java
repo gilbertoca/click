@@ -160,6 +160,7 @@ class DeployUtils<T> {
      * @param test an instance of {@link Test} that will be used to filter classes
      * @param packageName the name of the package from which to start scanning for
      *        classes, e.g. {@code net.sourceforge.stripes}
+     * @return this
      */
     public DeployUtils<T> find(Test test, String packageName) {
         String path = getPackagePath(packageName);
@@ -437,6 +438,7 @@ class DeployUtils<T> {
      * {@link ClassLoader#getResources(String)}.
      *
      * @param packageName The Java package name to convert to a path
+     * @return converted packageName
      */
     protected String getPackagePath(String packageName) {
         return packageName == null ? null : packageName.replace('.', '/');
@@ -448,6 +450,7 @@ class DeployUtils<T> {
      * ".class") and directories that might be a Java package name segment (java identifiers).
      *
      * @param resourceName The resource name, without path information
+     * @return true if the name of a resource (file or directory) is one that matters.
      */
     protected boolean isRelevantResource(String resourceName) {
         return resourceName != null && !resourceName.equals("");
@@ -457,6 +460,7 @@ class DeployUtils<T> {
      * Returns true if the resource located at the given URL is a JAR file.
      *
      * @param url The URL of the resource to test.
+     * @return true
      */
     protected boolean isJar(URL url) {
         return isJar(url, new byte[JAR_MAGIC.length]);
@@ -469,6 +473,7 @@ class DeployUtils<T> {
      * @param buffer A buffer into which the first few bytes of the resource are read. The buffer
      *            must be at least the size of {@link #JAR_MAGIC}. (The same buffer may be reused
      *            for multiple calls as an optimization.)
+     * @return true
      */
     protected boolean isJar(URL url, byte[] buffer) {
         InputStream is = null;
@@ -522,6 +527,8 @@ class DeployUtils<T> {
         /**
          * Will be called repeatedly with candidate classes. Must return True if a class
          * is to be included in the results, false otherwise.
+         * @param resource
+         * @return true if a class is to be included in the results.
          */
         boolean matches(String resource);
     }

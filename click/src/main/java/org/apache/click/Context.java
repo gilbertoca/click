@@ -550,6 +550,7 @@ public class Context {
      *
      * The given page path must start with a <code>'/'</code>.
      *
+     * @param <T>
      * @param path the Page path as configured in the click.xml file
      * @return a new Page object
      * @throws IllegalArgumentException if the Page is not found
@@ -578,6 +579,7 @@ public class Context {
      *
      * setForward(userEdit); </pre>
      *
+     * @param <T>
      * @param pageClass the Page class as configured in the click.xml file
      * @return a new Page object
      * @throws IllegalArgumentException if the Page is not found, or is not

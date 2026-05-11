@@ -62,7 +62,9 @@ public class ClickResourceService extends BasicResourceService {
               deployFiles(configElement);
         } catch (Exception e) {
               // Encapsula qualquer erro de Reflection ou XML em IOException
-              if (e instanceof IOException) throw (IOException) e;
+              if (e instanceof IOException) {
+                  throw (IOException) e;
+              }
               throw new IOException("Error deploying resources", e);
         }
 

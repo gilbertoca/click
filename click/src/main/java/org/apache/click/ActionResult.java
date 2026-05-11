@@ -375,6 +375,7 @@ public class ActionResult {
      * Set the byte array to stream back to the client.
      *
      * @param bytes the byte array to stream back to the client
+     * @param contentType
      */
     public void setBytes(byte[] bytes, String contentType) {
         this.bytes = bytes;

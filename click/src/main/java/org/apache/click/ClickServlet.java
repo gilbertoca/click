@@ -50,7 +50,6 @@ import org.apache.click.util.ClickUtils;
 import org.apache.click.util.ErrorPage;
 import org.apache.click.util.HtmlStringBuffer;
 import org.apache.click.util.PageImports;
-import org.apache.commons.fileupload2.javax.JavaxServletFileUpload;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -1670,6 +1669,7 @@ public class ClickServlet extends HttpServlet {
      * Return a new Page instance for the given path. The path must start with
      * a <code>"/"</code>.
      *
+     * @param <T>
      * @param path the path which maps to a Page class
      * @param request the Page request
      * @return a new Page object
@@ -1690,6 +1690,7 @@ public class ClickServlet extends HttpServlet {
     /**
      * Return a new Page instance for the page Class.
      *
+     * @param <T>
      * @param pageClass the class of the Page to create
      * @param request the Page request
      * @return a new Page object

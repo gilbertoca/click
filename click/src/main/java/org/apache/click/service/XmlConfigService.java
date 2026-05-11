@@ -39,7 +39,6 @@ import java.util.TreeMap;
 
 import javax.servlet.ServletContext;
 
-import org.apache.click.Control;
 import org.apache.click.Page;
 import org.apache.click.PageInterceptor;
 import org.apache.click.util.Bindable;
@@ -113,10 +112,12 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /** The trace application mode. */
     static final int TRACE = 4;
-
+    
+    /** The application mode values. */
     static final String[] MODE_VALUES =
         { "production", "profile", "development", "debug", "trace" };
-
+    
+    /** The page load lock. */
     private static final Object PAGE_LOAD_LOCK = new Object();
 
     /**
@@ -137,7 +138,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         DEFAULT_HEADERS.put("Cache-Control", "no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
         DEFAULT_HEADERS.put("Expires", new Date(1L));
     }
-
+    
+    /** The google app engine. */
     private static final String GOOGLE_APP_ENGINE = "Google App Engine";
 
     // ------------------------------------------------ Package Private Members
@@ -1753,6 +1755,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     public static class ExcludePage extends Page {
 
+        /**
+         * Map of headers.
+         */
         static final Map HEADERS = new HashMap();
 
         static {
@@ -1770,6 +1775,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
     }
 
+    /**
+     * Provide an Page Element class.
+     */
     static class PageElm {
 
         final Map<String, Field> fields;
@@ -1910,6 +1918,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
     }
 
+    /**
+     * Provide an Excluded Element class.
+     */ 
     static class ExcludesElm {
 
         final Set<String> pathSet = new HashSet<String>();
@@ -1968,7 +1979,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 + "[fileSet=" + fileSet + ",pathSet=" + pathSet + "]";
         }
     }
-
+    
+    /**
+     * Provide a Page Interceptor Config class.
+     */ 
     static class PageInterceptorConfig {
 
         final Class<? extends PageInterceptor> interceptorClass;
@@ -2019,6 +2033,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
     }
 
+    /**
+     * Provide a Property class.
+     */ 
     static class Property {
         final String name;
         final String value;

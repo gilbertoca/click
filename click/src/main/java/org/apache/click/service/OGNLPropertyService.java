@@ -42,19 +42,20 @@ import org.apache.click.util.PropertyUtils;
 public class OGNLPropertyService implements PropertyService {
 
     // OGNL Expression cache with support for multiple classloader caching
-    private static final ClassLoaderCache<Map<String, Object>>
-        EXPRESSION_CL_CACHE = new ClassLoaderCache<Map<String, Object>>();
+    private static final ClassLoaderCache<Map<String, Object>> EXPRESSION_CL_CACHE = new ClassLoaderCache<Map<String, Object>>();
 
     // Protected Variables ---------------------------------------------------
-
-    /** The OGNL object member accessor. */
+    /**
+     * The OGNL object member accessor.
+     */
     protected MemberAccess memberAccess;
 
-    /** The OGNL data marshalling type converter. */
+    /**
+     * The OGNL data marshalling type converter.
+     */
     protected TypeConverter typeConverter;
 
     //Public Methods  --------------------------------------------------------
-
     /**
      * @see PropertyService#onInit(ServletContext)
      *
@@ -113,8 +114,8 @@ public class OGNLPropertyService implements PropertyService {
      *
      * @param source the source object
      * @param name the name of the property
-     * @param cache the cache of reflected property Method objects, do NOT modify
-     * this cache
+     * @param cache the cache of reflected property Method objects, do NOT
+     * modify this cache
      * @return the property value for the given source object and property name
      */
     public Object getValue(Object source, String name, Map<?, ?> cache) {
@@ -134,10 +135,10 @@ public class OGNLPropertyService implements PropertyService {
         // 1. OGNL 3.4+ returns OgnlContext, not a Map
         // 2. The signature is now: (root, memberAccess, classResolver, converter)
         OgnlContext ognlContext = Ognl.createDefaultContext(
-            target,
-            getMemberAccess(),
-            new ognl.DefaultClassResolver(), // Add this missing ClassResolver
-            getTypeConverter()
+                target,
+                getMemberAccess(),
+                new ognl.DefaultClassResolver(), // Add this missing ClassResolver
+                getTypeConverter()
         );
 
         try {
@@ -156,7 +157,6 @@ public class OGNLPropertyService implements PropertyService {
     }
 
     // Protected Methods ------------------------------------------------------
-
     /**
      * Return the OGNL object MemberAccess instance.
      *
@@ -169,9 +169,9 @@ public class OGNLPropertyService implements PropertyService {
                 public boolean isAccessible(OgnlContext oc, Object o, Member member, String string) {
                     int modifiers = member.getModifiers();
                     // Allow public, protected, and private to match @Bindable's intent
-                    return Modifier.isPublic(modifiers) || 
-                           Modifier.isProtected(modifiers) || 
-                           Modifier.isPrivate(modifiers);
+                    return Modifier.isPublic(modifiers)
+                            || Modifier.isProtected(modifiers)
+                            || Modifier.isPrivate(modifiers);
                 }
 
                 @Override
@@ -199,7 +199,6 @@ public class OGNLPropertyService implements PropertyService {
         return memberAccess;
     }
 
-
     /**
      * Return the OGNL data marshalling TypeConverter instance.
      *
@@ -214,7 +213,6 @@ public class OGNLPropertyService implements PropertyService {
     }
 
     // Private Methods --------------------------------------------------------
-
     private static Map<String, Object> getExpressionCache() {
         Map<String, Object> expressionCache = EXPRESSION_CL_CACHE.get();
         if (expressionCache == null) {
@@ -226,4 +224,3 @@ public class OGNLPropertyService implements PropertyService {
     }
 
 }
-

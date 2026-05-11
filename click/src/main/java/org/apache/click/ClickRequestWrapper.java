@@ -60,6 +60,8 @@ class ClickRequestWrapper extends HttpServletRequestWrapper {
     // Constructors -----------------------------------------------------------
 
     /**
+     * @param request o objeto HttpServletRequest
+     * @param fileUploadService o serviço de upload de arquivos
      * @see HttpServletRequestWrapper(HttpServletRequest)
      */
     ClickRequestWrapper(final HttpServletRequest request,
