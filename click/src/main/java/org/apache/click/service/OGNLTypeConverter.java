@@ -22,8 +22,11 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 
 import org.apache.commons.lang3.Validate;
 
@@ -40,11 +43,14 @@ import ognl.TypeConverter;
  */
 public class OGNLTypeConverter implements TypeConverter {
 
-    // Public Methods ---------------------------------------------------------
+    // Thread-safe formatter for Locale-specific date parsing
+    private static final DateTimeFormatter DATE_FORMATTER
+            = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
 
+    // Public Methods ---------------------------------------------------------
     /**
-     * Converts the given value to a given type.  The OGNL context, target,
-     * member and name of property being set are given.  This method should be
+     * Converts the given value to a given type. The OGNL context, target,
+     * member and name of property being set are given. This method should be
      * able to handle conversion in general without any context, target, member
      * or property name specified.
      *
@@ -54,23 +60,23 @@ public class OGNLTypeConverter implements TypeConverter {
      * @param propertyName property name being set
      * @param value value to be converted
      * @param toType type to which value is converted
-     * @return Converted value of type toType or TypeConverter.NoConversionPossible
-     *  to indicate that the conversion was not possible.
+     * @return Converted value of type toType or
+     * TypeConverter.NoConversionPossible to indicate that the conversion was
+     * not possible.
      */
     @Override
     @SuppressWarnings("rawtypes")
     public Object convertValue(ognl.OgnlContext context, // Changed from Map to OgnlContext
-                               Object target,
-                               Member member,
-                               String propertyName,
-                               Object value,
-                               Class toType) {
+            Object target,
+            Member member,
+            String propertyName,
+            Object value,
+            Class toType) {
 
         return convertValue(value, toType);
     }
 
     // ------------------------------------------------------ Protected Methods
-
     /**
      * Return the converted value for the given value object and target type.
      *
@@ -79,126 +85,104 @@ public class OGNLTypeConverter implements TypeConverter {
      * @return a converted value into the specified type
      */
     protected Object convertValue(Object value, Class<?> toType) {
-        Object result = null;
+        if (value == null) {
+            return toType.isPrimitive() ? OgnlRuntime.getPrimitiveDefaultValue(toType) : null;
+        }
 
-        if (value != null) {
+        // Handle Array to Array conversion
+        if (value.getClass().isArray() && toType.isArray()) {
+            Class<?> componentType = toType.getComponentType();
+            int length = Array.getLength(value);
+            Object result = Array.newInstance(componentType, length);
+            for (int i = 0; i < length; i++) {
+                Array.set(result, i, convertValue(Array.get(value, i), componentType));
+            }
+            return result;
+        }
 
-            // If array -> array then convert components of array individually
-            if (value.getClass().isArray() && toType.isArray()) {
-                Class<?> componentType = toType.getComponentType();
+        // Numeric Conversions
+        if (toType == Integer.class || toType == Integer.TYPE) {
+            return (int) OgnlOps.longValue(value);
+        }
+        if (toType == Double.class || toType == Double.TYPE) {
+            return OgnlOps.doubleValue(value);
+        }
+        if (toType == Boolean.class || toType == Boolean.TYPE) {
+            return Boolean.valueOf(value.toString());
+        }
+        if (toType == Long.class || toType == Long.TYPE) {
+            return OgnlOps.longValue(value);
+        }
+        if (toType == Float.class || toType == Float.TYPE) {
+            return (float) OgnlOps.doubleValue(value);
+        }
+        if (toType == BigInteger.class) {
+            return OgnlOps.bigIntValue(value);
+        }
+        if (toType == BigDecimal.class) {
+            return bigDecValue(value);
+        }
+        if (toType == String.class) {
+            return OgnlOps.stringValue(value);
+        }
 
-                result =
-                    Array.newInstance(componentType, Array.getLength(value));
+        // Date Conversions using modernized getTimeFromDateString
+        if (toType == java.util.Date.class || toType == java.sql.Date.class
+                || toType == java.sql.Time.class || toType == java.sql.Timestamp.class) {
 
-                for (int i = 0, icount = Array.getLength(value); i < icount; i++) {
-                    Array.set(result,
-                              i,
-                              convertValue(Array.get(value, i),
-                              componentType));
-                }
-
-            } else {
-                if ((toType == Integer.class) || (toType == Integer.TYPE)) {
-                    result = Integer.valueOf((int) OgnlOps.longValue(value));
-
-                } else if ((toType == Double.class) || (toType == Double.TYPE)) {
-                    result = Double.valueOf(OgnlOps.doubleValue(value));
-
-                } else if ((toType == Boolean.class) || (toType == Boolean.TYPE)) {
-                    result = Boolean.valueOf(value.toString());
-
-                } else if ((toType == Byte.class) || (toType == Byte.TYPE)) {
-                    result = Byte.valueOf((byte) OgnlOps.longValue(value));
-
-                } else if ((toType == Character.class) || (toType == Character.TYPE)) {
-                    result = Character.valueOf((char) OgnlOps.longValue(value));
-
-                } else if ((toType == Short.class) || (toType == Short.TYPE)) {
-                    result = Short.valueOf((short) OgnlOps.longValue(value));
-
-                } else if ((toType == Long.class) || (toType == Long.TYPE)) {
-                    result = Long.valueOf(OgnlOps.longValue(value));
-
-                } else if ((toType == Float.class) || (toType == Float.TYPE)) {
-                    //or just result = OgnlOps.doubleValue(value);
-                    result = Float.valueOf(Double.valueOf(OgnlOps.doubleValue(value)).floatValue());
-
-                } else if (toType == BigInteger.class) {
-                    result = OgnlOps.bigIntValue(value);
-
-                } else if (toType == BigDecimal.class) {
-                    result = bigDecValue(value);
-
-                } else  if (toType == String.class) {
-                    result = OgnlOps.stringValue(value);
-
-                } else if (toType == java.util.Date.class) {
-                    long time = getTimeFromDateString(value.toString());
-                    if (time > Long.MIN_VALUE) {
-                        result = new java.util.Date(time);
-                    }
-
-                } else if (toType == java.sql.Date.class) {
-                    long time = getTimeFromDateString(value.toString());
-                    if (time > Long.MIN_VALUE) {
-                        result = new java.sql.Date(time);
-                    }
-
-                } else if (toType == java.sql.Time.class) {
-                    long time = getTimeFromDateString(value.toString());
-                    if (time > Long.MIN_VALUE) {
-                        result = new java.sql.Time(time);
-                    }
-
-                } else if (toType == java.sql.Timestamp.class) {
-                    long time = getTimeFromDateString(value.toString());
-                    if (time > Long.MIN_VALUE) {
-                        result = new java.sql.Timestamp(time);
-                    }
-                }
+            long time = getTimeFromDateString(value.toString());
+            if (time == Long.MIN_VALUE) {
+                return null;
             }
 
-        } else {
-            if (toType.isPrimitive()) {
-                result = OgnlRuntime.getPrimitiveDefaultValue(toType);
+            if (toType == java.util.Date.class) {
+                return new java.util.Date(time);
+            }
+            if (toType == java.sql.Date.class) {
+                return new java.sql.Date(time);
+            }
+            if (toType == java.sql.Time.class) {
+                return new java.sql.Time(time);
+            }
+            if (toType == java.sql.Timestamp.class) {
+                return new java.sql.Timestamp(time);
             }
         }
-        return result;
+
+        return null;
     }
 
     /**
-     * Return the time value in milliseconds of the given date value string,
-     * or Long.MIN_VALUE if the date could not be determined.
+     * Return the time value in milliseconds of the given date value string, or
+     * Long.MIN_VALUE if the date could not be determined.
      *
      * @param value the date value string
-     * @return the time value in milliseconds or Long.MIN_VALUE if not determined
+     * @return the time value in milliseconds or Long.MIN_VALUE if not
+     * determined
      */
     protected long getTimeFromDateString(String value) {
         Validate.notNull(value, "Null value string");
-
         value = value.trim();
-
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             return Long.MIN_VALUE;
         }
 
+        // 1. Raw Epoch Timestamp
         if (isTimeValue(value)) {
             return Long.parseLong(value);
         }
 
-        java.util.Date date = createDateFromSqlString(value);
-        if (date != null) {
-            return date.getTime();
+        // 2. ISO SQL Format (yyyy-MM-dd)
+        try {
+            return java.sql.Date.valueOf(value).getTime();
+        } catch (IllegalArgumentException ignored) {
         }
 
+        // 3. Locale-specific Medium Format (Thread-safe)
         try {
-            DateFormat format = DateFormat.getDateInstance();
-
-            date = format.parse(value);
-
-            return date.getTime();
-
-        } catch (ParseException pe) {
+            LocalDate date = LocalDate.parse(value, DATE_FORMATTER);
+            return date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        } catch (DateTimeParseException e) {
             return Long.MIN_VALUE;
         }
     }
@@ -210,64 +194,19 @@ public class OGNLTypeConverter implements TypeConverter {
      * @return true if the given string value is a long time value.
      */
     protected boolean isTimeValue(String value) {
-        for (int i = 0, size = value.length(); i < size; i++) {
-            char aChar = value.charAt(i);
-            if (i == 0) {
-                if (!Character.isDigit(aChar) && aChar != '-') {
-                    return false;
-                }
-            } else {
-                if (!Character.isDigit(aChar)) {
-                    return false;
-                }
+        if (value.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (i == 0 && c == '-') {
+                continue;
+            }
+            if (!Character.isDigit(c)) {
+                return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Return a new date object from the give SQL format date string, or null
-     * if the value is invalid.
-     *
-     * @param value the SQL format date string
-     * @return a new date object from the give SQL format date string
-     */
-    @SuppressWarnings("deprecation")
-    protected java.util.Date createDateFromSqlString(String value) {
-        if (value.length() != 10) {
-            return null;
-        }
-
-        for (int i = 0, size = value.length(); i < size; i++) {
-            char aChar = value.charAt(i);
-            if (!Character.isDigit(aChar) && aChar != '-') {
-                return null;
-            }
-        }
-
-        int firstDash = value.indexOf('-');
-        int secondDash = value.indexOf('-', firstDash + 1);
-
-        if ((firstDash > 0)
-            & (secondDash > 0)
-            & (secondDash < value.length() - 1)) {
-
-            try {
-                int year = Integer.parseInt(value.substring(0, firstDash)) - 1900;
-
-                int month = Integer.parseInt(value.substring(firstDash + 1, secondDash)) - 1;
-
-                int day = Integer.parseInt(value.substring(secondDash + 1));
-
-                return new java.util.Date(year, month, day);
-
-            } catch (NumberFormatException nfe) {
-                return null;
-            }
-
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -278,23 +217,17 @@ public class OGNLTypeConverter implements TypeConverter {
      */
     private BigDecimal bigDecValue(Object value) {
         if (value == null) {
-            return BigDecimal.valueOf(0L);
+            return BigDecimal.ZERO;
         }
-        Class<?> c = value.getClass();
-        if (c == BigDecimal.class) {
+        if (value instanceof BigDecimal) {
             return (BigDecimal) value;
         }
-        if (c == BigInteger.class) {
+        if (value instanceof BigInteger) {
             return new BigDecimal((BigInteger) value);
         }
-
-        if (c == Boolean.class) {
-            return BigDecimal.valueOf(((Boolean) value).booleanValue() ? 1 : 0);
+        if (value instanceof Boolean) {
+            return ((Boolean) value) ? BigDecimal.ONE : BigDecimal.ZERO;
         }
-        if (c == Character.class) {
-            return BigDecimal.valueOf(((Character) value).charValue());
-        }
-
         return new BigDecimal(value.toString().trim());
     }
 }

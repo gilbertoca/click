@@ -18,9 +18,8 @@
  */
 package org.apache.click.util;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Provides a classloader object map cache keyed on the current threads
@@ -31,8 +30,7 @@ import java.util.Map;
 public class ClassLoaderCache<E> {
 
     // The cache map keyed by classloader
-    private Map<ClassLoader, E> classLoaderMap
-        = Collections.synchronizedMap(new HashMap<ClassLoader, E>());
+    private final Map<ClassLoader, E> classLoaderMap = new ConcurrentHashMap<>();
 
     /**
      * Return the cached variable for the current thread classloader.

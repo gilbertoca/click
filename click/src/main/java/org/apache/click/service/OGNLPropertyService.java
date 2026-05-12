@@ -142,13 +142,18 @@ public class OGNLPropertyService implements PropertyService {
         );
 
         try {
-            Object expression = getExpressionCache().get(name);
-            if (expression == null) {
-                expression = Ognl.parseExpression(name);
-                getExpressionCache().put(name, expression);
-            }
+            // Cast to ConcurrentHashMap to use the atomic computeIfAbsent
+            ConcurrentHashMap<String, Object> cache = (ConcurrentHashMap<String, Object>) getExpressionCache();
 
-            // 3. Ognl.setValue now requires the OgnlContext object
+            Object expression = cache.computeIfAbsent(name, key -> {
+                try {
+                    return Ognl.parseExpression(key);
+                } catch (OgnlException e) {
+                    // Wrap checked exception for the lambda
+                    throw new RuntimeException("Failed to parse OGNL expression: " + key, e);
+                }
+            });
+
             Ognl.setValue(expression, ognlContext, target, value);
 
         } catch (OgnlException oe) {

@@ -29,7 +29,6 @@ import org.apache.click.service.ConfigService;
 import org.apache.click.service.PropertyService;
 import org.apache.commons.lang3.Validate;
 
-
 /**
  * Provide property getter and setter utility methods. This class is provided
  * for backward compatibility.
@@ -41,10 +40,9 @@ public class PropertyUtils {
      * support for multiple class loaders.
      */
     private static final ClassLoaderCache<Map<CacheKey, Method>> GET_METHOD_CLASSLOADER_CACHE
-        = new ClassLoaderCache<Map<CacheKey, Method>>();
+            = new ClassLoaderCache<Map<CacheKey, Method>>();
 
     // -------------------------------------------------------- Public Methods
-
     /**
      * Return the property value for the given object and property name. This
      * method uses reflection internally to get the property value.
@@ -98,8 +96,8 @@ public class PropertyUtils {
      *
      * @param source the source object
      * @param name the name of the property
-     * @param cache the cache of reflected property Method objects, do NOT modify
-     * this cache
+     * @param cache the cache of reflected property Method objects, do NOT
+     * modify this cache
      * @return the property value for the given source object and property name
      */
     public static Object getValue(Object source, String name, Map cache) {
@@ -129,7 +127,8 @@ public class PropertyUtils {
     }
 
     /**
-     * Return the property value for the given object and property name using the MVEL library.
+     * Return the property value for the given object and property name using
+     * the MVEL library.
      *
      * @param target the target object to set the property of
      * @param name the name of the property to set
@@ -140,7 +139,6 @@ public class PropertyUtils {
     }
 
     // Private Methods --------------------------------------------------------
-
     /**
      * Return the property value for the given object and property name. This
      * method uses reflection internally to get the property value.
@@ -153,59 +151,46 @@ public class PropertyUtils {
     private static Object getObjectPropertyValue(Object source, String name, Map cache) {
         CacheKey methodNameKey = new CacheKey(source, name);
 
-        Method method = null;
-        try {
+        // If the cache is a ConcurrentHashMap, use the atomic computeIfAbsent
+        Method method;
+        if (cache instanceof ConcurrentHashMap) {
+            method = ((ConcurrentHashMap<CacheKey, Method>) cache).computeIfAbsent(methodNameKey, key -> findGetterMethod(source.getClass(), name));
+        } else {
+            // Fallback for legacy Map types passed into the public getValue(..., Map cache)
             method = (Method) cache.get(methodNameKey);
-
             if (method == null) {
-
-                method = source.getClass().getMethod(ClickUtils.toGetterName(name));
+                method = findGetterMethod(source.getClass(), name);
                 cache.put(methodNameKey, method);
             }
+        }
 
+        try {
             return method.invoke(source);
-
-        } catch (NoSuchMethodException nsme) {
-
-            try {
-                method = source.getClass().getMethod(ClickUtils.toIsGetterName(name));
-                cache.put(methodNameKey, method);
-
-                return method.invoke(source);
-
-            } catch (NoSuchMethodException nsme2) {
-
-                try {
-                    method = source.getClass().getMethod(name);
-                    cache.put(methodNameKey, method);
-
-                    return method.invoke(source);
-
-                } catch (NoSuchMethodException nsme3) {
-                    String msg = "No matching getter method found for property '"
-                        + name + "' on class " + source.getClass().getName();
-
-                    throw new RuntimeException(msg);
-
-                } catch (Exception e) {
-                    String msg = "Error getting property '" + name + "' from " + source.getClass();
-                    throw new RuntimeException(msg, e);
-                }
-
-            } catch (Exception e) {
-                String msg = "Error getting property '" + name + "' from " + source.getClass();
-                throw new RuntimeException(msg, e);
-            }
-
         } catch (Exception e) {
-            String msg = "Error getting property '" + name + "' from " + source.getClass();
-            throw new RuntimeException(msg, e);
+            throw new RuntimeException("Error getting property '" + name + "' from " + source.getClass(), e);
+        }
+    }
+
+    // Helper to encapsulate the multi-step reflection lookup
+    private static Method findGetterMethod(Class<?> clazz, String name) {
+        try {
+            return clazz.getMethod(ClickUtils.toGetterName(name));
+        } catch (NoSuchMethodException e) {
+            try {
+                return clazz.getMethod(ClickUtils.toIsGetterName(name));
+            } catch (NoSuchMethodException e2) {
+                try {
+                    return clazz.getMethod(name);
+                } catch (NoSuchMethodException e3) {
+                    throw new RuntimeException("No matching getter found for '" + name + "' on " + clazz.getName());
+                }
+            }
         }
     }
 
     private static PropertyService getPropertyService() {
-        ServletContext servletContext =
-            Context.getThreadLocalContext().getServletContext();
+        ServletContext servletContext
+                = Context.getThreadLocalContext().getServletContext();
 
         ConfigService configService = ClickUtils.getConfigService(servletContext);
 
@@ -223,7 +208,6 @@ public class PropertyUtils {
     }
 
     // Inner Classes ----------------------------------------------------------
-
     /**
      * See DRY Performance article by Kirk Pepperdine.
      * <p>
@@ -231,10 +215,14 @@ public class PropertyUtils {
      */
     public static class CacheKey {
 
-        /** Class to encapsulate in cache key. */
+        /**
+         * Class to encapsulate in cache key.
+         */
         private final Class sourceClass;
 
-        /** Property to encapsulate in cache key. */
+        /**
+         * Property to encapsulate in cache key.
+         */
         private final String property;
 
         /**
