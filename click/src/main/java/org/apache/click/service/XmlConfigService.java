@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletContext;
 
@@ -57,9 +58,10 @@ import org.xml.sax.SAXException;
  * Provides a Click XML configuration service class.
  * <p>
  * This class reads Click configuration information from a file named
- * <code>click.xml</code>. The service will first lookup the <code>click.xml</code>
- * under the applications <code>WEB-INF</code> directory, and if not found
- * attempt to load the configuration file from the classpath root.
+ * <code>click.xml</code>. The service will first lookup the
+ * <code>click.xml</code> under the applications <code>WEB-INF</code> directory,
+ * and if not found attempt to load the configuration file from the classpath
+ * root.
  * <p>
  * Configuring Click through the <code>click.xml</code> file is the most common
  * technique.
@@ -69,13 +71,19 @@ import org.xml.sax.SAXException;
  */
 public class XmlConfigService implements ConfigService, EntityResolver {
 
-    /** The name of the Click logger: &nbsp; "<code>org.apache.click</code>". */
+    /**
+     * The name of the Click logger: &nbsp; "<code>org.apache.click</code>".
+     */
     static final String CLICK_LOGGER = "org.apache.click";
 
-    /** The click deployment directory path: &nbsp; "/click". */
+    /**
+     * The click deployment directory path: &nbsp; "/click".
+     */
     static final String CLICK_PATH = "/click";
 
-    /** The default common page headers. */
+    /**
+     * The default common page headers.
+     */
     static final Map<String, Object> DEFAULT_HEADERS;
 
     /**
@@ -84,7 +92,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     static final String DEFAULT_VEL_PROPS = "/WEB-INF/velocity.properties";
 
-    /** The click DTD file name: &nbsp; "<code>click.dtd</code>". */
+    /**
+     * The click DTD file name: &nbsp; "<code>click.dtd</code>".
+     */
     static final String DTD_FILE_NAME = "click.dtd";
 
     /**
@@ -98,30 +108,45 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     static final String MACRO_VM_FILE_NAME = "macro.vm";
 
-    /** The production application mode. */
+    /**
+     * The production application mode.
+     */
     static final int PRODUCTION = 0;
 
-    /** The profile application mode. */
+    /**
+     * The profile application mode.
+     */
     static final int PROFILE = 1;
 
-    /** The development application mode. */
+    /**
+     * The development application mode.
+     */
     static final int DEVELOPMENT = 2;
 
-    /** The debug application mode. */
+    /**
+     * The debug application mode.
+     */
     static final int DEBUG = 3;
 
-    /** The trace application mode. */
+    /**
+     * The trace application mode.
+     */
     static final int TRACE = 4;
-    
-    /** The application mode values. */
-    static final String[] MODE_VALUES =
-        { "production", "profile", "development", "debug", "trace" };
-    
-    /** The page load lock. */
+
+    /**
+     * The application mode values.
+     */
+    static final String[] MODE_VALUES
+            = {"production", "profile", "development", "debug", "trace"};
+
+    /**
+     * The page load lock.
+     */
     private static final Object PAGE_LOAD_LOCK = new Object();
 
     /**
-     * The name of the Velocity logger: &nbsp; "<code>org.apache.velocity</code>".
+     * The name of the Velocity logger: &nbsp;
+     * "<code>org.apache.velocity</code>".
      */
     static final String VELOCITY_LOGGER = "org.apache.velocity";
 
@@ -131,84 +156,121 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      */
     static final String VM_FILE_NAME = "VM_global_library.vm";
 
-    /** Initialize the default headers. */
+    /**
+     * Initialize the default headers.
+     */
     static {
         DEFAULT_HEADERS = new HashMap<String, Object>();
         DEFAULT_HEADERS.put("Pragma", "no-cache");
         DEFAULT_HEADERS.put("Cache-Control", "no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
         DEFAULT_HEADERS.put("Expires", new Date(1L));
     }
-    
-    /** The google app engine. */
+
+    /**
+     * The google app engine.
+     */
     private static final String GOOGLE_APP_ENGINE = "Google App Engine";
 
     // ------------------------------------------------ Package Private Members
-
-    /** The Map of global page headers. */
+    /**
+     * The Map of global page headers.
+     */
     Map commonHeaders;
 
-    /** The page automapping override page class for path list. */
+    /**
+     * The page automapping override page class for path list.
+     */
     final List excludesList = new ArrayList();
 
-    /** The map of ClickApp.PageElm keyed on path. */
-    final Map pageByPathMap = new HashMap();
+    /**
+     * The map of ClickApp.PageElm keyed on path.
+     */
+    final Map<String, PageElm> pageByPathMap = new ConcurrentHashMap<>();
 
-    /** The map of ClickApp.PageElm keyed on class. */
-    final Map pageByClassMap = new HashMap();
+    /**
+     * The map of ClickApp.PageElm keyed on class.
+     */
+    final Map<Class<? extends Page>, Object> pageByClassMap = new ConcurrentHashMap<>();
 
-    /** The list of page packages. */
+    /**
+     * The list of page packages.
+     */
     final List pagePackages = new ArrayList();
 
     // -------------------------------------------------------- Private Members
-
-    /** The automatically bind controls, request parameters and models flag. */
+    /**
+     * The automatically bind controls, request parameters and models flag.
+     */
     private AutoBinding autobinding;
 
-    /** The Commons FileUpload service class. */
+    /**
+     * The Commons FileUpload service class.
+     */
     private FileUploadService fileUploadService;
 
-    /** The format class. */
+    /**
+     * The format class.
+     */
     private Class<? extends Format> formatClass;
 
-    /** The character encoding of this application. */
+    /**
+     * The character encoding of this application.
+     */
     private String charset;
 
-    /** The default application locale.*/
+    /**
+     * The default application locale.
+     */
     private Locale locale;
 
-    /** The application log service. */
+    /**
+     * The application log service.
+     */
     private LogService logService;
 
     /**
-     * The application mode:
-     * [ PRODUCTION | PROFILE | DEVELOPMENT | DEBUG | TRACE ].
+     * The application mode: [ PRODUCTION | PROFILE | DEVELOPMENT | DEBUG |
+     * TRACE ].
      */
     private int mode;
 
-    /** The list of application page interceptor instances. */
+    /**
+     * The list of application page interceptor instances.
+     */
     private List<PageInterceptorConfig> pageInterceptorConfigList
-        = new ArrayList<PageInterceptorConfig>();
+            = new ArrayList<PageInterceptorConfig>();
 
-    /** The ServletContext instance. */
+    /**
+     * The ServletContext instance.
+     */
     private ServletContext servletContext;
 
-    /** The application PropertyService. */
+    /**
+     * The application PropertyService.
+     */
     private PropertyService propertyService;
 
-    /** The application ResourceService. */
+    /**
+     * The application ResourceService.
+     */
     private ResourceService resourceService;
 
-    /** The application TemplateService. */
+    /**
+     * The application TemplateService.
+     */
     private TemplateService templateService;
 
-    /** The application TemplateService. */
+    /**
+     * The application TemplateService.
+     */
     private MessagesMapService messagesMapService;
 
-    /** Flag indicating whether Click is running on Restricted Environment. */
+    /**
+     * Flag indicating whether Click is running on Restricted Environment.
+     */
     private boolean restrictedEnvironment = false;
 
     // --------------------------------------------------------- Public Methods
-
     /**
      * @see ConfigService#onInit(ServletContext)
      *
@@ -222,7 +284,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         this.servletContext = servletContext;
 
         restrictedEnvironment = !ClickUtils.isResourcesDeployable(servletContext);
-        
+
         // Set default logService early to log errors when services fail.
         logService = new ConsoleLogService();
         messagesMapService = new DefaultMessagesMapService();
@@ -242,7 +304,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             if (logService.isInfoEnabled()) {
                 logService.info("***  Initializing Click " + ClickUtils.getClickVersion()
-                    + " in " + getApplicationMode() + " mode  ***");
+                        + " in " + getApplicationMode() + " mode  ***");
 
                 String msg = "initialized LogService: " + logService.getClass().getName();
                 getLogService().info(msg);
@@ -314,7 +376,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     // --------------------------------------------------------- Public Methods
-
     /**
      * Return the application mode String value: &nbsp; <code>["production",
      * "profile", "development", "debug"]</code>.
@@ -458,80 +519,73 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     /**
-     * Return true if the given path is a Page class template, false
-     * otherwise. By default this method returns true if the path has a
-     * <code>.htm</code> or <code>.jsp</code> extension.
+     * Return true if the given path is a Page class template, false otherwise.
+     * By default this method returns true if the path has a <code>.htm</code>
+     * or <code>.jsp</code> extension.
      * <p>
      * If you want to map alternative templates besides <code>.htm</code> and
      * <code>.jsp</code> files you can override this method and provide extra
-     * checks against the given path whether it should be added as a
-     * template or not.
+     * checks against the given path whether it should be added as a template or
+     * not.
      * <p>
-     * Below is an example showing how to allow <code>.xml</code> paths to
-     * be recognized as Page class templates.
+     * Below is an example showing how to allow <code>.xml</code> paths to be
+     * recognized as Page class templates.
      *
      * <pre class="prettyprint">
      * public class MyConfigService extends XmlConfigService {
      *
-     *     protected boolean isTemplate(String path) {
-     *         // invoke default implementation
-     *         boolean isTemplate = super.isTemplate(path);
+     * protected boolean isTemplate(String path) { // invoke default
+     * implementation boolean isTemplate = super.isTemplate(path);
      *
-     *         if (!isTemplate) {
-     *             // If path has an .xml extension, mark it as a template
-     *             isTemplate = path.endsWith(".xml");
-     *         }
-     *         return isTemplate;
-     *     }
-     * } </pre>
+     * if (!isTemplate) { // If path has an .xml extension, mark it as a
+     * template isTemplate = path.endsWith(".xml"); } return isTemplate; } }
+     * </pre>
      *
      * Here is an example <code>web.xml</code> showing how to configure a custom
-     * ConfigService through the context parameter <code>config-service-class</code>.
-     * We also map <code>*.xml</code> requests to be routed through ClickServlet:
+     * ConfigService through the context parameter
+     * <code>config-service-class</code>. We also map <code>*.xml</code>
+     * requests to be routed through ClickServlet:
      *
      * <pre class="prettyprint">
      * &lt;web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-     *   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     *   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-     *   version="2.4"&gt;
+     * xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     * xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+     * http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4"&gt;
      *
-     *   &lt;!-- Specify a custom ConfigService through the context param 'config-service-class' --&gt;
-     *   &lt;context-param&gt;
-     *     &lt;param-name&gt;config-service-class&lt;/param-name&gt;
-     *     &lt;param-value&gt;com.mycorp.service.MyConfigSerivce&lt;/param-value&gt;
-     *   &lt;/context-param&gt;
+     * &lt;!-- Specify a custom ConfigService through the context param
+     * 'config-service-class' --&gt; &lt;context-param&gt;
+     * &lt;param-name&gt;config-service-class&lt;/param-name&gt;
+     * &lt;param-value&gt;com.mycorp.service.MyConfigSerivce&lt;/param-value&gt;
+     * &lt;/context-param&gt;
      *
-     *   &lt;servlet&gt;
-     *     &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *     &lt;servlet-class&gt;org.apache.click.ClickServlet&lt;/servlet-class&gt;
-     *     &lt;load-on-startup&gt;0&lt;/load-on-startup&gt;
-     *   &lt;/servlet&gt;
+     * &lt;servlet&gt; &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
+     * &lt;servlet-class&gt;org.apache.click.ClickServlet&lt;/servlet-class&gt;
+     * &lt;load-on-startup&gt;0&lt;/load-on-startup&gt; &lt;/servlet&gt;
      *
-     *   &lt;!-- NOTE: we still map the .htm extension --&gt;
-     *   &lt;servlet-mapping&gt;
-     *     &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *     &lt;url-pattern&gt;*.htm&lt;/url-pattern&gt;
-     *   &lt;/servlet-mapping&gt;
+     * &lt;!-- NOTE: we still map the .htm extension --&gt;
+     * &lt;servlet-mapping&gt;
+     * &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
+     * &lt;url-pattern&gt;*.htm&lt;/url-pattern&gt; &lt;/servlet-mapping&gt;
      *
-     *   &lt;!-- NOTE: we also map .xml extension in order to route xml requests to the ClickServlet --&gt;
-     *   &lt;servlet-mapping&gt;
-     *     &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
-     *     &lt;url-pattern&gt;*.xml&lt;/url-pattern&gt;
-     *   &lt;/servlet-mapping&gt;
+     * &lt;!-- NOTE: we also map .xml extension in order to route xml requests
+     * to the ClickServlet --&gt; &lt;servlet-mapping&gt;
+     * &lt;servlet-name&gt;ClickServlet&lt;/servlet-name&gt;
+     * &lt;url-pattern&gt;*.xml&lt;/url-pattern&gt; &lt;/servlet-mapping&gt;
      *
-     *   ...
+     * ...
      *
      * &lt;/web-app&gt; </pre>
      *
      * <b>Please note</b>: even though you can add extra template mappings by
      * overriding this method, it is still recommended to keep the default
-     * <code>.htm</code> mapping by invoking <code>super.isTemplate(String)</code>.
-     * The reason being that Click ships with some default templates such as
-     * {@link ConfigService#ERROR_PATH} and {@link ConfigService#NOT_FOUND_PATH}
-     * that must be mapped as <code>.htm</code>.
+     * <code>.htm</code> mapping by invoking
+     * <code>super.isTemplate(String)</code>. The reason being that Click ships
+     * with some default templates such as {@link ConfigService#ERROR_PATH} and
+     * {@link ConfigService#NOT_FOUND_PATH} that must be mapped as
+     * <code>.htm</code>.
      * <p>
-     * Please see the ConfigService <a href="#config">javadoc</a> for details
-     * on how to configure a custom ConfigService implementation.
+     * Please see the ConfigService <a href="#config">javadoc</a> for details on
+     * how to configure a custom ConfigService implementation.
      *
      * @see ConfigService#isTemplate(String)
      *
@@ -552,69 +606,58 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @return the page class for the given path or null if no class is found
      */
     public Class<? extends Page> getPageClass(String path) {
+        // 1. Unified Read Phase: Safe for ALL modes because ConcurrentHashMap is thread-safe
+        PageElm page = pageByPathMap.get(path);
+        if (page == null) {
+            String jspPath = StringUtils.replace(path, ".htm", ".jsp");
+            page = pageByPathMap.get(jspPath);
+        }
 
-        // If in production or profile mode.
+        if (page != null) {
+            return page.getPageClass();
+        }
+
+        // If not found and in production/profile mode, return null immediately without locking
         if (mode <= PROFILE) {
-            PageElm page = (PageElm) pageByPathMap.get(path);
-            if (page == null) {
-                String jspPath = StringUtils.replace(path, ".htm", ".jsp");
-                page = (PageElm) pageByPathMap.get(jspPath);
+            return null;
+        }
+
+        // 2. Dynamic Loading Phase (Development/Debug/Trace modes only)
+        // We synchronize only when mutating, using a computeIfAbsent pattern to guarantee atomicity per path
+        return pageByPathMap.computeIfAbsent(path, key -> {
+            // Double-check inside computeIfAbsent to avoid duplicate lookups
+            String jspPath = StringUtils.replace(key, ".htm", ".jsp");
+            PageElm existingJsp = pageByPathMap.get(jspPath);
+            if (existingJsp != null) {
+                return existingJsp;
             }
 
-            if (page != null) {
-                return page.getPageClass();
-            } else {
-                return null;
-            }
+            try {
+                URL resource = servletContext.getResource(key);
+                if (resource != null) {
+                    // Using modern enhanced for-loop for Java 17 cleanliness
+                    for (Object pkg : pagePackages) {
+                        String pagesPackage = pkg.toString();
+                        Class<?> pageClass = getPageClass(key, pagesPackage);
 
-        // Else in development, debug or trace mode
-        } else {
+                        if (pageClass != null) {
+                            PageElm newPage = new PageElm(key, pageClass, commonHeaders, autobinding);
 
-            synchronized (PAGE_LOAD_LOCK) {
-                PageElm page = (PageElm) pageByPathMap.get(path);
-                if (page == null) {
-                    String jspPath = StringUtils.replace(path, ".htm", ".jsp");
-                    page = (PageElm) pageByPathMap.get(jspPath);
-                }
+                            // Mutate the secondary map safely
+                            addToClassMap(newPage);
 
-                if (page != null) {
-                    return page.getPageClass();
-                }
-
-                Class pageClass = null;
-
-                try {
-                    URL resource = servletContext.getResource(path);
-                    if (resource != null) {
-                        for (int i = 0; i < pagePackages.size(); i++) {
-                            String pagesPackage = pagePackages.get(i).toString();
-
-                            pageClass = getPageClass(path, pagesPackage);
-
-                            if (pageClass != null) {
-                                page = new PageElm(path,
-                                                   pageClass,
-                                                   commonHeaders,
-                                                   autobinding);
-
-                                pageByPathMap.put(page.getPath(), page);
-                                addToClassMap(page);
-
-                                if (logService.isDebugEnabled()) {
-                                    String msg = path + " -> " + pageClass.getName();
-                                    logService.debug(msg);
-                                }
-
-                                break;
+                            if (logService.isDebugEnabled()) {
+                                logService.debug(key + " -> " + pageClass.getName());
                             }
+                            return newPage; // This automatically saves it into pageByPathMap
                         }
                     }
-                } catch (MalformedURLException e) {
-                    //ignore
                 }
-                return pageClass;
+            } catch (MalformedURLException e) {
+                // ignore
             }
-        }
+            return null; // Return null if page loader can't find anything
+        }) != null ? pageByPathMap.get(path).getPageClass() : null;
     }
 
     /**
@@ -622,8 +665,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      *
      * @param pageClass the page class
      * @return path the page path or null if no path is found
-     * @throws IllegalArgumentException if the Page Class is not configured
-     * with a unique path
+     * @throws IllegalArgumentException if the Page Class is not configured with
+     * a unique path
      */
     public String getPagePath(Class<? extends Page> pageClass) {
         Object object = pageByClassMap.get(pageClass);
@@ -658,8 +701,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @return the list of configured page classes
      */
     public List<Class<? extends Page>> getPageClassList() {
-        List<Class<? extends Page>> classList =
-            new ArrayList<Class<? extends Page>>(pageByClassMap.size());
+        List<Class<? extends Page>> classList
+                = new ArrayList<Class<? extends Page>>(pageByClassMap.size());
 
         Iterator i = pageByClassMap.keySet().iterator();
         while (i.hasNext()) {
@@ -790,8 +833,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             return Collections.emptyList();
         }
 
-        List<PageInterceptor> interceptorList =
-            new ArrayList<PageInterceptor>(pageInterceptorConfigList.size());
+        List<PageInterceptor> interceptorList
+                = new ArrayList<PageInterceptor>(pageInterceptorConfigList.size());
 
         for (PageInterceptorConfig pageInterceptorConfig : pageInterceptorConfigList) {
             interceptorList.add(pageInterceptorConfig.getPageInterceptor());
@@ -810,8 +853,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     /**
-     * This method resolves the click.dtd for the XML parser using the
-     * classpath resource: <code>/org/apache/click/click.dtd</code>.
+     * This method resolves the click.dtd for the XML parser using the classpath
+     * resource: <code>/org/apache/click/click.dtd</code>.
      *
      * @see EntityResolver#resolveEntity(String, String)
      *
@@ -834,14 +877,14 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     // ------------------------------------------------------ Protected Methods
-
     /**
      * Find and return the page class for the specified pagePath and
      * pagesPackage.
      * <p>
      * For example if the pagePath is <code>'/edit-customer.htm'</code> and
      * package is <code>'com.mycorp'</code>, the matching page class will be:
-     * <code>com.mycorp.EditCustomer</code> or <code>com.mycorp.EditCustomerPage</code>.
+     * <code>com.mycorp.EditCustomer</code> or
+     * <code>com.mycorp.EditCustomerPage</code>.
      * <p>
      * If the page path is <code>'/admin/add-customer.htm'</code> and package is
      * <code>'com.mycorp'</code>, the matching page class will be:
@@ -852,7 +895,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
      * @param pagesPackage the package of the page class
      * @return the page class for the specified pagePath and pagesPackage
      */
-    protected Class<? extends  Page> getPageClass(String pagePath, String pagesPackage) {
+    protected Class<? extends Page> getPageClass(String pagePath, String pagesPackage) {
         // To understand this method lets walk through an example as the
         // code plays out. Imagine this method is called with the arguments:
         // pagePath='/pages/edit-customer.htm'
@@ -872,7 +915,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         String path = pagePath.substring(0, pagePath.lastIndexOf("."));
 
         // If page is excluded return the excluded class
-        Class<? extends  Page> excludePageClass = getExcludesPageClass(path);
+        Class<? extends Page> excludePageClass = getExcludesPageClass(path);
         if (excludePageClass != null) {
             return excludePageClass;
         }
@@ -914,7 +957,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             if (!Page.class.isAssignableFrom(pageClass)) {
                 String msg = "Automapped page class " + className
-                             + " is not a subclass of org.apache.click.Page";
+                        + " is not a subclass of org.apache.click.Page";
                 throw new RuntimeException(msg);
             }
 
@@ -932,7 +975,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
                     if (!Page.class.isAssignableFrom(pageClass)) {
                         String msg = "Automapped page class " + classNameWithPage
-                                     + " is not a subclass of org.apache.click.Page";
+                                + " is not a subclass of org.apache.click.Page";
                         throw new RuntimeException(msg);
                     }
 
@@ -956,10 +999,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     // ------------------------------------------------ Package Private Methods
-
     /**
-     * Loads all Click Pages defined in the <code>click.xml</code> file, including
-     * manually defined Pages, auto mapped Pages and excluded Pages.
+     * Loads all Click Pages defined in the <code>click.xml</code> file,
+     * including manually defined Pages, auto mapped Pages and excluded Pages.
      *
      * @param rootElm the root xml element containing the configuration
      * @throws java.lang.ClassNotFoundException if the specified Page class can
@@ -1021,7 +1063,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
                 } else {
                     String msg = "Invalid pages autobinding attribute: "
-                        + autobindingStr;
+                            + autobindingStr;
                     throw new RuntimeException(msg);
                 }
             }
@@ -1030,7 +1072,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             // Perhaps autobinding should be moved to <click-app> and be a application wide setting?
             // However the way its implemented above is probably fine for backward compatibility
             // purposes, meaning the last defined autobinding wins
-
             String pagesPackage = pagesElm.getAttribute("package");
             if (StringUtils.isBlank(pagesPackage)) {
                 pagesPackage = "";
@@ -1038,8 +1079,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             pagesPackage = pagesPackage.trim();
             if (pagesPackage.endsWith(".") && pagesPackage.length() > 1) {
-                pagesPackage =
-                    pagesPackage.substring(0, pagesPackage.length() - 2);
+                pagesPackage
+                        = pagesPackage.substring(0, pagesPackage.length() - 2);
             }
 
             // Add the pages package to the list of page packages
@@ -1075,17 +1116,17 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         for (int i = 0; i < pageList.size(); i++) {
             Element pageElm = (Element) pageList.get(i);
 
-            XmlConfigService.PageElm page =
-                new XmlConfigService.PageElm(pageElm,
-                                             pagesPackage,
-                                             commonHeaders,
-                                             autobinding);
+            XmlConfigService.PageElm page
+                    = new XmlConfigService.PageElm(pageElm,
+                            pagesPackage,
+                            commonHeaders,
+                            autobinding);
 
             pageByPathMap.put(page.getPath(), page);
 
             if (logService.isDebugEnabled()) {
-                String msg =
-                    page.getPath() + " -> " + page.getPageClass().getName();
+                String msg
+                        = page.getPath() + " -> " + page.getPageClass().getName();
                 logService.debug(msg);
             }
         }
@@ -1107,7 +1148,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         // Build list of automap path page class overrides
         excludesList.clear();
         for (Iterator i = ClickUtils.getChildren(pagesElm, "excludes").iterator();
-             i.hasNext();) {
+                i.hasNext();) {
 
             excludesList.add(new XmlConfigService.ExcludesElm((Element) i.next()));
         }
@@ -1124,17 +1165,17 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 Class pageClass = getPageClass(pagePath, pagesPackage);
 
                 if (pageClass != null) {
-                    XmlConfigService.PageElm page =
-                        new XmlConfigService.PageElm(pagePath,
-                                                     pageClass,
-                                                     commonHeaders,
-                                                     autobinding);
+                    XmlConfigService.PageElm page
+                            = new XmlConfigService.PageElm(pagePath,
+                                    pageClass,
+                                    commonHeaders,
+                                    autobinding);
 
                     pageByPathMap.put(page.getPath(), page);
 
                     if (logService.isDebugEnabled()) {
-                        String msg =
-                            pagePath + " -> " + pageClass.getName();
+                        String msg
+                                = pagePath + " -> " + pageClass.getName();
                         logService.debug(msg);
                     }
                 }
@@ -1205,9 +1246,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 value = new Date(Long.parseLong(propertyValue));
             } else {
                 value = null;
-                String message =
-                    "Invalid property type [String|Integer|Date]: "
-                    + type;
+                String message
+                        = "Invalid property type [String|Integer|Date]: "
+                        + type;
                 throw new IllegalArgumentException(message);
             }
 
@@ -1218,7 +1259,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     // -------------------------------------------------------- Private Methods
-
     private void loadMode(Element rootElm) {
         Element modeElm = ClickUtils.getChild(rootElm, "mode");
 
@@ -1244,7 +1284,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             mode = TRACE;
         } else {
             logService.error("invalid application mode: '" + modeValue
-                + "' - defaulted to '" + MODE_VALUES[DEBUG] + "'");
+                    + "' - defaulted to '" + MODE_VALUES[DEBUG] + "'");
             mode = DEBUG;
         }
 
@@ -1271,15 +1311,15 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     private void loadDefaultPages() throws ClassNotFoundException {
 
         if (!pageByPathMap.containsKey(ERROR_PATH)) {
-            XmlConfigService.PageElm page =
-                new XmlConfigService.PageElm("org.apache.click.util.ErrorPage", ERROR_PATH);
+            XmlConfigService.PageElm page
+                    = new XmlConfigService.PageElm("org.apache.click.util.ErrorPage", ERROR_PATH);
 
             pageByPathMap.put(ERROR_PATH, page);
         }
 
         if (!pageByPathMap.containsKey(NOT_FOUND_PATH)) {
-            XmlConfigService.PageElm page =
-                new XmlConfigService.PageElm("org.apache.click.Page", NOT_FOUND_PATH);
+            XmlConfigService.PageElm page
+                    = new XmlConfigService.PageElm("org.apache.click.Page", NOT_FOUND_PATH);
 
             pageByPathMap.put(NOT_FOUND_PATH, page);
         }
@@ -1289,8 +1329,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element headersElm = ClickUtils.getChild(rootElm, "headers");
 
         if (headersElm != null) {
-            commonHeaders =
-                Collections.unmodifiableMap(loadHeadersMap(headersElm));
+            commonHeaders
+                    = Collections.unmodifiableMap(loadHeadersMap(headersElm));
         } else {
             commonHeaders = Collections.unmodifiableMap(DEFAULT_HEADERS);
         }
@@ -1345,7 +1385,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         if (getLogService().isDebugEnabled()) {
             String msg = "initializing FileLoadService: "
-                + fileUploadService.getClass().getName();
+                    + fileUploadService.getClass().getName();
             getLogService().debug(msg);
         }
 
@@ -1405,7 +1445,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         if (getLogService().isDebugEnabled()) {
             String msg = "initializing MessagesMapService: "
-                + messagesMapService.getClass().getName();
+                    + messagesMapService.getClass().getName();
             getLogService().debug(msg);
         }
 
@@ -1413,8 +1453,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     private void loadPageInterceptors(Element rootElm) throws Exception {
-        List<Element> interceptorList =
-            ClickUtils.getChildren(rootElm, "page-interceptor");
+        List<Element> interceptorList
+                = ClickUtils.getChildren(rootElm, "page-interceptor");
 
         for (Element interceptorElm : interceptorList) {
             String classname = interceptorElm.getAttribute("classname");
@@ -1433,8 +1473,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 propertyList.add(new Property(name, value));
             }
 
-            PageInterceptorConfig pageInterceptorConfig =
-                new PageInterceptorConfig(interceptorClass, applicationScope, propertyList);
+            PageInterceptorConfig pageInterceptorConfig
+                    = new PageInterceptorConfig(interceptorClass, applicationScope, propertyList);
 
             pageInterceptorConfigList.add(pageInterceptorConfig);
         }
@@ -1457,8 +1497,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             if (resourceService instanceof ClickResourceService) {
                 ((ClickResourceService) resourceService).setConfigElement(rootElm);
-            }            
-            
+            }
+
             Map<String, String> propertyMap = loadPropertyMap(resourceServiceElm);
 
             for (String name : propertyMap.keySet()) {
@@ -1502,7 +1542,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         if (getLogService().isDebugEnabled()) {
             String msg = "initializing PropertyService: "
-                + propertyService.getClass().getName();
+                    + propertyService.getClass().getName();
             getLogService().debug(msg);
         }
 
@@ -1537,7 +1577,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
         if (getLogService().isDebugEnabled()) {
             String msg = "initializing TemplateService: "
-                + templateService.getClass().getName();
+                    + templateService.getClass().getName();
             getLogService().debug(msg);
         }
 
@@ -1639,8 +1679,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     private Class<? extends Page> getExcludesPageClass(String path) {
         for (int i = 0; i < excludesList.size(); i++) {
-            XmlConfigService.ExcludesElm override =
-                (XmlConfigService.ExcludesElm) excludesList.get(i);
+            XmlConfigService.ExcludesElm override
+                    = (XmlConfigService.ExcludesElm) excludesList.get(i);
 
             if (override.isMatch(path)) {
                 return override.getPageClass();
@@ -1651,8 +1691,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     /**
-     * Return an array of bindable fields for the given page class based on
-     * the binding mode.
+     * Return an array of bindable fields for the given page class based on the
+     * binding mode.
      *
      * @param pageClass the page class
      * @param mode the binding mode
@@ -1670,7 +1710,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 fieldMap.put(field.getName(), field);
             }
 
-             // Copy the field map values into a field list
+            // Copy the field map values into a field list
             Field[] fieldArray = new Field[fieldMap.size()];
 
             int i = 0;
@@ -1746,7 +1786,6 @@ public class XmlConfigService implements ConfigService, EntityResolver {
     }
 
     // ---------------------------------------------------------- Inner Classes
-
     /**
      * Provide an Excluded Page class.
      * <p>
@@ -1791,10 +1830,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         final String path;
 
         public PageElm(Element element,
-                       String pagesPackage,
-                       Map commonHeaders,
-                       AutoBinding autobinding)
-            throws ClassNotFoundException {
+                String pagesPackage,
+                Map commonHeaders,
+                AutoBinding autobinding)
+                throws ClassNotFoundException {
 
             // Set headers
             Map aggregationMap = new HashMap(commonHeaders);
@@ -1836,20 +1875,20 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                         // CLK-704
                         // For backward compatibility, lookup classname prefixed with the package name
 
-                        tmpPageClass =
-                            ClickUtils.classForName(prefixedClassname);
+                        tmpPageClass
+                                = ClickUtils.classForName(prefixedClassname);
                         classnameFound = prefixedClassname;
 
                     } catch (ClassNotFoundException cnfe2) {
                         // Throw original exception which used the given classname
                         String msg = "No class was found for the Page classname: '"
-                            + classname + "'.";
+                                + classname + "'.";
                         throw new RuntimeException(msg, cnfe);
                     }
 
                 } else {
                     String msg = "No class was found for the Page classname: '"
-                        + classname + "'.";
+                            + classname + "'.";
                     throw new RuntimeException(msg, cnfe);
                 }
             }
@@ -1858,7 +1897,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
             if (!Page.class.isAssignableFrom(pageClass)) {
                 String msg = "Page class '" + classnameFound
-                             + "' is not a subclass of org.apache.click.Page";
+                        + "' is not a subclass of org.apache.click.Page";
                 throw new RuntimeException(msg);
             }
 
@@ -1871,9 +1910,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
 
         private PageElm(String path,
-                        Class pageClass,
-                        Map commonHeaders,
-                        AutoBinding mode) {
+                Class pageClass,
+                Map commonHeaders,
+                AutoBinding mode) {
 
             headers = Collections.unmodifiableMap(commonHeaders);
             this.pageClass = pageClass;
@@ -1888,7 +1927,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         }
 
         public PageElm(String classname, String path)
-            throws ClassNotFoundException {
+                throws ClassNotFoundException {
 
             this.fieldArray = new Field[0];
             this.fields = Collections.emptyMap();
@@ -1920,7 +1959,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /**
      * Provide an Excluded Element class.
-     */ 
+     */
     static class ExcludesElm {
 
         final Set<String> pathSet = new HashSet<String>();
@@ -1976,13 +2015,13 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         @Override
         public String toString() {
             return getClass().getName()
-                + "[fileSet=" + fileSet + ",pathSet=" + pathSet + "]";
+                    + "[fileSet=" + fileSet + ",pathSet=" + pathSet + "]";
         }
     }
-    
+
     /**
      * Provide a Page Interceptor Config class.
-     */ 
+     */
     static class PageInterceptorConfig {
 
         final Class<? extends PageInterceptor> interceptorClass;
@@ -1991,8 +2030,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         PageInterceptor pageInterceptor;
 
         PageInterceptorConfig(Class<? extends PageInterceptor> interceptorClass,
-                           boolean applicationScope,
-                           List<Property> properties) {
+                boolean applicationScope,
+                List<Property> properties) {
 
             this.interceptorClass = interceptorClass;
             this.applicationScope = applicationScope;
@@ -2013,8 +2052,8 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
                     for (Property property : properties) {
                         propertyService.setValue(listener,
-                                                 property.getName(),
-                                                 property.getValue());
+                                property.getName(),
+                                property.getValue());
                     }
 
                 } catch (Exception e) {
@@ -2035,8 +2074,9 @@ public class XmlConfigService implements ConfigService, EntityResolver {
 
     /**
      * Provide a Property class.
-     */ 
+     */
     static class Property {
+
         final String name;
         final String value;
 
