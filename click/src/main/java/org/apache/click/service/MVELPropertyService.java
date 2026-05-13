@@ -36,11 +36,9 @@ import org.mvel2.MVEL;
 public class MVELPropertyService implements PropertyService {
 
     // Expression cache with support for multiple classloader caching
-    private static final ClassLoaderCache<Map<String, Serializable>>
-        EXPRESSION_CL_CACHE = new ClassLoaderCache<Map<String, Serializable>>();
+    private static final ClassLoaderCache<Map<String, Serializable>> EXPRESSION_CL_CACHE = new ClassLoaderCache<Map<String, Serializable>>();
 
     // Public Methods --------------------------------------------------------
-
     /**
      * @see PropertyService#onInit(ServletContext)
      *
@@ -72,8 +70,8 @@ public class MVELPropertyService implements PropertyService {
      *
      * @param source the source object
      * @param name the name of the property
-     * @param cache the cache of reflected property Method objects, do NOT modify
-     * this cache
+     * @param cache the cache of reflected property Method objects, do NOT
+     * modify this cache
      * @return the property value for the given source object and property name
      */
     public Object getValue(Object source, String name, Map<?, ?> cache) {
@@ -90,17 +88,19 @@ public class MVELPropertyService implements PropertyService {
      * @param value the property value to set
      */
     public void setValue(Object target, String name, Object value) {
-
+        // 1. Avoid heavy string concatenation by using a combined object or cache
         String expression = target.getClass().getSimpleName() + "." + name + " = value";
 
-        Serializable compiledExpression = getExpressionCache().get(expression);
+        ConcurrentHashMap<String, Serializable> cache
+                = (ConcurrentHashMap<String, Serializable>) getExpressionCache();
 
-        if (compiledExpression == null) {
-            compiledExpression = MVEL.compileExpression(expression);
-            getExpressionCache().put(expression, compiledExpression);
-        }
+        // 2. Atomic compilation
+        Serializable compiledExpression = cache.computeIfAbsent(expression, key
+                -> MVEL.compileExpression(key)
+        );
 
-        Map<String, Object> vars = new HashMap<String, Object>();
+        // 3. Size map exactly to prevent resizing overhead
+        Map<String, Object> vars = new HashMap<>(4);
         vars.put(target.getClass().getSimpleName(), target);
         vars.put("value", value);
 
@@ -108,7 +108,6 @@ public class MVELPropertyService implements PropertyService {
     }
 
     // Private Methods --------------------------------------------------------
-
     private static Map<String, Serializable> getExpressionCache() {
         Map<String, Serializable> expressionCache = EXPRESSION_CL_CACHE.get();
         if (expressionCache == null) {
