@@ -100,7 +100,7 @@ public class PropertyUtils {
      * modify this cache
      * @return the property value for the given source object and property name
      */
-    public static Object getValue(Object source, String name, Map cache) {
+    public static Object getValue(Object source, String name, Map<?, ?> cache) {
         Validate.notNull(cache, "Null cache parameter");
 
         String basePart = name;
@@ -148,19 +148,22 @@ public class PropertyUtils {
      * @param cache the cache of reflected property Method objects
      * @return the property value for the given source object and property name
      */
-    private static Object getObjectPropertyValue(Object source, String name, Map cache) {
+    @SuppressWarnings("unchecked")
+    private static Object getObjectPropertyValue(Object source, String name, Map<?, ?> cache) {
         CacheKey methodNameKey = new CacheKey(source, name);
 
-        // If the cache is a ConcurrentHashMap, use the atomic computeIfAbsent
         Method method;
         if (cache instanceof ConcurrentHashMap) {
-            method = ((ConcurrentHashMap<CacheKey, Method>) cache).computeIfAbsent(methodNameKey, key -> findGetterMethod(source.getClass(), name));
+            // Cast through a raw Map detour to cleanly bypass structural type erasure checks
+            ConcurrentHashMap<CacheKey, Method> concurrentCache = (ConcurrentHashMap<CacheKey, Method>) (Map) cache;
+            method = concurrentCache.computeIfAbsent(methodNameKey, key -> findGetterMethod(source.getClass(), name));
         } else {
             // Fallback for legacy Map types passed into the public getValue(..., Map cache)
             method = (Method) cache.get(methodNameKey);
             if (method == null) {
                 method = findGetterMethod(source.getClass(), name);
-                cache.put(methodNameKey, method);
+                // Cast to a raw Map locally to perform the insertion safely on legacy collections
+                ((Map) cache).put(methodNameKey, method);
             }
         }
 
@@ -218,7 +221,7 @@ public class PropertyUtils {
         /**
          * Class to encapsulate in cache key.
          */
-        private final Class sourceClass;
+        private final Class<?> sourceClass;
 
         /**
          * Property to encapsulate in cache key.

@@ -66,23 +66,16 @@ public class ContainerUtils {
      * The following example shows how to exclude disabled fields from
      * populating a customer object:
      * <pre class="prettyprint">
-     * public void onInit() {
-     *     List formFields = new ArrayList();
-     *     for(Iterator it = form.getFieldList().iterator(); it.hasNext(); ) {
-     *         Field field = (Field) formFields.next();
-     *         // Exclude disabled fields
-     *         if (!field.isDisabled()) {
-     *             formFields.add(field);
-     *         }
-     *     }
-     *     Customer customer = new Customer();
-     *     ContainerUtils.copyContainerToObject(form, customer, formFields);
-     * }
+     * public void onInit() { List formFields = new ArrayList(); for(Iterator it
+     * = form.getFieldList().iterator(); it.hasNext(); ) { Field field = (Field)
+     * formFields.next(); // Exclude disabled fields if (!field.isDisabled()) {
+     * formFields.add(field); } } Customer customer = new Customer();
+     * ContainerUtils.copyContainerToObject(form, customer, formFields); }
      * </pre>
      *
-     * The specified Object can either be a POJO (plain old java object) or
-     * a {@link java.util.Map}. If a POJO is specified, its attributes are
-     * populated from  matching container fields. If a map is specified, its
+     * The specified Object can either be a POJO (plain old java object) or a
+     * {@link java.util.Map}. If a POJO is specified, its attributes are
+     * populated from matching container fields. If a map is specified, its
      * key/value pairs are populated from matching container fields.
      *
      * @param container the fieldList Container
@@ -93,7 +86,7 @@ public class ContainerUtils {
      * null
      */
     public static void copyContainerToObject(Container container,
-        Object object, List<Field> fieldList) {
+            Object object, List<Field> fieldList) {
 
         if (container == null) {
             throw new IllegalArgumentException("Null container parameter");
@@ -107,26 +100,30 @@ public class ContainerUtils {
             throw new IllegalArgumentException("Null fieldList parameter");
         }
 
-         if (fieldList.isEmpty()) {
+        if (fieldList.isEmpty()) {
             LogService logService = ClickUtils.getLogService();
             if (logService.isDebugEnabled()) {
-                String containerClassName =
-                    ClassUtils.getShortClassName(container.getClass());
+                String containerClassName
+                        = ClassUtils.getShortClassName(container.getClass());
                 logService.debug("   " + containerClassName
-                                 + " has no fields to copy from");
+                        + " has no fields to copy from");
             }
             //Exit early.
             return;
         }
 
         String objectClassname = object.getClass().getName();
-        objectClassname =
-            objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
+        objectClassname
+                = objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
 
         // If the given object is a map, its key/value pair is populated from
         // the fields name/value pair.
         if (object instanceof Map<?, ?>) {
-            copyFieldsToMap(fieldList, (Map) object);
+            // Fix the unchecked assignment by double-casting to Map<String, Object> via a raw Map detour
+            @SuppressWarnings("unchecked")
+            Map<String, Object> typedMap = (Map<String, Object>) (Map<?, ?>) object;
+
+            copyFieldsToMap(fieldList, typedMap);
             // Exit after populating the map.
             return;
         }
@@ -158,20 +155,20 @@ public class ContainerUtils {
                 propertyService.setValue(object, fieldName, field.getValueObject());
 
                 if (logService.isDebugEnabled()) {
-                    String containerClassName =
-                        ClassUtils.getShortClassName(container.getClass());
+                    String containerClassName
+                            = ClassUtils.getShortClassName(container.getClass());
                     String msg = "    " + containerClassName + " -> "
-                        + objectClassname + "." + fieldName + " : "
-                        + field.getValueObject();
+                            + objectClassname + "." + fieldName + " : "
+                            + field.getValueObject();
 
                     logService.debug(msg);
                 }
 
             } catch (Exception e) {
-                String msg =
-                    "Error incurred invoking " + objectClassname + "."
-                    + fieldName + " with " + field.getValueObject()
-                    + " error: " + e.toString();
+                String msg
+                        = "Error incurred invoking " + objectClassname + "."
+                        + fieldName + " with " + field.getValueObject()
+                        + " error: " + e.toString();
 
                 logService.debug(msg);
             }
@@ -181,13 +178,14 @@ public class ContainerUtils {
     /**
      * Populate the given object attributes from the Containers field values.
      *
-     * @see #copyContainerToObject(org.apache.click.control.Container, java.lang.Object, java.util.List)
+     * @see #copyContainerToObject(org.apache.click.control.Container,
+     * java.lang.Object, java.util.List)
      *
      * @param container the Container to obtain field values from
      * @param object the object to populate with field values
      */
     public static void copyContainerToObject(Container container,
-        Object object) {
+            Object object) {
         List<Field> fieldList = getInputFields(container);
         copyContainerToObject(container, object, fieldList);
     }
@@ -197,18 +195,18 @@ public class ContainerUtils {
      * <p>
      * If a Field and object attribute matches, the Field value is set to the
      * object attribute using the method
-     * {@link org.apache.click.control.Field#setValueObject(java.lang.Object)}. If
-     * an object attribute is a primitive it is first converted to its proper
+     * {@link org.apache.click.control.Field#setValueObject(java.lang.Object)}.
+     * If an object attribute is a primitive it is first converted to its proper
      * wrapper class e.g. int will become Integer and boolean will become
      * Boolean.
      * <p>
      * The fieldList specifies which fields to populate from the object. This
      * allows one to exclude or include specific fields.
      * <p>
-     * The specified Object can either be a POJO (plain old java object) or
-     * a {@link java.util.Map}. If a POJO is specified, its attributes are
-     * copied to matching container fields. If a map is specified, its key/value
-     * pairs are copied to matching container fields.
+     * The specified Object can either be a POJO (plain old java object) or a
+     * {@link java.util.Map}. If a POJO is specified, its attributes are copied
+     * to matching container fields. If a map is specified, its key/value pairs
+     * are copied to matching container fields.
      *
      * @param object the object to obtain attribute values from
      * @param container the Container to populate
@@ -216,7 +214,7 @@ public class ContainerUtils {
      * attributes
      */
     public static void copyObjectToContainer(Object object,
-        Container container, List<Field> fieldList) {
+            Container container, List<Field> fieldList) {
         if (object == null) {
             throw new IllegalArgumentException("Null object parameter");
         }
@@ -232,24 +230,28 @@ public class ContainerUtils {
         if (fieldList.isEmpty()) {
             LogService logService = ClickUtils.getLogService();
             if (logService.isDebugEnabled()) {
-                String containerClassName =
-                    ClassUtils.getShortClassName(container.getClass());
+                String containerClassName
+                        = ClassUtils.getShortClassName(container.getClass());
                 logService.debug("   " + containerClassName
-                    + " has no fields to copy to");
+                        + " has no fields to copy to");
             }
             //Exit early.
             return;
         }
 
         String objectClassname = object.getClass().getName();
-        objectClassname =
-            objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
+        objectClassname
+                = objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
 
         //If the given object is a map, populate the fields name/value from
         //the maps key/value pair.
         if (object instanceof Map<?, ?>) {
 
-            copyMapToFields((Map) object, fieldList);
+            // Fix unchecked conversion by double-casting to Map<String, Object> via a raw Map detour
+            @SuppressWarnings("unchecked")
+            Map<String, Object> typedMap = (Map<String, Object>) (Map<?, ?>) object;
+
+            copyMapToFields(typedMap, fieldList);
             //Exit after populating the fields.
             return;
         }
@@ -271,17 +273,17 @@ public class ContainerUtils {
                 field.setValueObject(result);
 
                 if (logService.isDebugEnabled()) {
-                    String containerClassName =
-                        ClassUtils.getShortClassName(container.getClass());
+                    String containerClassName
+                            = ClassUtils.getShortClassName(container.getClass());
                     String msg = "    " + containerClassName + " <- "
-                        + objectClassname + "." + fieldName + " : "
-                        + result;
+                            + objectClassname + "." + fieldName + " : "
+                            + result;
                     logService.debug(msg);
                 }
 
             } catch (Exception e) {
                 String msg = "Error incurred invoking " + objectClassname + "."
-                    + fieldName + " error: " + e.toString();
+                        + fieldName + " error: " + e.toString();
 
                 logService.debug(msg);
             }
@@ -291,13 +293,14 @@ public class ContainerUtils {
     /**
      * Populate the given Container field values from the object attributes.
      *
-     * @see #copyObjectToContainer(java.lang.Object, org.apache.click.control.Container, java.util.List)
+     * @see #copyObjectToContainer(java.lang.Object,
+     * org.apache.click.control.Container, java.util.List)
      *
      * @param object the object to obtain attribute values from
      * @param container the Container to populate
      */
     public static void copyObjectToContainer(Object object,
-        Container container) {
+            Container container) {
 
         List<Field> fieldList = getInputFields(container);
         copyObjectToContainer(object, container, fieldList);
@@ -337,8 +340,8 @@ public class ContainerUtils {
     }
 
     /**
-     * Find and return the specified controls parent Form or null
-     * if no Form is present.
+     * Find and return the specified controls parent Form or null if no Form is
+     * present.
      *
      * @param control the control to check for Form
      * @return the controls parent Form or null if no parent is a Form
@@ -445,10 +448,10 @@ public class ContainerUtils {
     }
 
     /**
-     * Return the list of hidden Fields for the given Container, recursively including
-     * any Fields contained in child containers. The list of returned fields
-     * will exclude any <code>Button</code>, <code>FieldSet</code> and <code>Label</code>
-     * fields.
+     * Return the list of hidden Fields for the given Container, recursively
+     * including any Fields contained in child containers. The list of returned
+     * fields will exclude any <code>Button</code>, <code>FieldSet</code> and
+     * <code>Label</code> fields.
      *
      * @param container the container to obtain the fields from
      * @return the list of contained fields
@@ -496,25 +499,25 @@ public class ContainerUtils {
      * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
-     * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <code>Control</code>
-     * such as a <code>Field</code>, it won't be possible to extend
+     * reason or another extend from
+     * {@link org.apache.click.control.AbstractContainer}. For example if the
+     * Container already extends from an existing <code>Control</code> such as a
+     * <code>Field</code>, it won't be possible to extend
      * <code>AbstractContainer</code> as well. In such scenarios instead of
-     * reimplementing {@link org.apache.click.control.Container#insert(org.apache.click.Control, int) insert},
+     * reimplementing
+     * {@link org.apache.click.control.Container#insert(org.apache.click.Control, int) insert},
      * one can delegate to this method.
      * <p>
      * For example, a custom Container that extends <code>Field</code> and
-     * implements <code>Container</code> could implement the <code>insert</code> method
-     * as follows:
+     * implements <code>Container</code> could implement the <code>insert</code>
+     * method as follows:
      * <pre class="prettyprint">
      * public class MyContainer extends Field implements Container {
      *
-     *     public Control insert(Control control, int index) {
-     *         return ContainerUtils.insert(this, control, index, getControlMap());
-     *     }
+     * public Control insert(Control control, int index) { return
+     * ContainerUtils.insert(this, control, index, getControlMap()); }
      *
-     *     ...
-     * } </pre>
+     * ... } </pre>
      *
      * @param container the container to insert the given control into
      * @param control the control to add to the container
@@ -529,7 +532,7 @@ public class ContainerUtils {
      * <code>(index &lt; 0 || index &gt; container.getControls().size())</code>
      */
     public static Control insert(Container container, Control control, int index,
-        Map<String, Control> controlMap) {
+            Map<String, Control> controlMap) {
 
         // Pre conditions start
         if (control == null) {
@@ -541,18 +544,17 @@ public class ContainerUtils {
         int size = container.getControls().size();
         if (index > size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: "
-                + size);
+                    + size);
         }
         // Check if container already contains the control
         if (controlMap.containsKey(control.getName())
-            && !(control instanceof Label)) {
+                && !(control instanceof Label)) {
 
             throw new IllegalArgumentException(
-                "Container already contains control named: " + control.getName());
+                    "Container already contains control named: " + control.getName());
         }
 
         // Pre conditions end
-
         // Check if control already has parent
         // If parent references the given container, there is no need to remove it
         Object currentParent = control.getParent();
@@ -585,34 +587,34 @@ public class ContainerUtils {
      * Replace the current control in the container at the specified index, and
      * return the newly added control.
      * <p>
-     * <b>Please note</b> if the new control already has a parent assigned,
-     * it will automatically be removed from that parent and inserted as a child
-     * of the container instead.
+     * <b>Please note</b> if the new control already has a parent assigned, it
+     * will automatically be removed from that parent and inserted as a child of
+     * the container instead.
      * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
-     * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <code>Control</code>
-     * such as a <code>Field</code>, it won't be possible to extend
+     * reason or another extend from
+     * {@link org.apache.click.control.AbstractContainer}. For example if the
+     * Container already extends from an existing <code>Control</code> such as a
+     * <code>Field</code>, it won't be possible to extend
      * <code>AbstractContainer</code> as well. In such scenarios instead of
-     * reimplementing {@link org.apache.click.control.Container#replace(org.apache.click.Control, org.apache.click.Control) replace},
+     * reimplementing
+     * {@link org.apache.click.control.Container#replace(org.apache.click.Control, org.apache.click.Control) replace},
      * one can delegate to this method.
      * <p>
      * For example, a custom Container that extends <code>Field</code> and
-     * implements <code>Container</code> could implement the <code>replace</code> method
-     * as follows:
+     * implements <code>Container</code> could implement the
+     * <code>replace</code> method as follows:
      *
      * <pre class="prettyprint">
      * public class MyContainer extends Field implements Container {
      *
-     *     public Control replace(Control currentControl, Control newControl) {
-     *         int controlIndex = getControls().indexOf(currentControl);
-     *         return ContainerUtils.replace(this, currentControl, newControl,
-     *             controlIndex, getControlMap());
-     *     }
+     * public Control replace(Control currentControl, Control newControl) { int
+     * controlIndex = getControls().indexOf(currentControl); return
+     * ContainerUtils.replace(this, currentControl, newControl, controlIndex,
+     * getControlMap()); }
      *
-     *     ...
-     * } </pre>
+     * ... } </pre>
      *
      * @param container the container to insert the new control into
      * @param currentControl the control currently contained in the container
@@ -622,7 +624,8 @@ public class ContainerUtils {
      * @param controlMap the container's map of controls keyed on control name
      * @return the new control that replaced the current control
      *
-     * @deprecated this method was used for stateful pages, which have been deprecated
+     * @deprecated this method was used for stateful pages, which have been
+     * deprecated
      *
      * @throws IllegalArgumentException if the currentControl or newControl is
      * null
@@ -630,10 +633,9 @@ public class ContainerUtils {
      */
     @Deprecated
     public static Control replace(Container container, Control currentControl,
-        Control newControl, int controlIndex, Map<String, Control> controlMap) {
+            Control newControl, int controlIndex, Map<String, Control> controlMap) {
 
         // Pre conditions start
-
         // Current and new control is the same instance - exit early
         if (currentControl == newControl) {
             return newControl;
@@ -648,11 +650,10 @@ public class ContainerUtils {
 
         if (controlIndex == -1) {
             throw new IllegalStateException("Cannot replace the given control"
-                + " because it is not present in the container");
+                    + " because it is not present in the container");
         }
 
         // Pre conditions end
-
         // Check if control already has parent
         // If parent references the given container, there is no need to remove it
         Object currentParent = newControl.getParent();
@@ -692,31 +693,31 @@ public class ContainerUtils {
     }
 
     /**
-     * Remove the given control from the container, returning <code>true</code> if
-     * the control was found in the container and removed, or <code>false</code> if
-     * the control was not found.
+     * Remove the given control from the container, returning <code>true</code>
+     * if the control was found in the container and removed, or
+     * <code>false</code> if the control was not found.
      * <p>
      * This method is useful for developers needing to implement the
      * {@link org.apache.click.control.Container} interface but cannot for one
-     * reason or another extend from {@link org.apache.click.control.AbstractContainer}.
-     * For example if the Container already extends from an existing <code>Control</code>
-     * such as a <code>Field</code>, it won't be possible to extend
+     * reason or another extend from
+     * {@link org.apache.click.control.AbstractContainer}. For example if the
+     * Container already extends from an existing <code>Control</code> such as a
+     * <code>Field</code>, it won't be possible to extend
      * <code>AbstractContainer</code> as well. In such scenarios instead of
-     * reimplementing {@link org.apache.click.control.Container#remove(org.apache.click.Control) remove},
+     * reimplementing
+     * {@link org.apache.click.control.Container#remove(org.apache.click.Control) remove},
      * one can delegate to this method.
      * <p>
      * For example, a custom Container that extends <code>Field</code> and
-     * implements <code>Container</code> could implement the <code>remove</code> method
-     * as follows:
+     * implements <code>Container</code> could implement the <code>remove</code>
+     * method as follows:
      * <pre class="prettyprint">
      * public class MyContainer extends Field implements Container {
      *
-     *     public boolean remove (Control control) {
-     *         return ContainerUtils.remove(this, control, getControlMap());
-     *     }
+     * public boolean remove (Control control) { return
+     * ContainerUtils.remove(this, control, getControlMap()); }
      *
-     *     ...
-     * } </pre>
+     * ... } </pre>
      *
      * @param container the container to remove the given control from
      * @param control the control to remove from the container
@@ -726,7 +727,7 @@ public class ContainerUtils {
      * @throws IllegalArgumentException if the control is null
      */
     public static boolean remove(Container container, Control control,
-        Map<String, Control> controlMap) {
+            Map<String, Control> controlMap) {
 
         if (control == null) {
             throw new IllegalArgumentException("Control cannot be null");
@@ -754,7 +755,6 @@ public class ContainerUtils {
     }
 
     // -------------------------------------------------------- Private Methods
-
     /**
      * Extract and return the specified object property names.
      * <p>
@@ -764,8 +764,11 @@ public class ContainerUtils {
      * @return the unique set of property names
      */
     private static Set<String> getObjectPropertyNames(Object object) {
-        if (object instanceof Map) {
-            return ((Map) object).keySet();
+        if (object instanceof Map<?, ?>) {
+            // Cast through a raw detour to map the keys safely to a Set<String>
+            @SuppressWarnings("unchecked")
+            Set<String> keys = (Set<String>) (Set<?>) ((Map<?, ?>) object).keySet();
+            return keys;
         }
 
         Set<String> hashSet = new TreeSet<String>();
@@ -776,21 +779,21 @@ public class ContainerUtils {
             String methodName = method.getName();
 
             if (methodName.startsWith("get") && methodName.length() > 3) {
-                String propertyName =
-                    Character.toLowerCase(methodName.charAt(3))
-                    + methodName.substring(4);
+                String propertyName
+                        = Character.toLowerCase(methodName.charAt(3))
+                        + methodName.substring(4);
                 hashSet.add(propertyName);
             }
             if (methodName.startsWith("is") && methodName.length() > 2) {
-                String propertyName =
-                    Character.toLowerCase(methodName.charAt(2))
-                    + methodName.substring(3);
+                String propertyName
+                        = Character.toLowerCase(methodName.charAt(2))
+                        + methodName.substring(3);
                 hashSet.add(propertyName);
             }
             if (methodName.startsWith("set") && methodName.length() > 3) {
-                String propertyName =
-                    Character.toLowerCase(methodName.charAt(3))
-                    + methodName.substring(4);
+                String propertyName
+                        = Character.toLowerCase(methodName.charAt(3))
+                        + methodName.substring(4);
                 hashSet.add(propertyName);
             }
         }
@@ -799,8 +802,8 @@ public class ContainerUtils {
     }
 
     /**
-     * Return true if the specified field name is contained within the
-     * specified set of properties.
+     * Return true if the specified field name is contained within the specified
+     * set of properties.
      *
      * @param field the field which name should be checked
      * @param properties set of properties to check
@@ -816,8 +819,8 @@ public class ContainerUtils {
     }
 
     /**
-     * This method ensures that the object can safely be navigated according
-     * to the specified path.
+     * This method ensures that the object can safely be navigated according to
+     * the specified path.
      * <p>
      * If any object in the graph is null, a new instance of that object class
      * is instantiated.
@@ -895,7 +898,7 @@ public class ContainerUtils {
      * @return the getter method
      */
     private static Method findGetter(Object object, String property,
-        String path) {
+            String path) {
 
         // Find the getter for property
         String getterName = ClickUtils.toGetterName(property);
@@ -936,7 +939,7 @@ public class ContainerUtils {
      * @return the getter result
      */
     private static Object invokeGetter(Method getterMethod, Object source,
-        String property, String path) {
+            String property, String path) {
 
         try {
             // Retrieve target object from getter
@@ -966,14 +969,14 @@ public class ContainerUtils {
      * @return the setter method
      */
     private static Method findSetter(Object source,
-        String property, Class<?> targetClass, String path) {
+            String property, Class<?> targetClass, String path) {
         Method method = null;
 
         // Find the setter for property
         String setterName = ClickUtils.toSetterName(property);
 
         Class<?> sourceClass = source.getClass();
-        Class<?>[] classArgs = { targetClass };
+        Class<?>[] classArgs = {targetClass};
         try {
             method = sourceClass.getMethod(setterName, classArgs);
         } catch (Exception e) {
@@ -999,7 +1002,7 @@ public class ContainerUtils {
      * @param path the full expression path (used for logging)
      */
     private static void invokeSetter(Method setterMethod, Object source,
-        Object target, String property, String path) {
+            Object target, String property, String path) {
 
         try {
             Object[] objectArgs = {target};
@@ -1029,29 +1032,29 @@ public class ContainerUtils {
      * @param property the current property being processed
      */
     private static void logBasicDescription(HtmlStringBuffer buffer, Object object,
-        String path, String property) {
+            String path, String property) {
         buffer.append("Invoked ensureObjectPathNotNull");
         buffer.append(" for class: '").append(object.getClass().getName());
         buffer.append("', path: '").append(path).append("' and property: '");
         buffer.append(property).append("'. ");
     }
 
-   /**
-    * Populate the given map from the values of the specified fieldList. The
-    * map's key/value pairs are populated from the fields name/value. The keys
-    * of the map are matched against each field name. If a key matches a field
-    * name, the value of the field will be copied to the map.
-    *
-    * @param fieldList the forms list of fields to obtain field values from
-    * @param map the map to populate with field values
-    */
+    /**
+     * Populate the given map from the values of the specified fieldList. The
+     * map's key/value pairs are populated from the fields name/value. The keys
+     * of the map are matched against each field name. If a key matches a field
+     * name, the value of the field will be copied to the map.
+     *
+     * @param fieldList the forms list of fields to obtain field values from
+     * @param map the map to populate with field values
+     */
     private static void copyFieldsToMap(List<Field> fieldList, Map<String, Object> map) {
 
         LogService logService = ClickUtils.getLogService();
 
         String objectClassname = map.getClass().getName();
-        objectClassname =
-            objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
+        objectClassname
+                = objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
 
         for (Field field : fieldList) {
 
@@ -1064,7 +1067,7 @@ public class ContainerUtils {
 
                 if (logService.isDebugEnabled()) {
                     String msg = "   Form -> " + objectClassname + "."
-                         + fieldName + " : " + field.getValueObject();
+                            + fieldName + " : " + field.getValueObject();
 
                     logService.debug(msg);
                 }
@@ -1086,8 +1089,8 @@ public class ContainerUtils {
         LogService logService = ClickUtils.getLogService();
 
         String objectClassname = map.getClass().getName();
-        objectClassname =
-            objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
+        objectClassname
+                = objectClassname.substring(objectClassname.lastIndexOf(".") + 1);
 
         for (Field field : fieldList) {
             String fieldName = field.getName();
@@ -1103,7 +1106,7 @@ public class ContainerUtils {
 
                 if (logService.isDebugEnabled()) {
                     String msg = "   Form <- " + objectClassname + "."
-                        + fieldName + " : " + result;
+                            + fieldName + " : " + result;
                     logService.debug(msg);
                 }
             }
@@ -1113,8 +1116,8 @@ public class ContainerUtils {
     /**
      * Add buttons for the given Container to the specified buttons list,
      * recursively including any Fields contained in child containers. The list
-     * of returned buttons will exclude any <code>Button</code> or <code>Label</code>
-     * fields.
+     * of returned buttons will exclude any <code>Button</code> or
+     * <code>Label</code> fields.
      *
      * @param container the container to obtain the fields from
      * @param buttons the list of contained fields
@@ -1164,8 +1167,8 @@ public class ContainerUtils {
      * Add input fields (TextField, TextArea, Select, Radio, Checkbox etc.) for
      * the given Container to the specified field list, recursively including
      * any Fields contained in child containers. The list of returned fields
-     * will exclude any <code>Button</code>, <code>FieldSet</code> and <code>Label</code>
-     * fields.
+     * will exclude any <code>Button</code>, <code>FieldSet</code> and
+     * <code>Label</code> fields.
      *
      * @param container the container to obtain the fields from
      * @param fields the list of contained fields
@@ -1194,8 +1197,8 @@ public class ContainerUtils {
     /**
      * Add hidden fields for the given Container to the specified field list,
      * recursively including any Fields contained in child containers. The list
-     * of returned fields will exclude any <code>Button</code>, <code>FieldSet</code>
-     * and <code>Label</code> fields.
+     * of returned fields will exclude any <code>Button</code>,
+     * <code>FieldSet</code> and <code>Label</code> fields.
      *
      * @param container the container to obtain the hidden fields from
      * @param fields the list of contained fields
@@ -1230,8 +1233,8 @@ public class ContainerUtils {
 
     /**
      * Add fields for the container to the specified field list, recursively
-     * including any Fields contained in child containers. The list
-     * of returned fields will exclude any <code>Button</code> and <code>FieldSet</code>
+     * including any Fields contained in child containers. The list of returned
+     * fields will exclude any <code>Button</code> and <code>FieldSet</code>
      * fields.
      *
      * @param container the container to obtain the fields from
@@ -1305,8 +1308,8 @@ public class ContainerUtils {
                 if (control instanceof Field) {
                     Field field = (Field) control;
                     if (!field.isValid()
-                        && !field.isHidden()
-                        && !field.isDisabled()) {
+                            && !field.isHidden()
+                            && !field.isDisabled()) {
 
                         fields.add((Field) control);
                     }
@@ -1317,8 +1320,8 @@ public class ContainerUtils {
             } else if (control instanceof Field) {
                 Field field = (Field) control;
                 if (!field.isValid()
-                    && !field.isHidden()
-                    && !field.isDisabled()) {
+                        && !field.isHidden()
+                        && !field.isDisabled()) {
 
                     fields.add((Field) control);
                 }
@@ -1327,15 +1330,15 @@ public class ContainerUtils {
     }
 
     /**
-     * Log a warning that the parent of the given control will be set to
-     * the specified container.
+     * Log a warning that the parent of the given control will be set to the
+     * specified container.
      *
      * @param container the parent container
      * @param control the control which parent is being reset
      * @param currentParent the control current parent
      */
     private static void logParentReset(Container container, Control control,
-        Object currentParent) {
+            Object currentParent) {
         HtmlStringBuffer message = new HtmlStringBuffer();
 
         message.append("Changed ");

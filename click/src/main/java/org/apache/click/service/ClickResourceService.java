@@ -145,7 +145,7 @@ public class ClickResourceService extends BasicResourceService {
                 throw new RuntimeException(msg);
             }
 
-            Class deployClass = ClickUtils.classForName(classname);
+            Class<?> deployClass = ClickUtils.classForName(classname);
             Control control = (Control) deployClass.getDeclaredConstructor().newInstance();
 
             control.onDeploy(configService.getServletContext());
@@ -191,7 +191,7 @@ public class ClickResourceService extends BasicResourceService {
         // directory "META-INF/resources/", and deploy those resources
         String resourceDirectory = "META-INF/resources";
 
-        List<String> resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
+        List<String> resources = new DeployUtils<>(logService).findResources(resourceDirectory).getResources();
         for (String resource : resources) {
             deployFile(resource, resourceDirectory);
         }
@@ -200,7 +200,7 @@ public class ClickResourceService extends BasicResourceService {
         // classpath that contains the directory "META-INF/web/", and deploy those
         // resources
         resourceDirectory = "META-INF/web";
-        resources = new DeployUtils(logService).findResources(resourceDirectory).getResources();
+        resources = new DeployUtils<>(logService).findResources(resourceDirectory).getResources();
         for (String resource : resources) {
             deployFile(resource, resourceDirectory);
         }
