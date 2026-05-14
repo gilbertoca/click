@@ -574,6 +574,7 @@ public abstract class AbstractLink extends AbstractControl implements Stateful {
             return;
         }
 
+        @SuppressWarnings("unchecked")
         Map<String, Object> linkState = (Map<String, Object>) state;
         setParameters(linkState);
     }

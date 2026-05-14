@@ -20,6 +20,7 @@ package org.apache.click.control;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -407,7 +408,7 @@ public class Table extends AbstractControl implements Stateful {
 
     /** The table data provider. */
     @SuppressWarnings("unchecked")
-    protected DataProvider dataProvider;
+    protected DataProvider<?> dataProvider;
 
     /**
      * The total possible number of rows of the table. This value
@@ -468,7 +469,7 @@ public class Table extends AbstractControl implements Stateful {
      * {@link #onDestroy()} method at the end of each request.
      */
     @SuppressWarnings("unchecked")
-    protected List rowList;
+    protected List<?> rowList;
 
     /**
      * The show table banner flag detailing number of rows and current rows
@@ -812,7 +813,7 @@ public class Table extends AbstractControl implements Stateful {
      * @return the table row list DataProvider
      */
     @SuppressWarnings("unchecked")
-    public DataProvider getDataProvider() {
+    public DataProvider<?> getDataProvider() {
         return dataProvider;
     }
 
@@ -886,7 +887,7 @@ public class Table extends AbstractControl implements Stateful {
      * @param dataProvider the table row list DataProvider
      */
     @SuppressWarnings("unchecked")
-    public void setDataProvider(DataProvider dataProvider) {
+    public void setDataProvider(DataProvider<?> dataProvider) {
         this.dataProvider = dataProvider;
         if (dataProvider != null) {
             setRowList(null);
@@ -1162,7 +1163,7 @@ public class Table extends AbstractControl implements Stateful {
      * @return the list of table rows
      */
     @SuppressWarnings("unchecked")
-    public List getRowList() {
+    public List<?> getRowList() {
         if (rowList == null) {
             rowList = createRowList();
         }
@@ -1184,7 +1185,7 @@ public class Table extends AbstractControl implements Stateful {
      * @param rowList the list of table rows to set
      */
     @SuppressWarnings("unchecked")
-    public void setRowList(List rowList) {
+    public void setRowList(List<?> rowList) {
         this.rowList = rowList;
         if (this.rowList == null) {
             this.rowCount = 0;
@@ -1492,7 +1493,7 @@ public class Table extends AbstractControl implements Stateful {
 
         if (localControlLink.isClicked()) {
             String page = localControlLink.getParameter(PAGE);
-            if (NumberUtils.isNumber(page)) {
+            if (NumberUtils.isCreatable(page)) {
                 setPageNumber(Integer.parseInt(page));
             } else {
                 setPageNumber(0);
@@ -1817,9 +1818,9 @@ public class Table extends AbstractControl implements Stateful {
         if (lastRow == 0) {
             renderBodyNoRows(buffer);
         } else {
-            List tableRows = getRowList();
+            List<?> tableRows = getRowList();
 
-            Map rowAttributes = new HashMap(3);
+            Map<String, String> rowAttributes = new HashMap<>(3);
 
             for (int i = firstRow; i < lastRow; i++) {
                 Object row = getRowList().get(i);
@@ -1846,7 +1847,7 @@ public class Table extends AbstractControl implements Stateful {
                     buffer.appendAttribute("id", rowAttributes.get("id"));
 
                     // Remove class attribute and append hoverClass to the value
-                    String cls = (String) rowAttributes.remove("class");
+                    String cls = rowAttributes.remove("class");
 
                     // Open class attribute
                     buffer.append(" class=\"");
@@ -2186,7 +2187,7 @@ public class Table extends AbstractControl implements Stateful {
 
             Column column = getColumns().get(getSortedColumn());
 
-            Collections.sort(getRowList(), column.getComparator());
+            Collections.sort(getRowList(), (Comparator) column.getComparator());
 
             setSorted(true);
         }

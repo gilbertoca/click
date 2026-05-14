@@ -61,8 +61,8 @@ public class WebappResourceLoader extends ResourceLoader {
     protected String[] paths = null;
     /**
      * Map of template paths.
-     */    
-    protected HashMap templatePaths = null;
+     */
+    protected HashMap<String, String> templatePaths = null;
     /**
      * The context servlet.
      */
@@ -78,6 +78,7 @@ public class WebappResourceLoader extends ResourceLoader {
      * @param configuration the {@link ExtendedProperties} associated with this
      * resource loader.
      */
+    @Override
     public void init(ExtProperties configuration) {
         log.trace("WebappResourceLoader: initialization starting.");
 
@@ -105,7 +106,7 @@ public class WebappResourceLoader extends ResourceLoader {
         }
 
         /* init the template paths map */
-        templatePaths = new HashMap();
+        templatePaths = new HashMap<>();
 
         log.trace("WebappResourceLoader: initialization complete.");
     }
@@ -132,14 +133,13 @@ public class WebappResourceLoader extends ResourceLoader {
         }
 
         Exception exception = null;
-        for (int i = 0; i < paths.length; i++) {
-            String path = paths[i] + name;
+        for (String path1 : paths) {
+            String path = path1 + name;
             try {
                 result = servletContext.getResourceAsStream(path);
-
                 /* save the path and exit the loop if we found the template */
                 if (result != null) {
-                    templatePaths.put(name, paths[i]);
+                    templatePaths.put(name, path1);
                     break;
                 }
             } catch (NullPointerException npe) {
@@ -201,7 +201,7 @@ public class WebappResourceLoader extends ResourceLoader {
             fileName = fileName.substring(1);
         }
 
-        String savedPath = (String) templatePaths.get(fileName);
+        String savedPath = templatePaths.get(fileName);
         return new File(rootPath + savedPath, fileName);
     }
 
@@ -211,6 +211,7 @@ public class WebappResourceLoader extends ResourceLoader {
      * @param resource Resource The resource to check for modification
      * @return boolean True if the resource has been modified
      */
+    @Override
     public boolean isSourceModified(Resource resource) {
         String rootPath = servletContext.getRealPath("/");
         if (rootPath == null) {
@@ -231,11 +232,11 @@ public class WebappResourceLoader extends ResourceLoader {
         /* check to see if the file can now be found elsewhere
          * before it is found in the previously saved path */
         File currentFile = null;
-        for (int i = 0; i < paths.length; i++) {
-            currentFile = new File(rootPath + paths[i], fileName);
+        for (String path : paths) {
+            currentFile = new File(rootPath + path, fileName);
             if (currentFile.canRead()) {
                 /* stop at the first resource found
-                 * (just like in getResourceStream()) */
+                * (just like in getResourceStream()) */
                 break;
             }
         }
@@ -258,6 +259,7 @@ public class WebappResourceLoader extends ResourceLoader {
      * @return long The time when the resource was last modified or 0 if the
      * file can't be read
      */
+    @Override
     public long getLastModified(Resource resource) {
         String rootPath = servletContext.getRealPath("/");
         if (rootPath == null) {
