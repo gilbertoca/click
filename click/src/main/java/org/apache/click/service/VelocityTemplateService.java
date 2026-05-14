@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -326,7 +325,6 @@ public class VelocityTemplateService implements TemplateService {
      * @return the Velocity Engine initialization properties
      * @throws MalformedURLException if a resource cannot be loaded
      */
-    @SuppressWarnings("unchecked")
     protected Properties getInitProperties() throws MalformedURLException {
 
         final Properties velProps = new Properties();
@@ -410,31 +408,26 @@ public class VelocityTemplateService implements TemplateService {
                 }
             }
         }
-
         // Add user properties.
-        Iterator iterator = userProperties.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
 
+        for (Map.Entry<?, ?> entry : userProperties.entrySet()) {
             Object pop = velProps.put(entry.getKey(), entry.getValue());
 
             LogService logService = configService.getLogService();
             if (pop != null && logService.isDebugEnabled()) {
                 String message = "user defined property '" + entry.getKey()
-                    + "=" + entry.getValue() + "' replaced default property '"
-                    + entry.getKey() + "=" + pop + "'";
+                        + "=" + entry.getValue() + "' replaced default property '"
+                        + entry.getKey() + "=" + pop + "'";
                 logService.debug(message);
             }
         }
 
-        ConfigService configService = ClickUtils.getConfigService(servletContext);
-        LogService logger = configService.getLogService();
+        ConfigService configService_ = ClickUtils.getConfigService(servletContext);
+        LogService logger = configService_.getLogService();
         if (logger.isTraceEnabled()) {
-            TreeMap sortedPropMap = new TreeMap();
+            TreeMap<Object, Object> sortedPropMap = new TreeMap<>();
 
-            Iterator i = velProps.entrySet().iterator();
-            while (i.hasNext()) {
-                Map.Entry entry = (Map.Entry) i.next();
+            for (Map.Entry<?, ?> entry : velProps.entrySet()) {
                 sortedPropMap.put(entry.getKey(), entry.getValue());
             }
 

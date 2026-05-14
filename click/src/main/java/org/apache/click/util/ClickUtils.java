@@ -40,6 +40,7 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -868,7 +869,7 @@ public class ClickUtils {
      * @return the <code>Class</code> object
      * @throws ClassNotFoundException if the class cannot be located
      */
-    public static Class classForName(String classname)
+    public static Class<?> classForName(String classname)
             throws ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         return Class.forName(classname, true, classLoader);
@@ -1724,7 +1725,7 @@ public class ClickUtils {
 
         try {
             InputStream is = getResourceAsStream(descriptorFile, ClickUtils.class);
-            List fileList = IOUtils.readLines(is);
+            List<String> fileList = IOUtils.readLines(is, StandardCharsets.UTF_8);
             if (fileList == null || fileList.isEmpty()) {
                 logService.info("there are no files to deploy for control " + controlClass.getName());
                 return;
@@ -1734,7 +1735,7 @@ public class ClickUtils {
             // required subdirectories.
             List<String> targetDirList = new ArrayList<String>(fileList.size());
             for (int i = 0; i < fileList.size(); i++) {
-                String filePath = (String) fileList.get(i);
+                String filePath = fileList.get(i);
                 String destination = "";
                 int index = filePath.lastIndexOf('/');
                 if (index != -1) {
@@ -1745,7 +1746,7 @@ public class ClickUtils {
             }
 
             for (int i = 0; i < fileList.size(); i++) {
-                String source = (String) fileList.get(i);
+                String source = fileList.get(i);
                 String targetDirName = targetDirList.get(i);
                 ClickUtils.deployFile(servletContext, source, targetDirName);
             }
@@ -2635,7 +2636,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = ClickUtils.getPageState(resourcePath, context);
+        Map<String, Object> pageMap = ClickUtils.getPageState(resourcePath, context);
         if (pageMap != null) {
             Object pop = pageMap.remove(controlName);
 
@@ -2677,7 +2678,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = ClickUtils.getPageState(resourcePath, context);
+        Map<String, Object> pageMap = ClickUtils.getPageState(resourcePath, context);
         if (pageMap != null) {
             control.setState(pageMap.get(controlName));
         }
@@ -2707,7 +2708,7 @@ public class ClickUtils {
         }
 
         String resourcePath = context.getResourcePath();
-        Map pageMap = getOrCreatePageState(resourcePath, context);
+        Map<String, Object> pageMap = getOrCreatePageState(resourcePath, context);
         Object state = control.getState();
         if (state == null) {
             // Set null state to see if it differs from previous state
@@ -3304,10 +3305,10 @@ public class ClickUtils {
      * @param context the request context
      * @return the map where page state is stored in
      */
-    private static Map getOrCreatePageState(String pagePath, Context context) {
-                Map pageMap = getPageState(pagePath, context);
+    private static Map<String, Object> getOrCreatePageState(String pagePath, Context context) {
+                Map<String, Object> pageMap = getPageState(pagePath, context);
         if (pageMap == null) {
-            pageMap = new HashMap();
+            pageMap = new HashMap<>();
         }
         return pageMap;
     }
@@ -3321,11 +3322,12 @@ public class ClickUtils {
      * @param context the request context
      * @return the map where page state is stored in
      */
-    private static Map getPageState(String pagePath, Context context) {
+    @SuppressWarnings("unchecked")
+    private static Map<String, Object> getPageState(String pagePath, Context context) {
         Object storedPageValue = context.getSessionAttribute(pagePath);
-        Map pageMap = null;
+        Map<String, Object> pageMap = null;
         if (storedPageValue != null) {
-            pageMap = (Map) storedPageValue;
+            pageMap = (Map<String, Object>) storedPageValue;
         }
         return pageMap;
     }
