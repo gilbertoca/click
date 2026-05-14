@@ -100,7 +100,7 @@ public class FileField extends Field {
      * <a href="http://jakarta.apache.org/commons/fileupload/apidocs/org/apache/commons/fileupload/DefaultFileItem.html">DefaultFileItem</a>
      * after processing a file upload request.
      */
-    protected FileItem fileItem;
+    protected FileItem<?> fileItem;
 
     // ----------------------------------------------------------- Constructors
 
@@ -188,7 +188,7 @@ public class FileField extends Field {
      *
      * @return the <code>FileItem</code> after processing a request
      */
-    public FileItem getFileItem() {
+    public FileItem<?> getFileItem() {
         return fileItem;
     }
 
@@ -361,7 +361,7 @@ public class FileField extends Field {
         setError(null);
 
         if (isRequired()) {
-            FileItem localFileItem = getFileItem();
+            FileItem<?> localFileItem = getFileItem();
             if (localFileItem == null || StringUtils.isBlank(localFileItem.getName())) {
                 setErrorMessage("file-required-error");
             }
