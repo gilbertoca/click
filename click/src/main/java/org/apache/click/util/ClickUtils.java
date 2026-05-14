@@ -873,6 +873,24 @@ public class ClickUtils {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         return Class.forName(classname, true, classLoader);
     }
+    
+    /**
+     * Return the Class object for the given classname, narrowed to the specified
+     * target type boundary.
+     *
+     * @param <T> the expected type boundary
+     * @param classname the name of the class to load
+     * @param targetType the interface or parent class to narrow down to
+     * @return the Class object narrowed to the target type
+     * @throws ClassNotFoundException if the class cannot be found
+     * @throws ClassCastException if the class is found but cannot be assigned to targetType
+     */
+    public static <T> Class<? extends T> classForName(String classname, Class<T> targetType)
+            throws ClassNotFoundException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Class<?> clazz = Class.forName(classname, true, classLoader);
+        return clazz.asSubclass(targetType);
+    }
 
     /**
      * Close the given closeable (Reader, Writer, Stream) and ignore any

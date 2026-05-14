@@ -1945,7 +1945,6 @@ public class ClickServlet extends HttpServlet {
      * @return a new application ConfigService instance
      * @throws Exception if an initialization error occurs
      */
-    @SuppressWarnings("unchecked")
     ConfigService createConfigService(ServletContext servletContext)
         throws Exception {
 
@@ -1953,7 +1952,7 @@ public class ClickServlet extends HttpServlet {
 
         String classname = servletContext.getInitParameter(CONFIG_SERVICE_CLASS);
         if (StringUtils.isNotBlank(classname)) {
-            serviceClass = ClickUtils.classForName(classname);
+            serviceClass = ClickUtils.classForName(classname, ConfigService.class);
         }
 
         return serviceClass.getDeclaredConstructor().newInstance();

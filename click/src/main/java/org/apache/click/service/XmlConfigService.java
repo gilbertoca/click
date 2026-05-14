@@ -950,16 +950,10 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         // className = 'org.apache.click.pages.EditCustomer'
         className = packageName + className;
 
-        Class pageClass = null;
+        Class<? extends Page> pageClass = null;
         try {
             // Attempt to load class.
-            pageClass = ClickUtils.classForName(className);
-
-            if (!Page.class.isAssignableFrom(pageClass)) {
-                String msg = "Automapped page class " + className
-                        + " is not a subclass of org.apache.click.Page";
-                throw new RuntimeException(msg);
-            }
+            pageClass = ClickUtils.classForName(className, Page.class);
 
         } catch (ClassNotFoundException cnfe) {
 
@@ -971,13 +965,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 String classNameWithPage = className + "Page";
                 try {
                     // Attempt to load class.
-                    pageClass = ClickUtils.classForName(classNameWithPage);
-
-                    if (!Page.class.isAssignableFrom(pageClass)) {
-                        String msg = "Automapped page class " + classNameWithPage
-                                + " is not a subclass of org.apache.click.Page";
-                        throw new RuntimeException(msg);
-                    }
+                    pageClass = ClickUtils.classForName(classNameWithPage, Page.class);
 
                     classFound = true;
 
@@ -1349,7 +1337,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
                 throw new RuntimeException(msg);
             }
 
-            formatClass = ClickUtils.classForName(classname);
+            formatClass = ClickUtils.classForName(classname, Format.class);
 
         } else {
             formatClass = org.apache.click.util.Format.class;
@@ -1361,7 +1349,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element fileUploadServiceElm = ClickUtils.getChild(rootElm, "file-upload-service");
 
         if (fileUploadServiceElm != null) {
-            Class fileUploadServiceClass = CommonsFileUploadService.class;
+            Class<?> fileUploadServiceClass = CommonsFileUploadService.class;
 
             String classname = fileUploadServiceElm.getAttribute("classname");
 
@@ -1374,7 +1362,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             Map<String, String> propertyMap = loadPropertyMap(fileUploadServiceElm);
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 getPropertyService().setValue(fileUploadService, name, value);
             }
@@ -1396,7 +1384,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element logServiceElm = ClickUtils.getChild(rootElm, "log-service");
 
         if (logServiceElm != null) {
-            Class logServiceClass = ConsoleLogService.class;
+            Class<?> logServiceClass = ConsoleLogService.class;
 
             String classname = logServiceElm.getAttribute("classname");
 
@@ -1409,7 +1397,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             Map<String, String> propertyMap = loadPropertyMap(logServiceElm);
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 getPropertyService().setValue(logService, name, value);
             }
@@ -1424,7 +1412,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element messagesMapServiceElm = ClickUtils.getChild(rootElm, "messages-map-service");
 
         if (messagesMapServiceElm != null) {
-            Class messagesMapServiceClass = DefaultMessagesMapService.class;
+            Class<?> messagesMapServiceClass = DefaultMessagesMapService.class;
 
             String classname = messagesMapServiceElm.getAttribute("classname");
 
@@ -1437,7 +1425,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             Map<String, String> propertyMap = loadPropertyMap(messagesMapServiceElm);
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 getPropertyService().setValue(messagesMapService, name, value);
             }
@@ -1462,13 +1450,13 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             String scopeValue = interceptorElm.getAttribute("scope");
             boolean applicationScope = "application".equalsIgnoreCase(scopeValue);
 
-            Class interceptorClass = ClickUtils.classForName(classname);
+            Class<? extends PageInterceptor> interceptorClass = ClickUtils.classForName(classname, PageInterceptor.class);
 
             Map<String, String> propertyMap = loadPropertyMap(interceptorElm);
             List<Property> propertyList = new ArrayList<Property>();
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 propertyList.add(new Property(name, value));
             }
@@ -1485,7 +1473,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element resourceServiceElm = ClickUtils.getChild(rootElm, "resource-service");
 
         if (resourceServiceElm != null) {
-            Class resourceServiceClass = ClickResourceService.class;
+            Class<?> resourceServiceClass = ClickResourceService.class;
 
             String classname = resourceServiceElm.getAttribute("classname");
 
@@ -1502,7 +1490,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             Map<String, String> propertyMap = loadPropertyMap(resourceServiceElm);
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 getPropertyService().setValue(resourceService, name, value);
             }
@@ -1526,7 +1514,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element propertyServiceElm = ClickUtils.getChild(rootElm, "property-service");
 
         if (propertyServiceElm != null) {
-            Class propertyServiceClass = OGNLPropertyService.class;
+            Class<?> propertyServiceClass = OGNLPropertyService.class;
 
             String classname = propertyServiceElm.getAttribute("classname");
 
@@ -1553,7 +1541,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
         Element templateServiceElm = ClickUtils.getChild(rootElm, "template-service");
 
         if (templateServiceElm != null) {
-            Class templateServiceClass = VelocityTemplateService.class;
+            Class<?> templateServiceClass = VelocityTemplateService.class;
 
             String classname = templateServiceElm.getAttribute("classname");
 
@@ -1566,7 +1554,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             Map<String, String> propertyMap = loadPropertyMap(templateServiceElm);
 
             for (String name : propertyMap.keySet()) {
-                String value = propertyMap.get(name).toString();
+                String value = propertyMap.get(name);
 
                 getPropertyService().setValue(templateService, name, value);
             }
@@ -1932,7 +1920,7 @@ public class XmlConfigService implements ConfigService, EntityResolver {
             this.fieldArray = new Field[0];
             this.fields = Collections.emptyMap();
             this.headers = Collections.emptyMap();
-            pageClass = ClickUtils.classForName(classname);
+            pageClass = ClickUtils.classForName(classname, Page.class);
             this.path = path;
         }
 
