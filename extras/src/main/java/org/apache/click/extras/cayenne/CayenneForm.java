@@ -393,6 +393,7 @@ public class CayenneForm extends Form {
      *
      * @return the Class of the form <code>DataObject</code>.
      */
+    @SuppressWarnings("unchecked")
     public Class<? extends DataObject> getDataObjectClass() {
         String className = null;
         if (classField.getValueObject() != null) {
@@ -403,7 +404,7 @@ public class CayenneForm extends Form {
         }
 
         try {
-            return ClickUtils.classForName(className);
+            return (Class<? extends DataObject>) ClickUtils.classForName(className);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
