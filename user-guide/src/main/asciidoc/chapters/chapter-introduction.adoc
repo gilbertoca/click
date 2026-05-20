@@ -57,7 +57,7 @@ public HelloWorld extends Page {
 Click ensures all objects added to the Page model is automatically
 available in the Page template.
 
-Next we have a page template `+hello-world.htm+`, [.indexterm]## where
+Next we have a page template `+hello-world.htm+`, where
 we can access the Page's `+time+` variable using the reference
 `+$time+`:
 
