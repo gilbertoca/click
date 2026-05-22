@@ -43,17 +43,17 @@ import org.apache.click.Page;
 
 public HelloWorld extends Page {
 
-    private Date time = new Date(); 
+    private Date time = new Date(); <1>
 
     public HelloWorld() {
-        addModel("time", time); 
+        addModel("time", time); <2>
     }
 
 }
 ----
 
-* Assign a new Date instance to the `+time+` variable.
-* Add the `+time+` variable to the Page model under the name `+"time"+`.
+<1> Assign a new Date instance to the `+time+` variable.
+<2> Add the `+time+` variable to the Page model under the name `+"time"+`.
 Click ensures all objects added to the Page model is automatically
 available in the Page template.
 
@@ -121,7 +121,7 @@ public class ControlListenerType1Page extends Page {
     // Constructor ------------------------------------------------------------
 
     public ControlListenerType1Page() {
-        addControl(myLink); 
+        addControl(myLink); <1>
     }
 
     // Event Handlers ---------------------------------------------------------
@@ -140,7 +140,7 @@ public class ControlListenerType1Page extends Page {
 }
 ----
 
-* Add the link to the page. The link will be made available to the page
+<1> Add the link to the page. The link will be made available to the page
 template under the variable `+myLink+`, which is the name of the
 control.
 
@@ -440,13 +440,13 @@ public class CustomerPage extends Page {
                 // when the Link is clicked, such as when paging or sorting.
                 // This ensures the table state is only saved when the state changes, and
                 // cuts down on unnecessary session replication in a cluster environment.
-                table.saveState(getContext()); 
+                table.saveState(getContext()); <1>
                 return true;
             }
         });
 
         // Restore the table sort and paging state from the session between requests
-        table.restoreState(getContext()); 
+        table.restoreState(getContext()); <2>
     }
     
     // Event Handlers ---------------------------------------------------------
@@ -462,14 +462,14 @@ public class CustomerPage extends Page {
 }
 ----
 
-* Table is a
+<1> Table is a
 link:../../click-api/org/apache/click/Stateful.html[Stateful] control
 and provides methods for saving and restoring it's state. Here we save
 the Table state in the
 http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpSession.html[HttpSession]
 which ensures sort and paging state is preserved while editing
 customers.
-* Restore the Table state that was previously saved in the
+<2> Restore the Table state that was previously saved in the
 `+HttpSession+`.
 
 In this Page code example a Table control is declared and a number of

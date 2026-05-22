@@ -11,9 +11,9 @@ Prerequisites:
 * JDK 17+
 * Maven 3.6.3+
 
-Run the full build:
+Run the build:
 
-`mvn install`
+`mvn generate-resources`
 
 Locate the html files:
 - target/generated-docs/index.html

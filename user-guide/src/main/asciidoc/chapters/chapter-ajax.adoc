@@ -225,16 +225,16 @@ public class AjaxBehaviorPage extends BorderPage {
     private ActionLink link = new ActionLink("link", "here");
 
     public AjaxBehaviorPage() {
-        link.setId("link-id"); 
+        link.setId("link-id"); <1>
 
         addControl(link);
 
         // Add a DefaultAjaxBehavior to the link. The DefaultAjaxBehavior will be invoked when the
         // link is clicked.
-        link.addBehavior(new DefaultAjaxBehavior() { 
+        link.addBehavior(new DefaultAjaxBehavior() { <2>
 
             @Override
-            public ActionResult onAction(Control source) { 
+            public ActionResult onAction(Control source) { <3>
 
                 // Formatted date instance that will be added to the
                 String now = format.currentDate("MMM, yyyy dd HH:mm:ss");
@@ -242,24 +242,24 @@ public class AjaxBehaviorPage extends BorderPage {
                 String msg = "AjaxBehavior <tt>onAction()</tt> method invoked at: " + now;
 
                 // Return an action result containing the message
-                return new ActionResult(msg, ActionResult.HTML); 
+                return new ActionResult(msg, ActionResult.HTML); <4>
             }
         });
     }
 } 
 ----
 
-* We assign to ActionLink the HTML ID: `+link-id+`. The ID will be used
+<1> We assign to ActionLink the HTML ID: `+link-id+`. The ID will be used
 to identify the ActionLink as the `+Ajax target control+`. The
 client-side JavaScript code is expected to send this ID as an Ajax
 request parameter.
-* Next we add the `+DefaultAjaxBehavior+` to the ActionLink. Adding a
+<2> Next we add the `+DefaultAjaxBehavior+` to the ActionLink. Adding a
 Behavior to a control will also register that control with the
 link:../../click-api/org/apache/click/ControlRegistry.html[ControlRegistry]
 as a potential `+Ajax target control+`.
-* We also implement the `+DefaultAjaxBehavior+` `+onAction+` method in
+<3> We also implement the `+DefaultAjaxBehavior+` `+onAction+` method in
 order to handle the Ajax request.
-* Finally we return an ActionResult containing some HTML content that is
+<4> Finally we return an ActionResult containing some HTML content that is
 rendered to the browser.
 
 Below we show the Page template `+ajax-behavior.htm+`, containing the
@@ -288,7 +288,7 @@ Click $link to make an Ajax request to the server.
     // This example uses jQuery for making Ajax requests:
 
     // Register a function that is invoked as soon as the entire DOM has been loaded
-    jQuery(document).ready(function() { 
+    jQuery(document).ready(function() { <1>
 
         // Register a 'click' handler that makes an Ajax request
         jQuery("#link-id").click(function(event){
@@ -306,39 +306,39 @@ Click $link to make an Ajax request to the server.
 
         // In order for Click to identify the Ajax target, we pass the link ID
         // attribute as request parameters
-        var extraData = link.attr('id') + '=1'; 
+        var extraData = link.attr('id') + '=1'; <2>
 
         // The Ajax URL is set to the link 'href' URL which contains all the link default parameters,
         // including it's name/value pair: 'actionLink=link'
-        var url = link.attr('href'); 
+        var url = link.attr('href'); <3>
 
         jQuery.get(url, extraData, function(data) {
             // 'data' is the response returned by the server
 
             // Find the div element with the id "result", and set its content to the server response
-            jQuery("#result").html("<p>" + data + "</p>"); 
+            jQuery("#result").html("<p>" + data + "</p>"); <4>
         });
     }
 </script> 
 ----
 
-* We start off with a jQuery http://api.jquery.com/ready/[ready]
+<1> We start off with a jQuery http://api.jquery.com/ready/[ready]
 function that is executed as soon as the browser DOM has been loaded.
 This ensures that the function body is executed `+before+` the page
 images are downloaded, which results in a more responsive UI.
-* This is an important step. We need to pass the link's `+HTML ID+`
+<2> This is an important step. We need to pass the link's `+HTML ID+`
 attribute as request parameters in order for the server to identify
 `+which+` server-side control is the `+Ajax target+`. We use the jQuery
 `+attr+` function to lookup the link's `+HTML ID+` attribute. Click
 doesn't actually use the `+value+` of the parameter, it is enough that
 the `+name+` is present. In this example we pass a value of `+1+`, but
 any other value could be used, or even left out.
-* This is another important step. In addition to the ActionLink HTML ID
+<3> This is another important step. In addition to the ActionLink HTML ID
 pararameter, we also need to send the link's `+href+` parameters,
 otherwise the ActionLink onProcess method won't fire the
 `+AjaxBehavior+` onAction event. An easy way to achieve this to set the
 Ajax `+URL+` to the ActionLink `+href+` value.
-* Finally we the jQuery http://api.jquery.com/html/#html2[html] function
+<4> Finally we the jQuery http://api.jquery.com/html/#html2[html] function
 to update the _div_ content with the server response.
 
 ==== Ajax Trace Log

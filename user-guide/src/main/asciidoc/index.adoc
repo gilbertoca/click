@@ -1,12 +1,18 @@
 = Apache Click User Guide
-The Apache Software Foundation
+(C) 2001-2013 The Apache Software Foundation.
 :revnumber: {project-version}
 :doctype: book
+:title-logo-image: image::click-logo.png[top=15%,align=center]
 :toc: left
-:toclevels: 2
-:sectnums:
+:toclevels: 4
 :icons: font
+:xrefstyle: full
+:sectnums:
+:sectlinks:
+:sectanchors:
+:sectnumlevels: 8
 :source-highlighter: coderay
+:source-language: asciidoc
 
 // Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
@@ -25,8 +31,6 @@ The Apache Software Foundation
 // specific language governing permissions and limitations
 // under the License.
 
-image::click-logo.png[Apache Click, align="center"]
-
 include::chapters/chapter-introduction.adoc[]
 
 include::chapters/chapter-pages.adoc[]
@@ -38,8 +42,3 @@ include::chapters/chapter-ajax.adoc[]
 include::chapters/chapter-configuration.adoc[]
 
 include::chapters/chapter-best-practices.adoc[]
-
-[colophon]
-== Copyright
-(C) 2001-2013 The Apache Software Foundation.
-
