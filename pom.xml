@@ -524,7 +524,7 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub gilbertoca Apache Click Packages</name>
-                    <url>https://github.com</url>
+                    <url>https://maven.pkg.github.com/gilbertoca/click</url>
                 </repository>                
             </distributionManagement>
         </profile>
