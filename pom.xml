@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.click</groupId>
     <artifactId>click-parent</artifactId>
-    <version>2.5.0</version>
+    <version>2.6.0</version>
     <packaging>pom</packaging>
     <name>Click Parent</name>
     <description>Click is a Java-based open source component web application framework.</description>
@@ -521,6 +521,11 @@
                     <id>local</id>
                     <url>file:target/site</url>
                 </site>
+                <repository>
+                    <id>github</id>
+                    <name>GitHub gilbertoca Apache Click Packages</name>
+                    <url>https://github.com</url>
+                </repository>                
             </distributionManagement>
         </profile>
         <profile>

@@ -1,0 +1,28 @@
+name: Publish Apache Click 2.6.0
+
+on:
+  release:
+    types: [published] # Dispara automaticamente quando você publicar uma Release na Web
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Permissão crucial para injetar o .jar no seu perfil
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17 e Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: github # Conecta com o ID do distributionManagement
+
+      - name: Compilar e Publicar no GitHub Packages
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token interno temporário gerado pelo GitHub
