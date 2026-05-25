@@ -23,6 +23,7 @@ jobs:
           server-id: github # Conecta com o ID do distributionManagement
 
       - name: Compilar e Publicar no GitHub Packages
-        run: mvn --batch-mode deploy
+        # O parâmetro abaixo força o destino em todos os sub-módulos do projeto
+        run: mvn --batch-mode deploy -DaltDeploymentRepository=github::default::https://github.com
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token interno temporário gerado pelo GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
