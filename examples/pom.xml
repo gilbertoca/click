@@ -42,6 +42,7 @@
         <spring.version>5.3.31</spring.version> <!-- Latest stable 5.3.x -->
         <spring.security.version>5.8.11</spring.security.version> <!-- Compatible with Spring 5.3 -->
         <cayenne.version>4.2.3</cayenne.version>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>    
     <dependencies>
         <dependency>
