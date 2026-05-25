@@ -3,7 +3,8 @@ name: Publish Apache Click 2.6.0
 on:
   release:
     types: [published] # Dispara automaticamente quando você publicar uma Release na Web
-
+  workflow_dispatch: # Dispara manualmente via Web
+  
 jobs:
   publish:
     runs-on: ubuntu-latest
