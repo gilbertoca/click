@@ -504,15 +504,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <inherited>true</inherited>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <aggregate>true</aggregate>
-                        </configuration>
+                        <version>3.2.8</version>
                     </plugin>
                 </plugins>
             </build>
@@ -523,9 +515,9 @@
                 </site>
                 <repository>
                     <id>github</id>
-                    <name>GitHub gilbertoca Apache Click Packages</name>
+                    <name>GitHub Packages</name>
                     <url>https://maven.pkg.github.com/gilbertoca/click</url>
-                </repository>                
+                </repository>
             </distributionManagement>
         </profile>
         <profile>
