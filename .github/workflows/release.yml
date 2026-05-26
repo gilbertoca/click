@@ -1,29 +1,60 @@
-name: Publish Apache Click 2.6.0
+name: Publish Apache Click 2.6.0 Release
 
 on:
   release:
-    types: [published] # Dispara automaticamente quando você publicar uma Release na Web
-  workflow_dispatch: # Dispara manualmente via Web
-  
+    types: [published]
+  workflow_dispatch:
+
 jobs:
-  publish:
+  build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write # Permissão crucial para injetar o .jar no seu perfil
+      contents: write # Crucial permission to attach assets to a Release
 
     steps:
-      - name: Checkout Código
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Configurar Java 17 e Maven
+      - name: Configure Java 17 and Maven
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          server-id: github # Conecta com o ID do distributionManagement
 
-      - name: Compilar e Publicar no GitHub Packages
-        run: mvn --batch-mode deploy -P release
+      - name: Build Framework Binaries
+        # Compiles the framework, generates the javadocs and packages everything locally
+        run: mvn --batch-mode clean package -P release
+
+      - name: Prepare Assets Directory
+        # Gathers all compiled jars and generated documentation into a single folder
+        run: |
+          mkdir -p dist-assets
+          cp click/target/click-2.6.0.jar dist-assets/
+          cp click/target/click-2.6.0-mock.jar dist-assets/
+          cp click/target/click-2.6.0-javadoc.jar dist-assets/
+          cp extras/target/extras-2.6.0.jar dist-assets/
+          cp extras/target/extras-2.6.0-javadoc.jar dist-assets/
+          
+          # Copy the User Guide artifacts
+          cp user-guide/target/generated-docs/index.html dist-assets/apache-click-user-guide-2.6.0.html
+          cp user-guide/target/generated-docs/index.pdf dist-assets/apache-click-user-guide-2.6.0.pdf
+          
+          # Optional: Zip up the complete bin and docs distribution package
+          zip -r dist-assets/apache-click-2.6.0-bin.zip dist-assets/*.jar
+          zip -r dist-assets/apache-click-user-guide-2.6.0.zip user-guide/target/generated-docs/*
+
+      - name: Upload Binaries and Docs to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist-assets/click-2.6.0.jar
+            dist-assets/click-2.6.0-mock.jar
+            dist-assets/click-2.6.0-javadoc.jar
+            dist-assets/extras-2.6.0.jar
+            dist-assets/extras-2.6.0-javadoc.jar
+            dist-assets/apache-click-2.6.0-bin.zip
+            dist-assets/apache-click-user-guide-2.6.0.html
+            dist-assets/apache-click-user-guide-2.6.0.pdf
+            dist-assets/apache-click-user-guide-2.6.0.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Token interno temporário gerado pelo GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

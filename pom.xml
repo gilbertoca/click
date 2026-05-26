@@ -513,11 +513,6 @@
                     <id>local</id>
                     <url>file:target/site</url>
                 </site>
-                <repository>
-                    <id>github</id>
-                    <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/gilbertoca/click</url>
-                </repository>
             </distributionManagement>
         </profile>
         <profile>
