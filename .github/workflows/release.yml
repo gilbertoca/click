@@ -46,6 +46,7 @@ jobs:
       - name: Upload Binaries and Docs to GitHub Release
         uses: softprops/action-gh-release@v2.6.2
         with:
+          tag_name: ${{ github.ref_name }}
           files: |
             dist-assets/click-2.6.0.jar
             dist-assets/click-2.6.0-mock.jar
