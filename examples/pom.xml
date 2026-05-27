@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.apache.click</groupId>
         <artifactId>click-parent</artifactId>
-        <version>2.6.0</version>
+        <version>2.6.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>examples</artifactId>
@@ -38,9 +38,9 @@
     <properties>
         <!-- Keep these here since they are unique to Examples -->
         <quartz.version>1.8.6</quartz.version>
-        <poi.version>3.6</poi.version>
-        <spring.version>5.3.31</spring.version> <!-- Latest stable 5.3.x -->
-        <spring.security.version>5.8.11</spring.security.version> <!-- Compatible with Spring 5.3 -->
+        <poi.version>3.17</poi.version>
+        <spring.version>5.3.39</spring.version> <!-- Latest stable 5.3.x -->
+        <spring.security.version>5.8.14</spring.security.version> <!-- Compatible with Spring 5.3 -->
         <cayenne.version>4.2.3</cayenne.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>    

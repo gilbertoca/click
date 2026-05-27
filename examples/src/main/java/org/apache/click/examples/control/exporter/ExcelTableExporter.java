@@ -41,6 +41,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 
 /**
@@ -206,9 +207,9 @@ public class ExcelTableExporter extends AbstractTableExporter {
 
     protected HSSFCellStyle createHeaderStyle(HSSFSheet sheet) {
         HSSFCellStyle style = wb.createCellStyle();
-        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(BorderStyle.THIN);
         HSSFFont font = wb.createFont();
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
         style.setFont(font);
         return style;
     }

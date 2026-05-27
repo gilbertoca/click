@@ -39,6 +39,7 @@ import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.springframework.stereotype.Component;
 
 /**
@@ -102,7 +103,7 @@ public class ExcelExportPage extends BorderPage {
         HSSFWorkbook wb = new HSSFWorkbook();
 
         HSSFFont font = wb.createFont();
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
 
         HSSFSheet worksheet = wb.createSheet("Customers");
         worksheet.setColumnWidth(0, (20 * 256));
@@ -123,9 +124,9 @@ public class ExcelExportPage extends BorderPage {
         row = worksheet.createRow(3);
 
         HSSFCellStyle style = wb.createCellStyle();
-        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        style.setBorderBottom(BorderStyle.THIN);
         font = wb.createFont();
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+        font.setBold(true);
 
         value = new HSSFRichTextString("Name");
         value.applyFont(font);
