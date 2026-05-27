@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.click</groupId>
     <artifactId>click-parent</artifactId>
-    <version>2.6.0</version>
+    <version>2.6.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Click Parent</name>
     <description>Click is a Java-based open source component web application framework.</description>
@@ -100,7 +100,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-fileupload.version>2.0.0-M5</commons-fileupload.version>
         <!-- Added for Velocity 2.3 -->
-        <commons-lang3.version>3.12.0</commons-lang3.version> 
+        <commons-lang3.version>3.17.0</commons-lang3.version> 
         <commons-text.version>1.10.0</commons-text.version>
         <commons-codec.version>1.17.1</commons-codec.version>
         <commons-io.version>2.21.0</commons-io.version>
@@ -113,7 +113,7 @@
         <logback.version>1.2.3</logback.version>
         <hamcrest.version>2.0.0.0</hamcrest.version>
         <forbiddenapis.version>2.6</forbiddenapis.version>
-        <velocity.version>2.3</velocity.version>
+        <velocity.version>2.4.1</velocity.version>
         <ognl.version>3.4.2</ognl.version>
         <mvel2.version>2.5.2.Final</mvel2.version>
     </properties>
