@@ -38,7 +38,7 @@
     </description>
     <properties>
         <freemarker.version>2.3.16</freemarker.version>
-        <spring.version>5.2.9.RELEASE</spring.version>
+        <spring.version>5.3.33</spring.version>
         <cayenne.version>4.2.3</cayenne.version>
         <hibernate.version>3.3.0.GA</hibernate.version>
     </properties>
