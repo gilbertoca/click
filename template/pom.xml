@@ -30,6 +30,12 @@
         This is a Maven-based Click template project.
     </description>
     <properties>
+        <!-- Encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Add this to silence the specific Resources Plugin warning -->
+        <maven.resources.skipEmptyConfigs>true</maven.resources.skipEmptyConfigs>
+        <maven.compiler.release>17</maven.compiler.release>
         <!-- Keep these here since they are unique to Template -->
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
@@ -75,6 +81,19 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/webapp/click</directory>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>                        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
                 <configuration>
@@ -90,6 +109,15 @@
                 <configuration>
                     <scanIntervalSeconds>60</scanIntervalSeconds>
                     <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+                    !-- Add the LoginService here -->
+                    <loginServices>
+                        <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+                            <!-- This MUST match the <realm-name> in your web.xml -->
+                            <name>Secure Zone</name> 
+                            <!-- Path to your user/password properties file -->
+                            <config>${project.basedir}/src/main/resources/realm.properties</config>
+                        </loginService>
+                    </loginServices>                    
                 </configuration>
             </plugin>
         </plugins>

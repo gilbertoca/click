@@ -87,14 +87,14 @@
         </auth-constraint>
     </security-constraint>
 
-    <!--login-config>
+    <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>Secure Zone</realm-name>
         <form-login-config>
             <form-login-page>/login.htm</form-login-page>
             <form-error-page>/login.htm?auth-error=true</form-error-page>
         </form-login-config>
-    </login-config-->
+    </login-config>
 
     <security-role>
     	<description>admin role - for convenience using existing Tomcat roles</description>
