@@ -17,13 +17,9 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.click</groupId>
-        <artifactId>click-parent</artifactId>
-        <version>2.6.1-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-    <artifactId>examples</artifactId>
+    <groupId>org.apache.click</groupId>
+    <artifactId>click-examples</artifactId>
+    <version>2.6.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Click Examples</name>
     <description>
@@ -36,19 +32,34 @@
         persisted using your favorite technology. 
     </description>
     <properties>
-        <!-- Keep these here since they are unique to Examples -->
+        <!-- Encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Add this to silence the specific Resources Plugin warning -->
+        <maven.resources.skipEmptyConfigs>true</maven.resources.skipEmptyConfigs>
+        <maven.compiler.release>17</maven.compiler.release>
+        
         <quartz.version>1.8.6</quartz.version>
         <poi.version>3.17</poi.version>
         <spring.version>5.3.39</spring.version> <!-- Latest stable 5.3.x -->
         <spring.security.version>5.8.14</spring.security.version> <!-- Compatible with Spring 5.3 -->
         <cayenne.version>4.2.3</cayenne.version>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <maven.javadoc.version>3.6.3</maven.javadoc.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <click-extras.version>2.6.1-SNAPSHOT</click-extras.version>
     </properties>    
     <dependencies>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>        
+        <dependency>
             <groupId>org.apache.click</groupId>
             <artifactId>extras</artifactId>
-            <version>${project.version}</version>
+            <version>${click-extras.version}</version>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -140,15 +151,30 @@
             </plugin>            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
+                <configuration>
+                    <showDeprecation/>
+                    <showWarnings/>
+                    <compilerArgs>
+                        <!--arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:rawtypes</arg-->
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+                <version>3.4.0</version>
                 <configuration>
                     <filesets>
                         <fileset>
-                            <!-- This matches the directory you're generating into -->
                             <directory>src/main/webapp/javadoc</directory>
-                            <includes>
-                                <include>**</include>
-                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>src/main/webapp/click</directory>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
                     </filesets>
@@ -165,12 +191,25 @@
                 </configuration>
             </plugin>            
             <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>yuicompressor-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.version}</version>
+                <configuration>
+                    <locale>en_US</locale>
+                    <minmemory>128m</minmemory>
+                    <maxmemory>256m</maxmemory>
+                    <quiet>true</quiet>
+                    <links>
+                        <link>https://docs.oracle.com/en/java/javase/17/docs/api</link>
+                    </links>
+                    <failOnError>false</failOnError>
+                    <additionalOptions>
+                        <!-- Ensure doclint is off for the legacy Click codebase -->
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                        <!-- Only keep this if your Javadoc actually uses JS (rare/insecure) -->
+                        <additionalOption>--allow-script-in-comments</additionalOption>
+                    </additionalOptions>
+                </configuration>
                 <executions>
                     <execution>
                         <id>generate-webapp-javadoc</id>
