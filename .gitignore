@@ -6,7 +6,8 @@
 /click/target/
 /user-guide/target/
 /examples/target/
-/examples/src/main/webapp/javadoc/
-/examples/src/main/webapp/click/
-/template/src/main/webapp/click/
-/template/target/
+/showcase/examples/src/main/webapp/javadoc/
+/showcase/examples/src/main/webapp/click/
+/showcase/examples/target/
+/showcase/template/src/main/webapp/click/
+/showcase/template/target/
