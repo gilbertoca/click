@@ -62,6 +62,21 @@
             <version>${click-extras.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>extras-cayenne</artifactId>
+            <version>${click-extras.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>extras-hibernate</artifactId>
+            <version>${click-extras.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>extras-spring</artifactId>
+            <version>${click-extras.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
