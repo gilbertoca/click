@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<click-app>
+    <controls>
+        <control class="org.apache.click.extras.hibernate.HibernateForm"/>
+    </controls>
+</click-app>

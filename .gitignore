@@ -11,3 +11,6 @@
 /showcase/examples/target/
 /showcase/template/src/main/webapp/click/
 /showcase/template/target/
+/extras-cayenne/target/
+/extras-hibernate/target/
+/extras-spring/target/

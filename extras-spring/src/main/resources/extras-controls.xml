@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<click-app>
+    <controls>
+        <!-- Adicione controles específicos do Spring aqui se houver, ou remova o bloco se não mapear nenhum control customizado de tela -->
+    </controls>
+</click-app>

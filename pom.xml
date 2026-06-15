@@ -83,6 +83,9 @@
     <modules>
         <module>click</module>
         <module>extras</module>
+        <module>extras-cayenne</module>
+        <module>extras-hibernate</module>
+        <module>extras-spring</module>
         <module>user-guide</module>
     </modules>
     <properties>
