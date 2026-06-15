@@ -24,7 +24,7 @@
         <version>2.6.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>extras-spring</artifactId>
+    <artifactId>click-extras-spring</artifactId>
     <packaging>jar</packaging>
     <name>Click Extras - Spring</name>
     <description>

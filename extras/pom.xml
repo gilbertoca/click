@@ -23,7 +23,7 @@
     <version>2.6.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>extras</artifactId>
+  <artifactId>click-extras</artifactId>
   <packaging>jar</packaging>
   <name>Click Extras</name>
   <description>

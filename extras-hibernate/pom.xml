@@ -24,7 +24,7 @@
         <version>2.6.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>extras-hibernate</artifactId>
+    <artifactId>click-extras-hibernate</artifactId>
     <packaging>jar</packaging>
     <name>Click Extras - Hibernate</name>
     <description>

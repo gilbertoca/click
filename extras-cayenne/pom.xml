@@ -24,7 +24,7 @@
         <version>2.6.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>extras-cayenne</artifactId>
+    <artifactId>click-extras-cayenne</artifactId>
     <packaging>jar</packaging>
     <name>Click Extras - Cayenne</name>
     <description>

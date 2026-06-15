@@ -58,22 +58,22 @@
         </dependency>        
         <dependency>
             <groupId>org.apache.click</groupId>
-            <artifactId>extras</artifactId>
+            <artifactId>click-extras</artifactId>
             <version>${click-extras.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.click</groupId>
-            <artifactId>extras-cayenne</artifactId>
+            <artifactId>click-extras-cayenne</artifactId>
             <version>${click-extras.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.click</groupId>
-            <artifactId>extras-hibernate</artifactId>
+            <artifactId>click-extras-hibernate</artifactId>
             <version>${click-extras.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.click</groupId>
-            <artifactId>extras-spring</artifactId>
+            <artifactId>click-extras-spring</artifactId>
             <version>${click-extras.version}</version>
         </dependency>
         <dependency>
