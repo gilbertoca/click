@@ -4,7 +4,12 @@ on:
   push:
     tags:
       - 'click-*' # Triggers the workflow when you push a tag starting with 'click-' 
-
+  workflow_dispatch: # <-- Add this line to enable the web button
+    inputs:
+      tag_name:
+        description: 'Target Git Tag for the release (e.g., click-2.7.0)'
+        required: true
+        default: 'click-2.7.0'
 permissions:
   contents: write # Grants the workflow permission to create a GitHub Release
 
