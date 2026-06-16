@@ -104,7 +104,7 @@ The user guide is generated automatically during the build process using Asciido
 To generate the HTML and PDF documentation explicitly:
 
 ```bash
-mvn asciidoctor:process-asciidoc -pl user-guide
+mvn generate-resources -pl user-guide
 ```
 
 Use code with caution.

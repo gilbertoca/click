@@ -98,6 +98,11 @@ The page model is then merged with the template which substitutes the
 `+$time+` reference with the _Date_ object. Velocity then renders the
 merged template as:
 
+.Hello World Example
+[#hello-world-screenshot-image]
+image::introduction/hello-world-screenshot.png[images/introduction/hello-world-screenshot]
+
+
 [[control-listener-type-1]]
 === Control Listener Type 1 Example
 
