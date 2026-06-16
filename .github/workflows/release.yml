@@ -1,61 +1,46 @@
-name: Publish Apache Click 2.6.0 Release
+name: Build and Release JAR
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch:
+  push:
+    tags:
+      - 'click-*' # Triggers the workflow when you push a tag starting with 'click-' 
+
+permissions:
+  contents: write # Grants the workflow permission to create a GitHub Release
 
 jobs:
-  build-and-release:
+  release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Crucial permission to attach assets to a Release
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
 
-      - name: Configure Java 17 and Maven
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17' # Change to your required Java version (e.g., '11', '21')
+        distribution: 'temurin'
+        cache: 'maven' # Speeds up builds by caching Maven dependencies
 
-      - name: Build Framework Binaries
-        # Compiles the framework, generates the javadocs and packages everything locally
-        run: mvn --batch-mode clean package -P release
+    - name: Build and Package JAR
+      run: mvn -B package -DskipTests # -B runs in non-interactive batch mode
 
-      - name: Prepare Assets Directory
-        # Gathers all compiled jars and generated documentation into a single folder
-        run: |
-          mkdir -p dist-assets
-          cp click/target/click-2.6.0.jar dist-assets/
-          cp click/target/click-2.6.0-mock.jar dist-assets/
-          cp click/target/click-2.6.0-javadoc.jar dist-assets/
-          cp extras/target/extras-2.6.0.jar dist-assets/
-          cp extras/target/extras-2.6.0-javadoc.jar dist-assets/
-          
-          # Copy the User Guide artifacts
-          cp user-guide/target/generated-docs/index.html dist-assets/apache-click-user-guide-2.6.0.html
-          cp user-guide/target/generated-docs/index.pdf dist-assets/apache-click-user-guide-2.6.0.pdf
-          
-          # Optional: Zip up the complete bin and docs distribution package
-          zip -r dist-assets/apache-click-2.6.0-bin.zip dist-assets/*.jar
-          zip -r dist-assets/apache-click-user-guide-2.6.0.zip user-guide/target/generated-docs/*
+    - name: Locate JAR file
+      id: locate_jar
+      run: |
+        # Finds the generated JAR file in the target directory, excluding original/shaded duplicates
+        JAR_PATH=$(ls target/*.jar | grep -v 'original-' | head -n 1)
+        echo "path=$JAR_PATH" >> $GITHUB_OUTPUT
+        echo "name=$(basename $JAR_PATH)" >> $GITHUB_OUTPUT
 
-      - name: Upload Binaries and Docs to GitHub Release
-        uses: softprops/action-gh-release@v2.6.2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            dist-assets/click-2.6.0.jar
-            dist-assets/click-2.6.0-mock.jar
-            dist-assets/click-2.6.0-javadoc.jar
-            dist-assets/extras-2.6.0.jar
-            dist-assets/extras-2.6.0-javadoc.jar
-            dist-assets/apache-click-2.6.0-bin.zip
-            dist-assets/apache-click-user-guide-2.6.0.html
-            dist-assets/apache-click-user-guide-2.6.0.pdf
-            dist-assets/apache-click-user-guide-2.6.0.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub Release and Upload JAR
+      uses: softprops/action-gh-release@v2
+      with:
+        files: ${{ steps.locate_jar.outputs.path }}
+        name: Release ${{ github.ref_name }}
+        tag_name: ${{ github.ref }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
