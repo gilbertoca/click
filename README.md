@@ -51,7 +51,7 @@ The Mock utilities (e.g., MockContainer, MockRequest) are packaged as a classifi
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click</artifactId>
-    <version>2.5.0-SNAPSHOT</version>
+    <version>${click.version}</version>
     <classifier>mock</classifier>
     <scope>test</scope>
 </dependency>
@@ -66,7 +66,7 @@ Now that framework dependencies are decoupled (CLK-47), add only the modules you
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click-extras</artifactId>
-    <version>\${click.version}</version>
+    <version>${click.version}</version>
 </dependency>
 ```
 
@@ -75,7 +75,7 @@ Now that framework dependencies are decoupled (CLK-47), add only the modules you
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click-extras-cayenne</artifactId>
-    <version>\${click.version}</version>
+    <version>${click.version}</version>
 </dependency>
 ```
 ### Hibernate Integration
@@ -83,7 +83,7 @@ Now that framework dependencies are decoupled (CLK-47), add only the modules you
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click-extras-hibernate</artifactId>
-    <version>\${click.version}</version>
+    <version>${click.version}</version>
 </dependency>
 ```
 
@@ -92,7 +92,7 @@ Now that framework dependencies are decoupled (CLK-47), add only the modules you
 <dependency>
     <groupId>org.apache.click</groupId>
     <artifactId>click-extras-spring</artifactId>
-    <version>\${click.version}</version>
+    <version>${click.version}</version>
 </dependency>
 ```
 
