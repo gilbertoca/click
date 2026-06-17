@@ -104,6 +104,7 @@
         <commons-io.version>2.21.0</commons-io.version>
         <jacoco.version>0.8.12</jacoco.version>
         <junit.version>4.13.2</junit.version>
+        <skipTests>false</skipTests>
         <servlet-api.version>4.0.1</servlet-api.version>
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
         <maven.surefire.version>3.5.2</maven.surefire.version>
