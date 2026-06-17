@@ -31,21 +31,41 @@ jobs:
     - name: Build and Package JAR
       run: mvn -B package -DskipTests # -B runs in non-interactive batch mode
 
-    - name: Locate JAR file
-      id: locate_jar
+    - name: Pack Distribution Assets
+      id: pack_assets
       run: |
-        # Finds the generated JAR file in the target directory, excluding original/shaded duplicates
-        JAR_PATH=$(ls target/*.jar | grep -v 'original-' | head -n 1)
-        echo "path=$JAR_PATH" >> $GITHUB_OUTPUT
-        echo "name=$(basename $JAR_PATH)" >> $GITHUB_OUTPUT
+        # 1. Descobre automaticamente a versão atual do projeto (ex: 2.7.0)
+        PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "Versão detectada: $PROJECT_VERSION"
+        
+        mkdir -p dist-assets
 
-    - name: Create GitHub Release and Upload JAR
+        # 2. Copia os JARs estruturados com a versão dinâmica
+        cp click/target/click-$PROJECT_VERSION.jar dist-assets/
+        cp click/target/click-$PROJECT_VERSION-mock.jar dist-assets/
+        cp click/target/click-$PROJECT_VERSION-javadoc.jar dist-assets/
+        cp extras/target/click-extras-$PROJECT_VERSION.jar dist-assets/
+        cp extras/target/click-extras-$PROJECT_VERSION-javadoc.jar dist-assets/
+        
+        # 3. Copia os artefatos do Guia do Usuário
+        cp user-guide/target/generated-docs/index.html dist-assets/apache-click-user-guide-$PROJECT_VERSION.html
+        cp user-guide/target/generated-docs/index.pdf dist-assets/apache-click-user-guide-$PROJECT_VERSION.pdf
+        
+        # 4. Compacta a distribuição binária em um ZIP limpo
+        # (Adicionamos o -j para não salvar a estrutura de pastas inteira dentro do zip)
+        zip -j dist-assets/apache-click-$PROJECT_VERSION-bin.zip dist-assets/*.jar dist-assets/*.html dist-assets/*.pdf
+        
+        # 5. Passa o caminho do ZIP final para a Action de Release
+        echo "zip_path=dist-assets/apache-click-$PROJECT_VERSION-bin.zip" >> $GITHUB_OUTPUT
+
+    - name: Create GitHub Release and Upload ZIP
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.locate_jar.outputs.path }}
-        name: Release ${{ github.ref_name }}
-        tag_name: ${{ github.ref }}
+        files: ${{ steps.pack_assets.outputs.zip_path }}
+        name: Release ${{ github.event.inputs.tag_name || github.ref_name }}
+        tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
         draft: false
         prerelease: false
+        generate_release_notes: true
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
