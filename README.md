@@ -107,7 +107,41 @@ To generate the HTML and PDF documentation explicitly:
 mvn generate-resources -pl user-guide
 ```
 
-Use code with caution.
+## Release Workflow (100% Local Deployment)
+We use the `maven-release-plugin` configured with `<localCheckout>true</localCheckout>` to manage version transitions and tagging **locally before pushing to GitHub**.
 
-## 📦 📜 License
-This project is licensed under the Apache License, Version 2.0. See the LICENSE.txt and NOTICE.txt files for details.
+### 1. Prepare the Release
+This updates the `pom.xml` versions, runs validation checks, and creates the local Git tag:
+```bash
+mvn release:prepare -DskipTests -DallowTimestampedSnapshots=true
+```
+*Accept the default version suggestions (e.g. tag `click-2.7.0`, and next development `2.7.1-SNAPSHOT`).*
+
+### 2. Perform the Release Build
+This checks out the newly created tag internally and bundles all production artifacts into the central `target/checkout/` folder:
+```bash
+mvn release:perform -DskipTests
+```
+
+### 3. Push to GitHub Fork
+Once the local build succeeds, push the development cycle commits and the new release tag to GitHub. **The tag push will trigger the automated GitHub Actions release workflow.**
+```bash
+git push origin main
+git push origin --tags
+```
+
+---
+
+## Troubleshooting & Resetting
+If the release process fails halfway through or needs to be rolled back locally, run the following commands to return to a clean `SNAPSHOT` state:
+
+```bash
+# 1. Clean Maven release properties
+mvn release:clean
+
+# 2. Undo the 2 local version commits made by Maven
+git reset --hard HEAD~2
+
+# 3. Delete the local tag so it can be recreated from scratch
+git tag -d click-2.7.0
+```
