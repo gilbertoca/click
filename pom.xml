@@ -73,12 +73,12 @@
         <system>GitHub</system>
         <url>https://github.com/gilbertoca/click/issues</url>
     </issueManagement>
-    <scm>
-        <connection>scm:git:https://github.com</connection>
-        <developerConnection>scm:git:https://github.com</developerConnection>
-        <url>https://github.com/gilbertoca/click</url>
+  <scm>
+        <connection>scm:git:git://github.com/gilbertoca/click.git</connection>
+        <developerConnection>scm:git:git@github.com:gilbertoca/click.git</developerConnection>
+        <url>https://github.com/gilbertoca/click.git</url>
         <tag>HEAD</tag>
-    </scm>
+    </scm>    
     <modules>
         <module>click</module>
         <module>extras</module>

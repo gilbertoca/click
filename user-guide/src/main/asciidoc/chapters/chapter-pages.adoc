@@ -51,6 +51,10 @@ link:../../click-api/org/apache/click/Page.html[Page] base class. The
 Page class and its associated companion classes, Context and Control,
 are depicted in the figure below.
 
+.Click Class Diagram
+[#click-class-diagram-image]
+image::pages/click-class-diagram.png[images/pages/click-class-diagram]
+
 The Page class provides a
 link:../../click-api/org/apache/click/Page.html#model[model] attribute
 which is used to hold all the objects that are rendered in the page
@@ -80,6 +84,10 @@ The ClickServlet relies on instantiating Pages using a public no
 arguments constructor, so when you create Page subclasses you must
 ensure you don't add an incompatible constructor. The GET request
 execution sequence for Pages is summarized below in the Figure 2.
+
+.GET Request Sequence Diagram
+[#get-sequence-diagram-image]
+image::pages/get-sequence-diagram.png[images/pages/get-sequence-diagram]
 
 Stepping through this GET request sequence, a new Page instance is
 created and the attributes for the Page are set (format, headers, path).
@@ -155,12 +163,19 @@ it is garbage collected. The onDestroy() method is guaranteed to be
 called even if an exception occurs in the previous steps.
 
 The execution sequence for POST requests is almost identical, except the
-onPost() method is invoked instead on onGet(). See the
-link:../../../images/post-sequence-diagram.png[POST Request Sequence
-Diagram].
+onPost() method is invoked instead on onGet(). See the POST Request Sequence
+Diagram.
+
+.Post Request Sequence Diagram
+[#post-sequence-diagram-image]
+image::pages/post-sequence-diagram.png[images/pages/post-sequence-diagram]
 
 Another view on the execution flow of Pages is illustrated in the
 Activity diagram below.
+
+.Page Execution Activity Diagram
+[#activity-diagram-image]
+image::pages/activity-diagram-small.png[images/pages/activity-diagram-small]
 
 [[request-param-auto-binding]]
 === Request Parameter Auto Binding
