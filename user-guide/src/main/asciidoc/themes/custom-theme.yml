@@ -1,0 +1,89 @@
+# =============================================================================
+# Mapped Theme to Mirror Asciidoctor HTML Built-In Roles
+# =============================================================================
+extends: default
+
+role:
+  # --- Standard HTML Color Names (Font Colors) ---
+  aqua:
+    font-color: '#00ffff'
+  black:
+    font-color: '#000000'
+  blue:
+    font-color: '#0000ff'
+  fuchsia:
+    font-color: '#ff00ff'
+  gray:
+    font-color: '#808080'
+  green:
+    font-color: '#008000'
+  lime:
+    font-color: '#00ff00'
+  maroon:
+    font-color: '#800000'
+  navy:
+    font-color: '#000080'
+  olive:
+    font-color: '#808000'
+  purple:
+    font-color: '#800080'
+  red:
+    font-color: '#ff0000'
+  silver:
+    font-color: '#c0c0c0'
+  teal:
+    font-color: '#008080'
+  white:
+    font-color: '#ffffff'
+  yellow:
+    font-color: '#b8860b' # Adjusted from HTML #ffff00 so text remains readable on white paper
+
+  # --- Built-In HTML Background Utility Names ---
+  aqua-background:
+    background-color: '#e0ffff'
+    font-color: '#000000'
+  black-background:
+    background-color: '#000000'
+    font-color: '#ffffff'
+  blue-background:
+    background-color: '#e6f2ff'
+    font-color: '#000000'
+  fuchsia-background:
+    background-color: '#ffe6ff'
+    font-color: '#000000'
+  gray-background:
+    background-color: '#f0f0f0'
+    font-color: '#000000'
+  green-background:
+    background-color: '#e6ffe6'
+    font-color: '#000000'
+  lime-background:
+    background-color: '#e6ffe6'
+    font-color: '#000000'
+  maroon-background:
+    background-color: '#ffe6e6'
+    font-color: '#000000'
+  navy-background:
+    background-color: '#e6e6ff'
+    font-color: '#000000'
+  olive-background:
+    background-color: '#ffffe6'
+    font-color: '#000000'
+  purple-background:
+    background-color: '#f9e6ff'
+    font-color: '#000000'
+  red-background:
+    background-color: '#ffe6e6'
+    font-color: '#000000'
+  silver-background:
+    background-color: '#f5f5f5'
+    font-color: '#000000'
+  teal-background:
+    background-color: '#e6ffff'
+    font-color: '#000000'
+  white-background:
+    background-color: '#ffffff'
+    font-color: '#000000'
+  yellow-background:
+    background-color: '#ffff00'
+    font-color: '#000000'

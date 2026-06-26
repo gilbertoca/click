@@ -2,6 +2,7 @@
 (C) 2001-2013 The Apache Software Foundation.
 :revnumber: {project-version}
 :doctype: book
+:stylesheet:
 :title-logo-image: image::click-logo.png[top=15%,align=center]
 :toc: left
 :toclevels: 4
@@ -13,7 +14,8 @@
 :sectnumlevels: 8
 :source-highlighter: coderay
 :source-language: asciidoc
-
+:pdf-themesdir: {docdir}/themes
+:pdf-theme: custom
 // Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information

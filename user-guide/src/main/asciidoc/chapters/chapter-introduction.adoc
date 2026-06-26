@@ -188,19 +188,19 @@ have the `+myLink+` control render the link's href attribute:
 ----
 
 At runtime this page would be rendered as:
-
+[subs="quotes"]
 ....
-Click myLink control here.
+Click myLink control [.blue]#here#.
 ....
 
 When a user clicks on the link the onLinkClick() method is invoked. This
 method then creates the `+msg+` model value, which is rendered in the
 page as:
-
+[subs="quotes"]
 ....
-Click myLink control here.
+Click myLink control [.blue]#here#.
 
-ControlListenerPage#12767107 object method onLinkClick() invoked.
+[.yellow-background]#ControlListenerPage#12767107 object method onLinkClick() invoked.#
 ....
 
 [[control-listener-type-2]]
