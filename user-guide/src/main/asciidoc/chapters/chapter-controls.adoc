@@ -9,6 +9,7 @@ which provides extensive information and examples of the core Controls.
 This chapter covers Control in detail including the Control life cycle,
 Control listeners and localization.
 
+[[control-interface]]
 === Control Interface
 
 Controls provide the server side components that process user input, and
@@ -50,6 +51,7 @@ link:../../click-api/org/apache/click/Control.html#setParent(java.lang.Object)[s
 * link:../../click-api/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)[render()]
 - generate the control's HTML representation.
 
+[[control-listener]]
 === Control Listener
 
 Click Controls provide an action listener mechanism similar to a
@@ -111,8 +113,7 @@ return true the further processing of other controls and page methods
 should continue. Otherwise if they return false, then any further
 processing should be aborted. By returning false you can effectively
 exit at this point and redirect or forward to another page. This
-execution logic is illustrated in the link:#activity-diagram[Page
-Execution Activity Diagram].
+execution logic is illustrated in the <<pages-execution,Page Execution Activity Diagram>>.
 
 Being able to stop further processing and do something else can be very
 handy. For example your Pages onRender() method may perform an expensive
@@ -163,6 +164,7 @@ strings are externalized in the properties file. By using these
 properties files you can localize a Click application for your
 particular language and dialect.
 
+[[message-resolution]]
 ==== Message Resolution
 
 Messages are looked up in a particular order enabling taylor specific
@@ -213,6 +215,7 @@ application. The order in which localized messages are resolved is:
   Control messages can be placed here and overridden by one of the above
   options.
 
+[[control-properties]]
 ==== Control Properties
 
 To customize the `+click-control.properties+` simply add this file to
@@ -274,6 +277,7 @@ production-error-message=
       
 ....
 
+[[accessing-messages]]
 ==== Accessing Messages
 
 Controls support a hierarchy of resource bundles for displaying
@@ -292,6 +296,7 @@ Object)] - this method is defined on the Field class
 These methods use the `+Locale+` of the request to lookup the string
 resource bundle, and use `+MessageFormat+` for any string formatting.
 
+[[control-head-elements]]
 === Control HEAD Elements
 
 The Control interface provides the method
@@ -376,6 +381,7 @@ A live demo showing how to add HEAD elements from a custom Control can
 be seen
 http://click.avoka.com/click-examples/general/control-head-demo.htm[here].
 
+[[container]]
 === Container
 
 link:../../click-api/org/apache/click/control/Container.html[Container]
@@ -401,6 +407,7 @@ custom Containers:
 
 Lets cover each of them here.
 
+[[abstract-container]]
 ==== AbstractContainer
 
 Enables easy creation of custom Containers, for example an html _div_ or
@@ -454,6 +461,7 @@ Executing the above example results in the following output:
 </div>
 ----
 
+[[abstract-container-field]]
 ==== AbstractContainerField
 
 AbstractContainerField extends Field and implements the Container
@@ -525,7 +533,8 @@ or JSP to declare the layout as HTML markup.
 * Programmatic approach - build custom layout components using Java.
 This option is very similar to building components using Swing.
 
-==== Template layout
+[[template-layout]]
+==== Template Layout
 
 The
 link:../../click-api/org/apache/click/control/Form.html#manual-layout[Template]
@@ -623,7 +632,8 @@ another good way to build generic and reusable template based layouts.
 Once your generic templates are in place, they can easily be reused in
 your project or even shared across multiple projects.
 
-==== Programmatic layout
+[[programmatic-layout]]
+==== Programmatic Layout
 
 To combat the redundancy introduced by the Template approach, you can
 take a programmatic approach and use normal Java and some Click classes
@@ -726,7 +736,7 @@ public class FieldLabel extends AbstractControl {
 ----
 
 Now the form can be assembled. Continuing with the employee example from
-the link:#template-layout[template approach], we again create an
+the <<template-layout,template approach>>, we again create an
 `+EmployeePage+`, but this time an `+HtmlForm+` and `+HtmlList+` is used
 to create the custom layout:
 
@@ -844,10 +854,11 @@ rendered by the components.
 However once your custom layout components are in place, they can easily
 be reused in your project or even shared across multiple projects.
 
-Whether you use the link:#template-layout[template] or
-link:#programmatic-layout[programmatic] layout approach, is up to you.
+Whether you use the <<template-layout,template>> or
+<<programmatic-layout,programmatic>> layout approach, is up to you.
 Both work well and have advantages and disadvantages over the other.
 
+[[behavior]]
 === Behavior
 
 Behaviors provide the ability to change how Controls behave at runtime.
@@ -865,6 +876,10 @@ method, and the same Behavior can be shared by multiple Controls.
 
 The `+Control+`, `+AbstractControl+` and `+Behavior+`, classes are shown
 in the figure below.
+
+.Behavior Class Diagram
+[#behavior-class-diagram]
+image::controls/behavior-class-diagram.png[images/controls/behavior-class-diagram]
 
 Control exposes the following Behavior related methods:
 
@@ -896,6 +911,7 @@ to add custom JavaScript or CSS elements to Controls.
 onDestroy() event handler. This interceptor method allows the behavior
 to cleanup any resources.
 
+[[behavior-execution]]
 ==== Behavior Execution
 
 When a Behavior is added to a Control, the Control is automatically
@@ -908,6 +924,7 @@ Controls without behaviors won't be registered and won't be processed.
 Click will invoke all the registered Behavior's _interceptor methods_ at
 the appropriate time during the `+Control+` life cycle.
 
+[[behavior-example]]
 ==== Behavior Example
 
 Let's look at a simple Behavior example. Say we want to put focus on a

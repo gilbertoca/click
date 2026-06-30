@@ -4,6 +4,7 @@
 This chapter discusses Best Practices for designing and building Apache
 Click applications.
 
+[[security]]
 === Security
 
 For application security it is highly recommended that you use the
@@ -32,6 +33,7 @@ model and a programmatic security model to meet your needs. In these
 cases its recommended you use declarative security for course grained
 access and programmatic security for finner grained access control.
 
+[[declarative-security]]
 ==== Declarative Security
 
 The declarative JEE Servlet security model requires users to be
@@ -207,7 +209,8 @@ page.
 </web-app>
 ----
 
-==== Alternative Security solutions
+[[alternative-security-solutions]]
+==== Alternative Security Solutions
 
 There are also alternative security solutions that provide extra
 features not available in JEE, such as RememberMe functionality, better
@@ -224,6 +227,7 @@ Security]
 * http://securityfilter.sourceforge.net/[SecurityFilter]
 * http://incubator.apache.org/shiro/[Apache Shiro]
 
+[[resources]]
 ==== Resources
 
 For more information on using security see the resources below:
@@ -263,6 +267,7 @@ security. All the pages in the admin package and directory require the
 `+"admin"+` role to be access, while all the pages in the user package
 and directory require the `+"user"+` role to be accessed.
 
+[[page-classes]]
 ==== Page Classes
 
 A best practice when developing application Page classes is to place
@@ -366,7 +371,7 @@ above will not be auto mapped to `+border-template.htm+`.
 === Page Auto Mapping
 
 You should use the Click page automapping configuration feature. See the
-link:#application-automapping[Page Automapping] topic for details.
+<<application-automapping,Page Automapping>> topic for details.
 
 Automapping will save you from having to manually configure URL path to
 Page class mappings in your `+click.xml+` file. If you follow this
@@ -388,7 +393,7 @@ An example `+click.xml+` automapping configuration is provided below
 ----
 
 To see how the page templates are mapped to Page classes set the
-application link:#application-mode[mode] to `+debug+` and at startup the
+application <<application-mode,mode>> to `+debug+` and at startup the
 mappings will be listed out. An example Click startup listing is
 provided below:
 
@@ -399,6 +404,7 @@ provided below:
 [Click] [debug] /user-list.htm -> com.mycorp.dashboard.page.UserList
 ....
 
+[[navigation]]
 === Navigation
 
 When navigating between Pages using forwards and redirects, you should
@@ -469,6 +475,7 @@ public boolean onLogoutClick() {
 }
 ----
 
+[[templating]]
 === Templating
 
 Use Page templating it is highly recommended. Page templates provide
@@ -478,7 +485,7 @@ numerous advantages including:
 * ensure you have a common look and feel across your application
 * make global application changes very easy
 
-To see how to use templates see the link:#page-templating[Page
+To see how to use templates see the <<page-templating[Page
 Templating] topic. Also see the Click link:../../examples.html[Examples]
 use of page templating.
 
@@ -519,6 +526,7 @@ You can also use JavaScript to add dynamic behaviour such as drop down
 menus, for example see the Menu page in Click
 link:../../examples.html[Examples].
 
+[[logging]]
 === Logging
 
 For application logging you should use one of the well established
@@ -606,6 +614,7 @@ link:../../extras-api/org/apache/click/extras/service/Log4JLogService.html[Log4J
 or
 link:../../extras-api/org/apache/click/extras/service/Slf4jLogService.html[Slf4jLogService].
 
+[[error-handling]]
 === Error Handling
 
 In Click unhandled errors are directed to the
@@ -646,6 +655,7 @@ public class ErrorPage extends org.apache.click.util.ErrorPage {
 }
 ----
 
+[[performance]]
 === Performance
 
 Yahoo published a list of

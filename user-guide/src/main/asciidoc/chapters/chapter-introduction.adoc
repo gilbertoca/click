@@ -77,7 +77,7 @@ we can access the Page's `+time+` variable using the reference
 Click is smart enough to figure out that the `+HelloWorld+` page class
 maps to the template `+hello-world.htm+`. We only have to inform Click
 of the package of the HelloWorld class, in this case `+examples.page+`.
-We do that through the link:#application-configuration[click.xml]
+We do that through the <<application-configuration, click.xml>>
 configuration file which allows Click to map `+hello-world.htm+`
 requests to the `+examples.page.HelloWorld+` page class.
 
@@ -106,7 +106,7 @@ image::introduction/hello-world-screenshot.png[images/introduction/hello-world-s
 [[control-listener-type-1]]
 === Control Listener Type 1 Example
 
-Click includes a library of link:#chapter-controls[Controls] which
+Click includes a library of <<chapter-controls, Controls>> which
 provide user interface functionality.
 
 One of the commonly used controls is the
@@ -266,19 +266,19 @@ and have the `+myLink+` control render the link's href attribute:
 ----
 
 At runtime this page would be rendered as:
-
+[subs="quotes"]
 ....
-Click myLink control here.
+Click myLink control [.blue]#here.#
 ....
 
 When a user clicks on the link the onAction() method is invoked. This
 method then creates the `+msg+` model value, which is rendered in the
 page as:
-
+[subs="quotes"]
 ....
 Click myLink control here.
 
-ControlListenerPage#12767107 object method onAction() invoked.
+[.yellow-background]#ControlListenerPage#12767107 object method onAction() invoked.#
 ....
 
 [[simple-table]]
@@ -765,6 +765,7 @@ cleared and an info message is presented to the user.
 If the user clicks on the Cancel button the request is redirected to the
 applications HomePage.
 
+[[form-layout]]
 ==== Form Layout
 
 In the example above the Form control automatically renders the form and
@@ -775,10 +776,10 @@ http://click.avoka.com/click-examples/form/form-properties.htm[Form
 Properties demo].
 
 For fine grained page design you can specifically layout form and fields
-in your page template. See the link:#template-layout[Template Layout]
+in your page template. See the <<template-layout,Template Layout>>
 section and
 link:../../click-api/org/apache/click/control/Form.html#form-layout[Form]
 Javadoc for more details.
 
 An alternative to page template design is using a programmatic approach.
-See link:#programmatic-layout[Programmatic Layout] for more details.
+See <<programmatic-layout,Programmatic Layout>> for more details.

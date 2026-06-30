@@ -10,13 +10,14 @@ The Click configuration files include:
 |===
 |image:configuration/config-files.png[images/configuration/config-files]
 a|
-* WEB-INF/ link:#application-configuration[click.xml]   -   Application
+* WEB-INF/ <<application-configuration,click.xml>>   -   Application
 Configuration ( *required*)
-* WEB-INF/ link:#servlet-configuration[web.xml]   -   Servlet
+* WEB-INF/ <<servlet-configuration,web.xml>>   -   Servlet
 Configuration ( *required*)
 
 |===
 
+[[servlet-configuration]]
 === Servlet Configuration
 
 For a Click web application to function the
@@ -43,6 +44,7 @@ ClickServlet is provided below.
 </web-app>
 ----
 
+[[servlet-mapping]]
 ==== Servlet Mapping
 
 By convention all Click page templates should have an .htm extension,
@@ -50,6 +52,7 @@ and the ClickServlet should be mapped to process all *.htm URL requests.
 With this convention you have all the static HTML pages use an .html
 extension and they will not be processed as Click pages.
 
+[[load-on-startup]]
 ==== Load On Startup
 
 Note you should always set `+load-on-startup+` element to be 0 so the
@@ -61,6 +64,7 @@ improve performance later on. The Click start up and caching strategy is
 configured with the Click application mode element in the
 "`+click.xml+`" config file, covered next.
 
+[[type-converter-class]]
 ==== Type Converter Class
 
 The ClickServlet uses the MVEL library for type coercion when binding
@@ -83,6 +87,7 @@ init parameter with the ClickServlet. For example:
   </servlet>
 ----
 
+[[config-service-class]]
 ==== Config Service Class
 
 Click uses a single application configuration service which is
@@ -119,6 +124,7 @@ To use an alternative configuration service specify a
  </web-app>
 ----
 
+[[application-configuration]]
 === Application Configuration
 
 The heart of a Click application is the `+click.xml+` configuration
@@ -182,6 +188,7 @@ An advanced config file would look like this:
 The take away point is that there is not much to configure, even for
 advanced uses.
 
+[[click-app]]
 ==== Click App
 
 The root `+click-app+` element defines two application localization
@@ -233,8 +240,8 @@ The pages element can specify a base `+package+` that Click should use
 for mapping page templates to page classes.
 
 The pages element also defines the `+automapping+` and `+autobinding+`
-attributes which is discussed in the link:#application-automapping[Page
-Automapping] and link:#application-autobinding[Page Autobinding]
+attributes which is discussed in the <<application-automapping[Page
+Automapping] and <<application-autobinding[Page Autobinding]
 sections respectively.
 
 [[application-multiple-packages]]
@@ -628,6 +635,7 @@ property using the
 link:../../click-api/org/apache/click/Page.html#setHeader(java.lang.String,%20java.lang.Object)[setHeader()]
 method.
 
+[[browser-caching]]
 ===== Browser Caching
 
 Headers are typically used to switch off browser caching. By default
@@ -779,11 +787,12 @@ template caching and logging levels are:
 |*trace* |Yes |No |TRACE |WARN
 |===
 
+[[page-auto-loading]]
 ===== Page Auto Loading
 
 When Page Auto Loading is enabled any new page templates and classes
 will be automatically loaded at runtime. These pages are loaded using
-the link:#application-automapping[Page Automapping] rules.
+the <<application-automapping,Page Automapping>> rules.
 
 Page auto loading is a very handy feature for rapid development as you
 do not have to restart you application server to pick up new pages.
@@ -861,6 +870,7 @@ application startup, you would add the following elements to your
 </click-app>
 ----
 
+[[auto-deployed-files]]
 === Auto Deployed Files
 
 To make pre-configured resources (templates, stylesheets, etc.)
@@ -871,11 +881,11 @@ already present).
 You can modify these support files and Click will *not* overwrite them.
 These files include:
 
-* click/error.htm   -   the Page link:#page-error-handling[Error
+* click/error.htm   -   the Page <<page-error-handling[Error
 Handling] template
 * click/control.css   -   the Controls cascading stylesheet
 * click/control.js   -   the Controls JavaScript library
-* click/not-found.htm   -   the link:#page-not-found[Page Not Found]
+* click/not-found.htm   -   the <<page-not-found[Page Not Found]
 template
 
 For example to customize the control styles you can place a customized
@@ -972,6 +982,7 @@ restrictions, and then manually copy the generated `/click` folder
 to your production source or artifact.
 
 
+[[deploying-custom-resources]]
 ==== Deploying Custom Resources
 
 Click supports two ways of deploying pre-configured resources
@@ -983,13 +994,13 @@ unpacked.)
 [arabic]
 . Through a Control's
 link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
-event handler. See the link:#application-controls[Controls] section
+event handler. See the <<application-controls,Controls>> section
 above.
 . By packaging the resources (stylesheets, JavaScript, Images etc.) into
 a special folder called _'META-INF/resources'_.
 
 As option #1 was already discussed above in section
-link:#application-controls[Controls], lets look at option #2.
+<<application-controls[Controls], lets look at option #2.
 
 When Click starts up, it scans each Jar and folder on the classpath for
 specially marked entries starting with 'META-INF/resources/'. (Please

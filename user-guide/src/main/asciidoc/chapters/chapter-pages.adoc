@@ -7,7 +7,7 @@ responses. This chapter discusses Apache Click pages in detail.
 
 In Click, a logical page is composed of a Java class and a Velocity
 template, with these components being defined in page elements of the
-link:#application-configuration[click.xml] file:
+<<application-configuration,click.xml>> file:
 
 ....
 <page path="search.htm" classname="com.mycorp.page.Search"/>
@@ -19,7 +19,7 @@ use the Freemarker template engine instead of Velocity, the setup is the
 same.
 
 The template path should have an `+.htm+` extension which is specified
-in link:#servlet-configuration[web.xml] to route *.htm requests to the
+in <<servlet-configuration,web.xml>> to route *.htm requests to the
 `+ClickServlet+`.
 
 Please note if you want Click to process templates with a different
@@ -44,6 +44,7 @@ ClickServlet to handle `+*.jsp+` requests in `+web.xml+`. Instead
 `+.jsp+` templates are accessed with a `+.htm+` extension. At runtime
 Click will convert the page path from `+.jsp+` to `+.htm+` and back.
 
+[[pages-classes]]
 === Classes
 
 All custom Click pages must subclass the
@@ -68,6 +69,7 @@ references all the javax.servlet objects associated with the request.
 When programming in Click you use the Context object to access
 HttpServletRequest attributes, parameters and the HttpSession object.
 
+[[pages-execution]]
 === Execution
 
 The Page class provide a number of empty handler methods which
@@ -235,6 +237,7 @@ After processing the request our page would be rendered as:
 Customer ID: 7203
 ....
 
+[[customizing-auto-binding]]
 ==== Customizing Auto Binding
 
 Auto binding supports the conversion of request string parameters into
@@ -321,7 +324,7 @@ init parameter to ClickServlet in `+web.xml+`. For example:
 </web-app>
 ----
 
-[[page-security]]
+[[pages-security]]
 === Security
 
 Pages provide an
@@ -331,7 +334,7 @@ programmatic security model.
 
 Please note you generally don't need to use this capability, and where
 possible you should use the declarative JEE security model. See the Best
-Practices link:#security[Security] topic for more details.
+Practices <<security,Security>> topic for more details.
 
 [[applications-authentication]]
 ==== Application Authentication
@@ -363,6 +366,7 @@ public class Secure extends Page {
 }
 ----
 
+[[container-authentication]]
 ==== Container Authentication
 
 Alternatively you can also use the security services provided by the JEE
@@ -389,6 +393,7 @@ public class Secure extends Page {
 }
 ----
 
+[[container-access-control]]
 ==== Container Access Control
 
 The Servlet Container also provides facilities to enforce role based
@@ -417,6 +422,7 @@ public class AdminPage extends Page {
 }
 ----
 
+[[logging-out]]
 ==== Logging Out
 
 To logout using the application or container based security models you
@@ -435,11 +441,13 @@ public class Logout extends Page {
 }
 ----
 
+[[pages-navigation]]
 === Page Navigation
 
 Navigation between pages is achieved by using forwards, redirects and by
 setting the page template path.
 
+[[forward]]
 ==== Forward
 
 To forward to another page using the servlet
@@ -468,6 +476,7 @@ on the second page will not be processed. This prevents confusion and
 bugs, like a form on the second page trying to process a POST request
 from the first page.
 
+[[forward-parameter-passing]]
 ===== Forward Parameter Passing
 
 When you forward to another page the request parameters are maintained.
@@ -511,6 +520,7 @@ The snippet above forwards to the page template `+view-customer.htm+`:
 Request attributes are automatically added to the Velocity Context
 object so are available in the page template.
 
+[[page-forwarding]]
 ===== Page Forwarding
 
 Page forwarding is another way of passing information between pages. In
@@ -565,6 +575,7 @@ class. In these cases invoking Context createPage(Class) will throw an
 exception, because Click will not be able to determine which path to use
 for the Page.
 
+[[template-path]]
 ==== Template Path
 
 An alternative method of forwarding to a new page is to simply set the
@@ -595,6 +606,7 @@ when you forward to another Page, as the first Page object is
 before the second Page object is created and any model values would be
 lost.
 
+[[redirect]]
 ==== Redirect
 
 Redirects are another very useful way to navigate between pages. See
@@ -651,6 +663,7 @@ public boolean onLogoutClick() {
 }
 ----
 
+[[redirect-parameter-passing]]
 ===== Redirect Parameter Passing
 
 You can pass information between redirected pages using URL request
@@ -709,6 +722,7 @@ public class TransComplete extends Page {
 }
 ----
 
+[[post-redirect]]
 ===== Post Redirect
 
 The parameter passing example above is also an example of a Post
@@ -716,6 +730,7 @@ Redirect. The Post Redirect technique is a very useful method of
 preventing users from submitting a form twice by hitting the refresh
 button.
 
+[[pages-templating]]
 === Page Templating
 
 Click supports page templating (a.k.a. _Tiles_ in Struts) enabling you
@@ -826,6 +841,7 @@ page can define their own title which is rendered in this template.
 Templating with JSP pages is also supported using the same pattern.
 Please see the Click Examples application for a demonstration.
 
+[[pages-actions]]
 === Page Actions
 
 Page Action is a feature to directly invoke a `+Page method+` from the
@@ -881,6 +897,7 @@ The ActionResult contains the data that is rendered to the client
 browser. In the example above, the result will the Image byte array with
 a Content-Type of: `+"images/png"+`.
 
+[[pages-action-execution]]
 ==== Page Action Execution
 
 Page Actions are page methods that handle the processing of a user
@@ -909,7 +926,7 @@ that is rendered to the client.
 If the page method returns `+null+` no response is rendered to the
 browser.
 
-[[page-action-result]]
+[[action-result]]
 ==== ActionResult
 
 An ActionResult represents the content returned by a Page Action which
@@ -921,6 +938,7 @@ Action to return a "partial" response, as opposed to a "full" response,
 because the Page template (which can be viewed as a "full" response) is
 bypassed when invoking a Page Action.
 
+[[page-action-example]]
 ==== Page Action Example
 
 Let's step through a Page Action example. First we create an ImagePage
@@ -971,7 +989,7 @@ Looking at the output log we see the following trace:
 [Click] [info ] handleRequest:  /image.htm - 98 ms
 ....
 
-[[page-action-accessing-request-parameters]]
+[[accessing-request-parameters]]
 ==== Accessing Request Parameters
 
 Request parameters can be accessed through the `+Context+` as shown
@@ -993,7 +1011,7 @@ public ImagePage extends Page {
 } 
 ----
 
-[[page-action-set-response-headers]]
+[[set-response-headers-and-status-code]]
 ==== Set response headers and status code
 
 When handling a Page Action you might need to set the HTTP response
@@ -1028,7 +1046,7 @@ public ImagePage extends Page {
 } 
 ----
 
-[[page-direct-rendering]]
+[[pages-direct-rendering]]
 === Direct Rendering
 
 Pages support a direct rendering mode where you can render directly to
@@ -1089,6 +1107,7 @@ public void onGet() {
 }
 ----
 
+[[pages-stateful-pages]]
 === Stateful Pages
 
 `+PLEASE NOTE:+` stateful pages have been deprecated in Click 2.3.0 and
@@ -1138,6 +1157,7 @@ using the pages class name as the key. In the example above the page
 would be stored in the users session using the class name:
 `+com.mycorp.page.SearchPage+`
 
+[[page-creation]]
 ==== Page Creation
 
 With stateful pages they are only created once, after which they are
@@ -1153,6 +1173,7 @@ If you have dynamic control creation code you would typically place this
 in the onInit() method, but you will need to take care that controls and
 or models are not already present in the page.
 
+[[page-execution]]
 ==== Page Execution
 
 The default Click page execution model is thread safe as a new Page
@@ -1162,6 +1183,7 @@ requests and threads. To ensure page execution is thread safe, users
 page instances are synchronized so only one request thread can execute a
 page instance at any one time.
 
+[[page-destruction]]
 ==== Page Destruction
 
 After normal page instances have been executed, they are de-referenced
@@ -1178,7 +1200,7 @@ rowList in its
 link:../../click-api/org/apache/click/control/Table.html#onDestroy()[onDestory()]
 method.
 
-[[page-error-handling]]
+[[pages-error-handling]]
 === Error Handling
 
 If an Exception occurs processing a Page object or rendering a template
@@ -1213,12 +1235,13 @@ page displays include:
 template
 
 When the application is in `+production+` mode only a simple error
-message is displayed. See link:#application-mode[Configuration] for
+message is displayed. See <<application-mode,Configuration>> for
 details on how to set the application mode.
 
 Please also see the link:../../examples.html[Examples] web app Exception
 Demo for demonstrations of Clicks error handling.
 
+[[page-not-found]]
 === Page Not Found
 
 If the ClickServlet cannot find a requested page in the `+click.xml+`
@@ -1241,6 +1264,7 @@ it cannot find the page the ClickServlet will automatically deploy one.
 You can tailor the `+click/not-found.htm+` template to suite you own
 needs. This page template has access to the usual Click objects.
 
+[[pages-message-properties]]
 === Page Message Properties
 
 The Page class provides a
@@ -1277,9 +1301,10 @@ file will override any messages defined in the application global page
 properties file.
 
 Page messages can also be used to override Control messages, see the
-Controls link:#control-message-properties[Message Properties] topic for
+Controls <<control-message-properties,Message Properties>> topic for
 more details.
 
+[[pages-head-elements]]
 === Page HEAD Elements
 
 The Page class provides the method

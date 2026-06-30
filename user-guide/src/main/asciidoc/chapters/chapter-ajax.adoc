@@ -1,6 +1,7 @@
 [[chapter-ajax]]
 == Ajax
 
+[[ajax-overview]]
 === Ajax Overview
 
 Ajax is a method of using JavaScript to perform a GET or POST request
@@ -40,18 +41,18 @@ AjaxBehaviors to streamline and encapsulate your client-side code.
 In this chapter we'll look at the Ajax support provided by Click. There
 are two basic ways to handle and process Ajax requests:
 
-* link:#ajax-behavior[AjaxBehavior] - AjaxBehavior is a specialized
+* <<ajax-behavior,AjaxBehavior>> - AjaxBehavior is a specialized
 link:../../click-api/org/apache/click/Behavior.html[Behavior] that
 enables Controls to handle and respond to Ajax requests
-* link:#ajax-page-action[Page Actions] - Page Actions was covered
-link:#page-actions[earlier] and provides a simple way to handle and
+* <<ajax-page-action,Page Actions>> - Page Actions was covered
+<<pages-actions,earlier>> and provides a simple way to handle and
 respond to Ajax requests
 
 [[ajax-behavior]]
 === AjaxBehavior
 
 link:ajax-behavior[AjaxBehavior] is an interface that extends Behavior
-(covered link:#behavior[earlier]) and adds the ability to handle and
+(covered <<behavior[earlier]) and adds the ability to handle and
 process incoming Ajax requests.
 
 Click also provides a default AjaxBehavior implementation,
@@ -86,7 +87,7 @@ ID] attribute, which is then passed as an Ajax request parameter to the
 server. More on this later.
 
 The Behavior interface has been covered
-link:#behavior-class-diagram[already] so we'll look at AjaxBehavior
+<<behavior, behavior-class-diagram>> already so we'll look at AjaxBehavior
 next:
 
 * link:../../click-api/org/apache/click/Behavior.html#isAjaxTarget(org.apache.click.Context)[isAjaxTarget(Context)]
@@ -205,6 +206,7 @@ Next the ActionResult is rendered to the browser.
 The final step in this sequence is invoking each control's onDestroy()
 method and lastly invoke the Page onDestroy() method.
 
+[[first-ajax-example]]
 === First Ajax Example
 
 In this first example we demonstrate how to handle Ajax requests with a
@@ -341,6 +343,7 @@ Ajax `+URL+` to the ActionLink `+href+` value.
 <4> Finally we the jQuery http://api.jquery.com/html/#html2[html] function
 to update the _div_ content with the server response.
 
+[[ajax-trace-log]]
 ==== Ajax Trace Log
 
 Looking at the output log we see the following trace:
@@ -472,6 +475,7 @@ Next we notice that the AjaxBehavior `+isRequestTarget()+` returned
 Finally we see that `+*no*+` target AjaxBehavior was found for the
 `+Ajax target control+`, `+'link' ActionLink+`.
 
+[[ajax-page-action]]
 === Ajax Page Action
 
 Page Actions are _page methods_ that can be invoked directly from the
@@ -482,7 +486,7 @@ Similar to the AjaxBehavior onAction method, _page methods_ returns an
 `+ActionResult+` containing the data to render to the browser.
 
 Page Actions have been covered earlier. Please click
-link:#page-actions[here] for a detailed overview.
+<<pages-actions,here>> for a detailed overview.
 
 Using a Page Action for handling an Ajax request is no different from
 the normal HTTP version. To invoke a Page Action, specify the parameter
@@ -538,6 +542,7 @@ The ActionResult contains the data that is rendered to the client
 browser. In the example above, the action result is an HTML snippet
 containing todays date.
 
+[[ajax-response-types]]
 === Ajax Response Types
 
 The most common server response types are:
@@ -595,6 +600,7 @@ public class HelloWorldPage extends Page {
 } 
 ----
 
+[[ajax-error-handling]]
 === Ajax Error Handling
 
 If an exception occurs while processing an Ajax request and the
