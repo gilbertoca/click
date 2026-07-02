@@ -74,6 +74,10 @@ containing the data to be rendered to the browser.
 The `+Control+`, `+Behavior+`, `+AjaxBehavior+` and `+ActionResult+`
 classes are depicted in the figure below.
 
+.Ajax Behavior Class Diagram
+[#ajax-class-diagram]
+image::ajax/ajax-class-diagram.png[images/ajax/ajax-class-diagram]
+
 The following method is exposed by Control in order to handle Ajax
 requests:
 
@@ -132,6 +136,10 @@ rendered is illustrated in the figure below. Note that it is similar to
 a normal HTTP request flow. The main differences are that Ajax requests
 do not have an onGet or onRender event and that only the
 `+Ajax target Control+` is processed.
+
+.Ajax Request Sequence Diagram
+[#ajax-request-sequence-diagram]
+image::ajax/ajax-request-sequence-diagram.png[images/ajax/ajax-request-sequence-diagram]
 
 Stepping through this Ajax GET request sequence, first a new Page
 instance is created.

@@ -262,6 +262,10 @@ package rather than a utils package.
 An example project structure for a MyCorp web application is illustrated
 below:
 
+.Example project structure
+[#packages-classes-diagram]
+image::best-practices/packages-classes.png[images/best-practices/packages-classes]
+
 In this example application we use declarative role and path based
 security. All the pages in the admin package and directory require the
 `+"admin"+` role to be access, while all the pages in the user package

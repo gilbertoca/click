@@ -905,6 +905,10 @@ request and render a result to the browser. The execution sequence for a
 Page Action being processed and rendered is illustrated in the figure
 below.
 
+.Page Action Request Sequence Diagram
+[#page-action-sequence-diagram]
+image::pages/page-action-sequence-diagram.png[images/pages/page-action-sequence-diagram]
+
 Stepping through this Page Action request sequence, a new Page instance
 is created and the attributes for the Page are set (format, headers).
 Next, request parameter values are bound to matching Page fields.

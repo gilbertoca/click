@@ -22,9 +22,17 @@ method and render their HTML display using the toString() method. The
 execution sequence for a Control being processed and rendered is
 illustrated in the figure below.
 
+.Control Post Sequence Diagram
+[#control-post-sequence-diagram]
+image::controls/control-post-sequence-diagram.png[images/controls/control-post-sequence-diagram]
+
 In Click all control classes must implement the
 link:../../click-api/org/apache/click/Control.html[Control] interface.
 The Control interface is depicted in the figure below.
+
+.Control Interface Diagram
+[#control-interface-diagram]
+image::controls/control-class-diagram.png[images/controls/control-class-diagram]
 
 Methods on the Control interface include:
 
@@ -133,6 +141,10 @@ Click Extras classes can contain dependencies to 3rd party frameworks.
 
 A subset of these control classes are depicted in the figure below.
 
+.Control Package Class Diagram.png
+[#control-package-class-diagram]
+image::controls/control-package-class-diagram.png[images/controls/control-package-class-diagram]
+
 The key control classes include:
 
 * link:../../click-api/org/apache/click/control/ActionLink.html[ActionLink]
@@ -171,49 +183,45 @@ Messages are looked up in a particular order enabling taylor specific
 messages, for your controls, individual pages or across your entire
 application. The order in which localized messages are resolved is:
 
-*Page scope messages*::
-  Message lookups are first resolved to the Page classes message bundle
-  if it exists. For example a `+Login+` page may define the message
-  properties:
-  +
-....
-/com/mycorp/page/Login.properties
-....
-  +
-  If you want to tailor messages for a particular page this is where to
-  place them.
-*Global page scope messages*::
-  Next message lookups are resolved to the global pages message bundle
-  if it exists.
-  +
-....
-/click-page.properties
-....
-  +
-  If you want messages to be used across your entire application this is
-  where to place them.
-*Control scope messages*::
-  Next message lookups are resolved to the Control classes message
-  bundle if it exists. For example a `+CustomTextField+` control may
-  define the message properties:
-  +
-....
-/com/mycorp/control/CustomTextField.properties
-....
-  +
-  A custom control's messages can be placed here (or the global control
-  scope covered next) and overridden by one of the above options.
-*Global control scope messages*::
-  Finally message lookups are resolved to the global application control
-  message bundle if the message has not already been found. The global
-  control properties file is:
-  +
-....
-/click-control.properties
-....
-  +
-  Control messages can be placed here and overridden by one of the above
-  options.
+Page scope messages::
+Message lookups are first resolved to the Page classes message bundle
+if it exists. For example a `+Login+` page may define the message
+properties:
++
+`/com/mycorp/page/Login.properties`
++
+If you want to tailor messages for a particular page this is where to
+place them.
+
+Global page scope messages::
+Next message lookups are resolved to the global pages message bundle
+if it exists.
++
+`/click-page.properties`
++
+If you want messages to be used across your entire application this is
+where to place them.
+
+Control scope messages::
+Next message lookups are resolved to the Control classes message
+bundle if it exists. For example a `+CustomTextField+` control may
+define the message properties:
++
+
+`/com/mycorp/control/CustomTextField.properties`
++
+A custom control's messages can be placed here (or the global control
+scope covered next) and overridden by one of the above options.
+
+Global control scope messages::
+Finally message lookups are resolved to the global application control
+message bundle if the message has not already been found. The global
+control properties file is:
++
+`/click-control.properties`
++
+Control messages can be placed here and overridden by one of the above
+options.
 
 [[control-properties]]
 ==== Control Properties
@@ -398,6 +406,10 @@ Container provides its own template and model.
 - draws a legend (border) around its child Controls.
 
 These Containers are depicted in the figure below.
+
+.Container Package Class Diagram
+[#container-package-class-diagram]
+image::controls/container-package-class-diagram.png[images/controls/container-package-class-diagram]
 
 The following classes provides convenient extension points for creating
 custom Containers:
