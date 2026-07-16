@@ -44,3 +44,5 @@ include::chapters/chapter-ajax.adoc[]
 include::chapters/chapter-configuration.adoc[]
 
 include::chapters/chapter-best-practices.adoc[]
+
+include::chapters/chapter-click-doc-html.adoc[]

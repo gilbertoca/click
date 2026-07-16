@@ -1234,9 +1234,15 @@ The default error template will display extensive debug information when
 the application is in `+development+` or `+debug+` mode. Example error
 page displays include:
 
-* link:../../error-npe.html[NullPointerException] - in a page method
-* link:../../error-parsing.html[ParseErrorException] - in a page
-template
+.NullPointerException - in a page method
+[#error-npe-html]
+image::pages/error-npe.html.png[images/pages/error-npe.html]
+* NullPointerException - in a page method
+
+.ErrorParsing - in a page template
+[#error-parsing.html]
+image::pages/error-parsing.html.png[images/pages/error-parsing.html]
+* ParseErrorException - in a page template
 
 When the application is in `+production+` mode only a simple error
 message is displayed. See <<application-mode,Configuration>> for
@@ -1250,7 +1256,10 @@ Demo for demonstrations of Clicks error handling.
 
 If the ClickServlet cannot find a requested page in the `+click.xml+`
 config file it will use the registered
-link:../../not-found.html[not-found.htm] page.
+
+.PageNotFound - in page
+[#not-found.html]
+image::pages/not-found.html.png[images/pages/not-found.html]
 
 The Click `+not found page+` is automatically configured as:
 

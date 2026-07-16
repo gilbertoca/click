@@ -102,7 +102,6 @@ merged template as:
 [#hello-world-screenshot-image]
 image::introduction/hello-world-screenshot.png[images/introduction/hello-world-screenshot]
 
-
 [[control-listener-type-1]]
 === Control Listener Type 1 Example
 

@@ -138,11 +138,11 @@ If this file is not found under the `+WEB-INF+` directory, then
 ClickServlet will attempt to load it from the classpath as
 `+/click.xml+`.
 
-See link:../../click-dtd.html[Click DTD] for the click-app XML
+See <<chapter-click-doc-html, Click DTD>> for the click-app XML
 definition.
 
 A complete Click configuration example is available
-link:../../click-dtd-example.html[here] which can be used as a quick
+<<chapter-click-doc-html, Click DTD Example>> which can be used as a quick
 reference when configuring Click.
 
 A basic Click app config file is provided below:
@@ -240,8 +240,8 @@ The pages element can specify a base `+package+` that Click should use
 for mapping page templates to page classes.
 
 The pages element also defines the `+automapping+` and `+autobinding+`
-attributes which is discussed in the <<application-automapping[Page
-Automapping] and <<application-autobinding[Page Autobinding]
+attributes which is discussed in the <<application-automapping,Page
+Automapping>> and <<application-autobinding,Page Autobinding>>
 sections respectively.
 
 [[application-multiple-packages]]
@@ -881,11 +881,10 @@ already present).
 You can modify these support files and Click will *not* overwrite them.
 These files include:
 
-* click/error.htm   -   the Page <<page-error-handling[Error
-Handling] template
+* click/error.htm   -   the Page <<page-error-handling,Error Handling>> template
 * click/control.css   -   the Controls cascading stylesheet
 * click/control.js   -   the Controls JavaScript library
-* click/not-found.htm   -   the <<page-not-found[Page Not Found]
+* click/not-found.htm   -   the <<page-not-found,Page Not Found>>
 template
 
 For example to customize the control styles you can place a customized
@@ -1000,7 +999,7 @@ above.
 a special folder called _'META-INF/resources'_.
 
 As option #1 was already discussed above in section
-<<application-controls[Controls], lets look at option #2.
+<<application-controls,Controls>>, lets look at option #2.
 
 When Click starts up, it scans each Jar and folder on the classpath for
 specially marked entries starting with 'META-INF/resources/'. (Please

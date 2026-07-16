@@ -1,0 +1,202 @@
+[[chapter-click-doc-html]]
+
+[[click-dtd-html]]
+== Click DTD
+
+Click application XML descriptor Documentation Type Definition (DTD) : (A full example is available <<click-dtd-example-html,Click DTD Example>>)
+
+[source,xml]
+----
+<!--
+     DTD for the Click Application Configuration File, Version 2.2
+
+     To support validation of your configuration file, include the following
+     DOCTYPE element at the beginning (after the "xml" declaration):
+
+     <!DOCTYPE click-app PUBLIC
+       "-//Apache Software Foundation//DTD Click Configuration 2.2//EN"
+       "http://click.apache.org/dtds/click-2.2.dtd">
+-->
+
+<!-- The Click Application (click.xml) Document Type Definition. -->
+<!ELEMENT click-app (pages*, headers?, format?, mode?, controls?, 
+                     file-upload-service?, log-service?, messages-map-service?, resource-service?, template-service?, page-interceptor*)>
+  <!ATTLIST click-app charset CDATA #IMPLIED>
+  <!ATTLIST click-app locale CDATA #IMPLIED>
+
+  <!-- Application pages. -->
+  <!ELEMENT pages (page*, excludes*)>
+    <!ATTLIST pages package CDATA #IMPLIED>
+    <!ATTLIST pages automapping (true|false) "true">
+    <!ATTLIST pages autobinding (default|annotation|none) "default">
+
+    <!-- Page definition. -->
+    <!ELEMENT page (header*)>
+      <!ATTLIST page path CDATA #REQUIRED>
+      <!ATTLIST page classname CDATA #REQUIRED>
+
+    <!-- Excludes definition. -->
+    <!ELEMENT excludes (#PCDATA)>
+      <!ATTLIST excludes pattern CDATA #REQUIRED>
+
+  <!-- Application default page headers. -->
+  <!ELEMENT headers (header*)>
+  
+    <!-- Header definition. -->
+    <!ELEMENT header (#PCDATA)>
+      <!ATTLIST header name CDATA #REQUIRED>
+      <!ATTLIST header value CDATA #REQUIRED>
+      <!ATTLIST header type (String|Integer|Date) "String">
+
+  <!-- Page template formatter class. An new format object added to
+       the Velocity context under the key: "format". -->
+  <!ELEMENT format (#PCDATA)>
+    <!ATTLIST format classname CDATA "org.apache.click.util.Format">
+ 
+  <!-- Application mode, which configures logging and caching. -->
+  <!ELEMENT mode (#PCDATA)>
+     <!ATTLIST mode value (production|profile|development|debug|trace) "development">
+
+  <!-- Application deployable controls. -->
+  <!ELEMENT controls (control*, control-set*)>
+  
+    <!-- Deployable control class. -->
+    <!ELEMENT control (#PCDATA)>
+      <!ATTLIST control classname CDATA #REQUIRED>
+
+    <!-- Deployable Third Party Set of Controls. -->
+    <!ELEMENT control-set (#PCDATA)>
+      <!ATTLIST control-set name CDATA #REQUIRED>
+
+  <!-- File Upload Service. -->
+  <!ELEMENT file-upload-service (property*)>
+    <!ATTLIST file-upload-service classname CDATA  "org.apache.click.service.FileUploadService">
+ 
+    <!-- Property definition. -->
+    <!ELEMENT property (#PCDATA)>
+      <!ATTLIST property name CDATA #REQUIRED>
+      <!ATTLIST property value CDATA #REQUIRED>
+
+  <!-- Log Service. -->
+  <!ELEMENT log-service (property*)>
+    <!ATTLIST log-service classname CDATA "org.apache.click.service.ConsoleLogService">
+
+  <!-- Messages Map Service. -->
+  <!ELEMENT messages-map-service (property*)>
+    <!ATTLIST messages-map-service classname CDATA "org.apache.click.service.DefaultMessagesMapService">
+
+  <!-- Resource Service. -->
+  <!ELEMENT resource-service (property*)>
+    <!ATTLIST resource-service classname CDATA "org.apache.click.service.ClickResourceService">
+
+  <!-- Template Service. -->
+  <!ELEMENT template-service (property*)>
+    <!ATTLIST template-service classname CDATA "org.apache.click.service.VelocityTemplateService">
+
+  <!-- Application page interceptors. -->
+  <!ELEMENT page-interceptor (property*)>
+    <!ATTLIST page-interceptor classname CDATA #REQUIRED>
+    <!ATTLIST page-interceptor scope (application|request) "request">
+ 
+----
+
+[[click-dtd-example-html]]
+=== Click DTD Example
+
+Provides an example of all DTD ELEMENTS and ATTRIBUTES:
+
+[source,xml]
+----
+<!-- A complete Click Application (click.xml) Example. --> 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<click-app charset="UTF-8" locale="en"> 
+ 
+  <!-- An automatically mapped Page package. Note: the automapping value is "true" by default and autobinding is "default" by default --> 
+  <pages package="com.mycorp.banking.page" automapping="true" autobinding="default"> 
+      <!-- A custom mapped Page --> 
+      <page path="index.htm" classname="com.mycorp.page.Home"/> 
+     
+      <!-- Another mapped Page with custom headers --> 
+      <page path="login.htm" classname="com.mycorp.page.Login"> 
+          <!-- Specify headers to cache the page for 1 hour, after which it should be reloaded --> 
+          <header name="Pragma" value="no-cache"/> 
+          <header name="Expires" value="1" type="Date"/> 
+      </page> 
+ 
+  </pages> 
+ 
+  <!-- Another automatically mapped Page package --> 
+  <pages package="com.mycorp.common.page"/> 
+ 
+  <page-interceptor classname="com.mycorp.PageSecurityInterceptor" scope="application"> 
+     <property name="notAuthenticatedPath" value="/not-authenticated.htm"/> 
+     <property name="notAuthorizedPath" value="/not-authorized.htm"/> 
+  </page-interceptor> 
+ 
+  <!-- Setup global headers. The headers shown below is the default used by Click --> 
+  <headers> 
+      <header name="Pragma" value="no-cache"/> 
+      <header name="Cache-Control"  
+          value="no-store, no-cache, must-revalidate, post-check=0, pre-check=0"/> 
+      <header name="Expires" value="1" type="Date"/> 
+  </headers> 
+ 
+  <!-- Setup alternative Format. Default Format is org.apache.click.util.Format --> 
+  <format classname="com.mycorp.util.Format"/> 
+ 
+  <!-- Mode values include: [production], [profile], [development], [debug], [trace] --> 
+  <mode value="production"/> 
+ 
+  <!-- Set Click internal Logger to Log4J instead of the default ConsoleLogService --> 
+  <log-service classname="org.apache.click.extras.service.Log4JLogService"/> 
+ 
+  <!-- Set a custom messages map service --> 
+  <messages-map-service classname="com.mycorp.services.CustomMessagesMapService"/> 
+ 
+  <!-- Set a custom resource service --> 
+  <resource-service classname="com.mycorp.services.CustomResourceService"/> 
+ 
+  <!-- Set the template engine to use Freemarker instead of Velocity --> 
+  <template-service classname="org.apache.click.extras.service.FreemarkerTemplateService"/> 
+ 
+  <!-- Set the org.apache.click.service.CommonsFileUploadService properties: sizeMax and fileSizeMax. --> 
+  <file-upload-service> 
+      <!-- Set the total request maximum size to 10mb (10 x 1024 x 1024 = 10485760). The default request upload size is unlimited. --> 
+      <property name="sizeMax" value="10485760"/> 
+  
+      <!-- Set the maximum individual file size to 2mb (2 x 1024 x 1024 = 2097152). The default file upload size is unlimited. --> 
+      <property name="fileSizeMax" value="2097152"/> 
+  </file-upload-service> 
+  <!--  
+      The commented section below shows how to use the 'classname' attribute to specify 
+      a custom org.apache.click.service.FileUploadService implementation. 
+  --> 
+  <!-- 
+  <file-upload-service classname="com.mycorp.service.CustomFileUploadService"> 
+      <property name="sizeMax" value="10485760"/> 
+      <property name="fileSizeMax" value="2097152"/> 
+  </file-upload-service> 
+  --> 
+ 
+  <!-- List controls which will deploy their resources on application startup --> 
+  <controls> 
+      <control classname="org.apache.click.examples.control.FilterPanel"/> 
+       
+      <!-- A control-set which refers to a third-party xml file specifying the list of controls to deploy --> 
+      <control-set name="mycorp-third-party-controls.xml"/> 
+       
+      <!-- Example mycorp-third-party-controls.xml file --> 
+      <!-- 
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+      <click-app> 
+          <controls> 
+              <control classname="com.mycorp.control.MyCorpTable"/> 
+              <control classname="com.mycorp.control.MyCorpForm"/> 
+          </controls> 
+      </click-app> 
+      --> 
+ 
+  </controls> 
+ 
+</click-app> 
+----
