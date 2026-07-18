@@ -24,11 +24,11 @@ in <<servlet-configuration,web.xml>> to route *.htm requests to the
 
 Please note if you want Click to process templates with a different
 extension e.g. `+.xml+`, you need to implement the method
-link:../../click-api/org/apache/click/service/ConfigService.html#isTemplate(java.lang.String)[isTemplate(String
+link:{click-api-dir}/org/apache/click/service/ConfigService.html#isTemplate(java.lang.String)[isTemplate(String
 path)] and specify the extra extensions. The simplest way is to subclass
 `+XmlConfigService+` and override the default implementation as
 described
-link:../../click-api/org/apache/click/service/XmlConfigService.html#isTemplate(java.lang.String)[here].
+link:{click-api-dir}/org/apache/click/service/XmlConfigService.html#isTemplate(java.lang.String)[here].
 Also remember to map the new extensions in `+web.xml+`.
 
 If you use JSP pages for rendering, the `+.jsp+` extension must be used.
@@ -48,7 +48,7 @@ Click will convert the page path from `+.jsp+` to `+.htm+` and back.
 === Classes
 
 All custom Click pages must subclass the
-link:../../click-api/org/apache/click/Page.html[Page] base class. The
+link:{click-api-dir}/org/apache/click/Page.html[Page] base class. The
 Page class and its associated companion classes, Context and Control,
 are depicted in the figure below.
 
@@ -57,14 +57,14 @@ are depicted in the figure below.
 image::pages/click-class-diagram.png[images/pages/click-class-diagram]
 
 The Page class provides a
-link:../../click-api/org/apache/click/Page.html#model[model] attribute
+link:{click-api-dir}/org/apache/click/Page.html#model[model] attribute
 which is used to hold all the objects that are rendered in the page
 Velocity template. The model may also contain
-link:../../click-api/org/apache/click/Control.html[Control] objects,
+link:{click-api-dir}/org/apache/click/Control.html[Control] objects,
 which provide user interface controls on the Page.
 
 Pages also provides access to the
-link:../../click-api/org/apache/click/Context.html[Context] object which
+link:{click-api-dir}/org/apache/click/Context.html[Context] object which
 references all the javax.servlet objects associated with the request.
 When programming in Click you use the Context object to access
 HttpServletRequest attributes, parameters and the HttpSession object.
@@ -75,12 +75,12 @@ HttpServletRequest attributes, parameters and the HttpSession object.
 The Page class provide a number of empty handler methods which
 subclasses can override to provide functionality:
 
-* link:../../click-api/org/apache/click/Page.html#onSecurityCheck()[onSecurityCheck()]
-* link:../../click-api/org/apache/click/Page.html#onInit()[onInit()]
-* link:../../click-api/org/apache/click/Page.html#onGet()[onGet()]
-* link:../../click-api/org/apache/click/Page.html#onPost()[onPost()]
-* link:../../click-api/org/apache/click/Page.html#onRender()[onRender()]
-* link:../../click-api/org/apache/click/Page.html#onDestroy()[onDestroy()]
+* link:{click-api-dir}/org/apache/click/Page.html#onSecurityCheck()[onSecurityCheck()]
+* link:{click-api-dir}/org/apache/click/Page.html#onInit()[onInit()]
+* link:{click-api-dir}/org/apache/click/Page.html#onGet()[onGet()]
+* link:{click-api-dir}/org/apache/click/Page.html#onPost()[onPost()]
+* link:{click-api-dir}/org/apache/click/Page.html#onRender()[onRender()]
+* link:{click-api-dir}/org/apache/click/Page.html#onDestroy()[onDestroy()]
 
 The ClickServlet relies on instantiating Pages using a public no
 arguments constructor, so when you create Page subclasses you must
@@ -107,7 +107,7 @@ diagram, after a Page's onInit() is called, each Control, available at
 that stage, will have their onInit() method called.
 
 The next step is the processing of the Page's
-link:../../click-api/org/apache/click/Page.html#controls[controls]. The
+link:{click-api-dir}/org/apache/click/Page.html#controls[controls]. The
 ClickServlet gets the list of Controls from the page and then iterates
 through the list calling onProcess(). If any of the Control's
 onProcess() methods return false, processing of subsequent controls and
@@ -123,24 +123,24 @@ the following objects to the model:
 * any public Page variable using the variable name
 * context  -  the Servlet context path, e.g. /mycorp
 * format  -  the
-link:../../click-api/org/apache/click/util/Format.html[Format] object
+link:{click-api-dir}/org/apache/click/util/Format.html[Format] object
 for formatting the display of objects.
 * headElements  -  the HEAD
-link:../../click-api/org/apache/click/element/Element.html[elements],
+link:{click-api-dir}/org/apache/click/element/Element.html[elements],
 excluding JavaScript, to include in the page header. Please see
-link:../../click-api/org/apache/click/util/PageImports.html[PageImports]
+link:{click-api-dir}/org/apache/click/util/PageImports.html[PageImports]
 for more details.
 * jsElements  -  the JavaScript imports and script blocks to include in
 the pages footer. Please see
-link:../../click-api/org/apache/click/util/PageImports.html[PageImports]
+link:{click-api-dir}/org/apache/click/util/PageImports.html[PageImports]
 for more details.
 * messages  -  the
-link:../../click-api/org/apache/click/util/MessagesMap.html[MessagesMap]
+link:{click-api-dir}/org/apache/click/util/MessagesMap.html[MessagesMap]
 adaptor for the Page
-link:../../click-api/org/apache/click/Page.html#getMessage(java.lang.String)[getMessage()]
+link:{click-api-dir}/org/apache/click/Page.html#getMessage(java.lang.String)[getMessage()]
 method
 * path  -  the
-link:../../click-api/org/apache/click/Page.html#path[path] of the page
+link:{click-api-dir}/org/apache/click/Page.html#path[path] of the page
 template to render
 * request  -  the pages
 http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletRequest.html[HttpServletRequest]
@@ -149,7 +149,7 @@ object
 http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html[HttpServletResponse]
 object
 * session  -  the
-link:../../click-api/org/apache/click/util/SessionMap.html[SessionMap]
+link:{click-api-dir}/org/apache/click/util/SessionMap.html[SessionMap]
 adaptor for the users
 http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpSession.html[HttpSession]
 
@@ -184,7 +184,7 @@ image::pages/activity-diagram-small.png[images/pages/activity-diagram-small]
 
 Click will automatically bind any request parameter values to public
 Page variable with the same name. You can also use the
-link:../../click-api/org/apache/click/util/Bindable.html[Bindable]
+link:{click-api-dir}/org/apache/click/util/Bindable.html[Bindable]
 annotation to bind private and protected Page variables. When binding
 these values Click will also attempt to convert them to the correct
 type.
@@ -246,9 +246,9 @@ Long, Float, BigInteger, BigDecimal, String and the various Date
 classes.
 
 By default type conversion is performed by the
-link:../../click-api/org/apache/click/util/RequestTypeConverter.html[RequestTypeConverter]
+link:{click-api-dir}/org/apache/click/util/RequestTypeConverter.html[RequestTypeConverter]
 class which is used by the ClickServlet method
-link:../../click-api/org/apache/click/ClickServlet.html#getTypeConverter()[getTypeConverter()].
+link:{click-api-dir}/org/apache/click/ClickServlet.html#getTypeConverter()[getTypeConverter()].
 
 If you need to add support for additional types, you would write your
 own type converter class and specify it as a ClickServlet init
@@ -328,7 +328,7 @@ init parameter to ClickServlet in `+web.xml+`. For example:
 === Security
 
 Pages provide an
-link:../../click-api/org/apache/click/Page.html#onSecurityCheck()[onSecurityCheck]
+link:{click-api-dir}/org/apache/click/Page.html#onSecurityCheck()[onSecurityCheck]
 event handler which application pages can override to implement a
 programmatic security model.
 
@@ -525,7 +525,7 @@ object so are available in the page template.
 
 Page forwarding is another way of passing information between pages. In
 this case you create the page to be forwarded to using the Context
-link:../../click-api/org/apache/click/Context.html#createPage(java.lang.String)[createPage(String)]
+link:{click-api-dir}/org/apache/click/Context.html#createPage(java.lang.String)[createPage(String)]
 method and then set properties directly on the Page. Finally set this
 page as the page to forward the request to. For example:
 
@@ -602,7 +602,7 @@ public boolean onViewClick() {
 Note how the `+customer+` object is passed through to the template in
 the Page model. This approach of using the Page model is not available
 when you forward to another Page, as the first Page object is
-"link:../../click-api/org/apache/click/Page.html#onDestroy()[destroyed]"
+"link:{click-api-dir}/org/apache/click/Page.html#onDestroy()[destroyed]"
 before the second Page object is created and any model values would be
 lost.
 
@@ -739,7 +739,7 @@ greatly reducing the amount of HTML you need to maintain.
 
 To implement templating define a border template base Page which content
 Pages should extend. The template base Page class overrides the Page
-link:../../click-api/org/apache/click/Page.html#getTemplate()[getTemplate()]
+link:{click-api-dir}/org/apache/click/Page.html#getTemplate()[getTemplate()]
 method, returning the path of the border template to render. For
 example:
 
@@ -781,7 +781,7 @@ The BorderedPage template `+border.htm+`:
 Other pages insert their content into this template using the Velocity
 link:../../velocity/vtl-reference-guide.html#parse[#parse] directive,
 passing it their contents pages
-link:../../click-api/org/apache/click/Page.html#path[path]. The
+link:{click-api-dir}/org/apache/click/Page.html#path[path]. The
 `+$path+` value is automatically added to the VelocityContext by the
 ClickServlet.
 
@@ -846,7 +846,7 @@ Please see the Click Examples application for a demonstration.
 
 Page Action is a feature to directly invoke a `+Page method+` from the
 browser. The Page Action method returns an
-link:../../click-api/org/apache/click/ActionResult.html[ActionResult]
+link:{click-api-dir}/org/apache/click/ActionResult.html[ActionResult]
 object that is rendered directly to the browser. In other words the Page
 template will not be rendered.
 
@@ -920,7 +920,7 @@ false, no response is sent back to the client. Note, if you want to send
 a specific response to the client you have to do that from the
 onSecurityCheck() event, since other Page events are not executed.
 Please see
-http://click.avoka.com/click-examples/ajax/ajax-secure.htm[this] example
+{example-url}/ajax/ajax-secure.htm[this] example
 for some strategies on implementing onSecurityCheck to handle ajax
 requests.
 
@@ -1132,7 +1132,7 @@ criteria still applies.
 their state between interactions.
 
 To make a page stateful you simply need to set the page
-link:../../click-api/org/apache/click/Page.html#stateful[stateful]
+link:{click-api-dir}/org/apache/click/Page.html#stateful[stateful]
 property to true, have the page implement the `+Serializable+` interface
 and set the `+serialVersionUID+` indicator. For example:
 
@@ -1201,16 +1201,16 @@ onDestroy() methods are invoked, and then the Page's onDestroy() method
 is invoked. This is your opportunity to de-reference any large sets or
 graphs. For example the Table control by default de-references its
 rowList in its
-link:../../click-api/org/apache/click/control/Table.html#onDestroy()[onDestory()]
+link:{click-api-dir}/org/apache/click/control/Table.html#onDestroy()[onDestory()]
 method.
 
-[[pages-error-handling]]
+[[page-error-handling]]
 === Error Handling
 
 If an Exception occurs processing a Page object or rendering a template
 the error is delegated to the registered handler. The default Click
 error handler is the
-link:../../click-api/org/apache/click/util/ErrorPage.html[ErrorPage],
+link:{click-api-dir}/org/apache/click/util/ErrorPage.html[ErrorPage],
 which is automatically configured as:
 
 ....
@@ -1234,34 +1234,36 @@ The default error template will display extensive debug information when
 the application is in `+development+` or `+debug+` mode. Example error
 page displays include:
 
+* NullPointerException - in a page method
+
 .NullPointerException - in a page method
 [#error-npe-html]
 image::pages/error-npe.html.png[images/pages/error-npe.html]
-* NullPointerException - in a page method
+
+* ParseErrorException - in a page template
 
 .ErrorParsing - in a page template
 [#error-parsing.html]
 image::pages/error-parsing.html.png[images/pages/error-parsing.html]
-* ParseErrorException - in a page template
 
 When the application is in `+production+` mode only a simple error
 message is displayed. See <<application-mode,Configuration>> for
 details on how to set the application mode.
 
-Please also see the link:../../examples.html[Examples] web app Exception
+Please also see the <<click-examples, Examples>> web app Exception
 Demo for demonstrations of Clicks error handling.
 
 [[page-not-found]]
 === Page Not Found
 
 If the ClickServlet cannot find a requested page in the `+click.xml+`
-config file it will use the registered
+config file it will use the registered [.blue]#`+click/not-found.htm+`# page, rendering like:
 
 .PageNotFound - in page
 [#not-found.html]
 image::pages/not-found.html.png[images/pages/not-found.html]
 
-The Click `+not found page+` is automatically configured as:
+The Click [.blue]#`+not found page+`# is automatically configured as:
 
 ....
 <page path="click/not-found.htm" classname="org.apache.click.Page"/>
@@ -1281,9 +1283,9 @@ needs. This page template has access to the usual Click objects.
 === Page Message Properties
 
 The Page class provides a
-link:../../click-api/org/apache/click/Page.html#messages[messages]
+link:{click-api-dir}/org/apache/click/Page.html#messages[messages]
 property which is a
-link:../../click-api/org/apache/click/util/MessagesMap.html[MessagesMap]
+link:{click-api-dir}/org/apache/click/util/MessagesMap.html[MessagesMap]
 of localized messages for the page. These messages are made available in
 the VelocityContext when the page is rendered under the key
 `+messages+`. So for example if you had a page title message you would
@@ -1321,15 +1323,15 @@ more details.
 === Page HEAD Elements
 
 The Page class provides the method
-link:../../click-api/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
+link:{click-api-dir}/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
 for contributing HEAD
-link:../../click-api/org/apache/click/element/Element.html[elements]
+link:{click-api-dir}/org/apache/click/element/Element.html[elements]
 such as
-link:../../click-api/org/apache/click/element/JsImport.html[JsImport],
-link:../../click-api/org/apache/click/element/JsScript.html[JsScript],
-link:../../click-api/org/apache/click/element/CssImport.html[CssImport]
+link:{click-api-dir}/org/apache/click/element/JsImport.html[JsImport],
+link:{click-api-dir}/org/apache/click/element/JsScript.html[JsScript],
+link:{click-api-dir}/org/apache/click/element/CssImport.html[CssImport]
 and
-link:../../click-api/org/apache/click/element/CssStyle.html[CssStyle].
+link:{click-api-dir}/org/apache/click/element/CssStyle.html[CssStyle].
 
 Here is an example of adding HEAD elements to the `+MyPage+` class:
 
@@ -1360,7 +1362,7 @@ In the example above we added the HEAD elements from the Page
 constructor, however you can add HEAD elements from anywhere in the Page
 including the event handlers `+onInit+`, `+onGet+`, `+onPost+`,
 `+onRender+` etc. Please see
-link:../../click-api/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
+link:{click-api-dir}/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
 for more details.
 
 Below is the `+/my-page.htm+` template:
@@ -1413,4 +1415,4 @@ The following HTML will be rendered (assuming the application context is
 ----
 
 A live demo showing how to add HEAD elements to a Page can be seen
-http://click.avoka.com/click-examples/general/page-head-demo.htm[here].
+{example-url}/general/page-head-demo.htm[here].

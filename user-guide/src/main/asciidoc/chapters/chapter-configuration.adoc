@@ -21,7 +21,7 @@ Configuration ( *required*)
 === Servlet Configuration
 
 For a Click web application to function the
-link:../../click-api/org/apache/click/ClickServlet.html[ClickServlet]
+link:{click-api-dir}/org/apache/click/ClickServlet.html[ClickServlet]
 must be configured in the web application's `+/WEB-INF/web.xml+` file. A
 basic web application which maps all `+*.htm+` requests to a
 ClickServlet is provided below.
@@ -138,11 +138,11 @@ If this file is not found under the `+WEB-INF+` directory, then
 ClickServlet will attempt to load it from the classpath as
 `+/click.xml+`.
 
-See <<chapter-click-doc-html, Click DTD>> for the click-app XML
+See <<click-dtd-html, Click DTD>> for the click-app XML
 definition.
 
 A complete Click configuration example is available
-<<chapter-click-doc-html, Click DTD Example>> which can be used as a quick
+<<click-dtd-example-html, Click DTD Example>> which can be used as a quick
 reference when configuring Click.
 
 A basic Click app config file is provided below:
@@ -206,12 +206,12 @@ The `+charset+` attribute defines the character encoding set for:
 * Velocity templates
 * HttpServletRequest character encoding
 * Page Content-Type charset, see Page
-link:../../click-api/org/apache/click/Page.html#getContentType()[getContentType()]
+link:{click-api-dir}/org/apache/click/Page.html#getContentType()[getContentType()]
 
 The `+locale+` attribute defines the default application Locale. If this
 value is defined it will override Locale returned by the request. Please
 see the Context
-link:../../click-api/org/apache/click/Context.html#getLocale()[getLocale()]
+link:{click-api-dir}/org/apache/click/Context.html#getLocale()[getLocale()]
 for details. For example the following configuration sets the
 application character set to UTF-8 and the default Locale as German
 (de):
@@ -283,7 +283,7 @@ requests to the page paths.
 
 The Click application will create a new Page instance for the given
 request using the configured page `+classname+`. All pages must subclass
-link:../../click-api/org/apache/click/Page.html[Page] and provide a
+link:{click-api-dir}/org/apache/click/Page.html[Page] and provide a
 public no arguments constructor, so they can be instantiated.
 
 Pages can also define `+header+` values which are discussed in the next
@@ -447,10 +447,10 @@ can be configured with one of the following values:
 
 * `+default+`: `+bindable+` variables include both `+public+` page
 variables and variables annotated with the
-link:../../click-api/org/apache/click/util/Bindable.html[@Bindable]
+link:{click-api-dir}/org/apache/click/util/Bindable.html[@Bindable]
 annotation
 * `+annotation+`: `+bindable+` variables are variables annotated with
-the link:../../click-api/org/apache/click/util/Bindable.html[@Bindable]
+the link:{click-api-dir}/org/apache/click/util/Bindable.html[@Bindable]
 annotation
 * `+none+`: disables the autobinding feature
 
@@ -470,7 +470,7 @@ be set to the value of its variable name (note, if the control name is
 already defined its name will not be changed)
 * bind all request parameters to `+bindable+` page variables, after the
 page constructor has been invoked. See
-link:../../click-api/org/apache/click/ClickServlet.html#processPageRequestParams(org.apache.click.Page)[ClickServlet.processPageRequestParams(Page)]
+link:{click-api-dir}/org/apache/click/ClickServlet.html#processPageRequestParams(org.apache.click.Page)[ClickServlet.processPageRequestParams(Page)]
 for more details
 * add all `+bindable+` page variables to the page model (this step
 occurs just before the page is rendered)
@@ -575,7 +575,7 @@ to `+none+` as shown below:
 ===== Page Autobinding - Using Annotations
 
 Click provides the
-link:../../click-api/org/apache/click/util/Bindable.html[Bindable]
+link:{click-api-dir}/org/apache/click/util/Bindable.html[Bindable]
 annotation which enables autobinding of Page variables The Bindable
 annotation can bind `+private+`, `+protected+` and `+public+` Page
 variables.
@@ -630,9 +630,9 @@ http://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServle
 
 Page headers are set after the Page has been constructed and before
 onInit() is called. Pages can then modify their
-link:../../click-api/org/apache/click/Page.html#headers[headers]
+link:{click-api-dir}/org/apache/click/Page.html#headers[headers]
 property using the
-link:../../click-api/org/apache/click/Page.html#setHeader(java.lang.String,%20java.lang.Object)[setHeader()]
+link:{click-api-dir}/org/apache/click/Page.html#setHeader(java.lang.String,%20java.lang.Object)[setHeader()]
 method.
 
 [[browser-caching]]
@@ -717,7 +717,7 @@ which is applied to all pages.
 ....
 
 By default all Click pages are configured with a
-link:../../click-api/org/apache/click/util/Format.html[org.apache.click.util.Format]
+link:{click-api-dir}/org/apache/click/util/Format.html[org.apache.click.util.Format]
 object. The format object is made available in the Velocity page
 templates using the name `+$format+`.
 
@@ -801,9 +801,9 @@ do not have to restart you application server to pick up new pages.
 ===== Click and Velocity Logging
 
 The Click and Velocity runtimes use
-link:../../click-api/org/apache/click/service/LogService.html[LogService]
+link:{click-api-dir}/org/apache/click/service/LogService.html[LogService]
 for logging messages. The default LogService implementation is
-link:../../click-api/org/apache/click/service/ConsoleLogService.html[ConsoleLogService]
+link:{click-api-dir}/org/apache/click/service/ConsoleLogService.html[ConsoleLogService]
 which will send messages to the console [System.out]. For example the
 following logging output is for a HomePage request when the application
 mode is `+trace+`:
@@ -823,9 +823,9 @@ mode is `+trace+`:
 Any unhandled `+Throwable+` errors are logged by the ClickServlet.
 
 Note that Click Extras also provide log adaptors for
-link:../../extras-api/org/apache/click/extras/service/Log4JLogService.html[Log4J]
+link:{extras-api-dir}/org/apache/click/extras/service/Log4JLogService.html[Log4J]
 and the
-link:../../extras-api/org/apache/click/extras/service/JdkLogService.html[JDK
+link:{extras-api-dir}/org/apache/click/extras/service/JdkLogService.html[JDK
 Logging API].
 
 When an application is not in `+production+` mode the error page
@@ -845,9 +845,9 @@ which will be deployed on application startup.
 ....
 
 The `+control+` registers
-link:../../click-api/org/apache/click/Control.html[Control] classes
+link:{click-api-dir}/org/apache/click/Control.html[Control] classes
 which will have their
-link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
+link:{click-api-dir}/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
 method invoked when the click application starts.
 
 ....
@@ -884,8 +884,7 @@ These files include:
 * click/error.htm   -   the Page <<page-error-handling,Error Handling>> template
 * click/control.css   -   the Controls cascading stylesheet
 * click/control.js   -   the Controls JavaScript library
-* click/not-found.htm   -   the <<page-not-found,Page Not Found>>
-template
+* click/not-found.htm   -   the <<page-not-found,Page Not Found>> template
 
 For example to customize the control styles you can place a customized
 copy (or even a brand new version) of `+control.css+` under the
@@ -992,7 +991,7 @@ unpacked.)
 
 [arabic]
 . Through a Control's
-link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
+link:{click-api-dir}/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
 event handler. See the <<application-controls,Controls>> section
 above.
 . By packaging the resources (stylesheets, JavaScript, Images etc.) into

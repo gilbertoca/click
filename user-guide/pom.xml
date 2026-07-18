@@ -73,6 +73,16 @@
                             <severity>ERROR</severity>
                         </failIf>
                     </logHandler>
+                    <attributes>
+                        <project-version>${project.version}</project-version>
+                        <imagesdir>images</imagesdir>
+                        <revnumber>${project.version}</revnumber>
+                        <revdate>${revisiondate}</revdate>
+                        <!-- Points dynamically to the root click target javadoc directory -->
+                        <click-api-dir>${project.parent.basedir}/click/target/apidocs</click-api-dir>
+                        <extras-api-dir>${project.parent.basedir}/extras/target/apidocs</extras-api-dir>
+                        <example-url>http://localhost:8080/examples</example-url>
+                    </attributes>                    
                 </configuration>
                 <executions>
                     <!-- HTML5 Output (Modern replacement for chunked HTML) -->
@@ -84,19 +94,6 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
-                            <attributes>
-                                <project-version>${project.version}</project-version>
-                                <imagesdir>images</imagesdir>
-                                <revnumber>${project.version}</revnumber>
-                                <revdate>${revisiondate}</revdate>
-                                <doctype>book</doctype>
-                                <icons>font</icons>
-                                <toc>left</toc>
-                                <sectanchors>true</sectanchors>
-                                <idprefix />
-                                <idseparator>-</idseparator>
-                                <source-highlighter>coderay</source-highlighter>
-                            </attributes>
                         </configuration>
                     </execution>
                     <!-- PDF Output (Replacement for FOP/XSL-FO) -->
@@ -108,19 +105,6 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
-                            <attributes>
-                                <project-version>${project.version}</project-version>
-                                <imagesdir>images</imagesdir>
-                                <revnumber>${project.version}</revnumber>
-                                <revdate>${revisiondate}</revdate>
-                                <doctype>book</doctype>
-                                <icons>font</icons>
-                                <pagenums />
-                                <toc />
-                                <idprefix />
-                                <idseparator>-</idseparator>
-                                <pdf-fontsdir>src/theme/fonts</pdf-fontsdir>
-                            </attributes>
                         </configuration>
                     </execution>
                 </executions>

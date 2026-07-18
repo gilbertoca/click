@@ -489,14 +489,13 @@ numerous advantages including:
 * ensure you have a common look and feel across your application
 * make global application changes very easy
 
-To see how to use templates see the <<page-templating[Page
-Templating] topic. Also see the Click link:../../examples.html[Examples]
-use of page templating.
+To see how to use templates see the <<page-templating, PageTemplating>> topic. 
+Also see the Click <<click-examples, Examples>> use of page templating.
 
 === Menus
 
 For many applications using the
-link:../../extras-api/org/apache/click/extras/control/Menu.html[Menu]
+link:{extras-api-dir}/org/apache/click/extras/control/Menu.html[Menu]
 control to centralize application navigation is very useful. Menus are
 defined in a `+WEB-INF/menu.xml+` file which is very easy to change.
 
@@ -518,7 +517,7 @@ automatically included by Click.
 
 Using macros you can create dynamic menu behaviour such as only
 rendering menu items a user is authorized to access with
-link:../../extras-api/org/apache/click/extras/control/Menu.html#isUserInRoles()[isUserInRoles()].
+link:{extras-api-dir}/org/apache/click/extras/control/Menu.html#isUserInRoles()[isUserInRoles()].
 
 ....
 #if ($menu.isUserInRoles())
@@ -528,7 +527,7 @@ link:../../extras-api/org/apache/click/extras/control/Menu.html#isUserInRoles()[
 
 You can also use JavaScript to add dynamic behaviour such as drop down
 menus, for example see the Menu page in Click
-link:../../examples.html[Examples].
+<<click-examples, Examples>>.
 
 [[logging]]
 === Logging
@@ -609,20 +608,20 @@ Please note the Click logging facility is not designed for application
 use, and is for Click internal use only. When Click is running in
 `+production+` mode it will not produce any logging output. By default
 Click logs to the console using
-link:../../click-api/org/apache/click/service/ConsoleLogService.html[ConsoleLogService].
+link:{click-api-dir}/org/apache/click/service/ConsoleLogService.html[ConsoleLogService].
 
 If you need to configure Click to log to an alternative destination
 please configure a LogService such as
-link:../../extras-api/org/apache/click/extras/service/JdkLogService.html[JdkLogService],
-link:../../extras-api/org/apache/click/extras/service/Log4JLogService.html[Log4JLogService]
+link:{extras-api-dir}/org/apache/click/extras/service/JdkLogService.html[JdkLogService],
+link:{extras-api-dir}/org/apache/click/extras/service/Log4JLogService.html[Log4JLogService]
 or
-link:../../extras-api/org/apache/click/extras/service/Slf4jLogService.html[Slf4jLogService].
+link:{extras-api-dir}/org/apache/click/extras/service/Slf4jLogService.html[Slf4jLogService].
 
 [[error-handling]]
 === Error Handling
 
 In Click unhandled errors are directed to the
-link:../../click-api/org/apache/click/util/ErrorPage.html[ErrorPage] for
+link:{click-api-dir}/org/apache/click/util/ErrorPage.html[ErrorPage] for
 display. If applications require additional error handling they can
 create and register a custom error page in `+WEB-INF/click.xml+`. For
 example:
@@ -642,7 +641,7 @@ and would not need to include error handling logic in an error page.
 Potential uses for a custom error page include custom logging. For
 example if an application requires unhandled errors to be logged to an
 application log (rather than System.out) then a custom
-link:../../click-api/org/apache/click/util/ErrorPage.html[ErrorPage]
+link:{click-api-dir}/org/apache/click/util/ErrorPage.html[ErrorPage]
 could be configured. An example `+ErrorPage+` error logging page is
 provided below:
 
@@ -667,7 +666,7 @@ http://developer.yahoo.com/performance/rules.html[best practices] for
 improving web application performance.
 
 Click Framework provides a
-link:../../extras-api/org/apache/click/extras/filter/PerformanceFilter.html[PerformanceFilter]
+link:{extras-api-dir}/org/apache/click/extras/filter/PerformanceFilter.html[PerformanceFilter]
 which caters for some of these rules. However not all rules can be
 easily automated.
 
@@ -721,14 +720,14 @@ Controls. Then you can instruct Click to _only_ include the two
 compressed files, home-page.css and home-page.js.
 
 The Click Page class exposes the property
-link:../../click-api/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
+link:{click-api-dir}/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
 that indicates whether Controls have their CSS and JavaScript resources
 included or not.
 
 To optimize Page loading one can override
-link:../../click-api/org/apache/click/Page.html#getHeadElements()[Page.getHeadElements()],
+link:{click-api-dir}/org/apache/click/Page.html#getHeadElements()[Page.getHeadElements()],
 and import the JavaScript and CSS files and then set the property
-link:../../click-api/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
+link:{click-api-dir}/org/apache/click/Page.html#setIncludeControlHeadElements(boolean)[includeControlHeadElements]
 to `+false+`, indicating that Controls won't contribute their own
 JavaScript and CSS resources.
 
@@ -798,4 +797,4 @@ the rendered HTML will include one CSS and one JavaScript import:
 ----
 
 A live demo is available
-http://click.avoka.com/click-examples/general/page-imports-example.htm[here]
+{example-url}/general/page-imports-example.htm[here]

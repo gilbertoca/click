@@ -1,5 +1,29 @@
 [[chapter-click-doc-html]]
 
+[[click-examples]]
+==Examples
+
+Click provides an Examples web application to demonstrate Click features and common design patterns. 
+The examples application is an important learning resource, and will help you to get up and running with Click as soon as possible.
+
+This application will allows you to view the Page source code, templates and config files online.
+
+You can view this application online at {example-url}
+
+[[deploying-click-examples]]
+Deploying Examples
+
+Pre built dist/click-examples.war file is provided in the Click distribution. Simply copy this file to your application servers deployment directory.
+This WAR file will deploy to the contexts:
+
+/click-examples
+
+[[building-click-examples]]
+Building Examples
+
+To build the Examples application see the Building topic for details.
+Please also see the examples/README.md file for additional details.
+
 [[click-dtd-html]]
 == Click DTD
 

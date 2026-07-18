@@ -3,7 +3,7 @@
 
 Apache Click provides a rich set of Controls which support client side
 rendering and server side processing. Please see the
-link:../../click-api/org/apache/click/control/package-summary.html[Javadoc],
+link:{click-api-dir}/org/apache/click/control/package-summary.html[Javadoc],
 which provides extensive information and examples of the core Controls.
 
 This chapter covers Control in detail including the Control life cycle,
@@ -17,7 +17,7 @@ render their display to the user. Controls are equivalent to Visual
 Basic Controls or Delphi Components.
 
 Controls handle the processing of user input in the
-link:../../click-api/org/apache/click/Control.html#onProcess()[onProcess]
+link:{click-api-dir}/org/apache/click/Control.html#onProcess()[onProcess]
 method and render their HTML display using the toString() method. The
 execution sequence for a Control being processed and rendered is
 illustrated in the figure below.
@@ -27,7 +27,7 @@ illustrated in the figure below.
 image::controls/control-post-sequence-diagram.png[images/controls/control-post-sequence-diagram]
 
 In Click all control classes must implement the
-link:../../click-api/org/apache/click/Control.html[Control] interface.
+link:{click-api-dir}/org/apache/click/Control.html[Control] interface.
 The Control interface is depicted in the figure below.
 
 .Control Interface Diagram
@@ -36,27 +36,27 @@ image::controls/control-class-diagram.png[images/controls/control-class-diagram]
 
 Methods on the Control interface include:
 
-* link:../../click-api/org/apache/click/Control.html#getHeadElements()[getHeadElements()]
+* link:{click-api-dir}/org/apache/click/Control.html#getHeadElements()[getHeadElements()]
 - defines the controls HTML header imports.
-* link:../../click-api/org/apache/click/Control.html#getMessages()[getMessages()]
+* link:{click-api-dir}/org/apache/click/Control.html#getMessages()[getMessages()]
 - defines the controls localized messages map.
-* link:../../click-api/org/apache/click/Control.html#getName()[getName()]
+* link:{click-api-dir}/org/apache/click/Control.html#getName()[getName()]
 /
-link:../../click-api/org/apache/click/Control.html#setName(java.lang.String)[setName()]
+link:{click-api-dir}/org/apache/click/Control.html#setName(java.lang.String)[setName()]
   -   defines the controls name in the Page model or Form fields.
-* link:../../click-api/org/apache/click/Control.html#getParent()[getParent()]
+* link:{click-api-dir}/org/apache/click/Control.html#getParent()[getParent()]
 /
-link:../../click-api/org/apache/click/Control.html#setParent(java.lang.Object)[setParent()]
+link:{click-api-dir}/org/apache/click/Control.html#setParent(java.lang.Object)[setParent()]
   -   defines the controls parent.
-* link:../../click-api/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
+* link:{click-api-dir}/org/apache/click/Control.html#onDeploy(javax.servlet.ServletContext)[onDeploy()]
 - deploy resources on startup.
-* link:../../click-api/org/apache/click/Control.html#onInit()[onInit()]
+* link:{click-api-dir}/org/apache/click/Control.html#onInit()[onInit()]
 - on initialize event handler.
-* link:../../click-api/org/apache/click/Control.html#onProcess()[onProcess()]
+* link:{click-api-dir}/org/apache/click/Control.html#onProcess()[onProcess()]
 - process request event handler.
-* link:../../click-api/org/apache/click/Control.html#onDestroy()[onDestroy()]
+* link:{click-api-dir}/org/apache/click/Control.html#onDestroy()[onDestroy()]
 - on destroy event handler.
-* link:../../click-api/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)[render()]
+* link:{click-api-dir}/org/apache/click/Control.html#render(org.apache.click.util.HtmlStringBuffer)[render()]
 - generate the control's HTML representation.
 
 [[control-listener]]
@@ -66,13 +66,13 @@ Click Controls provide an action listener mechanism similar to a
 `+java.awt.ActionListener+`.
 
 Click supports two styles of action listeners. The first is using the
-link:../../click-api/org/apache/click/ActionListener.html[ActionListener]
+link:{click-api-dir}/org/apache/click/ActionListener.html[ActionListener]
 interface and
-link:../../click-api/org/apache/click/control/AbstractControl.html#setActionListener(org.apache.click.ActionListener)[setActionListener(ActionListener)]
+link:{click-api-dir}/org/apache/click/control/AbstractControl.html#setActionListener(org.apache.click.ActionListener)[setActionListener(ActionListener)]
 method which provides compile time safety.
 
 The second is to register the action listener via the
-link:../../click-api/org/apache/click/Control.html#setListener(java.lang.Object, java.lang.String)[setListener(Object&#44;
+link:{click-api-dir}/org/apache/click/Control.html#setListener(java.lang.Object, java.lang.String)[setListener(Object&#44;
 String)] method where you specify the call back method via its name.
 This second style uses less lines of code, but has no compile time
 safety.
@@ -121,7 +121,7 @@ return true the further processing of other controls and page methods
 should continue. Otherwise if they return false, then any further
 processing should be aborted. By returning false you can effectively
 exit at this point and redirect or forward to another page. This
-execution logic is illustrated in the <<pages-execution,Page Execution Activity Diagram>>.
+execution logic is illustrated in the <<activity-diagram-image>>.
 
 Being able to stop further processing and do something else can be very
 handy. For example your Pages onRender() method may perform an expensive
@@ -132,11 +132,11 @@ this step and render the template or forward to the next page.
 === Control Classes
 
 Core control classes are defined in the package
-link:../../click-api/org/apache/click/control/package-summary.html[org.apache.click.control].
+link:{click-api-dir}/org/apache/click/control/package-summary.html[org.apache.click.control].
 This package includes controls for the essential HTML elements.
 
 Extended control classes are provided in the Click Extras package
-link:../../extras-api/org/apache/click/extras/control/package-summary.html[org.apache.click.extras.control].
+link:{extras-api-dir}/org/apache/click/extras/control/package-summary.html[org.apache.click.extras.control].
 Click Extras classes can contain dependencies to 3rd party frameworks.
 
 A subset of these control classes are depicted in the figure below.
@@ -147,15 +147,15 @@ image::controls/control-package-class-diagram.png[images/controls/control-packag
 
 The key control classes include:
 
-* link:../../click-api/org/apache/click/control/ActionLink.html[ActionLink]
+* link:{click-api-dir}/org/apache/click/control/ActionLink.html[ActionLink]
 - provides an anchor link that can invoke action listeners.
-* link:../../click-api/org/apache/click/control/Field.html[Field] -
+* link:{click-api-dir}/org/apache/click/control/Field.html[Field] -
 provides the abstract form field control.
-* link:../../click-api/org/apache/click/control/Form.html[Form] -
+* link:{click-api-dir}/org/apache/click/control/Form.html[Form] -
 provides a form control for processing, validation and rendering.
-* link:../../click-api/org/apache/click/control/Submit.html[Submit] -
+* link:{click-api-dir}/org/apache/click/control/Submit.html[Submit] -
 provides an input type submit control that can invoke action listeners.
-* link:../../click-api/org/apache/click/control/TextField.html[TextField]
+* link:{click-api-dir}/org/apache/click/control/TextField.html[TextField]
 - provides an input type text control that can invoke action listeners.
 
 The control classes are designed to support subclassing for customized
@@ -164,8 +164,8 @@ accessor methods.
 
 You can also aggregate controls to build more complex controls. For
 example the
-link:../../extras-api/org/apache/click/extras/control/CreditCardField.html[CreditCardField]
-uses a link:../../click-api/org/apache/click/control/Select.html[Select]
+link:{extras-api-dir}/org/apache/click/extras/control/CreditCardField.html[CreditCardField]
+uses a link:{click-api-dir}/org/apache/click/control/Select.html[Select]
 control to render the different credit card types.
 
 [[control-message-properties]]
@@ -292,13 +292,13 @@ Controls support a hierarchy of resource bundles for displaying
 validation error messages and display messages. These localized messages
 can be accessed through the AbstractControl methods:
 
-* link:../../click-api/org/apache/click/control/AbstractControl.html#getMessage(java.lang.String)[getMessage(String)]
-* link:../../click-api/org/apache/click/control/AbstractControl.html#getMessage(java.lang.String,%20java.lang.Object...)[getMessage(String&#44;
+* link:{click-api-dir}/org/apache/click/control/AbstractControl.html#getMessage(java.lang.String)[getMessage(String)]
+* link:{click-api-dir}/org/apache/click/control/AbstractControl.html#getMessage(java.lang.String,%20java.lang.Object...)[getMessage(String&#44;
 Object...)]
-* link:../../click-api/org/apache/click/control/AbstractControl.html#getMessages()[getMessages()]
-* link:../../click-api/org/apache/click/control/Field.html#setErrorMessage(java.lang.String)[setErrorMessage(String)]
+* link:{click-api-dir}/org/apache/click/control/AbstractControl.html#getMessages()[getMessages()]
+* link:{click-api-dir}/org/apache/click/control/Field.html#setErrorMessage(java.lang.String)[setErrorMessage(String)]
 - this method is defined on the Field class
-* link:../../click-api/org/apache/click/control/Field.html#setErrorMessage(java.lang.String,%20java.lang.Object)[setErrorMessage(String&#44;
+* link:{click-api-dir}/org/apache/click/control/Field.html#setErrorMessage(java.lang.String,%20java.lang.Object)[setErrorMessage(String&#44;
 Object)] - this method is defined on the Field class
 
 These methods use the `+Locale+` of the request to lookup the string
@@ -308,15 +308,15 @@ resource bundle, and use `+MessageFormat+` for any string formatting.
 === Control HEAD Elements
 
 The Control interface provides the method
-link:../../click-api/org/apache/click/Control.html#getHeadElements()[getHeadElements()]
+link:{click-api-dir}/org/apache/click/Control.html#getHeadElements()[getHeadElements()]
 which allows the Control to add Page HEAD
-link:../../click-api/org/apache/click/element/Element.html[elements]
+link:{click-api-dir}/org/apache/click/element/Element.html[elements]
 such as
-link:../../click-api/org/apache/click/element/JsImport.html[JsImport],
-link:../../click-api/org/apache/click/element/JsScript.html[JsScript],
-link:../../click-api/org/apache/click/element/CssImport.html[CssImport]
+link:{click-api-dir}/org/apache/click/element/JsImport.html[JsImport],
+link:{click-api-dir}/org/apache/click/element/JsScript.html[JsScript],
+link:{click-api-dir}/org/apache/click/element/CssImport.html[CssImport]
 and
-link:../../click-api/org/apache/click/element/CssStyle.html[CssStyle].
+link:{click-api-dir}/org/apache/click/element/CssStyle.html[CssStyle].
 
 Here is an example of adding HEAD elements to a custom `+Control+`:
 
@@ -361,7 +361,7 @@ In the example above we added the HEAD elements by overriding the
 Control's getHeadElements method, however you can add HEAD elements from
 anywhere in the Control including the event handlers `+onInit+`,
 `+onGet+`, `+onPost+`, `+onRender+` etc. Please see
-link:../../click-api/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
+link:{click-api-dir}/org/apache/click/Page.html#getHeadElements()[getHeadElements()]
 for more details.
 
 `+MyControl+` will add the following HEAD elements to the Page HEAD
@@ -387,22 +387,22 @@ controls (assume the application context is "/myapp"):
 
 A live demo showing how to add HEAD elements from a custom Control can
 be seen
-http://click.avoka.com/click-examples/general/control-head-demo.htm[here].
+{example-url}/general/control-head-demo.htm[here].
 
 [[container]]
 === Container
 
-link:../../click-api/org/apache/click/control/Container.html[Container]
+link:{click-api-dir}/org/apache/click/control/Container.html[Container]
 is a Control that can contain other Controls, thus forming a hierarchy
 of components. Container enables components to add, remove and retrieve
 other controls. Listed below are example Containers:
 
-* link:../../click-api/org/apache/click/control/Form.html[Form] - an
+* link:{click-api-dir}/org/apache/click/control/Form.html[Form] - an
 HTML form which provides default layout of fields and error feedback.
-* link:../../click-api/org/apache/click/control/Panel.html[Panel] -
-similar to link:../../click-api/org/apache/click/Page.html[Page], this
+* link:{click-api-dir}/org/apache/click/control/Panel.html[Panel] -
+similar to link:{click-api-dir}/org/apache/click/Page.html[Page], this
 Container provides its own template and model.
-* link:../../click-api/org/apache/click/control/FieldSet.html[FieldSet]
+* link:{click-api-dir}/org/apache/click/control/FieldSet.html[FieldSet]
 - draws a legend (border) around its child Controls.
 
 These Containers are depicted in the figure below.
@@ -414,8 +414,8 @@ image::controls/container-package-class-diagram.png[images/controls/container-pa
 The following classes provides convenient extension points for creating
 custom Containers:
 
-* link:../../click-api/org/apache/click/control/AbstractContainer.html[AbstractContainer]
-* link:../../extras-api/org/apache/click/extras/control/AbstractContainerField.html[AbstractContainerField]
+* link:{click-api-dir}/org/apache/click/control/AbstractContainer.html[AbstractContainer]
+* link:{extras-api-dir}/org/apache/click/extras/control/AbstractContainerField.html[AbstractContainerField]
 
 Lets cover each of them here.
 
@@ -533,7 +533,7 @@ Executing the snippet produces the output:
 === Layouts
 
 Controls such as
-link:../../click-api/org/apache/click/control/Form.html[Form] takes care
+link:{click-api-dir}/org/apache/click/control/Form.html[Form] takes care
 of layout and error reporting automatically, and for many use cases the
 auto-layout approach is good enough. It is certainly very productive.
 
@@ -549,7 +549,7 @@ This option is very similar to building components using Swing.
 ==== Template Layout
 
 The
-link:../../click-api/org/apache/click/control/Form.html#manual-layout[Template]
+link:{click-api-dir}/org/apache/click/control/Form.html#manual-layout[Template]
 approach separates the Page and layout logic. The Page is used to
 implement the presentation logic such as creating controls, registering
 listeners and copying data to domain objects, while the template is used
@@ -635,10 +635,10 @@ to add the field in the Page as well as the template.
 
 However it is possible to "generify" the layout using template engines
 such as Velocity, Freemarker and JSP.
-link:../../click-api/org/apache/click/control/Form.html#velocity-macros[Macro.vm]
+link:{click-api-dir}/org/apache/click/control/Form.html#velocity-macros[Macro.vm]
 is an example of a generic and reuable form layout using Velocity.
 
-link:../../click-api/org/apache/click/control/Panel.html[Panels] provide
+link:{click-api-dir}/org/apache/click/control/Panel.html[Panels] provide
 another good way to build generic and reusable template based layouts.
 
 Once your generic templates are in place, they can easily be reused in
@@ -652,9 +652,9 @@ take a programmatic approach and use normal Java and some Click classes
 to build custom layouts.
 
 Click extras provides two useful classes in this situation namely,
-link:../../extras-api/org/apache/click/extras/control/HtmlForm.html[HtmlForm]
+link:{extras-api-dir}/org/apache/click/extras/control/HtmlForm.html[HtmlForm]
 and
-link:../../extras-api/org/apache/click/extras/control/HtmlFieldSet.html[HtmlFieldSet].
+link:{extras-api-dir}/org/apache/click/extras/control/HtmlFieldSet.html[HtmlFieldSet].
 
 Unlike Form and FieldSet which renders its controls using a Table
 layout, HtmlForm and HtmlFieldSet renders its controls in the order they
@@ -848,7 +848,7 @@ Again using a CSS stylesheet, the markup above can be styled and
 transformed into a fancy looking form.
 
 There is a
-http://click.avoka.com/click-examples/form/contact-details.htm[live
+{example-url}/form/contact-details.htm[live
 demo] showing the programmatic approach.
 
 The advantage of the programmatic approach is that there is no
@@ -875,7 +875,7 @@ Both work well and have advantages and disadvantages over the other.
 
 Behaviors provide the ability to change how Controls behave at runtime.
 
-link:../../click-api/org/apache/click/Behavior.html[Behavior] is an
+link:{click-api-dir}/org/apache/click/Behavior.html[Behavior] is an
 interface that provides _interceptor methods_ for certain `+Control+`
 life cycle events. These _interceptor methods_ can be implemented to
 decorate and enhance the control and its children. This allows for
@@ -883,7 +883,7 @@ making changes to Controls such as adding/removing JavaScript and CSS
 Elements, adding/removing attributes, etc.
 
 Behaviors are added to Controls through the
-link:../../click-api/org/apache/click/control/AbstractControl.html#addBehavior(org.apache.click.Behavior)[AbstractControl.addBehavior(Behavior)]
+link:{click-api-dir}/org/apache/click/control/AbstractControl.html#addBehavior(org.apache.click.Behavior)[AbstractControl.addBehavior(Behavior)]
 method, and the same Behavior can be shared by multiple Controls.
 
 The `+Control+`, `+AbstractControl+` and `+Behavior+`, classes are shown
@@ -895,30 +895,30 @@ image::controls/behavior-class-diagram.png[images/controls/behavior-class-diagra
 
 Control exposes the following Behavior related methods:
 
-* link:../../click-api/org/apache/click/Control.html#getBehaviors()[getBehaviors()]
+* link:{click-api-dir}/org/apache/click/Control.html#getBehaviors()[getBehaviors()]
 - returns the Control's Set of Behaviors
-* link:../../click-api/org/apache/click/Control.html#hasBehaviors()[hasBehaviors()]
+* link:{click-api-dir}/org/apache/click/Control.html#hasBehaviors()[hasBehaviors()]
 - returns true if the Control has any Behaviors
 
 AbstractControl contains a `+Set+` that holds the `+Behaviors+` added to
 the `+Control+`. It also exposes the following methods for managing
 `+Behaviors+`:
 
-* link:../../click-api/org/apache/click/control/AbstractControl.html#addBehavior(org.apache.click.Behavior)[addBehavior(Behavior)]
+* link:{click-api-dir}/org/apache/click/control/AbstractControl.html#addBehavior(org.apache.click.Behavior)[addBehavior(Behavior)]
 - adds the given Behavior to the Control's Set of Behaviors
-* link:../../click-api/org/apache/click/control/AbstractControl.html#removeBehavior(org.apache.click.Behavior)[removeBehavior(Behavior)]
+* link:{click-api-dir}/org/apache/click/control/AbstractControl.html#removeBehavior(org.apache.click.Behavior)[removeBehavior(Behavior)]
 - removes the given Behavior from the Control's Set of Behaviors
 
 The Behavior interface (_interceptor methods_) is covered next:
 
-* link:../../click-api/org/apache/click/Behavior.html#preResponse(org.apache.click.Control)[preResponse(Control)]
+* link:{click-api-dir}/org/apache/click/Behavior.html#preResponse(org.apache.click.Control)[preResponse(Control)]
 - defines an interceptor method that is invoked before the response is
 written.
-* link:../../click-api/org/apache/click/Behavior.html#preRenderHeadElements(org.apache.click.Control)[preRenderHeadElements(Control)]
+* link:{click-api-dir}/org/apache/click/Behavior.html#preRenderHeadElements(org.apache.click.Control)[preRenderHeadElements(Control)]
 - defines an interceptor method that is invoked after preResponse() but
 before the `+Control+` getHeadElements() is called. This is a good place
 to add custom JavaScript or CSS elements to Controls.
-* link:../../click-api/org/apache/click/Behavior.html#preDestroy(org.apache.click.Control)[preDestroy()]
+* link:{click-api-dir}/org/apache/click/Behavior.html#preDestroy(org.apache.click.Control)[preDestroy()]
 - defines an interceptor method that is invoked before the `+Control+`
 onDestroy() event handler. This interceptor method allows the behavior
 to cleanup any resources.
@@ -928,7 +928,7 @@ to cleanup any resources.
 
 When a Behavior is added to a Control, the Control is automatically
 registered with the
-link:../../click-api/org/apache/click/ControlRegistry.html[ControlRegistry].
+link:{click-api-dir}/org/apache/click/ControlRegistry.html[ControlRegistry].
 Registering with the ControlRegistry allows the Click runtime to quickly
 and easily access controls that have Behaviors and process them.
 Controls without behaviors won't be registered and won't be processed.
@@ -1001,7 +1001,7 @@ At runtime the _nameField_ will be registered with the
 
 Before the Control's HEAD elements are rendered, Click will invoke the
 `+FocusBehavior+` _interceptor method_,
-link:../../click-api/org/apache/click/Behavior.html#preRenderHeadElements(org.apache.click.Control)[preRenderHeadElements(Control)],
+link:{click-api-dir}/org/apache/click/Behavior.html#preRenderHeadElements(org.apache.click.Control)[preRenderHeadElements(Control)],
 passing the _nameField_ as an argument.
 
 The FocusBehavior preRenderHeadElements method will add the JavaScript
