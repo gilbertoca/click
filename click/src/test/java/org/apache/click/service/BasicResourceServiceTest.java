@@ -1,6 +1,10 @@
 package org.apache.click.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import junit.framework.TestCase;
 import org.apache.click.MockContainer;
 import org.apache.click.servlet.MockResponse;
@@ -22,6 +26,7 @@ import org.apache.click.util.ClickUtils;
 public class BasicResourceServiceTest extends TestCase {
 
     private MockContainer container;
+    private File tmpdir;
     private MockServletContext servletContext;
     private BasicResourceService resourceService;
 
@@ -47,8 +52,18 @@ public class BasicResourceServiceTest extends TestCase {
             }
         };
 
-        // 2. Setup the container with the stubbed context
-        container = new MockContainer("web");
+        // 2. Setup the container with the stubbed context with the BasicResourceService 
+        tmpdir = makeTmpDir();
+
+        PrintStream pstr = makeXmlStream(tmpdir, "WEB-INF/click.xml");
+        pstr.println("<click-app>");
+        pstr.println(" <pages/>");
+        pstr.println(" <mode value='debug'/>");
+        pstr.println(" <resource-service classname='org.apache.click.service.BasicResourceService'/>");
+        pstr.println("</click-app>");
+        pstr.close();
+
+        container = new MockContainer(tmpdir.getAbsolutePath());
         container.setServletContext(servletContext);
         container.start();
 
@@ -61,6 +76,7 @@ public class BasicResourceServiceTest extends TestCase {
     protected void tearDown() throws Exception {
         if (container != null) {
             container.stop();
+            deleteDir(tmpdir);
         }
         super.tearDown();
     }
@@ -93,11 +109,43 @@ public class BasicResourceServiceTest extends TestCase {
         assertTrue("Classpath-served CSS should contain expected text", text.contains("The Control CSS styles") || text.contains("input.error"));
         // Now cached
         ConfigService config = ClickUtils.getConfigService(container.getServletContext());
+        assertTrue(config.getResourceService() instanceof BasicResourceService);
+        
         // Assert caching behaviors based on the active mode logic
         if (config.isProductionMode() || config.isProfileMode()) {
             assertTrue("Cache should hold entry in production/profile modes", cache.containsKey("/click/control.css"));
         } else {
             assertFalse("Cache must remain empty during debug/trace modes", cache.containsKey("/click/control.css"));
         }
+    }
+
+    private File makeTmpDir() throws IOException {
+        File tmpdir = File.createTempFile("click", "");
+        tmpdir.delete();
+        tmpdir.mkdir();
+        return tmpdir;
+    }
+
+    private PrintStream makeXmlStream(File dir, String filename) throws FileNotFoundException {
+        File file = makeFile(dir, filename);
+        PrintStream pstr = new PrintStream(file);
+        pstr.println("<?xml version='1.0' encoding=\"UTF-8\" standalone=\"yes\"?>");
+        return pstr;
+    }
+
+    private File makeFile(File dir, String filename) {
+        File file = new File(dir, filename);
+        file.getParentFile().mkdirs();
+        return file;
+    }
+
+    private void deleteDir(File tmpdir) throws IOException {
+        for (File f : tmpdir.listFiles()) {
+            if (f.isDirectory()) {
+                deleteDir(f);
+            }
+            f.delete();
+        }
+        tmpdir.delete();
     }
 }
