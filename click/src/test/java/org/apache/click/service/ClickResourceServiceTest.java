@@ -18,7 +18,7 @@ public class ClickResourceServiceTest extends TestCase {
 
     private MockContainer container;
     private ServletContext servletContext;
-    private BasicResourceService resourceService;
+    private ClickResourceService resourceService;
 
     @Override
     protected void setUp() throws Exception {
@@ -28,8 +28,8 @@ public class ClickResourceServiceTest extends TestCase {
         container.start();
         servletContext = container.getRequest().getServletContext();
 
-        // Initialize BasicResourceService directly
-        resourceService = new BasicResourceService();
+        // Initialize ClickResourceService directly
+        resourceService = new ClickResourceService();
         resourceService.onInit(servletContext);
     }
 
