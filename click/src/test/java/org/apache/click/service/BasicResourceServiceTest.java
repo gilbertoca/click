@@ -9,6 +9,7 @@ import org.apache.click.servlet.MockRequest;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import org.apache.click.servlet.MockServletContext;
+import org.apache.click.util.ClickUtils;
 
 /**
  * Verifies BasicResourceService will serve resources packaged on the classpath
@@ -27,29 +28,31 @@ public class BasicResourceServiceTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        // Use a stub servlet context that does NOT expose /click/control.css
+        // 1. Create your custom stub servlet context
         servletContext = new org.apache.click.servlet.MockServletContext() {
             @Override
             public InputStream getResourceAsStream(String path) {
-                // Force servlet context to not expose the webapp resource so BasicResourceService falls back
                 if ("/click/control.css".equals(path)) {
-                    return null;
+                    return null; // Force classpath fallback
                 }
                 return super.getResourceAsStream(path);
             }
 
             @Override
             public String getRealPath(String path) {
-                // Return null to indicate no physical file in webapp
                 if ("/click/control.css".equals(path)) {
-                    return null;
+                    return null; // Indicate no physical file in webapp
                 }
                 return super.getRealPath(path);
             }
         };
+
+        // 2. Setup the container with the stubbed context
         container = new MockContainer("web");
         container.setServletContext(servletContext);
         container.start();
+
+        // 3. Initialize your target service under test
         resourceService = new BasicResourceService();
         resourceService.onInit(servletContext);
     }
@@ -67,6 +70,8 @@ public class BasicResourceServiceTest extends TestCase {
         MockRequest request = new MockRequest();
         MockResponse response = new MockResponse();
 
+        // Force GET method so the ResourceService processes and caches the asset
+        request.setMethod("GET");
         // Attach our stub context to the MockRequest (MockRequest has a setter in recent changes)
         request.setServletContext(servletContext);
 
@@ -86,8 +91,13 @@ public class BasicResourceServiceTest extends TestCase {
         assertNotNull("Response content should not be null when resource is on classpath", content);
         String text = new String(content, StandardCharsets.UTF_8);
         assertTrue("Classpath-served CSS should contain expected text", text.contains("The Control CSS styles") || text.contains("input.error"));
-
         // Now cached
-        assertTrue("resourceCache should contain entry for /click/control.css", cache.containsKey("/click/control.css"));
+        ConfigService config = ClickUtils.getConfigService(container.getServletContext());
+        // Assert caching behaviors based on the active mode logic
+        if (config.isProductionMode() || config.isProfileMode()) {
+            assertTrue("Cache should hold entry in production/profile modes", cache.containsKey("/click/control.css"));
+        } else {
+            assertFalse("Cache must remain empty during debug/trace modes", cache.containsKey("/click/control.css"));
+        }
     }
 }

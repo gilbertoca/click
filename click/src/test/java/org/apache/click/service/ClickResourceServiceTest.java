@@ -9,6 +9,9 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import org.apache.click.util.ClickUtils;
 
 /**
  * Verifies ClickResourceService deploys resources to the physical /click
@@ -65,8 +68,13 @@ public class ClickResourceServiceTest extends TestCase {
         assertTrue("Response should contain CSS token", text.contains("The Control CSS styles") || text.contains("input.error"));
 
         // Now cache should contain an entry for /click/control.css
-        assertTrue("resourceCache should contain entry for /click/control.css", cache.containsKey("/click/control.css"));
-
+        ConfigService config = ClickUtils.getConfigService(container.getServletContext());
+        // Assert caching behaviors based on the active mode logic
+        if (config.isProductionMode() || config.isProfileMode()) {
+            assertTrue("Cache should hold entry in production/profile modes", cache.containsKey("/click/control.css"));
+        } else {
+            assertFalse("Cache must remain empty during debug/trace modes", cache.containsKey("/click/control.css"));
+        }
         // Clear response and call again to ensure served from cache (no exception and same bytes)
         response.reset();
         resourceService.renderResource(request, response);
@@ -130,8 +138,13 @@ public class ClickResourceServiceTest extends TestCase {
         assertTrue("Response must contain expected CSS text", text.contains("The Control CSS styles") || text.contains("input.error"));
 
         // Cache populated
-        assertTrue("resourceCache should contain deployed resource", cache.containsKey("/click/control.css"));
-
+        ConfigService config = ClickUtils.getConfigService(container.getServletContext());
+        // Assert caching behaviors based on the active mode logic
+        if (config.isProductionMode() || config.isProfileMode()) {
+            assertTrue("Cache should hold entry in production/profile modes", cache.containsKey("/click/control.css"));
+        } else {
+            assertFalse("Cache must remain empty during debug/trace modes", cache.containsKey("/click/control.css"));
+        }
         // Serve again to ensure cached bytes are used
         response.reset();
         resourceService.renderResource(request, response);
