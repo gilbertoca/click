@@ -1652,36 +1652,44 @@ public class MockRequest implements HttpServletRequest {
 
     @Override
     public long getContentLengthLong() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int len = getContentLength(); // existing method from ServletRequest
+        if (len >= 0) {
+            return len;
+        }
+        // If you have a stored body/byte[] payload, return its length:
+        // return (bodyBytes != null ? bodyBytes.length : -1);
+        return -1L;
     }
 
     @Override
     public ServletContext getServletContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Return the servletContext that the MockContainer sets on the request.
+        return this.servletContext;
     }
 
     @Override
     public AsyncContext startAsync() throws IllegalStateException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Mock does not support async; servlet spec allows IllegalStateException if not supported
+        throw new IllegalStateException("Async not supported in MockRequest");
     }
 
     @Override
     public AsyncContext startAsync(ServletRequest sr, ServletResponse sr1) throws IllegalStateException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new IllegalStateException("Async not supported in MockRequest");
     }
 
     @Override
     public boolean isAsyncStarted() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return false;
     }
 
     @Override
     public boolean isAsyncSupported() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return false;
     }
 
     @Override
     public AsyncContext getAsyncContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
     }
 }
