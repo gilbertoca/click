@@ -73,7 +73,7 @@
         <system>GitHub</system>
         <url>https://github.com/gilbertoca/click/issues</url>
     </issueManagement>
-  <scm>
+    <scm>
         <connection>scm:git:git://github.com/gilbertoca/click.git</connection>
         <developerConnection>scm:git:git@github.com:gilbertoca/click.git</developerConnection>
         <url>https://github.com/gilbertoca/click.git</url>
@@ -168,7 +168,14 @@
                 <groupId>org.apache.click</groupId>
                 <artifactId>click</artifactId>
                 <version>${project.version}</version>
-            </dependency>                        
+            </dependency>      
+            <dependency>
+                <groupId>org.apache.click</groupId>
+                <artifactId>click</artifactId>
+                <version>${project.version}</version>
+                <classifier>mock</classifier>
+                <scope>test</scope>            
+            </dependency>                              
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
@@ -486,7 +493,33 @@
                         <localCheckout>true</localCheckout> 
                         <pushChanges>false</pushChanges>
                     </configuration>
-                </plugin>                                
+                </plugin>  
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                    <configuration>
+                        <archive>
+                            <!-- 1. Native Maven manifest options -->
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            </manifest>
+                            <!-- 2. Custom or dynamic attribute entries -->
+                            <manifestEntries>
+                                <Click-Version>${project.version}</Click-Version>
+                                <Package>org.apache.click</Package>
+                                <Built-By>${user.name}</Built-By>
+                                <Created-By>Apache Maven</Created-By>
+                                <Build-Jdk>${java.version}</Build-Jdk>
+                                <Extension-Name>org.apache.click</Extension-Name>
+                                <Specification-Title>Click is a Java-based web application framework</Specification-Title>
+                                <Specification-Vendor>Apache Software Foundation</Specification-Vendor>
+                                <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>                                        
             </plugins>
         </pluginManagement>
     </build>

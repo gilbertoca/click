@@ -69,7 +69,13 @@
         <dependency>
             <groupId>org.apache.click</groupId>
             <artifactId>click</artifactId>
-        </dependency>                                
+        </dependency>     
+        <dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>click</artifactId>
+            <classifier>mock</classifier>
+            <scope>test</scope>
+        </dependency>                                   
     </dependencies>
     <build>
         <plugins>

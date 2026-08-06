@@ -43,6 +43,12 @@
             <artifactId>click</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.click</groupId>
+            <artifactId>click</artifactId>
+            <classifier>mock</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-fileupload2-core</artifactId>
         </dependency>

@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.click</groupId>
     <artifactId>examples</artifactId>
-    <version>2.6.1-SNAPSHOT</version>
+    <version>2.7.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Apache Click Examples Showcase</name>
     <description>
@@ -47,7 +47,7 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         <maven.javadoc.version>3.6.3</maven.javadoc.version>
         <servlet-api.version>4.0.1</servlet-api.version>
-        <click-extras.version>2.6.1-SNAPSHOT</click-extras.version>
+        <click-extras.version>2.7.1-SNAPSHOT</click-extras.version>
     </properties>    
     <dependencies>
         <dependency>

@@ -72,10 +72,6 @@
             <groupId>org.mvel</groupId>
             <artifactId>mvel2</artifactId>
         </dependency>
-        <!--dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency-->
     </dependencies>
     <build>
         <plugins>
@@ -94,8 +90,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.1</version>
+                <!-- The parent POM configuration (manifest, etc.) will automatically apply to both executions below -->
                 <executions>
+                    <!-- Modify the default primary JAR to EXCLUDE the mock classes -->
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>org/apache/click/fileupload/Mock*</exclude>
+                                <exclude>org/apache/click/servlet/Mock*</exclude>
+                                <exclude>org/apache/click/MockContainer*</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                    <!-- Execution to INCLUDE the mock classes -->
                     <execution>
                         <id>create-mock-jar</id>
                         <phase>package</phase>
