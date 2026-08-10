@@ -38,11 +38,13 @@ import org.apache.click.util.HtmlStringBuffer;
  * <legend id='form-paymentDetails-legend'>FieldSet</legend>
  * <table class='fields' id='form-paymentDetails-fields'>
  * <tr class='fields'>
- * <td class='fields' align='left'><label>Card Name</label><font color="red">*</font></td>
+ * <td class='fields' align='left'><label>Card
+ * Name</label><font color="red">*</font></td>
  * <td align='left'><input type='text' name='cardName' id='form-cardName' value='' size='20'/></td>
  * </tr>
  * <tr class='fields'>
- * <td class='fields' align='left'><label>Card Number</label><font color="red">*</font></td>
+ * <td class='fields' align='left'><label>Card
+ * Number</label><font color="red">*</font></td>
  * <td align='left'><input type='text' name='cardNumber' id='form-cardNumber' value='' size='19' onkeypress='javascript:return integerFilter(event);' maxlength='19'/><select name='cardtype' id='form-cardtype' size='1'><option selected='selected' value='VISA'>Visa</option><option value='MASTER'>Master</option><option value='AMEX'>AmEx</option><option value='DINERS'>Diners</option><option value='DISCOVER'>Discover</option></select></td>
  * </tr>
  * <tr class='fields'>
@@ -55,7 +57,8 @@ import org.apache.click.util.HtmlStringBuffer;
  * </tr>
  * </table>
  *
- * FieldSet provides a container for laying out form <code>Field</code> controls.
+ * FieldSet provides a container for laying out form <code>Field</code>
+ * controls.
  *
  * <h3>FieldSet Example</h3>
  *
@@ -64,23 +67,28 @@ import org.apache.click.util.HtmlStringBuffer;
  * <pre class='codeJava'>
  * <span class='kw'>public class</span> PaymentDetails() {
  *
- *     <span class="kw">public</span> Form form = <span class='kw'>new</span> Form();
+ * <span class="kw">public</span> Form form = <span class='kw'>new</span>
+ * Form();
  *
- *     <span class='kw'>public</span> PaymentDetails() {
- *         FieldSet paymentFieldSet = <span class='kw'>new</span> FieldSet(<span class='st'>"paymentDetails"</span>);
- *         form.add(paymentFieldSet);
+ * <span class='kw'>public</span> PaymentDetails() { FieldSet paymentFieldSet =
+ * <span class='kw'>new</span>
+ * FieldSet(<span class='st'>"paymentDetails"</span>);
+ * form.add(paymentFieldSet);
  *
- *         paymentFieldSet.add(<span class='kw'>new</span> TextField(<span class='st'>"cardName"</span>, <span class='kw'>true</span>));
- *         paymentFieldSet.add(<span class='kw'>new</span> CreditCardField(<span class='st'>"cardNumber"</span>, <span class='kw'>true</span>));
- *         IntegerField expiryField = <span class='kw'>new</span> IntegerField(<span class='st'>"expiry"</span>, <span class='kw'>true</span>);
- *         expiryField.setSize(4);
- *         expiryField.setMaxLength(4);
- *         paymentFieldSet.add(expiryField);
+ * paymentFieldSet.add(<span class='kw'>new</span>
+ * TextField(<span class='st'>"cardName"</span>, <span class='kw'>true</span>));
+ * paymentFieldSet.add(<span class='kw'>new</span>
+ * CreditCardField(<span class='st'>"cardNumber"</span>,
+ * <span class='kw'>true</span>)); IntegerField expiryField =
+ * <span class='kw'>new</span> IntegerField(<span class='st'>"expiry"</span>,
+ * <span class='kw'>true</span>); expiryField.setSize(4);
+ * expiryField.setMaxLength(4); paymentFieldSet.add(expiryField);
  *
- *         form.add(<span class='kw'>new</span> Submit(<span class='st'>"ok"</span>, <span class='st'>"    OK    "</span>, <span class='kw'>this</span>, <span class='st'>"onOkClick"</span>);
- *         form.add(<span class='kw'>new</span> Submit(<span class='st'>"  Cancel  "</span>, <span class='kw'>this</span>, <span class='st'>"onCancelClick"</span>));
- *     }
- * } </pre>
+ * form.add(<span class='kw'>new</span> Submit(<span class='st'>"ok"</span>,
+ * <span class='st'>" OK "</span>, <span class='kw'>this</span>,
+ * <span class='st'>"onOkClick"</span>); form.add(<span class='kw'>new</span>
+ * Submit(<span class='st'>" Cancel "</span>, <span class='kw'>this</span>,
+ * <span class='st'>"onCancelClick"</span>)); } } </pre>
  *
  * When the FieldSet is processed it invokes the <code>onProcess()</code> method
  * of its contained Fields. Beyond this the FieldSet performs no server side
@@ -95,42 +103,59 @@ import org.apache.click.util.HtmlStringBuffer;
 public class FieldSet extends Field implements Container {
 
     // Constants --------------------------------------------------------------
-
     private static final long serialVersionUID = 1L;
 
     // Instance Variables -----------------------------------------------------
-
-    /** The list of controls. */
+    /**
+     * The list of controls.
+     */
     protected List<Control> controls;
 
-    /** The map of controls keyed by field name. */
+    /**
+     * The map of controls keyed by field name.
+     */
     protected Map<String, Control> controlMap;
 
-    /** The ordered list of fields, excluding buttons. */
+    /**
+     * The ordered list of fields, excluding buttons.
+     */
     protected final List<Field> fieldList = new ArrayList<Field>();
 
-    /** The map of field width values. */
+    /**
+     * The map of field width values.
+     */
     protected Map<String, Integer> fieldWidths;
 
-    /** The FieldSet legend. */
+    /**
+     * The FieldSet legend.
+     */
     protected String legend;
 
-    /** The FieldSet legend attributes map. */
+    /**
+     * The FieldSet legend attributes map.
+     */
     protected Map<String, String> legendAttributes;
 
-    /** The render fieldset border flag, default value is true. */
+    /**
+     * The render fieldset border flag, default value is true.
+     */
     protected boolean showBorder = true;
 
     /**
-     * This property serves as a hint to the number of table columns the fieldset
-     * is rendered with.
-     *<p>
+     * This property serves as a hint to the number of table columns the
+     * fieldset is rendered with.
+     * <p>
      * Currently only {@link Form} acts upon this property.
      */
     protected Integer columns;
 
-    // Constructors -----------------------------------------------------------
+    /**
+     * The FieldSet rendering layout strategy. Defaults to "table" for backward
+     * compatibility.
+     */
+    protected String layout = Form.LAYOUT_TABLE;
 
+    // Constructors -----------------------------------------------------------
     /**
      * Create a FieldSet with the given name.
      *
@@ -160,7 +185,6 @@ public class FieldSet extends Field implements Container {
     }
 
     // Public Methods ---------------------------------------------------------
-
     /**
      * Add a Field to the FieldSet at the specified index and return the added
      * instance.
@@ -168,21 +192,23 @@ public class FieldSet extends Field implements Container {
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
-     * by the given control. If a control has no name defined it cannot be replaced.
+     * by the given control. If a control has no name defined it cannot be
+     * replaced.
      * <p>
-     * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
-     * where the key is the Control name and value is the Control instance.
+     * Controls can be retrieved from the Map
+     * {@link #getControlMap() controlMap} where the key is the Control name and
+     * value is the Control instance.
      * <p>
-     * All controls are available on the {@link #getControls() controls} list
-     * at the index they were inserted. If you are only interested in Fields,
-     * note that fields are available on {@link #getFieldList() fieldList}.
+     * All controls are available on the {@link #getControls() controls} list at
+     * the index they were inserted. If you are only interested in Fields, note
+     * that fields are available on {@link #getFieldList() fieldList}.
      * <p>
      * The specified index only applies to {@link #getControls() controls}, not
      * {@link #getFieldList() fieldList}.
      * <p>
-     * <b>Please note</b> if the specified control already has a parent assigned,
-     * it will automatically be removed from that parent and inserted into the
-     * fieldSet.
+     * <b>Please note</b> if the specified control already has a parent
+     * assigned, it will automatically be removed from that parent and inserted
+     * into the fieldSet.
      *
      * @see Container#insert(org.apache.click.Control, int)
      *
@@ -200,7 +226,7 @@ public class FieldSet extends Field implements Container {
 
             // If container already contains the control do a replace
             if (currentControl != null
-                && !(control instanceof Label)) {
+                    && !(control instanceof Label)) {
 
                 // Current control and new control are referencing the same object
                 // so we exit early
@@ -250,7 +276,8 @@ public class FieldSet extends Field implements Container {
      * @param newControl the control to replace the current control
      * @return the new control that replaced the current control
      *
-     * @deprecated this method was used for stateful pages, which have been deprecated
+     * @deprecated this method was used for stateful pages, which have been
+     * deprecated
      *
      * @throws IllegalArgumentException if the currentControl or newControl is
      * null
@@ -266,7 +293,7 @@ public class FieldSet extends Field implements Container {
 
         int controlIndex = getControls().indexOf(currentControl);
         Control result = ContainerUtils.replace(this, currentControl, newControl,
-            controlIndex, getControlMap());
+                controlIndex, getControlMap());
 
         if (newControl instanceof Field) {
             Field field = (Field) newControl;
@@ -308,14 +335,16 @@ public class FieldSet extends Field implements Container {
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
-     * by the given control. If a control has no name defined it cannot be replaced.
+     * by the given control. If a control has no name defined it cannot be
+     * replaced.
      * <p>
-     * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
-     * where the key is the Control name and value is the Control instance.
+     * Controls can be retrieved from the Map
+     * {@link #getControlMap() controlMap} where the key is the Control name and
+     * value is the Control instance.
      * <p>
-     * All controls are available on the {@link #getControls() controls} list
-     * in the order they were added. If you are only interested in Fields,
-     * note fields are available on {@link #getFieldList() fieldList}.
+     * All controls are available on the {@link #getControls() controls} list in
+     * the order they were added. If you are only interested in Fields, note
+     * fields are available on {@link #getFieldList() fieldList}.
      *
      * @see org.apache.click.control.Container#add(org.apache.click.Control).
      *
@@ -335,7 +364,8 @@ public class FieldSet extends Field implements Container {
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
-     * by the given control. If a control has no name defined it cannot be replaced.
+     * by the given control. If a control has no name defined it cannot be
+     * replaced.
      * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
@@ -360,20 +390,22 @@ public class FieldSet extends Field implements Container {
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
-     * by the given control. If a control has no name defined it cannot be replaced.
+     * by the given control. If a control has no name defined it cannot be
+     * replaced.
      * <p>
      * Fields can be retrieved from the Map {@link #getFields() fields} where
      * the key is the Field name and value is the Field instance.
      * <p>
      * Fields are available on {@link #getFieldList() fieldList}.
      * <p>
-     * Note Button and HiddenField types are not valid arguments for this method.
+     * Note Button and HiddenField types are not valid arguments for this
+     * method.
      *
      * @param field the field to add to the fieldset
      * @param width the width of the field in table columns
      * @return the field added to this fieldset
-     * @throws IllegalArgumentException if the field is null, field name is
-     * not defined, field is a Button or HiddenField or the width &lt; 1
+     * @throws IllegalArgumentException if the field is null, field name is not
+     * defined, field is a Button or HiddenField or the width &lt; 1
      */
     public Field add(Field field, int width) {
         add((Control) field, width);
@@ -381,19 +413,23 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Add the control to the fieldset and specify the control's width in columns.
+     * Add the control to the fieldset and specify the control's width in
+     * columns.
      * <p>
      * <b>Please note</b>: if the FieldSet contains a control with the same name
      * as the given control, that control will be
      * {@link #replace(org.apache.click.Control, org.apache.click.Control) replaced}
-     * by the given control. If a control has no name defined it cannot be replaced.
+     * by the given control. If a control has no name defined it cannot be
+     * replaced.
      * <p>
-     * Controls can be retrieved from the Map {@link #getControlMap() controlMap}
-     * where the key is the Control name and value is the Control instance.
+     * Controls can be retrieved from the Map
+     * {@link #getControlMap() controlMap} where the key is the Control name and
+     * value is the Control instance.
      * <p>
      * Controls are available on the {@link #getControls() controls} list.
      * <p>
-     * Note Button and HiddenField types are not valid arguments for this method.
+     * Note Button and HiddenField types are not valid arguments for this
+     * method.
      *
      * @param control the control to add to the fieldSet
      * @param width the width of the control in table columns
@@ -454,8 +490,8 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Remove the named field from the fieldset, returning true if removed
-     * or false if not found.
+     * Remove the named field from the fieldset, returning true if removed or
+     * false if not found.
      *
      * @param name the name of the field to remove from the fieldset
      * @return true if the named field was removed or false otherwise
@@ -497,9 +533,11 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * @see org.apache.click.control.Container#contains(org.apache.click.Control)
+     * @see
+     * org.apache.click.control.Container#contains(org.apache.click.Control)
      *
-     * @param control the control whose presence in this container is to be tested
+     * @param control the control whose presence in this container is to be
+     * tested
      * @return true if the container contains the specified control
      */
     public boolean contains(Control control) {
@@ -582,8 +620,8 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Set the FieldSet readonly flag which in turn will set all its fields
-     * to readonly.
+     * Set the FieldSet readonly flag which in turn will set all its fields to
+     * readonly.
      *
      * @param readonly the FieldSet readonly flag
      */
@@ -593,13 +631,14 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Return the number of fieldset layout table columns. This property supplies
-     * a hint to the number of table columns the fieldset should be rendered with.
+     * Return the number of fieldset layout table columns. This property
+     * supplies a hint to the number of table columns the fieldset should be
+     * rendered with.
      * <p>
      * <b>Note</b> currently only {@link Form} acts upon the column value.
      * <p>
-     * By default this property inherits its value from the parent Form, but
-     * can be specified to override the form value.
+     * By default this property inherits its value from the parent Form, but can
+     * be specified to override the form value.
      *
      * @return the number of fieldset layout table columns
      */
@@ -612,8 +651,8 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Set the number of fieldset layout table columns. This property supplies
-     * a hint to the number of table columns the fieldset should be rendered with.
+     * Set the number of fieldset layout table columns. This property supplies a
+     * hint to the number of table columns the fieldset should be rendered with.
      * <p>
      * <b>Note</b> currently only {@link Form} acts upon the column value.
      *
@@ -710,15 +749,15 @@ public class FieldSet extends Field implements Container {
     /**
      * Return the fieldset Legend element value: &lt;legend&gt;
      * <p>
-     * If the legend value is null, this method will attempt to find a
-     * localized label message in the parent messages using the key:
+     * If the legend value is null, this method will attempt to find a localized
+     * label message in the parent messages using the key:
      * <blockquote>
      * <code>getName() + ".title"</code>
      * </blockquote>
      * If not found then the message will be looked up in the
-     * <code>/click-control.properties</code> file using the same key.
-     * If a value cannot be found in the parent or control messages then the
-     * FieldSet name will be converted into a legend using the
+     * <code>/click-control.properties</code> file using the same key. If a
+     * value cannot be found in the parent or control messages then the FieldSet
+     * name will be converted into a legend using the
      * {@link ClickUtils#toLabel(String)} method.
      *
      * @return the fieldset Legend element value
@@ -738,9 +777,9 @@ public class FieldSet extends Field implements Container {
 
     /**
      * Set the fieldset Legend element value: &lt;legend&gt;. If the legend
-     * value is a zero length string no legend element will be rendered. You
-     * can set a blank zero length string if you want to render the fieldset
-     * border but don't want a legend caption.
+     * value is a zero length string no legend element will be rendered. You can
+     * set a blank zero length string if you want to render the fieldset border
+     * but don't want a legend caption.
      *
      * @param legend the fieldset Legend element value
      */
@@ -812,6 +851,27 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
+     * Return current form rendering layout strategy.
+     *
+     * @return layout strategy
+     */
+    public String getLayout() {
+        return layout;
+    }
+
+    /**
+     * Set the form rendering layout strategy: TABLE or DIV.
+     *
+     * @param layout
+     */
+    public void setLayout(String layout) {
+        if (!Form.LAYOUT_TABLE.equals(layout) && !Form.LAYOUT_DIV.equals(layout)) {
+            throw new IllegalArgumentException("Invalid layout option: " + layout);
+        }
+        this.layout = layout;
+    }
+
+    /**
      * Process the request invoking <code>onProcess()</code> on the contained
      * <code>Control</code> elements.
      *
@@ -824,7 +884,7 @@ public class FieldSet extends Field implements Container {
             for (Control control : getControls()) {
                 String controlName = control.getName();
                 if (controlName == null || !controlName.startsWith(
-                    Form.SUBMIT_CHECK)) {
+                        Form.SUBMIT_CHECK)) {
                     boolean continueProcessing = control.onProcess();
                     if (!continueProcessing) {
                         return false;
@@ -853,9 +913,9 @@ public class FieldSet extends Field implements Container {
         }
     }
 
-   /**
-    * @see org.apache.click.Control#onInit()
-    */
+    /**
+     * @see org.apache.click.Control#onInit()
+     */
     @Override
     public void onInit() {
         super.onInit();
@@ -867,9 +927,9 @@ public class FieldSet extends Field implements Container {
         }
     }
 
-   /**
-    * @see org.apache.click.Control#onRender()
-    */
+    /**
+     * @see org.apache.click.Control#onRender()
+     */
     @Override
     public void onRender() {
         if (hasControls()) {
@@ -888,7 +948,8 @@ public class FieldSet extends Field implements Container {
      * FieldSet and child containers.</li>
      * </ul>
      *
-     * @return the state of input Fields and FieldSets contained in this FieldSet
+     * @return the state of input Fields and FieldSets contained in this
+     * FieldSet
      */
     @Override
     public Object getState() {
@@ -978,11 +1039,23 @@ public class FieldSet extends Field implements Container {
             }
         }
 
-        // Render Controls
-        renderFields(buffer);
+        // --- NEW HTML5 BLOCK LAYOUT PIPELINE ---
+        if (Form.LAYOUT_DIV.equals(getLayout())) {
+            buffer.append("""
+                <div class="fieldset-content" id="%s-content">
+                """.formatted(getId()));
 
-        // Render Buttons
-        renderButtons(buffer);
+            renderHtml5Fields(buffer);
+            renderHtml5Buttons(buffer);
+
+            buffer.append("</div>\n");
+        } else { // --- LEGACY TABLE LAYOUT PIPELINE (BACKWARD COMPATIBILITY) ---
+            // Render standard controls wrapped in nested tables
+            renderFields(buffer);
+
+            // Render standard actions wrapped in button tables
+            renderButtons(buffer);
+        }
 
         if (getShowBorder()) {
             buffer.elementEnd(getTag());
@@ -1004,7 +1077,8 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Restore the FieldSet state from the session for the given request context.
+     * Restore the FieldSet state from the session for the given request
+     * context.
      * <p>
      * This method delegates to {@link #setState(java.lang.Object)} to set the
      * field restored state.
@@ -1022,8 +1096,8 @@ public class FieldSet extends Field implements Container {
     /**
      * Save the FieldSet state to the session for the given request context.
      * <p>
-     * * This method delegates to {@link #getState()} to retrieve the field state
-     * to save.
+     * * This method delegates to {@link #getState()} to retrieve the field
+     * state to save.
      *
      * @see #restoreState(org.apache.click.Context)
      * @see #removeState(org.apache.click.Context)
@@ -1038,8 +1112,8 @@ public class FieldSet extends Field implements Container {
      * Returns the HTML representation of the FieldSet.
      * <p>
      * The rendering of the FieldSet is delegated to
-     * {@link #render(org.apache.click.util.HtmlStringBuffer)}. The size of buffer
-     * is determined by {@link #getControlSizeEst()}.
+     * {@link #render(org.apache.click.util.HtmlStringBuffer)}. The size of
+     * buffer is determined by {@link #getControlSizeEst()}.
      *
      * @see Object#toString()
      *
@@ -1053,7 +1127,6 @@ public class FieldSet extends Field implements Container {
     }
 
     // Protected methods -------------------------------------------------------
-
     /**
      * Return the map of controls where each map's key / value pair will consist
      * of the control name and instance.
@@ -1087,6 +1160,83 @@ public class FieldSet extends Field implements Container {
         }
 
         return size;
+    }
+
+    /**
+     * Renders internal FieldSet fields as flat semantic divisions instead of
+     * table columns.
+     *
+     * @param buffer
+     */
+    protected void renderHtml5Fields(HtmlStringBuffer buffer) {
+        if (getControls().isEmpty()) {
+            return;
+        }
+
+        for (Control control : getControls()) {
+            // Action buttons are skipped here and delegated to renderHtml5Buttons()
+            if (control instanceof Button) {
+                continue;
+            }
+
+            if (!isHidden(control)) {
+                buffer.append("<div class=\"form-field-group\">\n");
+
+                // Case A: Recursive support for nested Child FieldSets
+                if (control instanceof FieldSet) {
+                    control.render(buffer);
+                } else if (control instanceof Label) { // Case B: Support for static literal text labels
+                    control.render(buffer);
+                } else if (control instanceof Field) { // Case C: Standard structural inputs (TextField, Select, etc.)
+                    Field field = (Field) control;
+                    Form form = getForm();
+                    String fieldId = field.getId();
+                    String fieldLabel = field.getLabel();
+
+                    if (fieldId != null && fieldLabel != null) {
+                        String requiredMarker = "";
+                        if (field.isRequired() && form != null) {
+                            requiredMarker = String.format("<span class=\"form-required-marker\">%s</span>",
+                                    form.getMessage("label-required-suffix"));
+                        }
+
+                        String labelClass = field.getError() == null ? "form-label" : "form-label error";
+                        buffer.append(String.format("  <label class=\"%s\" for=\"%s\">%s%s</label>\n",
+                                labelClass, fieldId, fieldLabel, requiredMarker));
+                    }
+
+                    buffer.append("  <div class=\"form-control-wrapper\">\n");
+                    field.render(buffer);
+
+                    if (field.getError() != null) {
+                        buffer.append(String.format("    <span class=\"form-field-error\">%s</span>\n",
+                                field.getError()));
+                    }
+                    buffer.append("  </div>\n");
+                }
+
+                buffer.append("</div>\n");
+            }
+        }
+    }
+
+    /**
+     * Renders fieldset action buttons into a clean horizontal division block
+     * bar.
+     *
+     * @param buffer
+     */
+    protected void renderHtml5Buttons(HtmlStringBuffer buffer) {
+        List<Button> buttons = ContainerUtils.getButtons(this);
+        if (!buttons.isEmpty()) {
+            buffer.append("<div class=\"form-actions-bar\">\n");
+
+            for (Button button : buttons) {
+                button.render(buffer);
+            }
+
+            buffer.append("</div>\n");
+        }
     }
 
     /**
@@ -1337,7 +1487,6 @@ public class FieldSet extends Field implements Container {
     }
 
     // Private Methods --------------------------------------------------------
-
     /**
      * Return true if the control is hidden, false otherwise.
      *

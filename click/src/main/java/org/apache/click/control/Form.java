@@ -483,7 +483,7 @@ import org.apache.commons.lang3.StringUtils;
  * submitted // using JavaScript and we don't want to validate yet
  * ClickUtils.bind(submit);
  *
- *     // If submit was not clicked, don't validate  {@code if(form.isFormSubmission() && !submit.isClicked()) {
+ *     // If submit was not clicked, don't validate null {@code if(form.isFormSubmission() && !submit.isClicked()) {
  *         form.setValidate(false);
  *     }} } </pre>
  *
@@ -565,6 +565,15 @@ public class Form extends AbstractContainer implements Stateful {
             + "var field = document.getElementById('$id');\n"
             + "if (field && field.focus && field.type != 'hidden' && field.disabled != true) { field.focus(); };\n"
             + "//--></script>\n";
+    /**
+     * The HTML5 block/div layout constant.
+     */
+    public static final String LAYOUT_DIV = "div";
+
+    /**
+     * The legacy table layout constant.
+     */
+    public static final String LAYOUT_TABLE = "table";
 
     // Instance Variables -----------------------------------------------------
     /**
@@ -697,6 +706,12 @@ public class Form extends AbstractContainer implements Stateful {
      * added by Form does not interfere with Controls added by users.
      */
     private int insertIndexOffset; // Ensures hiddenFields added by Form are always at the end of the controlList
+
+    /**
+     * The current form rendering layout strategy. Defaults to "table" for
+     * strict backward compatibility.
+     */
+    private String layout = LAYOUT_TABLE;
 
     // Constructors -----------------------------------------------------------
     /**
@@ -1745,6 +1760,27 @@ public class Form extends AbstractContainer implements Stateful {
         super.setListener(listener, method);
     }
 
+    /**
+     * Return current form rendering layout strategy.
+     *
+     * @return layout strategy
+     */
+    public String getLayout() {
+        return layout;
+    }
+
+    /**
+     * Set the form rendering layout strategy: TABLE or DIV.
+     *
+     * @param layout
+     */
+    public void setLayout(String layout) {
+        if (!LAYOUT_TABLE.equals(layout) && !LAYOUT_DIV.equals(layout)) {
+            throw new IllegalArgumentException("Invalid layout option: " + layout);
+        }
+        this.layout = layout;
+    }
+
     // Public Methods ---------------------------------------------------------
     /**
      * Clear any form or field errors by setting them to null.
@@ -2272,44 +2308,173 @@ public class Form extends AbstractContainer implements Stateful {
      */
     @Override
     public void render(HtmlStringBuffer buffer) {
-        final boolean process
-                = getContext().getRequest().getMethod().equalsIgnoreCase(getMethod());
+        final boolean process = getContext().getRequest().getMethod().equalsIgnoreCase(getMethod());
 
         List<Field> formFields = ContainerUtils.getInputFields(this);
 
         renderHeader(buffer, formFields);
 
-        buffer.append("<table class=\"form\" id=\"");
-        buffer.append(getId());
-        buffer.append("-form\"><tbody>\n");
+        // --- NEW HTML5 BLOCK LAYOUT PIPELINE ---
+        if (LAYOUT_DIV.equals(getLayout())) {
+            buffer.append("""
+                <div class="click-form" id="%s-form">
+                """.formatted(getId()));
 
-        // Render fields, errors and buttons
-        if (POSITION_TOP.equals(getErrorsPosition())) {
-            renderErrors(buffer, process);
-            renderFields(buffer);
-            renderButtons(buffer);
+            if (POSITION_TOP.equals(getErrorsPosition())) {
+                renderHtml5Errors(buffer, process);
+                renderHtml5Fields(buffer);
+                renderHtml5Buttons(buffer);
 
-        } else if (POSITION_MIDDLE.equals(getErrorsPosition())) {
-            renderFields(buffer);
-            renderErrors(buffer, process);
-            renderButtons(buffer);
+            } else if (POSITION_MIDDLE.equals(getErrorsPosition())) {
+                renderHtml5Fields(buffer);
+                renderHtml5Errors(buffer, process);
+                renderHtml5Buttons(buffer);
 
-        } else if (POSITION_BOTTOM.equals(getErrorsPosition())) {
-            renderFields(buffer);
-            renderButtons(buffer);
-            renderErrors(buffer, process);
+            } else if (POSITION_BOTTOM.equals(getErrorsPosition())) {
+                renderHtml5Fields(buffer);
+                renderHtml5Buttons(buffer);
+                renderHtml5Errors(buffer, process);
 
-        } else {
-            String msg = "Invalid errorsPosition:" + getErrorsPosition();
-            throw new IllegalArgumentException(msg);
+            } else {
+                throw new IllegalArgumentException("Invalid errorsPosition: " + getErrorsPosition());
+            }
+
+            buffer.append("</div>\n");
+        } else { // --- LEGACY TABLE LAYOUT PIPELINE (BACKWARD COMPATIBILITY) ---
+            buffer.append("<table class=\"form\" id=\"");
+            buffer.append(getId());
+            buffer.append("-form\"><tbody>\n");
+
+            if (POSITION_TOP.equals(getErrorsPosition())) {
+                renderErrors(buffer, process);
+                renderFields(buffer);
+                renderButtons(buffer);
+
+            } else if (POSITION_MIDDLE.equals(getErrorsPosition())) {
+                renderFields(buffer);
+                renderErrors(buffer, process);
+                renderButtons(buffer);
+
+            } else if (POSITION_BOTTOM.equals(getErrorsPosition())) {
+                renderFields(buffer);
+                renderButtons(buffer);
+                renderErrors(buffer, process);
+
+            } else {
+                String msg = "Invalid errorsPosition:" + getErrorsPosition();
+                throw new IllegalArgumentException(msg);
+            }
+
+            buffer.append("</tbody></table>\n");
         }
-
-        buffer.append("</tbody></table>\n");
 
         renderTagEnd(formFields, buffer);
     }
 
     // Protected Methods ------------------------------------------------------
+    /**
+     * Renders global and field error indicators using semantic block divisions
+     * instead of tables.
+     * @param buffer
+     * @param process
+     */
+    protected void renderHtml5Errors(HtmlStringBuffer buffer, boolean process) {
+        if (process && (getError() != null || !getErrorFields().isEmpty())) {
+            buffer.append("<div class=\"form-errors-container\" role=\"alert\">\n");
+
+            // Global form message error (if present)
+            if (getError() != null) {
+                buffer.append(String.format("  <div class=\"form-error-global\">%s</div>\n", getError()));
+            }
+
+            // Mapped field summary errors with click-to-focus accessibility anchors
+            for (Field field : getErrorFields()) {
+                if (field.getError() == null) {
+                    continue;
+                }
+                buffer.append(String.format(
+                        "  <div class=\"form-error-item\"><a class=\"error\" href=\"javascript:%s\">%s</a></div>\n",
+                        field.getFocusJavaScript(), field.getError()
+                ));
+            }
+
+            buffer.append("</div>\n");
+        }
+    }
+
+    /**
+     * Renders standard form input fields into semantic HTML5 block divisions.
+     * Bypasses the legacy renderFields/renderControls table-wrapping grid.
+     * @param buffer
+     */
+    protected void renderHtml5Fields(HtmlStringBuffer buffer) {
+        for (Control control : getControls()) {
+            // Action buttons are skipped here and handled inside renderHtml5Buttons()
+            if (control instanceof Button) {
+                continue;
+            }
+
+            // Skip rendering if the control is hidden or missing
+            if (!isHidden(control)) {
+                buffer.append("<div class=\"form-field-group\">\n");
+
+                //Case A: If it is a FieldSet (Sub-container), trigger its own layout rendering
+                if (control instanceof FieldSet) {
+                    control.render(buffer);
+                } else if (control instanceof Label) { //Case B: If it is a static literal Label
+                    control.render(buffer);
+                } else if (control instanceof Field) { //Case C: Standard input component (TextField, Select, etc.)
+                    Field field = (Field) control;
+                    String fieldId = field.getId();
+                    String fieldLabel = field.getLabel();
+
+                    // Renders the modern label tag mapped to the element ID
+                    if (fieldId != null && fieldLabel != null) {
+                        String requiredMarker = "";
+                        if (field.isRequired()) {
+                            requiredMarker = String.format("<span class=\"form-required-marker\">%s</span>",
+                                    getMessage("label-required-suffix"));
+                        }
+
+                        String labelClass = field.getError() == null ? "form-label" : "form-label error";
+                        buffer.append(String.format("  <label class=\"%s\" for=\"%s\">%s%s</label>\n",
+                                labelClass, fieldId, fieldLabel, requiredMarker));
+                    }
+
+                    // Input structural wrapper
+                    buffer.append("  <div class=\"form-control-wrapper\">\n");
+                    field.render(buffer); // The primitive component outputs its native clean input tag
+
+                    // If validation failed, injects the error label right beneath the input
+                    if (field.getError() != null) {
+                        buffer.append(String.format("    <span class=\"form-field-error\">%s</span>\n",
+                                field.getError()));
+                    }
+                    buffer.append("  </div>\n");
+                }
+
+                buffer.append("</div>\n");
+            }
+        }
+    }
+
+    /**
+     * Renders standard form buttons into a clean action container block.
+     * @param buffer
+     */
+    protected void renderHtml5Buttons(HtmlStringBuffer buffer) {
+        List<Button> buttons = getButtonList();
+        if (!buttons.isEmpty()) {
+            buffer.append("<div class=\"form-actions-bar\">\n");
+
+            for (Button button : buttons) {
+                button.render(buffer);
+            }
+
+            buffer.append("</div>\n");
+        }
+    }
+
     /**
      * Perform a back button submit check, returning true if the request is
      * valid or false otherwise. This method will add a submit check token to
