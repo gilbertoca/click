@@ -537,6 +537,27 @@ link:{click-api-dir}/org/apache/click/control/Form.html[Form] takes care
 of layout and error reporting automatically, and for many use cases the
 auto-layout approach is good enough. It is certainly very productive.
 
+[[form-layout-strategies]]
+==== Layout Strategies
+
+By default, the Form control layout engine automatically arranges labels and 
+input fields inside an HTML `<table>` matrix structure to preserve backward 
+compatibility for legacy web applications.
+However, for modern micro-architectures or integration with contemporary CSS 
+utility frameworks (such as Bulma or Tailwind CSS), you can opt-in to clean, 
+semantic block-level markup by setting the layout property to `div`.
+
+[source,java]
+----
+Form form = new Form("contactForm");
+form.setLayout(Form.LAYOUT_DIV); // Instructs the engine to stream DIV blocks instead of Tables
+----
+
+When `LAYOUT_DIV` is activated, the Form wraps error summaries, fields, and 
+action button components into accessible block elements (`<div>`, `<label>`) 
+using standard CSS class anchors (`click-form`, `form-field-group`), 
+unlocking effortless layout alignment via standard Flexbox or CSS Grid rules.
+
 However for custom or complex layouts, auto-layout is not always the
 best choice. There are two approaches for creating custom layouts.
 

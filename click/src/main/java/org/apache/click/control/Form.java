@@ -84,22 +84,35 @@ import org.apache.commons.lang3.StringUtils;
  * <pre class="prettyprint">
  * public class Login extends Page {
  *
- * public Form form = new Form();
+ *     public Form form = new Form();
  *
- * public Login() { form.add(new TextField("username", true)); form.add(new
- * PasswordField("password", true)); form.add(new Submit("ok", " OK ", this,
- * "onOkClick")); form.add(new Submit("cancel", this, "onCancelClick")); }
+ *     public Login() {
+ *         form.add(new TextField("username", true));
+ *         form.add(new PasswordField("password", true));
+ *         form.add(new Submit("ok", "  OK  ", this, "onOkClick"));
+ *         form.add(new Submit("cancel", this, "onCancelClick"));
+ *     }
  *
- * public boolean onOkClick() { if (form.isValid()) { User user = new User();
- * form.copyTo(user);
+ *     public boolean onOkClick() {
+ *         if (form.isValid()) {
+ *             User user = new User();
+ *             form.copyTo(user);
  *
- * if (getUserService().isAuthenticatedUser(user)) {
- * getContext().setSessionAttribute("user", user); setRedirect(HomePage.class);
- * } else { form.setError(getMessage("authentication-error")); } } return true;
- * }
+ *             if (getUserService().isAuthenticatedUser(user)) {
+ *                 getContext().setSessionAttribute("user", user);
+ *                 setRedirect(HomePage.class);
+ *             } else {
+ *                 form.setError(getMessage("authentication-error"));
+ *             }
+ *         }
+ *         return true;
+ *     }
  *
- * public boolean onCancelClick() { setRedirect(WelcomePage.class); return
- * false; } } </pre>
+ *     public boolean onCancelClick() {
+ *         setRedirect(WelcomePage.class);
+ *         return false;
+ *     }
+ * } </pre>
  *
  * The forms corresponding template code is below. Note the form automatically
  * renders itself when Velocity invokes its {@link #toString()} method.
@@ -134,14 +147,19 @@ import org.apache.commons.lang3.StringUtils;
  * For example:
  *
  * <pre class="prettyprint">
- * // The customer.address.state field TextField stateField = new
- * TextField("address.state"); form.add(stateField); ..
+ * // The customer.address.state field
+ * TextField stateField = new TextField("address.state");
+ * form.add(stateField);
+ * ..
  *
- * // Loads the customer address state into the form stateField Customer
- * customer = getCustomer(); form.copyFrom(customer); ..
+ * // Loads the customer address state into the form stateField
+ * Customer customer = getCustomer();
+ * form.copyFrom(customer);
+ * ..
  *
- * // Copies form stateField value into the customer address state Customer
- * customer = new Customer(); form.copyTo(customer); </pre>
+ * // Copies form stateField value into the customer address state
+ * Customer customer = new Customer();
+ * form.copyTo(customer); </pre>
  *
  * When populating an object from a form post Click will automatically create
  * any null nested objects so their properties can be set. To do this Click uses
@@ -185,9 +203,11 @@ import org.apache.commons.lang3.StringUtils;
  * {@link #setJavaScriptValidation(boolean)} to true. For example:
  *
  * <pre class="prettyprint">
- * Form form = new Form("form"); form.setJavaScriptValidation(true);
+ * Form form = new Form("form");
+ * form.setJavaScriptValidation(true);
  *
- * // Add form fields ..
+ * // Add form fields
+ * ..
  *
  * form.add(new Submit("ok", " OK ", this, "onOkClicked");
  *
@@ -217,14 +237,17 @@ import org.apache.commons.lang3.StringUtils;
  * <span class="blue">$jsElements</span> in the page template. For example:
  *
  * <pre class="codeHtml">
- * &lt;html&gt; &lt;head&gt;
+ * &lt;html&gt;
+ * &lt;head&gt;
  * <span class="blue">$headElements</span>
- * &lt;/head&gt; &lt;body&gt;
+ * &lt;/head&gt;
+ * &lt;body&gt;
  *
  * <span class="red">$form</span>
  *
  * <span class="blue">$jsElements</span>
- * &lt;/body&gt; &lt;/html&gt; </pre>
+ * &lt;/body&gt;
+ * &lt;/html&gt; </pre>
  *
  * <a name="form-layout"></a>
  * <h3>Form Layout</h3>
@@ -240,41 +263,29 @@ import org.apache.commons.lang3.StringUtils;
  *
  * <table style="margin-left: 1em;" cellpadding="3">
  * <tr>
- * <td>{@link #buttonAlign}</td> <td>button alignment: &nbsp;
- * <code>["left", "center", "right"]</code></td>
+ * <td>{@link #buttonAlign}</td> <td>button alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
- * <td>{@link #buttonStyle}</td> <td>button &lt;td&gt; "style" attribute
- * value</td>
+ * <td>{@link #buttonStyle}</td> <td>button &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>{@link #columns}</td> <td>number of form table columns, the default value
- * number is 1</td>
+ * <td>{@link #columns}</td> <td>number of form table columns, the default value number is 1</td>
  * </tr><tr>
- * <td>{@link #errorsAlign}</td> <td>validation error messages alignment: &nbsp;
- * <code>["left", "center", "right"]</code></td>
+ * <td>{@link #errorsAlign}</td> <td>validation error messages alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
- * <td>{@link #errorsPosition}</td> <td>validation error messages position:
- * &nbsp; <code>["top", "middle", "bottom"]</code></td>
+ * <td>{@link #errorsPosition}</td> <td>validation error messages position: &nbsp; <code>["top", "middle", "bottom"]</code></td>
  * </tr><tr>
- * <td>{@link #errorsStyle}</td> <td>errors &lt;td&gt; "style" attribute
- * value</td>
+ * <td>{@link #errorsStyle}</td> <td>errors &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>{@link #fieldStyle}</td> <td>field &lt;td&gt; "style" attribute
- * value</td>
+ * <td>{@link #fieldStyle}</td> <td>field &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>{@link #labelAlign}</td> <td>field label alignment: &nbsp;
- * <code>["left", "center", "right"]</code></td>
+ * <td>{@link #labelAlign}</td> <td>field label alignment: &nbsp; <code>["left", "center", "right"]</code></td>
  * </tr><tr>
- * <td>{@link #labelsPosition}</td> <td>label position relative to field: &nbsp;
- * <code>["left", "top"]</code></td>
+ * <td>{@link #labelsPosition}</td> <td>label position relative to field: &nbsp; <code>["left", "top"]</code></td>
  * </tr><tr>
- * <td>{@link #labelStyle}</td> <td>label &lt;td&gt; "style" attribute
- * value</td>
+ * <td>{@link #labelStyle}</td> <td>label &lt;td&gt; "style" attribute value</td>
  * </tr><tr>
- * <td>click/control.css</td> <td>control CSS styles, automatically deployed to
- * the <code>click</code> web directory</td>
+ * <td>click/control.css</td> <td>control CSS styles, automatically deployed to the <code>click</code> web directory</td>
  * </tr><tr>
- * <td>/click-control.properties</td> <td>form and field messages and HTML,
- * located under classpath</td>
+ * <td>/click-control.properties</td> <td>form and field messages and HTML, located under classpath</td>
  * </tr>
  * </table>
  *
@@ -290,14 +301,14 @@ import org.apache.commons.lang3.StringUtils;
  * Whenever including your own Form markup in a page template or Velocity macro
  * always specify:
  * <ul style="margin-top: 0.5em;">
- * <li><span class="maroon">method</span>
- * - the form submission method <code>["post" | "get"]</code></li>
- * <li><span class="maroon">name</span>
- * - the name of your form, important when using JavaScript</li>
- * <li><span class="maroon">action</span>
- * - directs the Page where the form should be submitted to</li>
- * <li><span class="maroon">form_name</span>
- * - include a hidden field which specifies the {@link #name} of the Form </li>
+ *  <li><span class="maroon">method</span>
+ *      - the form submission method <code>["post" | "get"]</code></li>
+ *  <li><span class="maroon">name</span>
+ *      - the name of your form, important when using JavaScript</li>
+ *  <li><span class="maroon">action</span>
+ *      - directs the Page where the form should be submitted to</li>
+ *  <li><span class="maroon">form_name</span>
+ *      - include a hidden field which specifies the {@link #name} of the Form </li>
  * </ul>
  * The hidden field is used by Click to determine which form was posted on a
  * page which may contain multiple forms.
@@ -310,36 +321,41 @@ import org.apache.commons.lang3.StringUtils;
  * <pre class="codeHtml">
  * <span class="blue">$form.startTag()</span>
  *
- * &lt;table style="margin: 1em;"&gt;
+ *   &lt;table style="margin: 1em;"&gt;
  *
- * <span class="red">#if</span> (<span class="blue">$form.error</span>)
- * &lt;tr&gt; &lt;td colspan="2" style="color: red;"&gt;
- * <span class="blue">$form.error</span> &lt;/td&gt; &lt;/tr&gt;
- * <span class="red">#end</span>
- * <span class="red">#if</span>
- * (<span class="blue">$form.fields.usernameField.error</span>) &lt;tr&gt;
- * &lt;td colspan="2" style="color: red;"&gt;
- * <span class="blue">$form.fields.usernameField.error</span> &lt;/td&gt;
- * &lt;/tr&gt;
- * <span class="red">#end</span>
- * <span class="red">#if</span>
- * (<span class="blue">$form.fields.passwordField.error</span>) &lt;tr&gt;
- * &lt;td colspan="2" style="color: red;"&gt;
- * <span class="blue">$form.fields.passwordField.error</span> &lt;/td&gt;
- * &lt;/tr&gt;
- * <span class="red">#end</span>
+ *     <span class="red">#if</span> (<span class="blue">$form.error</span>)
+ *     &lt;tr&gt;
+ *       &lt;td colspan="2" style="color: red;"&gt; <span class="blue">$form.error</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
+ *     <span class="red">#end</span>
+ *     <span class="red">#if</span> (<span class="blue">$form.fields.usernameField.error</span>)
+ *     &lt;tr&gt;
+ *       &lt;td colspan="2" style="color: red;"&gt; <span class="blue">$form.fields.usernameField.error</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
+ *     <span class="red">#end</span>
+ *     <span class="red">#if</span> (<span class="blue">$form.fields.passwordField.error</span>)
+ *     &lt;tr&gt;
+ *       &lt;td colspan="2" style="color: red;"&gt; <span class="blue">$form.fields.passwordField.error</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
+ *     <span class="red">#end</span>
  *
- * &lt;tr&gt; &lt;td&gt; Username: &lt;/td&gt; &lt;td&gt;
- * <span class="blue">$form.fields.usernameField</span> &lt;/td&gt; &lt;/tr&gt;
- * &lt;tr&gt; &lt;td&gt; Password: &lt;/td&gt; &lt;td&gt;
- * <span class="blue">$form.fields.passwordField</span> &lt;/td&gt; &lt;/tr&gt;
+ *     &lt;tr&gt;
+ *       &lt;td&gt; Username: &lt;/td&gt;
+ *       &lt;td&gt; <span class="blue">$form.fields.usernameField</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
+ *     &lt;tr&gt;
+ *       &lt;td&gt; Password: &lt;/td&gt;
+ *       &lt;td&gt; <span class="blue">$form.fields.passwordField</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
  *
- * &lt;tr&gt; &lt;td&gt;
- * <span class="blue">$form.fields.okSubmit</span>
- * <span class="blue">$form.fields.cancelSubmit</span>
- * &lt;/td&gt; &lt;/tr&gt;
+ *     &lt;tr&gt;
+ *       &lt;td&gt;
+ *         <span class="blue">$form.fields.okSubmit</span>
+ *         <span class="blue">$form.fields.cancelSubmit</span>
+ *       &lt;/td&gt;
+ *     &lt;/tr&gt;
  *
- * &lt;/table&gt;
+ *   &lt;/table&gt;
  *
  * <span class="blue">$form.endTag()</span> </pre>
  *
@@ -362,40 +378,40 @@ import org.apache.commons.lang3.StringUtils;
  * macro which you could use through out an application. This Velocity macro
  * code would be contained in a macro file, e.g. <code>macro.vm</code>.
  *
- * <pre class="codeHtml"> <span class="red">#*</span> Custom Form Macro Code
- * <span class="red">*#</span>
- * <span class="red">#macro</span>(
- * <span class="green">writeForm</span>[<span class="blue">$form</span>] )
+ * <pre class="codeHtml"> <span class="red">#*</span> Custom Form Macro Code <span class="red">*#</span>
+ * <span class="red">#macro</span>( <span class="green">writeForm</span>[<span class="blue">$form</span>] )
  *
  * <span class="blue">$form.startTag()</span>
  *
  * &lt;table width="100%"&gt;
  *
  * <span class="red">#if</span> (<span class="blue">$form.error</span>)
- * &lt;tr&gt; &lt;td colspan="2" style="color: red;"&gt;
- * <span class="blue">$form.error</span> &lt;/td&gt; &lt;/tr&gt;
+ *   &lt;tr&gt;
+ *     &lt;td colspan="2" style="color: red;"&gt; <span class="blue">$form.error</span> &lt;/td&gt;
+ *   &lt;/tr&gt;
  * <span class="red">#end</span>
  *
- * <span class="red">#foreach</span> (<span class="blue">$field</span>
- * <span class="red">in</span> <span class="blue">$form.fieldList</span>)
- * <span class="red">#if</span> (!<span class="blue">$field.hidden</span>)
- * <span class="red">#if</span> (!<span class="blue">$field.valid</span>)
- * &lt;tr&gt; &lt;td colspan="2"&gt; <span class="blue">$field.error</span>
- * &lt;/td&gt; &lt;/tr&gt;
+ * <span class="red">#foreach</span> (<span class="blue">$field</span> <span class="red">in</span> <span class="blue">$form.fieldList</span>)
+ *   <span class="red">#if</span> (!<span class="blue">$field.hidden</span>)
+ *     <span class="red">#if</span> (!<span class="blue">$field.valid</span>)
+ *     &lt;tr&gt;
+ *       &lt;td colspan="2"&gt; <span class="blue">$field.error</span> &lt;/td&gt;
+ *     &lt;/tr&gt;
+ *     <span class="red">#end</span>
+ *
+ *   &lt;tr&gt;
+ *     &lt;td&gt; <span class="blue">$field.label</span>: &lt;/td&gt;&lt;td&gt; <span class="blue">$field</span> &lt;/td&gt;
+ *   &lt;/tr&gt;
+ *   <span class="red">#end</span>
  * <span class="red">#end</span>
  *
- * &lt;tr&gt; &lt;td&gt; <span class="blue">$field.label</span>:
- * &lt;/td&gt;&lt;td&gt; <span class="blue">$field</span> &lt;/td&gt;
- * &lt;/tr&gt;
- * <span class="red">#end</span>
- * <span class="red">#end</span>
- *
- * &lt;tr&gt; &lt;td colspan="2"&gt;
- * <span class="red">#foreach</span> (<span class="blue">$button</span>
- * <span class="red">in </span><span class="blue">$form.buttonList</span>)
- * <span class="blue">$button</span> &amp;nbsp;
- * <span class="red">#end</span>
- * &lt;/td&gt; &lt;/tr&gt;
+ *  &lt;tr&gt;
+ *    &lt;td colspan="2"&gt;
+ *    <span class="red">#foreach</span> (<span class="blue">$button</span> <span class="red">in </span><span class="blue">$form.buttonList</span>)
+ *      <span class="blue">$button</span> &amp;nbsp;
+ *    <span class="red">#end</span>
+ *    &lt;/td&gt;
+ *  &lt;/tr&gt;
  *
  * &lt;/table&gt;
  *
@@ -406,9 +422,7 @@ import org.apache.commons.lang3.StringUtils;
  * You would then call this macro in your Page template passing it your
  * <span class="blue">form</span> object:
  *
- * <pre class="codeHtml">
- * <span class="red">#</span><span class="green">writeForm</span>(<span class="blue">$form</span>)
- * </pre>
+ * <pre class="codeHtml"> <span class="red">#</span><span class="green">writeForm</span>(<span class="blue">$form</span>) </pre>
  *
  * At render time Velocity will execute the macro using the given form and
  * render the results to the response output stream.
@@ -417,20 +431,20 @@ import org.apache.commons.lang3.StringUtils;
  *
  * To configure your application to use your macros you can:
  * <ul>
- * <li>
- * Put your macros if a file called
- * <span class="st"><code>macro.vm</code></span>
- * in your applications root directory.
- * </li>
- * <li>
- * Put your macros in the auto deployed
- * <span class="st"><code>click/VM_global_macro.vm</code></span> file.
- * </li>
- * <li>
- * Create a custom named macro file and reference it in a
- * <span class="st"><code>WEB-INF/velocity.properties</code></span>
- * file under the property named <code>velocimacro.library</code>.
- * </li>
+ *  <li>
+ *   Put your macros if a file called <span class="st"><code>macro.vm</code></span>
+ *   in your applications root directory.
+ *  </li>
+ *  <li>
+ *   Put your macros in the auto deployed
+ *   <span class="st"><code>click/VM_global_macro.vm</code></span> file.
+ *  </li>
+ *  <li>
+ *   Create a custom named macro file and reference it in a
+ *   <span class="st"><code>WEB-INF/velocity.properties</code></span>
+ *   file under the property named
+ *   <code>velocimacro.library</code>.
+ *  </li>
  * </ul>
  *
  * <a name="post-redirect"></a>
@@ -439,23 +453,24 @@ import org.apache.commons.lang3.StringUtils;
  * Users may accidentally make multiple form submissions by refreshing a page or
  * by pressing the back button.
  * <p>
- * To prevent multiple form posts from page refreshes use the Post Redirect
- * pattern. With this pattern once the user has posted a form you redirect to
- * another page. If the user then presses the refresh button, they will making a
- * GET request on the current page. Please see the
- * <a target="blank" href="http://www.theserverside.com/articles/content/RedirectAfterPost/article.html">Redirect
- * After Post</a>
+ * To prevent multiple form posts from page refreshes use the Post
+ * Redirect pattern. With this pattern once the user has posted a form you
+ * redirect to another page. If the user then presses the refresh button, they
+ * will making a GET request on the current page. Please see the
+ * <a target="blank" href="http://www.theserverside.com/articles/content/RedirectAfterPost/article.html">Redirect After Post</a>
  * article for more information on this topic.
  * <p>
- * To prevent multiple form posts from use of the browser back button use one of
- * the Form {@link #onSubmitCheck(org.apache.click.Page, String)} methods. For
- * example:
+ * To prevent multiple form posts from use of the browser back button use one
+ * of the Form {@link #onSubmitCheck(org.apache.click.Page, String)} methods. For example:
  *
  * <pre class="prettyprint">
- * public class Purchase extends Page { ..
+ * public class Purchase extends Page {
+ *     ..
  *
- * public boolean onSecurityCheck() { return form.onSubmitCheck(this,
- * "/invalid-submit.html"); } } </pre>
+ *     public boolean onSecurityCheck() {
+ *         return form.onSubmitCheck(this, "/invalid-submit.html");
+ *     }
+ * } </pre>
  *
  * The form submit check methods store a special token in the users session and
  * in a hidden field in the form to ensure a form post isn't replayed.
@@ -475,20 +490,23 @@ import org.apache.commons.lang3.StringUtils;
  * off form and field validation. For example:
  *
  * <pre class="prettyprint">
- * public void onInit() { checkbox.setAttribute("onclick", "form.submit()");
+ * public void onInit() {
+ *     checkbox.setAttribute("onclick", "form.submit()");
  *
- *     // Since onInit occurs before the onProcess event, // we have to explicitly
- * bind the submit button in the onInit event if we // want to check if it was
- * clicked. // If the submit button wasn't clicked it means the Form was
- * submitted // using JavaScript and we don't want to validate yet
- * ClickUtils.bind(submit);
+ *     // Since onInit occurs before the onProcess event,
+ *     // we have to explicitly bind the submit button in the onInit event if we
+ *     // want to check if it was clicked.
+ *     // If the submit button wasn't clicked it means the Form was submitted
+ *     // using JavaScript and we don't want to validate yet
+ *     ClickUtils.bind(submit);
  *
- *     // If submit was not clicked, don't validate null {@code if(form.isFormSubmission() && !submit.isClicked()) {
+ *     // If submit was not clicked, don't validate
+ *     if(form.isFormSubmission() && !submit.isClicked()) {
  *         form.setValidate(false);
- *     }} } </pre>
+ *     }
+ * } </pre>
  *
- * <p>
- * &nbsp;</p>
+ * <p>&nbsp;</p>
  * See also the W3C HTML reference:
  * <a class="external" target="_blank" title="W3C HTML 4.01 Specification"
  *    href="http://www.w3.org/TR/html401/interact/forms.html#h-17.3">FORM</a>
@@ -1761,18 +1779,33 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return current form rendering layout strategy.
+     * Return the current layout strategy used to render the form container.
      *
-     * @return layout strategy
+     * @return the active rendering layout strategy, defaults to "table"
+     * 
+     * @since 2.7.0-JDK17
      */
     public String getLayout() {
         return layout;
     }
 
     /**
-     * Set the form rendering layout strategy: TABLE or DIV.
+     * Set the layout strategy used to render the form container.
+     * <p>
+     * Supported layout modes are:
+     * <ul>
+     * <li>{@link #LAYOUT_TABLE} - Legacy table-based grid rendering (default
+     * track for backward compatibility).</li>
+     * <li>{@link #LAYOUT_DIV} - Semantic HTML5 block-level DIV rendering, ideal
+     * for responsive layouts and modern frameworks (Bulma, Tailwind, Bootstrap
+     * 5).</li>
+     * </ul>
      *
-     * @param layout
+     * @param layout the layout strategy to use, either {@link #LAYOUT_TABLE} or
+     * {@link #LAYOUT_DIV}
+     * @throws IllegalArgumentException if the layout value is not supported
+     *
+     * @since 2.7.0-JDK17
      */
     public void setLayout(String layout) {
         if (!LAYOUT_TABLE.equals(layout) && !LAYOUT_DIV.equals(layout)) {
@@ -2375,6 +2408,7 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Renders global and field error indicators using semantic block divisions
      * instead of tables.
+     *
      * @param buffer
      * @param process
      */
@@ -2405,6 +2439,7 @@ public class Form extends AbstractContainer implements Stateful {
     /**
      * Renders standard form input fields into semantic HTML5 block divisions.
      * Bypasses the legacy renderFields/renderControls table-wrapping grid.
+     *
      * @param buffer
      */
     protected void renderHtml5Fields(HtmlStringBuffer buffer) {
@@ -2460,6 +2495,7 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * Renders standard form buttons into a clean action container block.
+     *
      * @param buffer
      */
     protected void renderHtml5Buttons(HtmlStringBuffer buffer) {
