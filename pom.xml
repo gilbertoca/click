@@ -392,6 +392,32 @@
                             <!-- Only keep this if your Javadoc actually uses JS (rare/insecure) -->
                             <additionalOption>--allow-script-in-comments</additionalOption>
                         </additionalOptions>
+                        <bottom><![CDATA[
+                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        var codeBlocks = document.querySelectorAll('pre.codeHtml, pre.prettyprint');
+                                        codeBlocks.forEach(function(block) {
+                                            var innerCode = block.querySelector('code');
+                                            if (!innerCode) {
+                                                var codeNode = document.createElement('code');
+                                                codeNode.className = 'language-java';
+                                                codeNode.innerHTML = block.innerHTML;
+                                                block.innerHTML = '';
+                                                block.appendChild(codeNode);
+                                                innerCode = codeNode;
+                                            } else {
+                                                if (!innerCode.className) {
+                                                    innerCode.className = 'language-java';
+                                                }
+                                            }
+                                            hljs.highlightElement(innerCode);
+                                        });
+                                    });
+                                </script>
+                            ]]>
+                        </bottom>
                     </configuration>
                     <executions>
                         <execution>
