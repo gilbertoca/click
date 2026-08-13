@@ -22,7 +22,10 @@
     <version>2.7.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Click Parent</name>
-    <description>Click is a Java-based open source component web application framework.</description>
+    <description>
+        Apache Click is a page and component oriented web application framework for 
+        the Java language and is built on top of the Java Servlet API.
+    </description>
     <url>http://click.apache.org</url>
     <licenses>
         <license>
