@@ -10,7 +10,7 @@ input, label, td {
 }
 
 #header {
-	background: #FDE3B5 url(/template-context/assets/banner.png) top left no-repeat;
+	background: #FDE3B5 url(/assets/banner.png) top left no-repeat;
 	border-bottom: 1px solid #707070;
 	height: 50px;
 	position: relative;

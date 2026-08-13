@@ -105,9 +105,9 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.56.v20240826</version>
+                <version>10.0.25</version>
                 <configuration>
-                    <scanIntervalSeconds>60</scanIntervalSeconds>
+                    <scan>0</scan>
                     <webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
                     !-- Add the LoginService here -->
                     <loginServices>
