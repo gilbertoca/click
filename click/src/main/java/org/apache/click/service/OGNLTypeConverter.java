@@ -23,6 +23,8 @@ import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -125,7 +127,27 @@ public class OGNLTypeConverter implements TypeConverter {
         if (toType == String.class) {
             return OgnlOps.stringValue(value);
         }
+        // CLK-56
+        // Java Time (JSR-310) Conversions
+        if (toType == LocalDate.class) {
+            String str = value.toString().trim();
+            return str.isEmpty() ? null : LocalDate.parse(str); // Default ISO_LOCAL_DATE (yyyy-MM-dd)
+        }
 
+        if (toType == LocalDateTime.class) {
+            String str = value.toString().trim();
+            if (str.isEmpty()) {
+                return null;
+            }
+            // Handle HTML5 datetime-local fields which replace 'T' with a space character sometimes
+            return LocalDateTime.parse(str.replace(" ", "T"));
+        }
+
+        if (toType == LocalTime.class) {
+            String str = value.toString().trim();
+            return str.isEmpty() ? null : LocalTime.parse(str); // Default ISO_LOCAL_TIME (HH:mm:ss)
+        }
+        
         // Date Conversions using modernized getTimeFromDateString
         if (toType == java.util.Date.class || toType == java.sql.Date.class
                 || toType == java.sql.Time.class || toType == java.sql.Timestamp.class) {

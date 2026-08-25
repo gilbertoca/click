@@ -98,11 +98,40 @@ public class MVELPropertyService implements PropertyService {
         Serializable compiledExpression = cache.computeIfAbsent(expression, key
                 -> MVEL.compileExpression(key)
         );
-
+        // CLK-56
+        // --- Patched Type Coercion Block ---
+        Object convertedValue = value;
+        if (value instanceof String && target != null) {
+            String strValue = ((String) value).trim();
+            if (strValue.isEmpty()) {
+                convertedValue = null;
+            } else {
+                try {
+                    // Look up the property type cleanly using standard JavaBeans property descriptors
+                    java.beans.PropertyDescriptor pd = new java.beans.PropertyDescriptor(name, target.getClass());
+                    Class<?> targetType = pd.getPropertyType();
+                    
+                    if (targetType == java.time.LocalDate.class) {
+                        convertedValue = java.time.LocalDate.parse(strValue);
+                    } else if (targetType == java.time.LocalDateTime.class) {
+                        convertedValue = java.time.LocalDateTime.parse(strValue.replace(" ", "T"));
+                    } else if (targetType == java.time.LocalTime.class) {
+                        convertedValue = java.time.LocalTime.parse(strValue);
+                    } else if (targetType != null) {
+                        // Fallback to MVEL's built-in converter for primitives/legacy types
+                        convertedValue = org.mvel2.DataConversion.convert(strValue, targetType);
+                    }
+                } catch (Exception ignored) {
+                    // Fallback to original value if property descriptor lookup fails
+                }
+            }
+        }
+        // ------------------------------------
+        
         // 3. Size map exactly to prevent resizing overhead
         Map<String, Object> vars = new HashMap<>(4);
         vars.put(target.getClass().getSimpleName(), target);
-        vars.put("value", value);
+        vars.put("value", convertedValue); // Injected converted value here
 
         MVEL.executeExpression(compiledExpression, vars);
     }

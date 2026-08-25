@@ -10,20 +10,20 @@ import org.apache.click.util.ChildObject;
 import org.apache.click.util.ParentObject;
 
 public abstract class PropertyServiceTestCase extends TestCase {
-	
-	protected PropertyService propertyService = null;
+
+    protected PropertyService propertyService = null;
 
     public void test_getValue() {
-    	
+
         try {
-        	propertyService.getValue(new Object(), "username", new HashMap<Object, Object>());
+            propertyService.getValue(new Object(), "username", new HashMap<Object, Object>());
             assertTrue(false);
         } catch (Exception e) {
             assertTrue(true);
         }
 
         try {
-        	propertyService.getValue(new Object(), "class", new HashMap<Object, Object>());
+            propertyService.getValue(new Object(), "class", new HashMap<Object, Object>());
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -42,9 +42,9 @@ public abstract class PropertyServiceTestCase extends TestCase {
         assertNull(propertyService.getValue(testObject, "date"));
         assertNull(propertyService.getValue(testObject, "child"));
 
-        ParentObject parentObject =
-            new ParentObject("malcolm", null, new Date(), Boolean.TRUE,
-            new ChildObject("edgar", "medgar@avoka.com"));
+        ParentObject parentObject
+                = new ParentObject("malcolm", null, new Date(), Boolean.TRUE,
+                        new ChildObject("edgar", "medgar@avoka.com"));
 
         assertEquals("malcolm", propertyService.getValue(parentObject, "name", cache));
         assertNull(propertyService.getValue(parentObject, "value", cache));
@@ -53,14 +53,13 @@ public abstract class PropertyServiceTestCase extends TestCase {
         assertEquals("edgar", propertyService.getValue(parentObject, "child.name", cache));
         assertEquals("medgar@avoka.com", propertyService.getValue(parentObject, "child.email", cache));
 
-
         assertEquals("malcolm", propertyService.getValue(parentObject, "name"));
         assertNull(propertyService.getValue(parentObject, "value"));
         assertNotNull(propertyService.getValue(parentObject, "date"));
         assertNotNull(propertyService.getValue(parentObject, "valid"));
         assertEquals("edgar", propertyService.getValue(parentObject, "child.name"));
         assertEquals("medgar@avoka.com", propertyService.getValue(parentObject, "child.email"));
-        
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", "malcolm");
 
@@ -68,29 +67,48 @@ public abstract class PropertyServiceTestCase extends TestCase {
     }
 
     public void test_setValue() {
-    	ParentObject parentObject = new ParentObject();
+        ParentObject parentObject = new ParentObject();
 
-    	propertyService.setValue(parentObject, "name", "malcolm");
-    	assertEquals("malcolm", parentObject.getName());
-    	
-    	propertyService.setValue(parentObject, "value", "value");
-    	assertEquals("value", parentObject.getValue());
-    	
-    	Date date = new Date();
-    	propertyService.setValue(parentObject, "date", date);
-    	assertEquals(date, parentObject.getDate());
-    	
-    	propertyService.setValue(parentObject, "valid", true);
-    	assertEquals(Boolean.TRUE, parentObject.getValid());
-    	
+        propertyService.setValue(parentObject, "name", "malcolm");
+        assertEquals("malcolm", parentObject.getName());
+
+        propertyService.setValue(parentObject, "value", "value");
+        assertEquals("value", parentObject.getValue());
+
+        Date date = new Date();
+        propertyService.setValue(parentObject, "date", date);
+        assertEquals(date, parentObject.getDate());
+
+        propertyService.setValue(parentObject, "valid", true);
+        assertEquals(Boolean.TRUE, parentObject.getValid());
+
         Map<String, Object> map = new HashMap<String, Object>();
         propertyService.setValue(map, "name", "malcolm");
-    	assertEquals("malcolm", map.get("name"));
-    	
-    	parentObject.setChild(new ChildObject());
-    	
+        assertEquals("malcolm", map.get("name"));
+
+        parentObject.setChild(new ChildObject());
+
         propertyService.setValue(parentObject, "child.name", "malcolm");
         assertEquals("malcolm", parentObject.getChild().getName());
     }
+    // Add to org.apache.click.service.PropertyServiceTestCase
+    public void test_javaTimeConversion() {
+        ParentObject parentObject = new ParentObject();
 
+        // 1. Test LocalDate conversion (ISO-8601 format)
+        propertyService.setValue(parentObject, "localDate", "2026-08-25");
+        assertEquals(java.time.LocalDate.of(2026, 8, 25), parentObject.getLocalDate());
+
+        // 2. Test LocalDateTime conversion (Handles 'T' delimiter from html5 datetime-local)
+        propertyService.setValue(parentObject, "localDateTime", "2026-08-25T15:30:00");
+        assertEquals(java.time.LocalDateTime.of(2026, 8, 25, 15, 30, 0), parentObject.getLocalDateTime());
+
+        // 3. Test LocalTime conversion
+        propertyService.setValue(parentObject, "localTime", "15:30:00");
+        assertEquals(java.time.LocalTime.of(15, 30, 0), parentObject.getLocalTime());
+
+        // 4. Edge Case: Empty strings should map to null gracefully
+        propertyService.setValue(parentObject, "localDate", "");
+        assertNull(parentObject.getLocalDate());
+    }
 }

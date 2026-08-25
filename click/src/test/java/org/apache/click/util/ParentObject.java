@@ -18,16 +18,24 @@
  */
 package org.apache.click.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class ParentObject {
-	
+
     private String name;
     private Object value;
     private Date date;
-    private ChildObject child; 
+    private ChildObject child;
     private Boolean valid;
-    
+    // CLK-56
+    // New fields for JSR-310 Modern Java Time API
+    private LocalDate localDate;
+    private LocalDateTime localDateTime;
+    private LocalTime localTime;
+
     public ParentObject(String name, Object value, Date date, Boolean valid, ChildObject child) {
         this.name = name;
         this.value = value;
@@ -35,48 +43,72 @@ public class ParentObject {
         this.valid = valid;
         this.child = child;
     }
-    
+
     public ParentObject() {
     }
-    
+
     public void setName(String name) {
-		this.name = name;
-	}
-    
+        this.name = name;
+    }
+
     public String getName() {
-    	return name;
+        return name;
     }
 
-	public void setValue(Object value) {
-		this.value = value;
-	}
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
-	public Date getDate() {
-		return date;
-	}
-	
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	
-	public Boolean getValid() {
-		return valid;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public Object getValue() {
-		return value;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public void setValid(Boolean valid) {
-		this.valid = valid;
-	}
-    
+    public Boolean getValid() {
+        return valid;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValid(Boolean valid) {
+        this.valid = valid;
+    }
+
     public ChildObject getChild() {
-    	return child;
+        return child;
     }
-    
+
     public void setChild(ChildObject child) {
-    	this.child = child;
+        this.child = child;
+    }
+    // CLK-56    
+    // Getters and Setters for java.time fields
+    public LocalDate getLocalDate() {
+        return localDate;
+    }
+
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
+    public LocalTime getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(LocalTime localTime) {
+        this.localTime = localTime;
     }
 }
-
