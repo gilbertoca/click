@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.click.control;
+package org.apache.click.extras.control;
 
 import java.time.LocalTime;
 import junit.framework.TestCase;

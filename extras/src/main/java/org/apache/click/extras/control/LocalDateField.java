@@ -16,11 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.click.control;
+package org.apache.click.extras.control;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import org.apache.click.control.TextField;
 import org.apache.click.util.HtmlStringBuffer;
 
 /**
@@ -124,7 +125,6 @@ public class LocalDateField extends TextField {
             try {
                 LocalDate.parse(getValue().trim(), ISO_FORMATTER);
             } catch (DateTimeParseException pe) {
-                // Uses the standard click-control resource bundle error key
                 Object[] args = new Object[]{getErrorLabel(), "yyyy-MM-dd"};
                 setError(getMessage("localdate-format-error", args));
             }
@@ -133,6 +133,11 @@ public class LocalDateField extends TextField {
 
     @Override
     public void render(HtmlStringBuffer buffer) {
+        // Set default title
+        if (getTitle() == null) {
+            setTitle(getMessage("localdate-title", ISO_FORMATTER));
+        }
+        
         buffer.append("<input type=\"date\"");
         buffer.appendAttribute("name", getName());
         buffer.appendAttribute("id", getId());

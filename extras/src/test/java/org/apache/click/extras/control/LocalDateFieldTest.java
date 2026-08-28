@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.click.control;
+package org.apache.click.extras.control;
 
 import java.time.LocalDate;
 import junit.framework.TestCase;
@@ -101,7 +101,6 @@ public class LocalDateFieldTest extends TestCase {
 
         assertTrue(localDateField.onProcess());
         System.out.println("LocalDateField: " + localDateField.getError());
-        System.out.println("LocalDateField: " + localDateField.getErrorLabel());
         System.out.println("LocalDateField: " + localDateField);
         localDateField.validate();
 

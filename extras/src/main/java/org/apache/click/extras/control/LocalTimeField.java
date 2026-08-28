@@ -16,44 +16,44 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.click.control;
+package org.apache.click.extras.control;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import org.apache.click.control.TextField;
 import org.apache.click.util.HtmlStringBuffer;
 
 /**
- * Provides a modern HTML5 LocalDateTime Field control:
- * <input type='datetime-local'>.
+ * Provides a modern HTML5 LocalTime Field control: <input type='time'>.
  */
-public class LocalDateTimeField extends TextField {
+public class LocalTimeField extends TextField {
 
     private static final long serialVersionUID = 1L;
-    private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
 
-    protected LocalDateTime localDateTime;
+    protected LocalTime localTime;
 
-    public LocalDateTimeField(String name) {
+    public LocalTimeField(String name) {
         super(name);
     }
 
-    public LocalDateTimeField(String name, String label) {
+    public LocalTimeField(String name, String label) {
         super(name, label);
     }
 
-    public LocalDateTimeField() {
+    public LocalTimeField() {
         super();
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalTime getLocalTime() {
+        return localTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
-        if (localDateTime != null) {
-            super.setValue(localDateTime.format(ISO_FORMATTER));
+    public void setLocalTime(LocalTime localTime) {
+        this.localTime = localTime;
+        if (localTime != null) {
+            super.setValue(localTime.format(ISO_FORMATTER));
         } else {
             super.setValue(null);
         }
@@ -64,28 +64,26 @@ public class LocalDateTimeField extends TextField {
         super.setValue(value);
         if (value != null && value.trim().length() > 0) {
             try {
-                // Safeguard against variations that use space instead of strict 'T'
-                String isoValue = value.trim().replace(" ", "T");
-                this.localDateTime = LocalDateTime.parse(isoValue, ISO_FORMATTER);
+                this.localTime = LocalTime.parse(value.trim(), ISO_FORMATTER);
             } catch (DateTimeParseException e) {
-                this.localDateTime = null;
+                this.localTime = null;
             }
         } else {
-            this.localDateTime = null;
+            this.localTime = null;
         }
     }
 
     @Override
     public Object getValueObject() {
-        return getLocalDateTime();
+        return getLocalTime();
     }
 
     @Override
     public void setValueObject(Object object) {
         if (object == null) {
-            setLocalDateTime(null);
-        } else if (object instanceof LocalDateTime) {
-            setLocalDateTime((LocalDateTime) object);
+            setLocalTime(null);
+        } else if (object instanceof LocalTime) {
+            setLocalTime((LocalTime) object);
         } else {
             String msg = "Invalid object class: " + object.getClass().getName();
             throw new IllegalArgumentException(msg);
@@ -98,23 +96,27 @@ public class LocalDateTimeField extends TextField {
 
         if (isValid() && getValue() != null && getValue().trim().length() > 0) {
             try {
-                String isoValue = getValue().trim().replace(" ", "T");
-                LocalDateTime.parse(isoValue, ISO_FORMATTER);
+                LocalTime.parse(getValue().trim(), ISO_FORMATTER);
             } catch (DateTimeParseException pe) {
-                Object[] args = new Object[]{getErrorLabel(), "yyyy-MM-ddTHH:mm"};
-                setError(getMessage("localdatetime-format-error", args));
+                Object[] args = new Object[]{getErrorLabel(), "HH:mm"};
+                setError(getMessage("localtime-format-error", args));
             }
         }
     }
 
     @Override
     public void render(HtmlStringBuffer buffer) {
-        buffer.append("<input type=\"datetime-local\"");
+        // Set default title
+        if (getTitle() == null) {
+            setTitle(getMessage("localdate-title", ISO_FORMATTER));
+        }
+                
+        buffer.append("<input type=\"time\"");
         buffer.appendAttribute("name", getName());
         buffer.appendAttribute("id", getId());
 
-        if (getLocalDateTime() != null) {
-            buffer.appendAttribute("value", getLocalDateTime().format(ISO_FORMATTER));
+        if (getLocalTime() != null) {
+            buffer.appendAttribute("value", getLocalTime().format(ISO_FORMATTER));
         } else if (getValue() != null && getValue().length() > 0) {
             buffer.appendAttribute("value", getValue());
         }
