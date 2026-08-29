@@ -113,14 +113,14 @@ We use the `maven-release-plugin` configured with `<localCheckout>true</localChe
 ### 1. Prepare the Release
 This updates the `pom.xml` versions, runs validation checks, and creates the local Git tag:
 ```bash
-mvn release:prepare -DskipTests -DallowTimestampedSnapshots=true
+mvn release:prepare -DallowTimestampedSnapshots=true
 ```
 *Accept the default version suggestions (e.g. tag `click-2.7.0`, and next development `2.7.1-SNAPSHOT`).*
 
 ### 2. Perform the Release Build
 This checks out the newly created tag internally and bundles all production artifacts into the central `target/checkout/` folder:
 ```bash
-mvn release:perform -DskipTests
+mvn release:perform -Darguments="-DskipTests=true"
 ```
 
 ### 3. Push to GitHub Fork
