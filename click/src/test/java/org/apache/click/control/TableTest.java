@@ -285,7 +285,8 @@ public class TableTest extends TestCase {
         // Columns without filter targets shouldn't leak parameter values
         Column unfilterableCol = new Column("id");
         table.addColumn(unfilterableCol);
-
+        
+        table.onInit();
         // 3. Process request cycle to trigger parameter parsing
         table.onProcess();
 
@@ -351,38 +352,35 @@ public class TableTest extends TestCase {
     /**
      * CLK-60
      * Verifies that adding a filterable column automatically registers an internal
-     * AjaxBehavior on the controlLink, and that the rendered input passes the
+     * AjaxBehavior on the filterLink, and that the rendered input passes the
      * correct link name parameters down to Click.filterTableAjax().
      */
     public void testNativeFilterAjaxBehaviorIntegration() {
+        // Initialize the English Mock layout engine first
         MockContext.initContext(Locale.ENGLISH);
 
-        // 1. Instantiate the Table component under test
         Table ajaxTable = new Table("contractsTable");
 
-        // 2. Add a filterable column, which implicitly registers our DefaultAjaxBehavior
         Column clientCol = new Column("cliente", "Cliente Name");
         clientCol.setFilterBy("servidor.pessoa.nome");
         clientCol.setSortable(false);
         ajaxTable.addColumn(clientCol);
 
-        // 3. Verify that an AjaxBehavior was successfully registered under the controlLink component
-        ActionLink tableLink = ajaxTable.getControlLink();
-        assertNotNull("Table's internal controlLink must be initialized", tableLink);
-        
-        // Assert that the control link is registered automatically as an AJAX target wrapper
-        assertFalse("ControlLink should have active behaviors mapped", 
-            tableLink.getBehaviors().isEmpty());
+        // Manually invoke onInit to simulate framework lifecycle initialization phase
+        ajaxTable.onInit();
 
-        // 4. Generate the table markup layout 
+        ActionLink tableFilterLink = ajaxTable.getFilterLink();
+        assertNotNull("Table's internal filterLink must be initialized", tableFilterLink);
+        assertFalse("FilterLink should have active behaviors mapped", 
+            tableFilterLink.getBehaviors().isEmpty());
+
         String htmlOutput = ajaxTable.toString();
 
-        // 5. Assert the correct JavaScript call signature maps inside the filter input tag row
-        String expectedLinkName = "contractsTable-controlLink";
+        String expectedLinkName = "contractsTable-filterLink";
         String expectedJsCall = "Click.filterTableAjax(this, 'contractsTable', '" + expectedLinkName + "')";
         
         assertTrue("Rendered HTML input field must map to the precise JavaScript Ajax helper function", 
             htmlOutput.contains(expectedJsCall));
     }
-    
+
 }
