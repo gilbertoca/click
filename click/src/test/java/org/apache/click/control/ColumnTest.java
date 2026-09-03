@@ -27,38 +27,38 @@ import org.apache.click.util.HtmlStringBuffer;
  * Test Column behavior.
  */
 public class ColumnTest extends TestCase {
-	
-	public void setUp() {
-		 MockContext.initContext();
-	}
+
+    public void setUp() {
+        MockContext.initContext();
+    }
 
     /**
      * Sanity checks for Column.
      */
     public void testRenderTableData() {
         TestObject row = new TestObject("name", null);
-        
+
         // Test rendering valid property
         Column column1 = new Column("name");
-        
-        HtmlStringBuffer buffer1 = new HtmlStringBuffer();        
+
+        HtmlStringBuffer buffer1 = new HtmlStringBuffer();
         column1.renderTableData(row, buffer1, null, 0);
         assertTrue(buffer1.length() > 0);
-        
+
         // Test rendering a null property
         Column column2 = new Column("value");
-        
-        HtmlStringBuffer buffer2 = new HtmlStringBuffer();        
+
+        HtmlStringBuffer buffer2 = new HtmlStringBuffer();
         column2.renderTableData(row, buffer2, null, 0);
-        assertTrue(buffer2.length() > 0);        
-        
+        assertTrue(buffer2.length() > 0);
+
         // Test rendering an invalid property
         try {
             Column column3 = new Column("missing");
-            HtmlStringBuffer buffer3 = new HtmlStringBuffer(); 
+            HtmlStringBuffer buffer3 = new HtmlStringBuffer();
             column3.renderTableData(row, buffer3, null, 0);
             assertTrue(false);
-            
+
         } catch (RuntimeException expected) {
             assertTrue(true);
         }
@@ -73,7 +73,7 @@ public class ColumnTest extends TestCase {
         // Test with child object
         row.setChild(new Child("mina"));
 
-    	  Column column = new Column("child.name");
+        Column column = new Column("child.name");
 
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         column.renderTableData(row, buffer, null, 0);
@@ -86,37 +86,55 @@ public class ColumnTest extends TestCase {
     public void testNullOuterJoin() {
         // Test with null child object
         TestObject row = new TestObject("name", "label");
-       
-      	Column column = new Column("child.name");
-    	
-        HtmlStringBuffer buffer = new HtmlStringBuffer();        
+
+        Column column = new Column("child.name");
+
+        HtmlStringBuffer buffer = new HtmlStringBuffer();
         column.renderTableData(row, buffer, null, 0);
-        assertTrue(buffer.length() > 0);        
+        assertTrue(buffer.length() > 0);
     }
-    
+
     /**
-     * Check that textfield value is escaped. This protects against
-     * cross-site scripting attacks (XSS).
+     * Check that textfield value is escaped. This protects against cross-site
+     * scripting attacks (XSS).
      */
     public void testEscapeValue() {
         String value = "<script>";
         TestObject row = new TestObject(value, null);
-        
+
         // Test rendering valid property
         Column column = new Column("name");
-        
-        HtmlStringBuffer buffer = new HtmlStringBuffer();        
+
+        HtmlStringBuffer buffer = new HtmlStringBuffer();
         column.renderTableData(row, buffer, null, 0);
 
         String expected = "&lt;script&gt;";
         assertTrue(buffer.toString().indexOf(expected) > 1);
-        
+
         // Check that the value <script> is not rendered
         assertTrue(buffer.toString().indexOf(value) < 0);
     }
 
-    // ---------------------------------------------------------- Inner Classes
+    /**
+     * CLK-59
+     * Test that Column filter attributes can be configured properly.
+     */
+    public void testFilterAttributesConfiguration() {
+        Column column = new Column("name", "Customer");
 
+        // Assert defaults are safe
+        assertNull(column.getFilterBy());
+        assertEquals("", column.getFilterValue());
+
+        // Set properties
+        column.setFilterBy("customer.name");
+        column.setFilterValue("MARCIO");
+
+        // Validate state storage
+        assertEquals("customer.name", column.getFilterBy());
+        assertEquals("MARCIO", column.getFilterValue());
+    }
+    // ---------------------------------------------------------- Inner Classes
     public static class TestObject {
 
         private String name;
@@ -170,11 +188,12 @@ public class ColumnTest extends TestCase {
         public void setName(String name) {
             this.name = name;
         }
-        
+
         @Override
         public String toString() {
             return "Child [ " + getName() + "]";
         }
     }
+
 
 }

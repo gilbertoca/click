@@ -53,7 +53,7 @@ public class TableTest extends TestCase {
      */
     public void testTdId() {
         MockContext.initContext(Locale.ENGLISH);
-        
+
         List<Foo> foos = new ArrayList<Foo>();
         foos.add(new Foo("foo1"));
         foos.add(new Foo("foo2"));
@@ -138,6 +138,7 @@ public class TableTest extends TestCase {
      * Helper class for <code>testRowId</code>.
      */
     public static class Foo {
+
         private String name;
 
         public Foo(String name) {
@@ -169,13 +170,12 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * Test that Table.getState contains the table internal state.
-     * CLK-715
+     * Test that Table.getState contains the table internal state. CLK-715
      */
     public void testGetState() {
         // Setup table
 
-        Table table  = new Table("table");
+        Table table = new Table("table");
         // Set table state
         int pageNumber = 5;
         boolean ascending = false;
@@ -207,9 +207,9 @@ public class TableTest extends TestCase {
      * CLK-715
      */
     public void testSetState() {
-                // Setup table
+        // Setup table
 
-        Table table  = new Table("table");
+        Table table = new Table("table");
         // Set table state
         int pageNumber = 5;
         boolean ascending = false;
@@ -236,8 +236,8 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * Test CLK-241. Table Headers use incorrect title attribute (table-last-title)
-     * when sortable=true.
+     * Test CLK-241. Table Headers use incorrect title attribute
+     * (table-last-title) when sortable=true.
      */
     public void testNoTitleOnLinkWhenSorting() {
         MockContext.initContext(Locale.ENGLISH, "/mock.htm");
@@ -260,4 +260,91 @@ public class TableTest extends TestCase {
         assertTrue(table.toString().contains("<th class=\"sortable\"><a href=\"/mock/mock.htm?actionLink=table-controlLink&amp;column=name&amp;page=0\">Name"));
     }
 
+    /**
+     * CLK-59
+     * Check that Table correctly extracts column filters from request
+     * parameters.
+     */
+    public void testFilterMapCompilationOnProcess() {
+        // 1. Initialize Mock context containing search parameters
+        MockContext context = MockContext.initContext();
+        context.getMockRequest().setParameter("myTable_filter_customer", "ANA PAULA");
+        context.getMockRequest().setParameter("myTable_filter_code", "01540");
+
+        // 2. Setup the table infrastructure
+        Table table = new Table("myTable");
+
+        Column customerCol = new Column("customer");
+        customerCol.setFilterBy("customer.name");
+        table.addColumn(customerCol);
+
+        Column idCol = new Column("code");
+        idCol.setFilterBy("customer.code");
+        table.addColumn(idCol);
+
+        // Columns without filter targets shouldn't leak parameter values
+        Column unfilterableCol = new Column("id");
+        table.addColumn(unfilterableCol);
+
+        // 3. Process request cycle to trigger parameter parsing
+        table.onProcess();
+
+        // 4. Validate gathered state Map against expectation
+        Map<String, Object> compiledFilters = table.getFilters();
+
+        assertEquals(2, compiledFilters.size());
+        assertEquals("ANA PAULA", compiledFilters.get("customer.name"));
+        assertEquals("01540", compiledFilters.get("customer.code"));
+        assertNull(compiledFilters.get("id"));
+    }
+
+    /**
+     * CLK-59
+     * Test that table layout preserves filter state arrays properly.
+     */
+    public void testFilterStatePreservation() {
+        Table table = new Table("myTable");
+        Column clientCol = new Column("customer");
+        clientCol.setFilterBy("customer.name");
+        clientCol.setFilterValue("KLEBER");
+        table.addColumn(clientCol);
+
+        // Export State array representation
+        Object[] savedState = (Object[]) table.getState();
+
+        // Create clear companion table instance to restore onto
+        Table targetTable = new Table("myTable");
+        Column targetCol = new Column("customer");
+        targetCol.setFilterBy("customer.name");
+        targetTable.addColumn(targetCol);
+
+        // Restore state definition array
+        targetTable.setState(savedState);
+
+        // Verify values made the round-trip across instance fields safely
+        assertEquals("KLEBER", targetTable.getColumn("customer").getFilterValue());
+        assertEquals("KLEBER", targetTable.getFilters().get("customer.name"));
+    }
+
+    /**
+     * CLK-59
+     * Verify that the secondary custom filter row is accurately compiled into HTML.
+     */
+    public void testFilterRowHtmlRendering() {
+        MockContext.initContext(Locale.ENGLISH);
+        Table table = new Table("myTable");
+        
+        Column nameCol = new Column("name", "Name");
+        nameCol.setFilterBy("person.name");
+        nameCol.setFilterValue("John");
+        nameCol.setSortable(false);
+        table.addColumn(nameCol);
+        
+        // Run rendering sequence explicitly via the component's string generator
+        String htmlOutput = table.toString();
+        
+        // Validate row structure and input components are compiled cleanly
+        assertTrue(htmlOutput.contains("<tr class=\"filter-row\">"));
+        assertTrue(htmlOutput.contains("<input type=\"text\" name=\"myTable_filter_name\" value=\"John\""));
+    }    
 }

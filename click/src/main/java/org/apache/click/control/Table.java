@@ -1288,6 +1288,7 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
+     * CLK-59
      * Return the Table state. The following state is returned:
      * <ul>
      * <li>{@link #getPageNumber()}</li>
@@ -1299,7 +1300,7 @@ public class Table extends AbstractControl implements Stateful {
      * @return the Table state
      */
     public Object getState() {
-        Object[] tableState = new Object[4];
+        Object[] tableState = new Object[5];
         boolean hasState = false;
 
         int currentPageNumber = getPageNumber();
@@ -1325,6 +1326,18 @@ public class Table extends AbstractControl implements Stateful {
             hasState = true;
             tableState[3] = controlLinkState;
         }
+        
+        // Append filter mapping to index 4 before returning row configurations
+        Map<String, String> columnFilters = new HashMap<String, String>();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable() && !column.getFilterValue().isEmpty()) {
+                columnFilters.put(column.getName(), column.getFilterValue());
+            }
+        }
+        if (!columnFilters.isEmpty()) {
+            hasState = true;
+            tableState[4] = columnFilters;
+        }        
 
         if (hasState) {
             return tableState;
@@ -1364,6 +1377,17 @@ public class Table extends AbstractControl implements Stateful {
             Object controlLinkState = tableState[3];
             getControlLink().setState(controlLinkState);
         }
+
+        if (tableState.length > 4 && tableState[4] != null) {
+            Map<String, String> columnFilters = (Map<String, String>) tableState[4];
+            for (Column column : getColumnList()) {
+                if (columnFilters.containsKey(column.getName())) {
+                    column.setFilterValue(columnFilters.get(column.getName()));
+                } else {
+                    column.setFilterValue(""); // fallback default clean clear
+                }
+            }    
+        }        
     }
 
     /**
@@ -1383,6 +1407,40 @@ public class Table extends AbstractControl implements Stateful {
         width = value;
     }
 
+    /**
+     * CLK-59
+     * Compiles and returns a map containing all active filter column property key strings 
+     * associated with their trimmed user text input entry parameters.
+     * <p/>
+     * This utility maps beautifully to lazy pagination data fetching layers (e.g. database criteria maps,
+     * or custom service layers) that track active column constraints.
+     * <p/>
+     * <b>Example Usage inside a {@link org.apache.click.dataprovider.PagingDataProvider}:</b>
+     * <pre class="prettyprint">
+     *    table.setDataProvider(new PagingDataProvider() {
+     *        public List getData() {
+     *            int first = table.getFirstRow();
+     *            int size = table.getPageSize();
+     *            Map filters = table.getFilters(); // Returns {"customer.person.name" -> "John"}
+     *            
+     *            return customerService.findCustomers(first, size, filters);
+     *        }
+     *    });
+     * </pre>
+     * 
+     * @return a Map containing matching filter assignments where key is the filter expression 
+     *         and value is the typed string criteria
+     */
+    public Map<String, Object> getFilters() {
+        Map<String, Object> filterMap = new HashMap<String, Object>();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable() && !column.getFilterValue().isEmpty()) {
+                filterMap.put(column.getFilterBy(), column.getFilterValue());
+            }
+        }
+        return filterMap;
+    }
+    
     // Public Methods ---------------------------------------------------------
 
     /**
@@ -1515,6 +1573,18 @@ public class Table extends AbstractControl implements Stateful {
             }
         }
 
+        // --- CLK-59: Intercept and bind column-level filters from Request ---
+        Context context = getContext();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                String paramName = getName() + "_filter_" + column.getName();
+                String paramValue = context.getRequestParameter(paramName);
+                if (paramValue != null) {
+                    column.setFilterValue(paramValue.trim());
+                }
+            }
+        }
+                
         boolean continueProcessing = true;
         for (int i = 0, size = getControls().size(); i < size; i++) {
             Control control = getControls().get(i);
@@ -1762,6 +1832,7 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
+     * CLK-59
      * Render the table header row of column names.
      *
      * @param buffer the StringBuffer to render the header row in
@@ -1770,6 +1841,7 @@ public class Table extends AbstractControl implements Stateful {
         buffer.append("<thead>\n<tr>\n");
 
         List<Column> tableColumns = getColumnList();
+        // 1. Render standard column title links (id, name, etc.)
         for (int j = 0; j < tableColumns.size(); j++) {
             Column column = tableColumns.get(j);
             column.renderTableHeader(buffer, getContext());
@@ -1778,7 +1850,37 @@ public class Table extends AbstractControl implements Stateful {
             }
         }
 
-        buffer.append("</tr></thead>\n");
+        buffer.append("</tr>"); // Keep original closed tr
+
+        // 1. Check if any columns require filter text inputs
+        boolean hasFilters = false;
+        for (Column column : tableColumns) {
+            if (column.isFilterable()) {
+                hasFilters = true;
+                break;
+            }
+        }
+
+        // 2. Render the secondary input layout row ONLY if filter columns are active
+        if (hasFilters) {
+            buffer.append("<tr class=\"filter-row\">\n");
+            for (Column column : tableColumns) {
+                buffer.append("<td>");
+                if (column.isFilterable()) {
+                    String paramName = getName() + "_filter_" + column.getName();
+                    buffer.append("<input type=\"text\" name=\"")
+                          .append(paramName).append("\" ")
+                          .append("value=\"").append(column.getFilterValue()).append("\" ")
+                          .append("class=\"filter-input\" style=\"width:100%; box-sizing:border-box;\" ")
+                          .append("onkeydown=\"if(event.keyCode==13){this.form.submit();}\" />");
+                }
+                buffer.append("</td>\n");
+            }
+            buffer.append("</tr>\n");
+        }
+
+        // 3. Close the header block clean exactly once
+        buffer.append("</thead>\n");
     }
 
     /**
