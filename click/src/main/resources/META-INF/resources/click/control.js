@@ -411,3 +411,57 @@ if (form) {
     form.submit();
     return true;
 }
+
+/**
+ * CLK-60
+ * Submits table column inputs asynchronously via AJAX and replaces the 
+ * targeted table element while preserving the user's input focus caret.
+ */
+Click.filterTableAjax = function(inputElement, tableName, controlLinkName) {
+    var form = inputElement.form;
+    if (!form) return;
+
+    var url = form.action || window.location.href;
+    var formData = new FormData(form);
+    
+    // Framework rule: Pass actionLink and trigger variables to map to the internal ActionLink behavior
+    formData.append('actionLink', controlLinkName);
+    formData.append(controlLinkName, '1');
+
+    var request = new XMLHttpRequest();
+    request.open(form.method || 'POST', url, true);
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    
+    request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = request.responseText;
+            
+            var oldTable = document.getElementById(tableName);
+            var newTable = tempDiv.querySelector('#' + tableName) || tempDiv.firstChild;
+            
+            if (oldTable && newTable) {
+                // Save caret position and input identification before swapping nodes
+                var activeInputName = inputElement.name;
+                var selectionStart = inputElement.selectionStart;
+                
+                oldTable.parentNode.replaceChild(newTable, oldTable);
+                
+                // Track down the refreshed input node inside the updated DOM fragment
+                var refreshedInput = document.getElementsByName(activeInputName)[0];
+                if (refreshedInput) {
+                    refreshedInput.focus();
+                    refreshedInput.setSelectionRange(selectionStart, selectionStart);
+                }
+            }
+        }
+    };
+    
+    // Encode parameters as standard form application parameters
+    var searchParams = new URLSearchParams();
+    for (var pair of formData.entries()) {
+        searchParams.append(pair[0], pair[1]);
+    }
+    
+    request.send(searchParams.toString());
+};

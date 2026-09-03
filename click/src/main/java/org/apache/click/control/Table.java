@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import org.apache.click.ActionResult;
 import org.apache.click.Context;
 
 import org.apache.click.Control;
@@ -641,7 +642,11 @@ public class Table extends AbstractControl implements Stateful {
         getColumns().put(column.getName(), column);
         getColumnList().add(column);
         column.setTable(this);
-
+        // CLK-60: Enable AJAX interceptor hooks if column has a filter target expression
+        if (column.isFilterable()) {
+            setupFilterAjaxBehavior();
+        }
+        
         return column;
     }
 
@@ -1441,6 +1446,31 @@ public class Table extends AbstractControl implements Stateful {
         return filterMap;
     }
     
+    /**
+     * CLK-60
+     * Initializes and registers the default core AjaxBehavior on the internal controlLink
+     * to intercept async requests and stream the column-filtered HTML table fragments.
+     */
+    private void setupFilterAjaxBehavior() {
+        ActionLink link = getControlLink();
+        
+        // Register behavior with the ActionLink control
+        link.addBehavior(new org.apache.click.ajax.DefaultAjaxBehavior() {
+            @Override
+            public ActionResult onAction(Control source) {
+                // Force raw rows dataset to re-execute and evaluate current filters
+                getRowList();
+                
+                // Write table markup output out to a targeted response buffer
+                HtmlStringBuffer buffer = new HtmlStringBuffer(getControlSizeEst());
+                render(buffer);
+                
+                // Return ActionResult immediately, avoiding full page templating loops
+                return new ActionResult(buffer.toString(), ActionResult.HTML);
+            }
+        });
+    }
+    
     // Public Methods ---------------------------------------------------------
 
     /**
@@ -1868,11 +1898,14 @@ public class Table extends AbstractControl implements Stateful {
                 buffer.append("<td>");
                 if (column.isFilterable()) {
                     String paramName = getName() + "_filter_" + column.getName();
+                    String controlLinkName = getControlLink().getName(); // Resolves "table-controlLink"                    
                     buffer.append("<input type=\"text\" name=\"")
                           .append(paramName).append("\" ")
                           .append("value=\"").append(column.getFilterValue()).append("\" ")
                           .append("class=\"filter-input\" style=\"width:100%; box-sizing:border-box;\" ")
-                          .append("onkeydown=\"if(event.keyCode==13){this.form.submit();}\" />");
+                          // CLK-60 Calls your new control.js AJAX hook on Enter press
+                          .append("onkeydown=\"if(event.keyCode==13){ event.preventDefault(); Click.filterTableAjax(this, '")
+                          .append(getId()).append("', '").append(controlLinkName).append("'); }\" />");
                 }
                 buffer.append("</td>\n");
             }
