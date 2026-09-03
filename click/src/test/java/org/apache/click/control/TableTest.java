@@ -261,8 +261,7 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * CLK-59
-     * Check that Table correctly extracts column filters from request
+     * CLK-59 Check that Table correctly extracts column filters from request
      * parameters.
      */
     public void testFilterMapCompilationOnProcess() {
@@ -285,7 +284,7 @@ public class TableTest extends TestCase {
         // Columns without filter targets shouldn't leak parameter values
         Column unfilterableCol = new Column("id");
         table.addColumn(unfilterableCol);
-        
+
         table.onInit();
         // 3. Process request cycle to trigger parameter parsing
         table.onProcess();
@@ -300,8 +299,7 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * CLK-59
-     * Test that table layout preserves filter state arrays properly.
+     * CLK-59 Test that table layout preserves filter state arrays properly.
      */
     public void testFilterStatePreservation() {
         Table table = new Table("myTable");
@@ -328,32 +326,31 @@ public class TableTest extends TestCase {
     }
 
     /**
-     * CLK-59
-     * Verify that the secondary custom filter row is accurately compiled into HTML.
+     * CLK-59 Verify that the secondary custom filter row is accurately compiled
+     * into HTML.
      */
     public void testFilterRowHtmlRendering() {
         MockContext.initContext(Locale.ENGLISH);
         Table table = new Table("myTable");
-        
+
         Column nameCol = new Column("name", "Name");
         nameCol.setFilterBy("person.name");
         nameCol.setFilterValue("John");
         nameCol.setSortable(false);
         table.addColumn(nameCol);
-        
+
         // Run rendering sequence explicitly via the component's string generator
         String htmlOutput = table.toString();
-        
+
         // Validate row structure and input components are compiled cleanly
         assertTrue(htmlOutput.contains("<tr class=\"filter-row\">"));
         assertTrue(htmlOutput.contains("<input type=\"text\" name=\"myTable_filter_name\" value=\"John\""));
-    }    
-    
+    }
+
     /**
-     * CLK-60
-     * Verifies that adding a filterable column automatically registers an internal
-     * AjaxBehavior on the filterLink, and that the rendered input passes the
-     * correct link name parameters down to Click.filterTableAjax().
+     * CLK-60 Verifies that adding a filterable column automatically registers
+     * an internal AjaxBehavior on the filterLink, and that the rendered input
+     * passes the correct link name parameters down to Click.filterTableAjax().
      */
     public void testNativeFilterAjaxBehaviorIntegration() {
         // Initialize the English Mock layout engine first
@@ -371,16 +368,108 @@ public class TableTest extends TestCase {
 
         ActionLink tableFilterLink = ajaxTable.getFilterLink();
         assertNotNull("Table's internal filterLink must be initialized", tableFilterLink);
-        assertFalse("FilterLink should have active behaviors mapped", 
-            tableFilterLink.getBehaviors().isEmpty());
+        assertFalse("FilterLink should have active behaviors mapped",
+                tableFilterLink.getBehaviors().isEmpty());
 
         String htmlOutput = ajaxTable.toString();
 
         String expectedLinkName = "contractsTable-filterLink";
         String expectedJsCall = "Click.filterTableAjax(this, 'contractsTable', '" + expectedLinkName + "')";
-        
-        assertTrue("Rendered HTML input field must map to the precise JavaScript Ajax helper function", 
-            htmlOutput.contains(expectedJsCall));
+
+        assertTrue("Rendered HTML input field must map to the precise JavaScript Ajax helper function",
+                htmlOutput.contains(expectedJsCall));
     }
 
+    /**
+     * Test that clicking a column sorting header link correctly updates the
+     * Table state even when data rows are minimal (short table) and CLK-60 is
+     * active.
+     */
+    public void testShortTableSortingLifecyclePreservation() {
+        // 1. Initialize Context simulating a regular header sort link click
+        MockContext context = MockContext.initContext();
+
+        Table table = new Table("myTable");
+        table.setPageSize(10);
+        table.setSortable(true);
+
+        Column nameCol = new Column("name");
+        nameCol.setSortable(true);
+        table.addColumn(nameCol);
+
+        // 2. Setup standard short mock parameters using the table's controlLink identity
+        String controlLinkName = table.getControlLink().getName(); // "myTable-controlLink"
+        context.getMockRequest().setParameter("actionLink", controlLinkName);
+        context.getMockRequest().setParameter(controlLinkName, "1");
+        context.getMockRequest().setParameter(Table.COLUMN, "name");
+        context.getMockRequest().setParameter(Table.ASCENDING, "true");
+        context.getMockRequest().setParameter(Table.SORT, "true");
+
+        // 3. Setup short data list
+        List<Foo> smallList = new ArrayList<Foo>();
+        smallList.add(new Foo("Beta Customer"));
+        smallList.add(new Foo("Alpha Customer"));
+        table.setRowList(smallList);
+
+        // Run core lifecycle targets
+        table.onInit();
+        table.onProcess();
+        table.onRender();
+
+        // 4. Verify that sorting parameter lookups evaluate accurately
+        assertEquals("The selected sort column must be mapped correctly", "name", table.getSortedColumn());
+        assertFalse("The sort order must be updated to descending (false)", table.isSortedAscending());
+    }
+
+    /**
+     * CLK-60 / CLK-59 Test that standard sorting and paging links accurately
+     * retain active column filtering states during sequential request cycles.
+     */
+    public void testCombinedSortPagingAndFilterState() {
+        // 1. Initialize Mock Context
+        MockContext context = MockContext.initContext();
+
+        Table table = new Table("myTable");
+        table.setPageSize(2);
+        table.setSortable(true);
+
+        Column nameCol = new Column("name");
+        nameCol.setFilterBy("person.name");
+        table.addColumn(nameCol);
+
+        Column emailCol = new Column("email");
+        table.addColumn(emailCol);
+
+        // 2. Target exact framework binding parameters safely
+        String controlLinkName = table.getControlLink().getName();
+        context.getMockRequest().setParameter("actionLink", controlLinkName);
+        context.getMockRequest().setParameter(controlLinkName, "1");
+        context.getMockRequest().setParameter(Table.COLUMN, "email");
+        context.getMockRequest().setParameter(Table.ASCENDING, "true");
+        context.getMockRequest().setParameter(Table.PAGE, "1");
+
+        // Inject the active column input filter mock parameters matching your request parsing rule
+        context.getMockRequest().setParameter("myTable_filter_name", "Ana");
+
+        // 3. Populate mock rows to handle out-of-bounds page sanity arrays safely
+        List<Foo> rows = new ArrayList<Foo>();
+        for (int i = 0; i < 5; i++) {
+            rows.add(new Foo("Customer " + i));
+        }
+        table.setRowList(rows);
+
+        // Run lifecycles
+        table.onInit();
+        table.onProcess();
+        table.onRender();
+
+        // 4. Assertions to confirm all parameters live together happily
+        assertEquals("The table should be sorted by email", "email", table.getSortedColumn());
+        assertTrue("Sort direction should be ascending", table.isSortedAscending());
+        assertEquals("Should look at page index 1", 1, table.getPageNumber());
+
+        // Check that column filters were not overwritten or dropped during lifecycle processing
+        assertEquals("The active text field filter must be extracted and preserved",
+                "Ana", table.getColumn("name").getFilterValue());
+    }
 }

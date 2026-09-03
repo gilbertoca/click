@@ -16,29 +16,30 @@
 // under the License.
 
 // Ensure Click namespace exists
-if ( typeof Click == 'undefined' )
+if (typeof Click == 'undefined')
     Click = {};
 
 /**
  * DomReady state variables.
  */
-if ( typeof Click.domready == 'undefined' ) {
+if (typeof Click.domready == 'undefined') {
     Click.domready = {
         events: [],
         ready: false,
-        run : function() {
-            if ( !document.body ) {
-              // If body is null run this function after timeout
-              return setTimeout(arguments.callee, 13);
+        run: function () {
+            if (!document.body) {
+                // If body is null run this function after timeout
+                return setTimeout(arguments.callee, 13);
             }
-            Click.domready.ready=true;
+            Click.domready.ready = true;
             var e;
-            while(e = Click.domready.events.shift()) {
+            while (e = Click.domready.events.shift()) {
                 e();
             }
         }
     }
-};
+}
+;
 
 /**
  * This function is based on work done by Dean Edwards, Diego Perini,
@@ -50,48 +51,49 @@ if ( typeof Click.domready == 'undefined' ) {
  * http://www.thefutureoftheweb.com/blog/adddomloadevent/
  * http://www.subprint.com/blog/demystifying-the-dom-ready-event-method/
  */
-(function() {
+(function () {
     // Handle DOMContentLoaded compliant browsers.
     if (document.addEventListener) {
-      document.addEventListener("DOMContentLoaded", function() {
-        document.removeEventListener("DOMContentLoaded", arguments.callee, false);
-        Click.domready.run();
-      }, false);
+        document.addEventListener("DOMContentLoaded", function () {
+            document.removeEventListener("DOMContentLoaded", arguments.callee, false);
+            Click.domready.run();
+        }, false);
 
-      // A fallback to window.onload, that will always work
-			window.addEventListener( "load",  Click.domready.run, false );
+        // A fallback to window.onload, that will always work
+        window.addEventListener("load", Click.domready.run, false);
 
-    // If IE event model is used
-    } else if ( document.attachEvent ) {
-      // ensure firing before onload, maybe late but safe also for iframes
-      document.attachEvent("onreadystatechange", function() {
-        if (document.readyState === "complete") {
-          document.detachEvent("onreadystatechange", arguments.callee);
-          Click.domready.run();
+        // If IE event model is used
+    } else if (document.attachEvent) {
+        // ensure firing before onload, maybe late but safe also for iframes
+        document.attachEvent("onreadystatechange", function () {
+            if (document.readyState === "complete") {
+                document.detachEvent("onreadystatechange", arguments.callee);
+                Click.domready.run();
+            }
+        });
+
+        // A fallback to window.onload, that will always work
+        window.attachEvent("onload", Click.domready.run);
+
+        // If IE and not a frame continually check to see if the document is ready
+        var toplevel = false;
+        try {
+            toplevel = window.frameElement == null;
+        } catch (e) {
         }
-      });
 
-			// A fallback to window.onload, that will always work
-			window.attachEvent( "onload", Click.domready.run );
-
-      // If IE and not a frame continually check to see if the document is ready
-			var toplevel = false;
-      try {
-				toplevel = window.frameElement == null;
-			} catch(e) {}
-
-			if ( document.documentElement.doScroll && toplevel) {
-	      (function () {
-    	    try {
-    			  document.documentElement.doScroll('left');
-    		  } catch (e) {
-     			  setTimeout(arguments.callee, 1);
-    			  return;
- 		      }
-		      // Dom is ready, run events
-		      Click.domready.run();
-	      })();
-      }
+        if (document.documentElement.doScroll && toplevel) {
+            (function () {
+                try {
+                    document.documentElement.doScroll('left');
+                } catch (e) {
+                    setTimeout(arguments.callee, 1);
+                    return;
+                }
+                // Dom is ready, run events
+                Click.domready.run();
+            })();
+        }
     }
 })();
 
@@ -110,7 +112,7 @@ if ( typeof Click.domready == 'undefined' ) {
  *        // do something
  *    });
  */
-Click.addLoadEvent = function(func) {
+Click.addLoadEvent = function (func) {
     // If dom is ready, fire event and return
     if (Click.domready.ready) {
         return func();
@@ -118,7 +120,7 @@ Click.addLoadEvent = function(func) {
     Click.domready.events.push(func);
 };
 
-addLoadEvent=Click.addLoadEvent;
+addLoadEvent = Click.addLoadEvent;
 
 function doubleFilter(event) {
     var keyCode;
@@ -195,43 +197,44 @@ function noLetterFilter(event) {
 function setFocus(id) {
     var field = document.getElementById(id);
     if (field && field.focus && field.type != "hidden" && field.disabled != true) {
-    	try {
-			field.focus();
-		} catch (err) {
-		}
+        try {
+            field.focus();
+        } catch (err) {
+        }
     }
 }
 
 function trim(str) {
     while (str.charAt(0) == (" ")) {
         str = str.substring(1);
-      }
-      while (str.charAt(str.length - 1) == " ") {
-          str = str.substring(0,str.length-1);
-      }
-      return str;
+    }
+    while (str.charAt(str.length - 1) == " ") {
+        str = str.substring(0, str.length - 1);
+    }
+    return str;
 }
 
-Click.hasClass=function(element,cls){
-    var className=element.className;
-    if(className) {
-        return new RegExp('\\b'+cls+'\\b').test(className);
+Click.hasClass = function (element, cls) {
+    var className = element.className;
+    if (className) {
+        return new RegExp('\\b' + cls + '\\b').test(className);
     }
     return false;
 }
 
-Click.addClass=function(element,cls){
-    if(!Click.hasClass(element,cls)) {
+Click.addClass = function (element, cls) {
+    if (!Click.hasClass(element, cls)) {
         element.className += element.className ? ' ' + cls : cls;
     }
 }
 
-Click.removeClass=function(element,cls){
-    var className=element.className;
-    if(!className) return;
+Click.removeClass = function (element, cls) {
+    var className = element.className;
+    if (!className)
+        return;
 
-    if(className.indexOf(' ')<0) {
-        element.className='';
+    if (className.indexOf(' ') < 0) {
+        element.className = '';
         return;
     }
 
@@ -239,12 +242,12 @@ Click.removeClass=function(element,cls){
     element.className = className.replace(rep, '$1');
 }
 
-Click.setFieldValidClass=function(field) {
-    Click.removeClass(field,'error');
+Click.setFieldValidClass = function (field) {
+    Click.removeClass(field, 'error');
 }
 
-Click.setFieldErrorClass=function(field) {
-    Click.addClass(field,'error');
+Click.setFieldErrorClass = function (field) {
+    Click.addClass(field, 'error');
 }
 
 function validateTextField(id, required, minLength, maxLength, msgs) {
@@ -310,12 +313,12 @@ function validateSelect(id, defaultValue, required, msgs) {
 }
 
 function validateRadioGroup(radioName, formId, required, msgs) {
-    if(required){
+    if (required) {
         var form = document.getElementById(formId);
-        if(form){
-            var path=form[radioName];
-            for (i = 0; i < path.length; i++){
-                if (path[i].checked){
+        if (form) {
+            var path = form[radioName];
+            for (i = 0; i < path.length; i++) {
+                if (path[i].checked) {
                     return null;
                 }
             }
@@ -356,9 +359,9 @@ function validateForm(msgs, id, align, style) {
 
             errorsHtml += '<tr class="errors"><td class="errors" align="';
             errorsHtml += align;
-			if (style != null) {
-            	errorsHtml += '" style="';
-				errorsHtml += style;
+            if (style != null) {
+                errorsHtml += '" style="';
+                errorsHtml += style;
             }
             errorsHtml += '">';
             errorsHtml += '<a class="error" href="javascript:setFocus(\'';
@@ -392,17 +395,17 @@ function validateForm(msgs, id, align, style) {
  *
  * Usage: <input onclick="Click.submit(form)">
  */
-Click.submit=function(form) {
+Click.submit = function (form) {
     if (typeof form == 'undefined') {
         alert('Error: form is undefined. Usage: Click.submit(form)');
         return false;
     }
 
-if (form) {
+    if (form) {
         var formElements = form.elements;
-        for (var i=0; i < formElements.length; i++) {
+        for (var i = 0; i < formElements.length; i++) {
             var el = formElements[i];
-    		    if(el.name=='submit'){
+            if (el.name == 'submit') {
                 alert('Error: In order to submit the Form through JavaScript, buttons and fields must not be named "submit". Please rename the button/field called "submit".');
                 return false;
             }
@@ -417,51 +420,70 @@ if (form) {
  * Submits table column inputs asynchronously via AJAX and replaces the 
  * targeted table element while preserving the user's input focus caret.
  */
-Click.filterTableAjax = function(inputElement, tableName, controlLinkName) {
+Click.filterTableAjax = function (inputElement, tableName, controlLinkName) {
     var form = inputElement.form;
-    if (!form) return;
+    if (!form)
+        return;
 
     var url = form.action || window.location.href;
-    var formData = new FormData(form);
-    
-    // Framework rule: Pass actionLink and trigger variables to map to the internal ActionLink behavior
-    formData.append('actionLink', controlLinkName);
-    formData.append(controlLinkName, '1');
+
+    // 1. Build standard application/x-www-form-urlencoded payload using classic loops
+    var params = [];
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; i++) {
+        var el = elements[i];
+        if (el.name && !el.disabled) {
+            // Support simple text/hidden inputs safely
+            if (el.type !== 'checkbox' && el.type !== 'radio' || el.checked) {
+                params.push(encodeURIComponent(el.name) + '=' + encodeURIComponent(el.value));
+            }
+        }
+    }
+
+    // 2. Framework rules injection: Append our core actionLink hook targets
+    params.push(encodeURIComponent('actionLink') + '=' + encodeURIComponent(controlLinkName));
+    params.push(encodeURIComponent(controlLinkName) + '=' + encodeURIComponent('1'));
+    var postData = params.join('&');
 
     var request = new XMLHttpRequest();
     request.open(form.method || 'POST', url, true);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    
-    request.onreadystatechange = function() {
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    request.onreadystatechange = function () {
         if (request.readyState === 4 && request.status === 200) {
             var tempDiv = document.createElement('div');
             tempDiv.innerHTML = request.responseText;
-            
+
+            // 1. Locate the physical table instance active on the browser screen
             var oldTable = document.getElementById(tableName);
-            var newTable = tempDiv.querySelector('#' + tableName) || tempDiv.firstChild;
-            
+
+            // 2. STSTUCTURAL ADJUSTMENT: Extract the target element node cleanly.
+            // If the table is wrapped inside another table form, querySelector inside tempDiv 
+            // might find multiple instances. We explicitly want the deep target matching our ID.
+            var newTable = tempDiv.querySelector('table#' + tableName);
+            if (!newTable) {
+                // Fallback option if nested parsing configurations vary
+                newTable = tempDiv.querySelector('#' + tableName) || tempDiv.firstChild;
+            }
+
             if (oldTable && newTable) {
-                // Save caret position and input identification before swapping nodes
                 var activeInputName = inputElement.name;
                 var selectionStart = inputElement.selectionStart;
-                
+
+                // Swap out the table component elements cleanly in the DOM hierarchy
                 oldTable.parentNode.replaceChild(newTable, oldTable);
-                
-                // Track down the refreshed input node inside the updated DOM fragment
-                var refreshedInput = document.getElementsByName(activeInputName)[0];
-                if (refreshedInput) {
+
+                // 3. Find the input node inside the fresh DOM fragment and restore focus caret
+                var refreshedInputs = document.getElementsByName(activeInputName);
+                if (refreshedInputs && refreshedInputs.length > 0) {
+                    var refreshedInput = refreshedInputs[0];
                     refreshedInput.focus();
                     refreshedInput.setSelectionRange(selectionStart, selectionStart);
                 }
             }
         }
     };
-    
-    // Encode parameters as standard form application parameters
-    var searchParams = new URLSearchParams();
-    for (var pair of formData.entries()) {
-        searchParams.append(pair[0], pair[1]);
-    }
-    
-    request.send(searchParams.toString());
+    request.send(postData);
 };
+

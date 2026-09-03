@@ -1512,6 +1512,16 @@ public class Table extends AbstractControl implements Stateful {
            link.addBehavior(new org.apache.click.ajax.DefaultAjaxBehavior() {
                @Override
                public ActionResult onAction(Control source) {
+                   Context context = getContext();
+                   for (Column column : getColumnList()) {
+                       if (column.isFilterable()) {
+                           String paramName = getName() + "_filter_" + column.getName();
+                           String paramValue = context.getRequestParameter(paramName);
+                           if (paramValue != null) {
+                               column.setFilterValue(paramValue.trim());
+                           }
+                       }
+                   }                   
                    getRowList();
                    HtmlStringBuffer buffer = new HtmlStringBuffer(getControlSizeEst());
                    render(buffer);
