@@ -1512,6 +1512,7 @@ public class Table extends AbstractControl implements Stateful {
            link.addBehavior(new org.apache.click.ajax.DefaultAjaxBehavior() {
                @Override
                public ActionResult onAction(Control source) {
+                   //CLK-60: Intercept and bind column-level filters from Request                   
                    Context context = getContext();
                    for (Column column : getColumnList()) {
                        if (column.isFilterable()) {
@@ -1652,7 +1653,7 @@ public class Table extends AbstractControl implements Stateful {
      */
     @Override
     public boolean onProcess() {
-        // CLK-60: Only process filterLink if initialized and named ---
+        // CLK-60: Only process filterLink if initialized and named - skip normal processing
         ActionLink localFilterLink = getFilterLink();
        if (filterLink != null && filterLink.getName() != null) {
             // Define expected parameters to cater for strict binding environments
@@ -1662,6 +1663,32 @@ public class Table extends AbstractControl implements Stateful {
             localFilterLink.defineParameter(SORT);
             
             localFilterLink.onProcess();
+            
+            // CLK-60: Process sorting parameters from filterLink clicks too
+            if (localFilterLink.isClicked()) {
+                String page = localFilterLink.getParameter(PAGE);
+                if (NumberUtils.isCreatable(page)) {
+                    setPageNumber(Integer.parseInt(page));
+                } else {
+                    setPageNumber(0);
+                }
+
+                String column = localFilterLink.getParameter(COLUMN);
+                if (column != null) {
+                    setSortedColumn(column);
+                }
+
+                String ascending = localFilterLink.getParameter(ASCENDING);
+                if (ascending != null) {
+                    setSortedAscending("true".equals(ascending));
+                }
+
+                // Flip sorting order
+                if ("true".equals(localFilterLink.getParameter(SORT))) {
+                    setSortedAscending(!isSortedAscending());
+                }
+            }
+            return true; // Skip normal processing, let AJAX behavior handle it
         }        
         
         ActionLink localControlLink = getControlLink();
@@ -1699,18 +1726,6 @@ public class Table extends AbstractControl implements Stateful {
             }
         }
 
-        // --- CLK-59: Intercept and bind column-level filters from Request ---
-        Context context = getContext();
-        for (Column column : getColumnList()) {
-            if (column.isFilterable()) {
-                String paramName = getName() + "_filter_" + column.getName();
-                String paramValue = context.getRequestParameter(paramName);
-                if (paramValue != null) {
-                    column.setFilterValue(paramValue.trim());
-                }
-            }
-        }
-                
         boolean continueProcessing = true;
         for (int i = 0, size = getControls().size(); i < size; i++) {
             Control control = getControls().get(i);
