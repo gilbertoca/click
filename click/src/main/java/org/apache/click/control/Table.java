@@ -1653,9 +1653,19 @@ public class Table extends AbstractControl implements Stateful {
      */
     @Override
     public boolean onProcess() {
+
+        // CLK-60 Check if any columns require filter input text boxes
+        boolean hasFilters = false;
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                hasFilters = true;
+                break;
+            }
+        }        
+        
         // CLK-60: Only process filterLink if initialized and named - skip normal processing
-        ActionLink localFilterLink = getFilterLink();
-       if (filterLink != null && filterLink.getName() != null) {
+        if (hasFilters) {
+            ActionLink localFilterLink = getFilterLink();
             // Define expected parameters to cater for strict binding environments
             localFilterLink.defineParameter(PAGE);
             localFilterLink.defineParameter(COLUMN);
@@ -1687,8 +1697,9 @@ public class Table extends AbstractControl implements Stateful {
                 if ("true".equals(localFilterLink.getParameter(SORT))) {
                     setSortedAscending(!isSortedAscending());
                 }
+                
+                return true; // Skip normal processing, let AJAX behavior handle it
             }
-            return true; // Skip normal processing, let AJAX behavior handle it
         }        
         
         ActionLink localControlLink = getControlLink();
