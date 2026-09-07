@@ -1509,6 +1509,7 @@ public class Table extends AbstractControl implements Stateful {
      *       will silently do nothing.</li>
      *   <li>Filtering is activated only when at least one {@link Column} has
      *       {@link Column#setFilterBy(String)} called.</li>
+     *   <li>Filter values are submitted asynchronously when the user presses Enter.</li> 
      *   <li>The filter interaction is always performed via AJAX. There is no
      *       full-page postback path for column filters.</li>
      * </ul>
@@ -1653,17 +1654,8 @@ public class Table extends AbstractControl implements Stateful {
     public void onInit() {
         super.onInit();
 
-        // CLK-60 Check if any columns require filter input text boxes
-        boolean hasFilters = false;
-        for (Column column : getColumnList()) {
-            if (column.isFilterable()) {
-                hasFilters = true;
-                break;
-            }
-        }        
-
         // CLK-60 Register the isolated link behavior safely under a valid ControlRegistry thread state
-        if (hasFilters) {
+        if (hasFilterColumns()) {
             setupFilterAjaxBehavior();
         }
         
@@ -1679,6 +1671,20 @@ public class Table extends AbstractControl implements Stateful {
         }
     }
 
+    /**
+     * CLK-60 Check if any columns require filter input text boxes.
+     * 
+     * @return true if at least one column is filterable
+     */
+    protected boolean hasFilterColumns() {
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * This method invokes {@link #getRowList()} to ensure exceptions thrown
      * while retrieving table rows will be handled by the error page.
@@ -1704,23 +1710,14 @@ public class Table extends AbstractControl implements Stateful {
      * Controls.
      *
      * @see Control#onProcess()
-     *c
+     *
      * @return true to continue Page event processing or false otherwise
      */
     @Override
     public boolean onProcess() {
 
-        // CLK-60 Check if any columns require filter input text boxes
-        boolean hasFilters = false;
-        for (Column column : getColumnList()) {
-            if (column.isFilterable()) {
-                hasFilters = true;
-                break;
-            }
-        }        
-        
         // CLK-60: Only process filterLink if initialized and named - skip normal processing
-        if (hasFilters) {
+        if (hasFilterColumns()) {
             ActionLink localFilterLink = getFilterLink();
             // Define expected parameters to cater for strict binding environments
             localFilterLink.defineParameter(PAGE);
@@ -1759,7 +1756,7 @@ public class Table extends AbstractControl implements Stateful {
         }        
 
         // --- CLK-60: preserve filters on full-page sort/paging ---
-        if (hasFilters) {
+        if (hasFilterColumns()) {
             bindFiltersFromRequest();
         }
 
@@ -2073,17 +2070,8 @@ public class Table extends AbstractControl implements Stateful {
 
         buffer.append("</tr>"); // Keep original closed tr
 
-        // 1. Check if any columns require filter text inputs
-        boolean hasFilters = false;
-        for (Column column : tableColumns) {
-            if (column.isFilterable()) {
-                hasFilters = true;
-                break;
-            }
-        }
-
         // 2. Render the secondary input layout row ONLY if filter columns are active
-        if (hasFilters) {
+        if (hasFilterColumns()) {
             buffer.append("<tr class=\"filter-row\">\n");
             for (Column column : tableColumns) {
                 buffer.append("<td>");
@@ -2095,7 +2083,7 @@ public class Table extends AbstractControl implements Stateful {
                     
                     buffer.append("<input type=\"text\" name=\"")
                           .append(paramName).append("\" ")
-                          .append("value=\"").append(column.getFilterValue()).append("\" ")
+                          .append("value=\"").appendEscaped(column.getFilterValue()).append("\" ")
                           .append("class=\"filter-input\" style=\"width:100%; box-sizing:border-box;\" ")
                           // CLK-60 Calls your new control.js AJAX hook on Enter press
                           .append("onkeydown=\"if(event.keyCode==13){ event.preventDefault(); Click.filterTableAjax(this, '")

@@ -420,7 +420,7 @@ Click.submit = function (form) {
  * Submits table column inputs asynchronously via AJAX and replaces the 
  * targeted table element while preserving the user's input focus caret.
  */
-Click.filterTableAjax = function (inputElement, tableName, controlLinkName) {
+Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
     var form = inputElement.form;
     if (!form)
         return;
@@ -441,8 +441,8 @@ Click.filterTableAjax = function (inputElement, tableName, controlLinkName) {
     }
 
     // 2. Framework rules injection: Append our core actionLink hook targets
-    params.push(encodeURIComponent('actionLink') + '=' + encodeURIComponent(controlLinkName));
-    params.push(encodeURIComponent(controlLinkName) + '=' + encodeURIComponent('1'));
+    params.push(encodeURIComponent('actionLink') + '=' + encodeURIComponent(filterLinkName));
+    params.push(encodeURIComponent(filterLinkName) + '=' + encodeURIComponent('1'));
     var postData = params.join('&');
 
     var request = new XMLHttpRequest();
@@ -470,7 +470,7 @@ Click.filterTableAjax = function (inputElement, tableName, controlLinkName) {
             if (oldTable && newTable) {
                 var activeInputName = inputElement.name;
                 var selectionStart = inputElement.selectionStart;
-
+                var selectionEnd = inputElement.selectionEnd;
                 // Swap out the table component elements cleanly in the DOM hierarchy
                 oldTable.parentNode.replaceChild(newTable, oldTable);
 
@@ -479,7 +479,7 @@ Click.filterTableAjax = function (inputElement, tableName, controlLinkName) {
                 if (refreshedInputs && refreshedInputs.length > 0) {
                     var refreshedInput = refreshedInputs[0];
                     refreshedInput.focus();
-                    refreshedInput.setSelectionRange(selectionStart, selectionStart);
+                    refreshedInput.setSelectionRange(selectionStart, selectionEnd);
                 }
             }
         }

@@ -473,31 +473,29 @@ public class TableTest extends TestCase {
                 "Ana", table.getColumn("name").getFilterValue());
     }
 
-//    public void testSortPreservesFilterValues() {
-//        MockContext context = MockContext.initContext(Locale.ENGLISH);
-//
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("actionLink", "table-controlLink");
-//        params.put("column", "age");
-//        params.put("page", "0");
-//        params.put("table_filter_name", "C"); // filtro preservado na URL
-//        context.getMockRequest().setParameters(params);
-//
-//        Table table = new Table("table");
-//        table.setSortable(true);
-//
-//        Column nameCol = new Column("name", "Nome");
-//        nameCol.setFilterBy("name");
-//        table.addColumn(nameCol);
-//
-//        Column ageCol = new Column("age", "Idade");
-//        table.addColumn(ageCol);
-//
-//        table.onInit();
-//        table.onProcess();
-//
-//        assertEquals("age", table.getSortedColumn());
-//        assertEquals("C", nameCol.getFilterValue());
-//        assertEquals("C", table.getFilters().get("name"));
-//    }
+    public void testSortPreservesFilterValues() {
+        MockContext context = MockContext.initContext(Locale.ENGLISH);
+
+        context.getMockRequest().setParameter("actionLink", "table-controlLink");
+        context.getMockRequest().setParameter(Table.COLUMN, "age");
+        context.getMockRequest().setParameter(Table.PAGE, "0");
+        context.getMockRequest().setParameter("table_filter_name", "C"); // filtro preservado na URL
+
+        Table table = new Table("table");
+        table.setSortable(true);
+
+        Column nameCol = new Column("name", "Nome");
+        nameCol.setFilterBy("name");
+        table.addColumn(nameCol);
+
+        Column ageCol = new Column("age", "Idade");
+        table.addColumn(ageCol);
+
+        table.onInit();
+        table.onProcess();
+
+        assertEquals("age", table.getSortedColumn());
+        assertEquals("C", nameCol.getFilterValue());
+        assertEquals("C", table.getFilters().get("name"));
+    }
 }
