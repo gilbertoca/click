@@ -451,35 +451,37 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     request.onreadystatechange = function () {
-        if (request.readyState === 4 && request.status === 200) {
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = request.responseText;
+        if (request.readyState === 4) {
+            if (request.status === 200) {        
+                var tempDiv = document.createElement('div');
+                tempDiv.innerHTML = request.responseText;
 
-            // 1. Locate the physical table instance active on the browser screen
-            var oldTable = document.getElementById(tableName);
+                // 1. Locate the physical table instance active on the browser screen
+                var oldTable = document.getElementById(tableName).parentNode;
 
-            // 2. STSTUCTURAL ADJUSTMENT: Extract the target element node cleanly.
-            // If the table is wrapped inside another table form, querySelector inside tempDiv 
-            // might find multiple instances. We explicitly want the deep target matching our ID.
-            var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]');
-            if (!newTable) {
-                // Fallback option if nested parsing configurations vary
-                newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]') || tempDiv.firstChild;
-            }
+                // 2. STSTUCTURAL ADJUSTMENT: Extract the target element node cleanly.
+                // If the table is wrapped inside another table form, querySelector inside tempDiv 
+                // might find multiple instances. We explicitly want the deep target matching our ID and use the parent one.
+                var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]').parentNode;
+                if (!newTable) {
+                    // Fallback option if nested parsing configurations vary
+                    newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]').parentNode || tempDiv.firstChild;
+                }
 
-            if (oldTable && newTable) {
-                var activeInputName = inputElement.name;
-                var selectionStart = inputElement.selectionStart;
-                var selectionEnd = inputElement.selectionEnd;
-                // Swap out the table component elements cleanly in the DOM hierarchy
-                oldTable.parentNode.replaceChild(newTable, oldTable);
+                if (oldTable && newTable) {
+                    var activeInputName = inputElement.name;
+                    var selectionStart = inputElement.selectionStart;
+                    var selectionEnd = inputElement.selectionEnd;
+                    // Swap out the table component elements cleanly in the DOM hierarchy
+                    oldTable.parentNode.replaceChild(newTable, oldTable);
 
-                // 3. Find the input node inside the fresh DOM fragment and restore focus caret
-                var refreshedInputs = document.getElementsByName(activeInputName);
-                if (refreshedInputs && refreshedInputs.length > 0) {
-                    var refreshedInput = refreshedInputs[0];
-                    refreshedInput.focus();
-                    refreshedInput.setSelectionRange(selectionStart, selectionEnd);
+                    // 3. Find the input node inside the fresh DOM fragment and restore focus caret
+                    var refreshedInputs = document.getElementsByName(activeInputName);
+                    if (refreshedInputs && refreshedInputs.length > 0) {
+                        var refreshedInput = refreshedInputs[0];
+                        refreshedInput.focus();
+                        refreshedInput.setSelectionRange(selectionStart, selectionEnd);
+                    }
                 }
             }
         } else {

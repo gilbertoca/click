@@ -25,7 +25,10 @@ import java.util.Locale;
 
 import java.util.Map;
 import junit.framework.TestCase;
+import org.apache.click.ActionResult;
 import org.apache.click.MockContext;
+import org.apache.click.ajax.AjaxBehavior;
+import org.apache.click.dataprovider.DataProvider;
 
 /**
  * Test Table behavior.
@@ -498,4 +501,73 @@ public class TableTest extends TestCase {
         assertEquals("C", nameCol.getFilterValue());
         assertEquals("C", table.getFilters().get("name"));
     }
+    
+    /**
+     * CLK-60 Verify that the Ajax filter response contains the updated table
+     * and pagination information.
+     */
+    public void testFilterAjaxResponseContainsUpdatedPaginator() {
+        MockContext context = MockContext.initContext(Locale.ENGLISH);
+
+        Table table = new Table("myTable");
+        table.setPageSize(2);
+        table.setShowBanner(true);
+
+        Column nameCol = new Column("name", "Name");
+        nameCol.setFilterBy("name");
+        table.addColumn(nameCol);
+
+        final List<Foo> rows = new ArrayList<Foo>();
+        rows.add(new Foo("Ana Silva"));
+        rows.add(new Foo("Carlos Silva"));
+        rows.add(new Foo("Joao Silva"));
+        rows.add(new Foo("Maria Silva"));
+        rows.add(new Foo("Pedro Silva"));
+
+        table.setDataProvider(new DataProvider<Foo>() {
+            public Iterable<Foo> getData() {
+                String filter = table.getFilters().get("name");
+
+                if ("Ana".equals(filter)) {
+                    List<Foo> filtered = new ArrayList<Foo>();
+                    filtered.add(rows.get(0));
+                    return filtered;
+                }
+
+                return rows;
+            }
+        });
+
+        // Simulate the AJAX filter request.
+        context.getMockRequest().setParameter("myTable_filter_name", "Ana");
+
+        table.onInit();
+
+        ActionLink filterLink = table.getFilterLink();
+
+        assertFalse("FilterLink must have a registered AjaxBehavior", filterLink.getBehaviors().isEmpty());
+
+        AjaxBehavior behavior = (AjaxBehavior) filterLink.getBehaviors().toArray()[0];
+
+        ActionResult result = behavior.onAction(filterLink);
+
+        assertNotNull("The filter AjaxBehavior must return an ActionResult", result);
+
+        String html = result.getContent();
+
+        assertNotNull("The Ajax response must contain HTML content", html);
+
+        // The filter must have been applied before rendering.
+        assertEquals("Ana", nameCol.getFilterValue());
+
+        // The filtered row must be present.
+        assertTrue("Filtered row must be present in Ajax response", html.contains("Ana Silva"));
+
+        // Non-matching rows must not be present.
+        assertFalse("Non-matching rows must not be present in Ajax response", html.contains("Carlos Silva"));
+
+        assertTrue("Ajax response must report one matching element", html.contains("1 items found, displaying 1 to 1."));
+
+        assertTrue("Ajax response must contain the pagination controls", html.contains("pagelinks"));
+    }    
 }

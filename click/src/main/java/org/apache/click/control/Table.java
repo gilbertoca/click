@@ -1732,7 +1732,13 @@ public class Table extends AbstractControl implements Stateful {
             }
         }        
 
-        // --- CLK-60: preserve filters on full-page sort/paging ---
+        /** 
+         * CLK-60: preserve filters on full-page sort/paging. 
+         * If the request came from a full-page sorting or pagination event (controlLink),
+         * the early AJAX filterLink return block above was skipped. 
+         * We must invoke bindFiltersFromRequest() here to guarantee that active column filters 
+         * are captured from the standard postback parameters and preserved during sort/paging operations.        
+         */
         if (hasFilterColumns()) {
             bindFiltersFromRequest();
         }
