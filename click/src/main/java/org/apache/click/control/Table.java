@@ -32,6 +32,7 @@ import org.apache.click.Context;
 
 import org.apache.click.Control;
 import org.apache.click.Stateful;
+import org.apache.click.ajax.DefaultAjaxBehavior;
 import org.apache.click.element.CssImport;
 import org.apache.click.element.CssStyle;
 import org.apache.click.element.Element;
@@ -1532,14 +1533,15 @@ public class Table extends AbstractControl implements Stateful {
        ActionLink link = getFilterLink();
 
        // Only append the behavior if it hasn't been registered yet
-       if (link.getBehaviors().isEmpty()) {
+        boolean hasDefaultBehavior = link.getBehaviors().stream().anyMatch(b -> b instanceof DefaultAjaxBehavior);       
+       if (!hasDefaultBehavior) {
            // Reassign the naming context securely if the table has been named
            if (getName() != null) {
                link.setName(getName() + "-filterLink");
                link.setParent(this);
            }
 
-           link.addBehavior(new org.apache.click.ajax.DefaultAjaxBehavior() {
+           link.addBehavior(new DefaultAjaxBehavior() {
                @Override
                public ActionResult onAction(Control source) {
                    //CLK-60: Intercept and bind column-level filters from Request                   
@@ -1719,38 +1721,13 @@ public class Table extends AbstractControl implements Stateful {
         // CLK-60: Only process filterLink if initialized and named - skip normal processing
         if (hasFilterColumns()) {
             ActionLink localFilterLink = getFilterLink();
-            // Define expected parameters to cater for strict binding environments
-            localFilterLink.defineParameter(PAGE);
-            localFilterLink.defineParameter(COLUMN);
-            localFilterLink.defineParameter(ASCENDING);
-            localFilterLink.defineParameter(SORT);
+            definePagingParams(localFilterLink);
             
             localFilterLink.onProcess();
             
             // CLK-60: Process sorting parameters from filterLink clicks too
             if (localFilterLink.isClicked()) {
-                String page = localFilterLink.getParameter(PAGE);
-                if (NumberUtils.isCreatable(page)) {
-                    setPageNumber(Integer.parseInt(page));
-                } else {
-                    setPageNumber(0);
-                }
-
-                String column = localFilterLink.getParameter(COLUMN);
-                if (column != null) {
-                    setSortedColumn(column);
-                }
-
-                String ascending = localFilterLink.getParameter(ASCENDING);
-                if (ascending != null) {
-                    setSortedAscending("true".equals(ascending));
-                }
-
-                // Flip sorting order
-                if ("true".equals(localFilterLink.getParameter(SORT))) {
-                    setSortedAscending(!isSortedAscending());
-                }
-                
+                applyPagingAndSortingFromLink(localFilterLink);
                 return true; // Skip normal processing, let AJAX behavior handle it
             }
         }        
@@ -1765,35 +1742,12 @@ public class Table extends AbstractControl implements Stateful {
 
         // Ensure parameters are defined to cater for Ajax requests that uses
         // strict parameter binding
-        localControlLink.defineParameter(PAGE);
-        localControlLink.defineParameter(COLUMN);
-        localControlLink.defineParameter(ASCENDING);
-        localControlLink.defineParameter(SORT);
+        definePagingParams(localControlLink);
 
         localControlLink.onProcess();
 
         if (localControlLink.isClicked()) {
-            String page = localControlLink.getParameter(PAGE);
-            if (NumberUtils.isCreatable(page)) {
-                setPageNumber(Integer.parseInt(page));
-            } else {
-                setPageNumber(0);
-            }
-
-            String column = localControlLink.getParameter(COLUMN);
-            if (column != null) {
-                setSortedColumn(column);
-            }
-
-            String ascending = localControlLink.getParameter(ASCENDING);
-            if (ascending != null) {
-                setSortedAscending("true".equals(ascending));
-            }
-
-            // Flip sorting order
-            if ("true".equals(localControlLink.getParameter(SORT))) {
-                setSortedAscending(!isSortedAscending());
-            }
+            applyPagingAndSortingFromLink(localControlLink);
         }
 
         boolean continueProcessing = true;
@@ -1808,6 +1762,35 @@ public class Table extends AbstractControl implements Stateful {
         dispatchActionEvent();
         return continueProcessing;
     }
+
+    private void definePagingParams(ActionLink localActionLink) {
+        // Define expected parameters to cater for strict binding environments
+        localActionLink.defineParameter(PAGE);
+        localActionLink.defineParameter(COLUMN);
+        localActionLink.defineParameter(ASCENDING);
+        localActionLink.defineParameter(SORT);
+    }
+    
+    private boolean applyPagingAndSortingFromLink(ActionLink link) {
+        String page = link.getParameter(PAGE);
+        if (NumberUtils.isCreatable(page)) {
+            setPageNumber(Integer.parseInt(page));
+        } else {
+            setPageNumber(0);
+        }
+        String column = link.getParameter(COLUMN);
+        if (column != null) {
+            setSortedColumn(column);
+        }
+        String ascending = link.getParameter(ASCENDING);
+        if (ascending != null) {
+            setSortedAscending("true".equals(ascending));
+        }
+        if ("true".equals(link.getParameter(SORT))) {
+            setSortedAscending(!isSortedAscending());
+        }
+        return link.isClicked();
+    }    
 
     /**
      * This method will clear the <code>rowList</code>, if the property

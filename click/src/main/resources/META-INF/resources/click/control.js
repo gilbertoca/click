@@ -482,7 +482,9 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
                     refreshedInput.setSelectionRange(selectionStart, selectionEnd);
                 }
             }
-        }
+        } else {
+            console.error("Table filter AJAX failed: " + request.status);
+        }        
     };
     request.send(postData);
 };
