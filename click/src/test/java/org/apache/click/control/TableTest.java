@@ -290,7 +290,7 @@ public class TableTest extends TestCase {
         table.onProcess();
 
         // 4. Validate gathered state Map against expectation
-        Map<String, Object> compiledFilters = table.getFilters();
+        Map<String, String> compiledFilters = table.getFilters();
 
         assertEquals(2, compiledFilters.size());
         assertEquals("ANA PAULA", compiledFilters.get("customer.name"));

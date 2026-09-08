@@ -821,7 +821,7 @@ public class Table extends AbstractControl implements Stateful {
      *
      * @return the table column inputs ajax filtering control action link
      */
-    public ActionLink getFilterLink() {
+    protected ActionLink getFilterLink() {
         if (filterLink == null) {
             filterLink = new ActionLink();
             if (getName() != null) {
@@ -1484,8 +1484,8 @@ public class Table extends AbstractControl implements Stateful {
      * @return a Map containing matching filter assignments where key is the filter expression 
      *         and value is the typed string criteria
      */
-    public Map<String, Object> getFilters() {
-        Map<String, Object> filterMap = new HashMap<String, Object>();
+    public Map<String, String> getFilters() {
+        Map<String, String> filterMap = new HashMap<String, String>();
         for (Column column : getColumnList()) {
             if (column.isFilterable() && !column.getFilterValue().isEmpty()) {
                 filterMap.put(column.getFilterBy(), column.getFilterValue());
