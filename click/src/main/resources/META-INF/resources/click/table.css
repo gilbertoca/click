@@ -348,3 +348,9 @@ span.pagelinks-nobanner {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+/* CLK-60 */
+table tr.filter-row input.filter-input {
+    width: 100%;
+    box-sizing: border-box;
+}

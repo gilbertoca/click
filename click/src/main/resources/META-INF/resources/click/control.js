@@ -461,10 +461,10 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
             // 2. STSTUCTURAL ADJUSTMENT: Extract the target element node cleanly.
             // If the table is wrapped inside another table form, querySelector inside tempDiv 
             // might find multiple instances. We explicitly want the deep target matching our ID.
-            var newTable = tempDiv.querySelector('table#' + tableName);
+            var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]');
             if (!newTable) {
                 // Fallback option if nested parsing configurations vary
-                newTable = tempDiv.querySelector('#' + tableName) || tempDiv.firstChild;
+                newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]') || tempDiv.firstChild;
             }
 
             if (oldTable && newTable) {

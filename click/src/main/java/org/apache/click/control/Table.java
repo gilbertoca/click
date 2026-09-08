@@ -2084,7 +2084,6 @@ public class Table extends AbstractControl implements Stateful {
                     buffer.append("<input type=\"text\" name=\"")
                           .append(paramName).append("\" ")
                           .append("value=\"").appendEscaped(column.getFilterValue()).append("\" ")
-                          .append("class=\"filter-input\" style=\"width:100%; box-sizing:border-box;\" ")
                           // CLK-60 Calls your new control.js AJAX hook on Enter press
                           .append("onkeydown=\"if(event.keyCode==13){ event.preventDefault(); Click.filterTableAjax(this, '")
                           .append(getId()).append("', '").appendEscaped(filterLinkName).append("'); }\" />");
