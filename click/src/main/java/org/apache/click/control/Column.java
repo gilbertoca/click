@@ -280,6 +280,12 @@ public class Column implements Serializable {
 
     /** The column comparator object, which is used to sort column row values. */
     Comparator<?> comparator;
+    
+    /** The property path expression of the row object to filter by (e.g. "customer.adress.name"). */
+    protected String filterBy;
+
+    /** The runtime user text search criteria value bound to this column. */
+    protected String filterValue = "";
 
     // ----------------------------------------------------------- Constructors
 
@@ -1149,6 +1155,61 @@ public class Column implements Serializable {
         width = value;
     }
 
+    /**
+     * Return the property path expression string used to filter down domain objects.
+     * @return the row object filterBy property path expression
+     */
+    public String getFilterBy() {
+        return filterBy;
+    }
+
+    /**
+     * CLK-59
+     * Set the database property or object graph expression path to filter this column by.
+     * <p/>
+     * Setting this property to a non-null value automatically enables an input text box
+     * filter row under this column header inside the parent Table.
+     * <p/>
+     * <b>Example Usage:</b>
+     * <pre class="prettyprint">
+     *    Column nameCol = new Column("name", "Customer Name");
+     *    nameCol.setFilterBy("customer.person.name"); // Maps to backend query engine criteria
+     *    table.addColumn(nameCol);
+     * </pre>
+     *
+     * @param filterBy the backend entity object property path used to filter data rows
+     */
+    public void setFilterBy(String filterBy) {
+        this.filterBy = filterBy;
+    }
+
+    /**
+     * Return the current text value entered by the user in this column's header filter field.
+     *
+     * @return the active filter input text value criteria string, or an empty string if unassigned
+     */
+    public String getFilterValue() {
+        return filterValue;
+    }
+
+    /**
+     * Set the text criteria value applied to this filter column manually.
+     *
+     * @param filterValue the text search criteria string to assign
+     */
+    public void setFilterValue(String filterValue) {
+        this.filterValue = (filterValue != null) ? filterValue : "";
+    }
+
+    /**
+     * Return true if this column has filtering enabled via {@link #setFilterBy(String)}.
+     *
+     * @return true if column has a filter target expression assigned, false otherwise
+     */
+    public boolean isFilterable() {
+        return this.filterBy != null;
+    }
+    
     // --------------------------------------------------------- Public Methods
 
     /**

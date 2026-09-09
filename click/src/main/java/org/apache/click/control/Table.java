@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import org.apache.click.ActionResult;
 import org.apache.click.Context;
 
 import org.apache.click.Control;
 import org.apache.click.Stateful;
+import org.apache.click.ajax.DefaultAjaxBehavior;
 import org.apache.click.element.CssImport;
 import org.apache.click.element.CssStyle;
 import org.apache.click.element.Element;
@@ -400,6 +402,9 @@ public class Table extends AbstractControl implements Stateful {
     /** The table paging and sorting control action link. */
     protected ActionLink controlLink;
 
+    /** The table column row inputs ajax filtering control action link. */
+    protected ActionLink filterLink;    
+
     /** The list of table controls. */
     protected List<Control> controlList;
 
@@ -641,7 +646,7 @@ public class Table extends AbstractControl implements Stateful {
         getColumns().put(column.getName(), column);
         getColumnList().add(column);
         column.setTable(this);
-
+        
         return column;
     }
 
@@ -808,6 +813,27 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
+     * CLK-60
+     * Return the table column inputs ajax filtering control action link.
+     * <p/>
+     * This dedicated link isolates the text-filtering lifecycle, allowing it to process
+     * independently without interfering with standard pagination, sorting, or custom 
+     * user behaviors.
+     *
+     * @return the table column inputs ajax filtering control action link
+     */
+    protected ActionLink getFilterLink() {
+        if (filterLink == null) {
+            filterLink = new ActionLink();
+            if (getName() != null) {
+                filterLink.setName(getName() + "-filterLink");
+                filterLink.setParent(this);
+            }
+        }
+        return filterLink;
+    }
+    
+    /**
      * Return the table row list DataProvider.
      *
      * @return the table row list DataProvider
@@ -963,6 +989,10 @@ public class Table extends AbstractControl implements Stateful {
             headElements.add(new CssImport("/click/table.css", versionIndicator));
 
             headElements.addAll(getControlLink().getHeadElements());
+            // CLK-60: Add filterLink resources if initialized
+            if (filterLink != null) {
+                headElements.addAll(getFilterLink().getHeadElements());
+            }            
         }
 
         String tableId = getId();
@@ -1030,6 +1060,13 @@ public class Table extends AbstractControl implements Stateful {
         if ((localControlLink.getParent()) == null) {
             localControlLink.setParent(this);
         }
+        // CLK-60: Cascade the naming definition safely down to our filterLink
+        if (filterLink != null) {
+            filterLink.setName(getName() + "-filterLink");
+            if (filterLink.getParent() == null) {
+                filterLink.setParent(this);
+            }
+        }        
     }
 
     /**
@@ -1288,6 +1325,7 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
+     * CLK-59
      * Return the Table state. The following state is returned:
      * <ul>
      * <li>{@link #getPageNumber()}</li>
@@ -1299,7 +1337,7 @@ public class Table extends AbstractControl implements Stateful {
      * @return the Table state
      */
     public Object getState() {
-        Object[] tableState = new Object[4];
+        Object[] tableState = new Object[6];
         boolean hasState = false;
 
         int currentPageNumber = getPageNumber();
@@ -1326,6 +1364,27 @@ public class Table extends AbstractControl implements Stateful {
             tableState[3] = controlLinkState;
         }
 
+        // Append filter mapping to index 4 before returning row configurations
+        Map<String, String> columnFilters = new HashMap<String, String>();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable() && !column.getFilterValue().isEmpty()) {
+                columnFilters.put(column.getName(), column.getFilterValue());
+            }
+        }
+        if (!columnFilters.isEmpty()) {
+            hasState = true;
+            tableState[4] = columnFilters;
+        }        
+
+       // CLK-60: Store any transient internal framework parameters bound to filterLink
+        if (filterLink != null) {
+            Object filterLinkState = getFilterLink().getState();
+            if (filterLinkState != null) {
+                hasState = true;
+                tableState[5] = filterLinkState;
+            }
+        }       
+        
         if (hasState) {
             return tableState;
         } else {
@@ -1364,6 +1423,23 @@ public class Table extends AbstractControl implements Stateful {
             Object controlLinkState = tableState[3];
             getControlLink().setState(controlLinkState);
         }
+        
+        if (tableState.length > 4 && tableState[4] != null) {
+            Map<String, String> columnFilters = (Map<String, String>) tableState[4];
+            for (Column column : getColumnList()) {
+                if (columnFilters.containsKey(column.getName())) {
+                    column.setFilterValue(columnFilters.get(column.getName()));
+                } else {
+                    column.setFilterValue(""); // fallback default clean clear
+                }
+            }    
+        }  
+
+        // CLK-60: Restore parameter configurations back onto the filterLink instance
+        if (tableState.length > 5 && tableState[5] != null && filterLink != null) {
+            Object filterLinkState = tableState[5];
+            getFilterLink().setState(filterLinkState);
+        }        
     }
 
     /**
@@ -1383,6 +1459,138 @@ public class Table extends AbstractControl implements Stateful {
         width = value;
     }
 
+    /**
+     * CLK-59
+     * Compiles and returns a map containing all active filter column property key strings 
+     * associated with their trimmed user text input entry parameters.
+     * <p/>
+     * This utility maps beautifully to lazy pagination data fetching layers (e.g. database criteria maps,
+     * or custom service layers) that track active column constraints.
+     * <p/>
+     * <b>Example Usage inside a {@link org.apache.click.dataprovider.PagingDataProvider}:</b>
+     * <pre class="prettyprint">
+     *    table.setDataProvider(new PagingDataProvider() {
+     *        public List getData() {
+     *            int first = table.getFirstRow();
+     *            int size = table.getPageSize();
+     *            Map filters = table.getFilters(); // Returns {"customer.person.name" -> "John"}
+     *            
+     *            return customerService.findCustomers(first, size, filters);
+     *        }
+     *    });
+     * </pre>
+     * <b>Note:</b> Column filtering only works when the Table is nested inside a
+     * {@link Form}. See {@link #setupFilterAjaxBehavior()} for details.
+     * 
+     * @return a Map containing matching filter assignments where key is the filter expression 
+     *         and value is the typed string criteria
+     */
+    public Map<String, String> getFilters() {
+        Map<String, String> filterMap = new HashMap<String, String>();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable() && !column.getFilterValue().isEmpty()) {
+                filterMap.put(column.getFilterBy(), column.getFilterValue());
+            }
+        }
+        return filterMap;
+    }
+    
+    /**
+     * CLK-60
+     * Initializes and registers the default core AjaxBehavior on the internal
+     * {@link #getFilterLink() filterLink} to intercept async filter requests
+     * and stream the column-filtered HTML table fragments.
+     * <p/>
+     * <b>Important requirements:</b>
+     * <ul>
+     *   <li>The {@link Table} <b>must</b> be placed inside a {@link Form}.
+     *       The client-side JavaScript ({@code Click.filterTableAjax}) relies on
+     *       {@code inputElement.form} to collect the filter parameters and submit
+     *       the AJAX request. If the Table is not nested inside a Form, filtering
+     *       will silently do nothing.</li>
+     *   <li>Filtering is activated only when at least one {@link Column} has
+     *       {@link Column#setFilterBy(String)} called.</li>
+     *   <li>Filter values are submitted asynchronously when the user presses Enter.</li> 
+     *   <li>The filter interaction is always performed via AJAX. There is no
+     *       full-page postback path for column filters.</li>
+     * </ul>
+     * <p/>
+     * Example usage:
+     * <pre class="prettyprint">
+     * Form form = new Form("form");
+     * Table table = new Table("table");
+     *
+     * Column nameCol = new Column("name", "Name");
+     * nameCol.setFilterBy("customer.name");   // enables the filter input
+     * table.addColumn(nameCol);
+     *
+     * form.add(table);   // Table must be inside a Form
+     * addControl(form);
+     * </pre>
+     */
+    private void setupFilterAjaxBehavior() {
+       //Safe invocation through our lazy getter, ensuring parent/child states align
+       ActionLink link = getFilterLink();
+
+       // Only append the behavior if it hasn't been registered yet
+        boolean hasDefaultBehavior = link.getBehaviors().stream().anyMatch(b -> b instanceof DefaultAjaxBehavior);       
+       if (!hasDefaultBehavior) {
+           // Reassign the naming context securely if the table has been named
+           if (getName() != null) {
+               link.setName(getName() + "-filterLink");
+               link.setParent(this);
+           }
+
+           link.addBehavior(new DefaultAjaxBehavior() {
+               @Override
+               public ActionResult onAction(Control source) {
+                   //CLK-60: Intercept and bind column-level filters from Request                   
+                   bindFiltersFromRequest();
+                   getRowList();
+                   HtmlStringBuffer buffer = new HtmlStringBuffer(getControlSizeEst());
+                   render(buffer);
+                   return new ActionResult(buffer.toString(), ActionResult.HTML);
+               }
+           });
+       }
+    }
+    
+    /**
+     * CLK-60: Bind column filter values from the current request parameters.
+     * Used by onProcess (sort/paging) and by the filter AjaxBehavior.
+     */
+    private void bindFiltersFromRequest() {
+        Context context = getContext();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                String paramName = getName() + "_filter_" + column.getName();
+                String paramValue = context.getRequestParameter(paramName);
+                if (paramValue != null) {
+                    column.setFilterValue(paramValue.trim());
+                }
+            }
+        }
+    }
+
+    /**
+     * CLK-60: Copy active filter values onto the controlLink so that
+     * sort/paging links preserve the current filter state.
+     */
+    private void applyFiltersToControlLink() {
+        ActionLink link = getControlLink();
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                String paramName = getName() + "_filter_" + column.getName();
+                String value = column.getFilterValue();
+                if (value != null && !value.isEmpty()) {
+                    link.setParameter(paramName, value);
+                } else {
+                    link.setParameter(paramName, null);
+                }
+            }
+        }
+    }
+    
     // Public Methods ---------------------------------------------------------
 
     /**
@@ -1447,13 +1655,38 @@ public class Table extends AbstractControl implements Stateful {
     @Override
     public void onInit() {
         super.onInit();
+
+        // CLK-60 Register the isolated link behavior safely under a valid ControlRegistry thread state
+        if (hasFilterColumns()) {
+            setupFilterAjaxBehavior();
+        }
+        
         getControlLink().onInit();
+        
+        // CLK-60: Initialize filterLink lifecycle state cleanly
+        if (filterLink != null) {
+            getFilterLink().onInit();
+        }        
         for (int i = 0, size = getControls().size(); i < size; i++) {
             Control control = getControls().get(i);
             control.onInit();
         }
     }
 
+    /**
+     * CLK-60 Check if any columns require filter input text boxes.
+     * 
+     * @return true if at least one column is filterable
+     */
+    protected boolean hasFilterColumns() {
+        for (Column column : getColumnList()) {
+            if (column.isFilterable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /**
      * This method invokes {@link #getRowList()} to ensure exceptions thrown
      * while retrieving table rows will be handled by the error page.
@@ -1463,6 +1696,10 @@ public class Table extends AbstractControl implements Stateful {
     @Override
     public void onRender() {
         getControlLink().onRender();
+        // CLK-60: Trigger render checks on filterLink
+        if (filterLink != null) {
+            getFilterLink().onRender();
+        }        
         for (int i = 0, size = getControls().size(); i < size; i++) {
             Control control = getControls().get(i);
             control.onRender();
@@ -1480,39 +1717,43 @@ public class Table extends AbstractControl implements Stateful {
      */
     @Override
     public boolean onProcess() {
+
+        // CLK-60: Only process filterLink if initialized and named - skip normal processing
+        if (hasFilterColumns()) {
+            ActionLink localFilterLink = getFilterLink();
+            definePagingParams(localFilterLink);
+            
+            localFilterLink.onProcess();
+            
+            // CLK-60: Process sorting parameters from filterLink clicks too
+            if (localFilterLink.isClicked()) {
+                applyPagingAndSortingFromLink(localFilterLink);
+                return true; // Skip normal processing, let AJAX behavior handle it
+            }
+        }        
+
+        /** 
+         * CLK-60: preserve filters on full-page sort/paging. 
+         * If the request came from a full-page sorting or pagination event (controlLink),
+         * the early AJAX filterLink return block above was skipped. 
+         * We must invoke bindFiltersFromRequest() here to guarantee that active column filters 
+         * are captured from the standard postback parameters and preserved during sort/paging operations.        
+         */
+        if (hasFilterColumns()) {
+            bindFiltersFromRequest();
+        }
+
+        // --- controlLink (sort / paging) ---
         ActionLink localControlLink = getControlLink();
 
         // Ensure parameters are defined to cater for Ajax requests that uses
         // strict parameter binding
-        localControlLink.defineParameter(PAGE);
-        localControlLink.defineParameter(COLUMN);
-        localControlLink.defineParameter(ASCENDING);
-        localControlLink.defineParameter(SORT);
+        definePagingParams(localControlLink);
 
         localControlLink.onProcess();
 
         if (localControlLink.isClicked()) {
-            String page = localControlLink.getParameter(PAGE);
-            if (NumberUtils.isCreatable(page)) {
-                setPageNumber(Integer.parseInt(page));
-            } else {
-                setPageNumber(0);
-            }
-
-            String column = localControlLink.getParameter(COLUMN);
-            if (column != null) {
-                setSortedColumn(column);
-            }
-
-            String ascending = localControlLink.getParameter(ASCENDING);
-            if (ascending != null) {
-                setSortedAscending("true".equals(ascending));
-            }
-
-            // Flip sorting order
-            if ("true".equals(localControlLink.getParameter(SORT))) {
-                setSortedAscending(!isSortedAscending());
-            }
+            applyPagingAndSortingFromLink(localControlLink);
         }
 
         boolean continueProcessing = true;
@@ -1528,6 +1769,35 @@ public class Table extends AbstractControl implements Stateful {
         return continueProcessing;
     }
 
+    private void definePagingParams(ActionLink localActionLink) {
+        // Define expected parameters to cater for strict binding environments
+        localActionLink.defineParameter(PAGE);
+        localActionLink.defineParameter(COLUMN);
+        localActionLink.defineParameter(ASCENDING);
+        localActionLink.defineParameter(SORT);
+    }
+    
+    private boolean applyPagingAndSortingFromLink(ActionLink link) {
+        String page = link.getParameter(PAGE);
+        if (NumberUtils.isCreatable(page)) {
+            setPageNumber(Integer.parseInt(page));
+        } else {
+            setPageNumber(0);
+        }
+        String column = link.getParameter(COLUMN);
+        if (column != null) {
+            setSortedColumn(column);
+        }
+        String ascending = link.getParameter(ASCENDING);
+        if (ascending != null) {
+            setSortedAscending("true".equals(ascending));
+        }
+        if ("true".equals(link.getParameter(SORT))) {
+            setSortedAscending(!isSortedAscending());
+        }
+        return link.isClicked();
+    }    
+
     /**
      * This method will clear the <code>rowList</code>, if the property
      * <code>nullifyRowListOnDestroy</code> is true, set the sorted flag to false and
@@ -1540,6 +1810,10 @@ public class Table extends AbstractControl implements Stateful {
         sorted = false;
 
         getControlLink().onDestroy();
+        // CLK-60: Tear down the filterLink instance resources securely
+        if (filterLink != null) {
+            getFilterLink().onDestroy();
+        }        
         for (int i = 0, size = getControls().size(); i < size; i++) {
             Control control = getControls().get(i);
             try {
@@ -1762,14 +2036,19 @@ public class Table extends AbstractControl implements Stateful {
     }
 
     /**
+     * CLK-59
      * Render the table header row of column names.
      *
      * @param buffer the StringBuffer to render the header row in
      */
     protected void renderHeaderRow(HtmlStringBuffer buffer) {
+        // CLK-60: ensure sort links carry current filter values
+        applyFiltersToControlLink();        
+        
         buffer.append("<thead>\n<tr>\n");
 
         List<Column> tableColumns = getColumnList();
+        // 1. Render standard column title links (id, name, etc.)
         for (int j = 0; j < tableColumns.size(); j++) {
             Column column = tableColumns.get(j);
             column.renderTableHeader(buffer, getContext());
@@ -1778,7 +2057,33 @@ public class Table extends AbstractControl implements Stateful {
             }
         }
 
-        buffer.append("</tr></thead>\n");
+        buffer.append("</tr>"); // Keep original closed tr
+
+        // 2. Render the secondary input layout row ONLY if filter columns are active
+        if (hasFilterColumns()) {
+            buffer.append("<tr class=\"filter-row\">\n");
+            for (Column column : tableColumns) {
+                buffer.append("<td>");
+                if (column.isFilterable()) {
+                    String paramName = getName() + "_filter_" + column.getName();
+                    
+                    // CLK-60: Use the new dedicated getFilterLink() naming property!
+                    String filterLinkName = getFilterLink().getName(); 
+                    
+                    buffer.append("<input type=\"text\" name=\"")
+                          .append(paramName).append("\" ")
+                          .append("value=\"").appendEscaped(column.getFilterValue()).append("\" ")
+                          // CLK-60 Calls your new control.js AJAX hook on Enter press
+                          .append("onkeydown=\"if(event.keyCode==13){ event.preventDefault(); Click.filterTableAjax(this, '")
+                          .append(getId()).append("', '").appendEscaped(filterLinkName).append("'); }\" />");
+                }
+                buffer.append("</td>\n");
+            }
+            buffer.append("</tr>\n");
+        }
+
+        // 3. Close the header block clean exactly once
+        buffer.append("</thead>\n");
     }
 
     /**
@@ -2031,6 +2336,9 @@ public class Table extends AbstractControl implements Stateful {
      * @param buffer the StringBuffer to render the pagination display to
      */
     protected void renderPaginator(HtmlStringBuffer buffer) {
+        // CLK-60: paging links must carry current filter values
+        applyFiltersToControlLink();        
+        
         getPaginator().render(buffer);
     }
 
@@ -2103,6 +2411,9 @@ public class Table extends AbstractControl implements Stateful {
             String lastTitle = getMessage("table-last-title");
             String gotoTitle = getMessage("table-goto-title");
 
+            // CLK-60: ensure sort links carry current filter values
+            applyFiltersToControlLink();            
+            
             AbstractLink link = getControlLink();
             if (getSortedColumn() != null) {
                 link.setParameter(SORT, null);
