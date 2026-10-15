@@ -26,7 +26,7 @@ if (typeof Click.domready == 'undefined') {
     Click.domready = {
         events: [],
         ready: false,
-        run: function () {
+        run: function() {
             if (!document.body) {
                 // If body is null run this function after timeout
                 return setTimeout(arguments.callee, 13);
@@ -38,8 +38,7 @@ if (typeof Click.domready == 'undefined') {
             }
         }
     }
-}
-;
+};
 
 /**
  * This function is based on work done by Dean Edwards, Diego Perini,
@@ -51,7 +50,7 @@ if (typeof Click.domready == 'undefined') {
  * http://www.thefutureoftheweb.com/blog/adddomloadevent/
  * http://www.subprint.com/blog/demystifying-the-dom-ready-event-method/
  */
-(function () {
+(function() {
     // Handle DOMContentLoaded compliant browsers.
     if (document.addEventListener) {
         document.addEventListener("DOMContentLoaded", function () {
@@ -112,7 +111,7 @@ if (typeof Click.domready == 'undefined') {
  *        // do something
  *    });
  */
-Click.addLoadEvent = function (func) {
+Click.addLoadEvent = function(func) {
     // If dom is ready, fire event and return
     if (Click.domready.ready) {
         return func();
@@ -416,7 +415,7 @@ Click.submit = function (form) {
 }
 
 /**
- * CLK-60
+ * CLK-60 CLK-61
  * Submits table column inputs asynchronously via AJAX and replaces the 
  * targeted table element while preserving the user's input focus caret.
  */
@@ -451,15 +450,17 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     request.onreadystatechange = function () {
+        // 1. Wait until the request is completely finished
         if (request.readyState === 4) {
+            // 2. Only handle successful responses here
             if (request.status === 200) {        
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = request.responseText;
 
-                // 1. Locate the physical table instance active on the browser screen
+                // Locate the physical table instance active on the browser screen
                 var oldTable = document.getElementById(tableName).parentNode;
 
-                // 2. STSTUCTURAL ADJUSTMENT: Extract the target element node cleanly.
+                // STRUCTURAL ADJUSTMENT: Extract the target element node cleanly.
                 // If the table is wrapped inside another table form, querySelector inside tempDiv 
                 // might find multiple instances. We explicitly want the deep target matching our ID and use the parent one.
                 var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]').parentNode;
@@ -475,7 +476,7 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
                     // Swap out the table component elements cleanly in the DOM hierarchy
                     oldTable.parentNode.replaceChild(newTable, oldTable);
 
-                    // 3. Find the input node inside the fresh DOM fragment and restore focus caret
+                    // Find the input node inside the fresh DOM fragment and restore focus caret
                     var refreshedInputs = document.getElementsByName(activeInputName);
                     if (refreshedInputs && refreshedInputs.length > 0) {
                         var refreshedInput = refreshedInputs[0];
@@ -483,10 +484,11 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
                         refreshedInput.setSelectionRange(selectionStart, selectionEnd);
                     }
                 }
-            }
-        } else {
-            console.error("Table filter AJAX failed: " + request.status);
-        }        
+            } else {
+                // 3. Log errors safely only AFTER the request has failed to complete properly
+                console.error("Table filter AJAX failed: " + request.status);
+            }        
+        }
     };
     request.send(postData);
 };
