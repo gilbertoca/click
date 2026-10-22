@@ -583,15 +583,6 @@ public class Form extends AbstractContainer implements Stateful {
             + "var field = document.getElementById('$id');\n"
             + "if (field && field.focus && field.type != 'hidden' && field.disabled != true) { field.focus(); };\n"
             + "//--></script>\n";
-    /**
-     * The HTML5 block/div layout constant.
-     */
-    public static final String LAYOUT_DIV = "div";
-
-    /**
-     * The legacy table layout constant.
-     */
-    public static final String LAYOUT_TABLE = "table";
 
     // Instance Variables -----------------------------------------------------
     /**
@@ -726,10 +717,10 @@ public class Form extends AbstractContainer implements Stateful {
     private int insertIndexOffset; // Ensures hiddenFields added by Form are always at the end of the controlList
 
     /**
-     * The current form rendering layout strategy. Defaults to "table" for
+     * The current form rendering layout strategy. Defaults to FALSE, "table layout" for
      * strict backward compatibility.
      */
-    private String layout = LAYOUT_TABLE;
+    private boolean  noLayout = false;
 
     // Constructors -----------------------------------------------------------
     /**
@@ -1779,39 +1770,28 @@ public class Form extends AbstractContainer implements Stateful {
     }
 
     /**
-     * Return the current layout strategy used to render the form container.
+     * CLK-62
+     * Return true if the form render no layout. False for table layout.
      *
-     * @return the active rendering layout strategy, defaults to "table"
-     * 
-     * @since 2.7.0-JDK17
+     * @return true if the form render no layout. False for table layout.
      */
-    public String getLayout() {
-        return layout;
+    public boolean isNoLayout() {
+        return noLayout;
     }
 
     /**
+     * CLK-62
      * Set the layout strategy used to render the form container.
      * <p>
      * Supported layout modes are:
      * <ul>
-     * <li>{@link #LAYOUT_TABLE} - Legacy table-based grid rendering (default
-     * track for backward compatibility).</li>
-     * <li>{@link #LAYOUT_DIV} - Semantic HTML5 block-level DIV rendering, ideal
-     * for responsive layouts and modern frameworks (Bulma, Tailwind, Bootstrap
-     * 5).</li>
+     * <li> FALSE - Legacy table-based grid rendering (default track for backward compatibility).</li>
+     * <li> TRUE  - Form should strictly handle logical boundaries, no layout.</li>
      * </ul>
-     *
-     * @param layout the layout strategy to use, either {@link #LAYOUT_TABLE} or
-     * {@link #LAYOUT_DIV}
-     * @throws IllegalArgumentException if the layout value is not supported
-     *
-     * @since 2.7.0-JDK17
+     * @param noLayout the layout strategy flag
      */
-    public void setLayout(String layout) {
-        if (!LAYOUT_TABLE.equals(layout) && !LAYOUT_DIV.equals(layout)) {
-            throw new IllegalArgumentException("Invalid layout option: " + layout);
-        }
-        this.layout = layout;
+    public void setNoLayout(boolean noLayout) {
+        this.noLayout = noLayout;
     }
 
     // Public Methods ---------------------------------------------------------
@@ -2347,12 +2327,8 @@ public class Form extends AbstractContainer implements Stateful {
 
         renderHeader(buffer, formFields);
 
-        // --- NEW HTML5 BLOCK LAYOUT PIPELINE ---
-        if (LAYOUT_DIV.equals(getLayout())) {
-            buffer.append("""
-                <div class="click-form" id="%s-form">
-                """.formatted(getId()));
-
+        // --- NEW NO LAYOUT HTML5 BLOCK PIPELINE ---
+        if (isNoLayout()) {
             if (POSITION_TOP.equals(getErrorsPosition())) {
                 renderHtml5Errors(buffer, process);
                 renderHtml5Fields(buffer);
@@ -2371,8 +2347,6 @@ public class Form extends AbstractContainer implements Stateful {
             } else {
                 throw new IllegalArgumentException("Invalid errorsPosition: " + getErrorsPosition());
             }
-
-            buffer.append("</div>\n");
         } else { // --- LEGACY TABLE LAYOUT PIPELINE (BACKWARD COMPATIBILITY) ---
             buffer.append("<table class=\"form\" id=\"");
             buffer.append(getId());
@@ -2406,108 +2380,152 @@ public class Form extends AbstractContainer implements Stateful {
 
     // Protected Methods ------------------------------------------------------
     /**
-     * Renders global and field error indicators using semantic block divisions
-     * instead of tables.
+     * CLK-62
+     * Renders form-level and field-level error indicators flatly using native semantic elements.
+     * <p>
+     * Leverages the original baseline CSS classes to handle visibility and colors naturally,
+     * maintaining full parity with the active request focus anchors.
      *
-     * @param buffer
-     * @param process
+     * @param buffer the StringBuffer to render to
+     * @param process true if the form request is currently being processed
      */
     protected void renderHtml5Errors(HtmlStringBuffer buffer, boolean process) {
         if (process && (getError() != null || !getErrorFields().isEmpty())) {
-            buffer.append("<div class=\"form-errors-container\" role=\"alert\">\n");
-
-            // Global form message error (if present)
+            
+            // A. Global form-level error message tracking
             if (getError() != null) {
-                buffer.append(String.format("  <div class=\"form-error-global\">%s</div>\n", getError()));
+                buffer.append("<span class=\"error\">")
+                      .append(getError())
+                      .append("</span><br/>\n");
             }
 
-            // Mapped field summary errors with click-to-focus accessibility anchors
+            // B. Listed field summary errors with focus accessibility anchors
             for (Field field : getErrorFields()) {
                 if (field.getError() == null) {
                     continue;
                 }
-                buffer.append(String.format(
-                        "  <div class=\"form-error-item\"><a class=\"error\" href=\"javascript:%s\">%s</a></div>\n",
-                        field.getFocusJavaScript(), field.getError()
-                ));
+                
+                // Emits a clean anchor linking straight to the invalid field target
+                buffer.append(String.format("<a class=\"error\" href=\"javascript:%s\">%s</a><br/>\n", field.getFocusJavaScript(), field.getError()));
             }
-
-            buffer.append("</div>\n");
+            
+            buffer.append("\n");
         }
     }
 
     /**
-     * Renders standard form input fields into semantic HTML5 block divisions.
-     * Bypasses the legacy renderFields/renderControls table-wrapping grid.
+     * CLK-62
+     * Renders standard form controls flatly into the buffer, mirroring classic label attributes,
+     * prefixes, and suffixes while strictly adhering to a layout-free WHATWG semantic standard.
      *
-     * @param buffer
+     * @param buffer the StringBuffer to render to
      */
     protected void renderHtml5Fields(HtmlStringBuffer buffer) {
         for (Control control : getControls()) {
-            // Action buttons are skipped here and handled inside renderHtml5Buttons()
             if (control instanceof Button) {
                 continue;
             }
 
-            // Skip rendering if the control is hidden or missing
             if (!isHidden(control)) {
-                buffer.append("<div class=\"form-field-group\">\n");
-
-                //Case A: If it is a FieldSet (Sub-container), trigger its own layout rendering
+                
                 if (control instanceof FieldSet) {
                     control.render(buffer);
-                } else if (control instanceof Label) { //Case B: If it is a static literal Label
+                    continue;
+                }
+
+                if (control instanceof Label) {
                     control.render(buffer);
-                } else if (control instanceof Field) { //Case C: Standard input component (TextField, Select, etc.)
+                    buffer.append("\n");
+                    continue;
+                }
+
+                if (control instanceof Field) {
                     Field field = (Field) control;
+
+                    // =========================================================================
+                    // 1. MIMIC APACHE CLICK LABEL COMPILATION WORKFLOW (Layout-Agnostic)
+                    // =========================================================================
                     String fieldId = field.getId();
                     String fieldLabel = field.getLabel();
 
-                    // Renders the modern label tag mapped to the element ID
                     if (fieldId != null && fieldLabel != null) {
-                        String requiredMarker = "";
+                        // Handle localized prefix flags
                         if (field.isRequired()) {
-                            requiredMarker = String.format("<span class=\"form-required-marker\">%s</span>",
-                                    getMessage("label-required-suffix"));
+                            buffer.append(getMessage("label-required-prefix"));
+                        } else {
+                            buffer.append(getMessage("label-not-required-prefix"));
                         }
 
-                        String labelClass = field.getError() == null ? "form-label" : "form-label error";
-                        buffer.append(String.format("  <label class=\"%s\" for=\"%s\">%s%s</label>\n",
-                                labelClass, fieldId, fieldLabel, requiredMarker));
+                        buffer.elementStart("label");
+                        buffer.appendAttribute("for", fieldId);
+                        buffer.appendAttribute("style", field.getLabelStyle());
+                        if (field.isDisabled()) {
+                            buffer.appendAttributeDisabled();
+                        }
+
+                        // Seamlessly merge dynamic runtime validation error states with custom user classes
+                        String cellClass = field.getLabelStyleClass();
+                        if (field.getError() == null) {
+                            buffer.appendAttribute("class", cellClass);
+                        } else {
+                            buffer.append(" class=\"error");
+                            if (cellClass != null) {
+                                buffer.append(" ");
+                                buffer.append(cellClass);
+                            }
+                            buffer.append("\"");
+                        }
+                        buffer.closeTag();
+                        
+                        buffer.append(fieldLabel);
+                        buffer.elementEnd("label");
+
+                        // Handle localized suffix flags
+                        if (field.isRequired()) {
+                            buffer.append(getMessage("label-required-suffix"));
+                        } else {
+                            buffer.append(getMessage("label-not-required-suffix"));
+                        }
+                        buffer.append("\n");
                     }
 
-                    // Input structural wrapper
-                    buffer.append("  <div class=\"form-control-wrapper\">\n");
-                    field.render(buffer); // The primitive component outputs its native clean input tag
+                    // =========================================================================
+                    // 2. RENDER THE INPUT CONTROL NATIVELY
+                    // =========================================================================
+                    field.render(buffer);
+                    buffer.append("\n");
 
-                    // If validation failed, injects the error label right beneath the input
+                    // 3. Render Field Validation Error String Using Baseline Span Selectors
                     if (field.getError() != null) {
-                        buffer.append(String.format("    <span class=\"form-field-error\">%s</span>\n",
-                                field.getError()));
+                        buffer.append("<span class=\"error\">").append(field.getError()).append("</span><br/>\n");
                     }
-                    buffer.append("  </div>\n");
-                }
 
-                buffer.append("</div>\n");
+                } else {
+                    // Raw integration path for complex components like Table with AJAX #60
+                    control.render(buffer);
+                    buffer.append("\n");
+                }
             }
         }
     }
 
     /**
-     * Renders standard form buttons into a clean action container block.
+     * CLK-62
+     * Renders standard form submit and action buttons flatly into the output stream.
+     * <p>
+     * Bypasses forced layout rows, enabling action buttons to render sequentially 
+     * and align cleanly with text components or tables on the same viewport line.
      *
-     * @param buffer
+     * @param buffer the StringBuffer to render to
      */
     protected void renderHtml5Buttons(HtmlStringBuffer buffer) {
         List<Button> buttons = getButtonList();
         if (!buttons.isEmpty()) {
-            buffer.append("<div class=\"form-actions-bar\">\n");
-
             for (Button button : buttons) {
                 button.render(buffer);
+                buffer.append(" "); // Preserves natural horizontal inline spacing between buttons
             }
-
-            buffer.append("</div>\n");
+            buffer.append("\n");
         }
     }
 

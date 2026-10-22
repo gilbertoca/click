@@ -421,8 +421,10 @@ Click.submit = function (form) {
  */
 Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
     var form = inputElement.form;
-    if (!form)
+    if (!form) {
+        alert('Error: form is undefined. In order to submit a column filter input value through JavaScript, a Form must exist!');
         return;
+    }
 
     var url = form.action || window.location.href;
 

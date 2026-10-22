@@ -39,15 +39,15 @@ public class FormHtmlTest extends TestCase {
         
         Form form = new Form("legacyForm");
         
-        // Assures the default internal property layout value is "table"
-        assertEquals(Form.LAYOUT_TABLE, form.getLayout());
+        // Assures the default internal property layout value is false "table layout"
+        assertEquals(form.isNoLayout(), false);
         
         form.add(new TextField("username", "User"));
         
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         form.render(buffer);
         String htmlResult = buffer.toString();
-        
+        System.out.println("testDefaultLayoutTableRendering() "  + htmlResult);        
         // Assures the historical table markup is outputted correctly
         assertTrue("Default layout must contain a table element", htmlResult.contains("<table class=\"form\""));
         assertTrue("Default layout must contain tr table rows", htmlResult.contains("<tr"));
@@ -55,93 +55,77 @@ public class FormHtmlTest extends TestCase {
     }
 
     /**
-     * Verifies that explicitly switching to DIV layout strategy dynamically updates
-     * the DOM tree into clean block elements, completely eliminating any legacy table artifacts.
+     * Verifies that explicitly activating setNoLayout(true) outputs flat, native 
+     * semantic HTML5 markup completely free of forced wrapper classes or tables.
      */
-    public void testHtml5DivLayoutRendering() {
-        // Initializing the context to populate ThreadLocal mock servlet stacks
+    public void testHtml5NoLayoutRendering() {
         MockContext.initContext("test-form.htm");
-        
         Form form = new Form("modernForm");
         
-        // Activates the newly introduced Fork layout capability
-        form.setLayout(Form.LAYOUT_DIV);
-        assertEquals(Form.LAYOUT_DIV, form.getLayout());
+        // 1. Update flag to verify your new WHATWG zero-layout toggle
+        form.setNoLayout(true);
+        assertTrue(form.isNoLayout());
         
         TextField nameField = new TextField("name", "Full Name");
-        nameField.setRequired(true); // Triggers the input required verification badge
+        nameField.setRequired(true); 
         form.add(nameField);
         
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         form.render(buffer);
         String htmlResult = buffer.toString();
         
-        // 1. Guard Rails: Assures no legacy table elements leaked into the HTML5 buffer pipeline
-        assertFalse("DIV mode must not output table opening elements", htmlResult.contains("<table"));
-        assertFalse("DIV mode must not output table tr rows", htmlResult.contains("<tr"));
-        assertFalse("DIV mode must not output table td cells", htmlResult.contains("<td"));
+        // Guard Rails: Assures NO structural wrappers pollute the stream
+        assertFalse("No layout mode must not output tables", htmlResult.contains("<table"));
+        assertFalse("No layout mode must not output custom div rows", htmlResult.contains("class=\"form-field-group\""));
+        assertFalse("No layout mode must not output wrapper divs", htmlResult.contains("class=\"form-control-wrapper\""));
         
-        // 2. Structural Asserts: Verifies presence of modern semantic layout block containers
-        assertTrue("Must contain the primary container block division", htmlResult.contains("class=\"click-form\""));
-        assertTrue("Must contain the specialized outer field group division", htmlResult.contains("class=\"form-field-group\""));
-        assertTrue("Must contain the internal input wrapper structural division", htmlResult.contains("class=\"form-control-wrapper\""));
-        
-        // 3. Accessibility Asserts: Verifies W3C label compliance ('for' attribute matching element ID)
-        assertTrue("Label element must map cleanly to the targeted field ID", htmlResult.contains("for=\"modernForm_name\""));
-        
-        // 4. Localization Asserts: Assures required marker token uses localized asset property maps (*)
-        assertTrue("Must render the required form badge structure", htmlResult.contains("class=\"form-required-marker\""));
+        System.out.println("testHtml5NoLayoutRendering() "  + htmlResult);
+        // Verification of Pure, Flat Elements
+        assertTrue("Must contain a raw semantic label", htmlResult.contains("<label for=\"modernForm_name\""));
+        assertTrue("Must contain the native input field directly", htmlResult.contains("name=\"name\""));
+        assertTrue("Must use the baseline required suffix class", htmlResult.contains("class=\"required\""));
     }
 
     /**
-     * Verifies that errors and buttons are correctly mapped to modern block layouts,
-     * maintaining javascript-focus accessibility hooks without leaking legacy tables.
+     * Validates that field validation errors append raw baseline error blocks
+     * directly beneath fields without leaking table or division structures.
      */
-    public void testHtml5ErrorsAndButtonsRendering() {
-        // Initializing context with a specific virtual page layout matching Click target bounds
+    public void testHtml5ErrorsAndButtonsFlatRendering() {
         MockContext context = MockContext.initContext("test-form.htm");
         MockRequest request = context.getMockRequest();
         
-        // Simulates a real POST submission targeting the form container
         request.setMethod("POST");
         request.setParameter(Form.FORM_NAME, "modernForm");
         
         Form form = new Form("modernForm");
-        form.setLayout(Form.LAYOUT_DIV);
+        form.setNoLayout(true); // Active the new flat execution engine
         
         TextField emailField = new TextField("email", "Email");
-        emailField.setRequired(true); 
+        emailField.setRequired(true);
         form.add(emailField);
         
         Submit submitButton = new Submit("save", "Save");
         form.add(submitButton);
         
-        // Binds the active button token sequence to mock execution pass
         request.setParameter("modernForm_save", "Save");
+        request.setParameter("email", ""); // Emits blank parameter to trigger field required validation
         
-        // CRITICAL FIX: Based on TextFieldTest.java, Apache Click requires the bound field key 
-        // to be present as an explicit parameter (even if empty) to trigger validation processing rules.
-        request.setParameter("email", "");
-        
-        // Process lifecycle execution to trigger field required validation evaluation
         form.onProcess();
-        
-        // The mock request parameters are now fully active, forcing the form state to fail validation
-        assertFalse("Form validation state must be invalid due to missing required field data", form.isValid());
+        assertFalse(form.isValid());
         
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         form.render(buffer);
         String htmlResult = buffer.toString();
+        System.out.println("testHtml5ErrorsAndButtonsFlatRendering() "  + htmlResult);
+        // Assert that the global/field error blocks leverage native tags and baseline classes
+        assertFalse(htmlResult.contains("class=\"form-errors-container\""));
+        assertTrue("Form error must use native span error class", htmlResult.contains("<span class=\"error\""));
+        assertTrue("Field error must match baseline inline format", htmlResult.contains("<span class=\"error\">"));
+        assertTrue("Accessibility anchors must remain active", htmlResult.contains("href=\"javascript:"));
         
-        // 1. Errors Verification
-        assertFalse("Errors block must not wrap in tables", htmlResult.contains("<table class=\"errors\""));
-        assertTrue("Errors block must use the new HTML5 container structure", htmlResult.contains("class=\"form-errors-container\""));
-        assertTrue("Must maintain accessibility anchors pointing to fields focus routines", htmlResult.contains("href=\"javascript:"));
-        assertTrue("Must display field-level validation tags adjacent to control-wrappers", htmlResult.contains("class=\"form-field-error\""));
-        
-        // 2. Buttons Verification
-        assertTrue("Actions area must render using clean button bars", htmlResult.contains("class=\"form-actions-bar\""));
-        assertTrue("Must output native clean submit tags", htmlResult.contains("type=\"submit\" name=\"save\""));
+        // Assert that button bars render sequentially without structural containers
+        assertFalse(htmlResult.contains("class=\"form-actions-bar\""));
+        assertTrue("Must output clean native submit tag", htmlResult.contains("type=\"submit\" name=\"save\""));
     }
 
     /**
@@ -162,7 +146,7 @@ public class FormHtmlTest extends TestCase {
         int totalControlsLegacy = form.getControls().size();
         
         // Execution Pass B: Shifts layout strategy to DIV and renders instantly on the same thread
-        form.setLayout(Form.LAYOUT_DIV);
+        form.setNoLayout(true);
         HtmlStringBuffer modernBuffer = new HtmlStringBuffer();
         form.render(modernBuffer);
         int totalControlsModern = form.getControls().size();

@@ -44,8 +44,8 @@ public class FieldSetHtmlTest extends TestCase {
         FieldSet fieldSet = new FieldSet("addressFs", "Address Details");
         form.add(fieldSet);
 
-        // Assures the default internal property layout value is "table"
-        assertEquals(Form.LAYOUT_TABLE, fieldSet.getLayout());
+        // Assures the default internal property layout value is false "table layout"
+        assertEquals(form.isNoLayout(), false);
 
         fieldSet.add(new TextField("street", "Street"));
 
@@ -64,34 +64,36 @@ public class FieldSetHtmlTest extends TestCase {
      * updates the DOM tree into clean block elements, completely eliminating
      * any legacy table artifacts.
      */
-    public void testHtml5DivLayoutRendering() {
-        // Setup parent Form to avoid NullPointerExceptions during message bundle resolutions
-        Form form = new Form("mainForm");
+    public void testHtml5NoLayoutRendering() {
+        MockContext.initContext("test-form.htm");
+        Form form = new Form("modernForm");
+
         FieldSet fieldSet = new FieldSet("identityFs", "Identity Info");
         form.add(fieldSet);
 
-        // Activates the newly introduced Fork layout capability
-        fieldSet.setLayout(Form.LAYOUT_DIV);
-        assertEquals(Form.LAYOUT_DIV, fieldSet.getLayout());
+        // Update flag to verify your new WHATWG zero-layout toggle
+        form.setNoLayout(true);
+        assertTrue(form.isNoLayout());
 
-        TextField cpfField = new TextField("cpf", "CPF Document");
-        fieldSet.add(cpfField);
+        TextField idField = new TextField("id", "Customer ID");
+        idField.setRequired(true); 
+        fieldSet.add(idField);
 
         HtmlStringBuffer buffer = new HtmlStringBuffer();
         fieldSet.render(buffer);
         String htmlResult = buffer.toString();
-
-        // 1. Guard Rails: Assures no legacy table elements leaked into the HTML5 buffer pipeline
-        assertFalse("DIV mode must not output inner table elements", htmlResult.contains("<table"));
-        assertFalse("DIV mode must not output table tr rows", htmlResult.contains("<tr"));
-        assertFalse("DIV mode must not output table td cells", htmlResult.contains("<td"));
-
-        // 2. Structural Asserts: Verifies presence of modern semantic layout block containers
-        assertTrue("Must contain the custom fieldset content wrapper division", htmlResult.contains("class=\"fieldset-content\""));
-        assertTrue("Must contain the outer field group layer", htmlResult.contains("class=\"form-field-group\""));
-        assertTrue("Must contain the element input controller wrapper", htmlResult.contains("class=\"form-control-wrapper\""));
-
-        // 3. Control Delegation Asserts: Verifies that inner fields are rendered cleanly
-        assertTrue("Must output native clean field identifiers", htmlResult.contains("name=\"cpf\""));
+        System.out.println("testHtml5NoLayoutRendering() "  + htmlResult);
+        // Guard Rails: Assures NO structural wrappers pollute the stream
+        assertFalse("No layout mode must not output tables", htmlResult.contains("<table"));
+        assertFalse("No layout mode must not output custom div rows", htmlResult.contains("class=\"form-field-group\""));
+        assertFalse("No layout mode must not output wrapper divs", htmlResult.contains("class=\"form-control-wrapper\""));
+        
+        // Verification of Pure, Flat Elements
+        assertTrue("Must contain a raw semantic label", htmlResult.contains("<label for=\"modernForm_id\""));
+        assertTrue("Must contain the native input field directly", htmlResult.contains("name=\"id\""));
+        assertTrue("Must use the baseline required suffix class", htmlResult.contains("class=\"required\""));
+        
+        // Control Delegation Asserts: Verifies that inner fields are rendered cleanly
+        assertTrue("Must output native clean field identifiers", htmlResult.contains("name=\"id\""));
     }
 }
