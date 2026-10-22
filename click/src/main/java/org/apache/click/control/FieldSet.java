@@ -149,12 +149,6 @@ public class FieldSet extends Field implements Container {
      */
     protected Integer columns;
 
-    /**
-     * The FieldSet rendering layout strategy. Defaults to "table" for backward
-     * compatibility.
-     */
-    protected String layout = Form.LAYOUT_TABLE;
-
     // Constructors -----------------------------------------------------------
     /**
      * Create a FieldSet with the given name.
@@ -851,27 +845,6 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Return current form rendering layout strategy.
-     *
-     * @return layout strategy
-     */
-    public String getLayout() {
-        return layout;
-    }
-
-    /**
-     * Set the form rendering layout strategy: TABLE or DIV.
-     *
-     * @param layout
-     */
-    public void setLayout(String layout) {
-        if (!Form.LAYOUT_TABLE.equals(layout) && !Form.LAYOUT_DIV.equals(layout)) {
-            throw new IllegalArgumentException("Invalid layout option: " + layout);
-        }
-        this.layout = layout;
-    }
-
-    /**
      * Process the request invoking <code>onProcess()</code> on the contained
      * <code>Control</code> elements.
      *
@@ -1038,25 +1011,25 @@ public class FieldSet extends Field implements Container {
                 buffer.append("\n");
             }
         }
+        // CLK-62
+        // Detect parent Form layout configuration style to pick the inner pipeline branch
+        Form parentForm = getForm();
+        boolean formHasNoLayout = (parentForm != null && parentForm.isNoLayout());
 
-        // --- NEW HTML5 BLOCK LAYOUT PIPELINE ---
-        if (Form.LAYOUT_DIV.equals(getLayout())) {
-            buffer.append("""
-                <div class="fieldset-content" id="%s-content">
-                """.formatted(getId()));
-
+        if (formHasNoLayout) {
+            // --- WHATWG SEMANTIC FLAT LAYOUT PIPELINE ---
+            // Streams fields purely line-by-line using natural baseline elements.
+            // Absolute layout freedom; zero DOM structural collisions with Tables/AJAX loops.
             renderHtml5Fields(buffer);
             renderHtml5Buttons(buffer);
-
-            buffer.append("</div>\n");
-        } else { // --- LEGACY TABLE LAYOUT PIPELINE (BACKWARD COMPATIBILITY) ---
-            // Render standard controls wrapped in nested tables
+        } else {
+            // --- LEGACY TABLE LAYOUT PIPELINE (STRICT BACKWARD COMPATIBILITY) ---
+            // Fall back onto original cell matrix wrappers for old styling support.
             renderFields(buffer);
-
-            // Render standard actions wrapped in button tables
             renderButtons(buffer);
         }
 
+        // Render closing </fieldset> tag boundary block
         if (getShowBorder()) {
             buffer.elementEnd(getTag());
             buffer.append("\n");
@@ -1163,79 +1136,125 @@ public class FieldSet extends Field implements Container {
     }
 
     /**
-     * Renders internal FieldSet fields as flat semantic divisions instead of
-     * table columns.
+     * CLK-62
+     * Renders standard form controls nested inside the FieldSet container flatly,
+     * mirroring classic label attributes, prefixes, and suffixes while strictly 
+     * adhering to a layout-free WHATWG semantic standard.
      *
-     * @param buffer
+     * @param buffer the StringBuffer to render to
      */
     protected void renderHtml5Fields(HtmlStringBuffer buffer) {
         if (getControls().isEmpty()) {
             return;
         }
 
+        Form form = getForm();
+
         for (Control control : getControls()) {
-            // Action buttons are skipped here and delegated to renderHtml5Buttons()
+            // Action buttons are skipped here and delegated down to renderHtml5Buttons()
             if (control instanceof Button) {
                 continue;
             }
 
             if (!isHidden(control)) {
-                buffer.append("<div class=\"form-field-group\">\n");
-
-                // Case A: Recursive support for nested Child FieldSets
+                
                 if (control instanceof FieldSet) {
+                    // Handle recursive multi-level nested FieldSets flatly
                     control.render(buffer);
-                } else if (control instanceof Label) { // Case B: Support for static literal text labels
+                    continue;
+                }
+
+                if (control instanceof Label) {
+                    // Render static text blocks purely
                     control.render(buffer);
-                } else if (control instanceof Field) { // Case C: Standard structural inputs (TextField, Select, etc.)
+                    buffer.append("\n");
+                    continue;
+                }
+
+                if (control instanceof Field) {
                     Field field = (Field) control;
-                    Form form = getForm();
+
+                    // =========================================================================
+                    // 1. MIMIC APACHE CLICK LABEL COMPILATION WORKFLOW (Layout-Agnostic)
+                    // =========================================================================
                     String fieldId = field.getId();
                     String fieldLabel = field.getLabel();
 
                     if (fieldId != null && fieldLabel != null) {
-                        String requiredMarker = "";
+                        // Handle localized prefix flags via the parent form context
                         if (field.isRequired() && form != null) {
-                            requiredMarker = String.format("<span class=\"form-required-marker\">%s</span>",
-                                    form.getMessage("label-required-suffix"));
+                            buffer.append(form.getMessage("label-required-prefix"));
+                        } else if (form != null) {
+                            buffer.append(form.getMessage("label-not-required-prefix"));
                         }
 
-                        String labelClass = field.getError() == null ? "form-label" : "form-label error";
-                        buffer.append(String.format("  <label class=\"%s\" for=\"%s\">%s%s</label>\n",
-                                labelClass, fieldId, fieldLabel, requiredMarker));
+                        buffer.elementStart("label");
+                        buffer.appendAttribute("for", fieldId);
+                        buffer.appendAttribute("style", field.getLabelStyle());
+                        if (field.isDisabled()) {
+                            buffer.appendAttributeDisabled();
+                        }
+
+                        // Seamlessly merge dynamic runtime validation error states with custom user classes
+                        String cellClass = field.getLabelStyleClass();
+                        if (field.getError() == null) {
+                            buffer.appendAttribute("class", cellClass);
+                        } else {
+                            buffer.append(" class=\"error");
+                            if (cellClass != null) {
+                                buffer.append(" ");
+                                buffer.append(cellClass);
+                            }
+                            buffer.append("\"");
+                        }
+                        buffer.closeTag();
+                        
+                        buffer.append(fieldLabel);
+                        buffer.elementEnd("label");
+
+                        // Handle localized suffix flags via the parent form context
+                        if (field.isRequired() && form != null) {
+                            buffer.append(form.getMessage("label-required-suffix"));
+                        } else if (form != null) {
+                            buffer.append(form.getMessage("label-not-required-suffix"));
+                        }
+                        buffer.append("\n");
                     }
 
-                    buffer.append("  <div class=\"form-control-wrapper\">\n");
+                    // =========================================================================
+                    // 2. RENDER THE INPUT CONTROL NATIVELY
+                    // =========================================================================
                     field.render(buffer);
+                    buffer.append("\n");
 
+                    // 3. Render Field Validation Error String Using Baseline Span Selectors
                     if (field.getError() != null) {
-                        buffer.append(String.format("    <span class=\"form-field-error\">%s</span>\n",
-                                field.getError()));
+                        buffer.append("<span class=\"error\">").append(field.getError()).append("</span><br/>\n");
                     }
-                    buffer.append("  </div>\n");
+                    
+                } else {
+                    // Raw integration path for complex components like Table with AJAX #60 inside FieldSets
+                    control.render(buffer);
+                    buffer.append("\n");
                 }
-
-                buffer.append("</div>\n");
             }
         }
     }
 
     /**
-     * Renders fieldset action buttons into a clean horizontal division block
-     * bar.
+     * CLK-62
+     * Renders fieldset controls into a flat sequential stream without structural wrapper containers.
      *
-     * @param buffer
+     * @param buffer the StringBuffer to render to
      */
     protected void renderHtml5Buttons(HtmlStringBuffer buffer) {
         List<Button> buttons = ContainerUtils.getButtons(this);
         if (!buttons.isEmpty()) {
-            buffer.append("<div class=\"form-actions-bar\">\n");
-
             for (Button button : buttons) {
                 button.render(buffer);
+                buffer.append(" "); // Retain standard inline whitespace gap separation
             }
-
-            buffer.append("</div>\n");
+            buffer.append("\n");
         }
     }
 

@@ -450,33 +450,24 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
     request.onreadystatechange = function () {
-        // 1. Wait until the request is completely finished
         if (request.readyState === 4) {
-            // 2. Only handle successful responses here
             if (request.status === 200) {        
                 var tempDiv = document.createElement('div');
                 tempDiv.innerHTML = request.responseText;
 
-                // Locate the physical table instance active on the browser screen
-                var oldTable = document.getElementById(tableName).parentNode;
-
-                // STRUCTURAL ADJUSTMENT: Extract the target element node cleanly.
-                // If the table is wrapped inside another table form, querySelector inside tempDiv 
-                // might find multiple instances. We explicitly want the deep target matching our ID and use the parent one.
-                var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]').parentNode;
-                if (!newTable) {
-                    // Fallback option if nested parsing configurations vary
-                    newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]').parentNode || tempDiv.firstChild;
-                }
+                // 1. MIRAR DIRETAMENTE NA TAG DA TABELA (Sem subir para o parentNode)
+                var oldTable = document.getElementById(tableName);
+                var newTable = tempDiv.querySelector('table[id="' + tableName.replace(/"/g, '\\"') + '"]');
 
                 if (oldTable && newTable) {
                     var activeInputName = inputElement.name;
                     var selectionStart = inputElement.selectionStart;
                     var selectionEnd = inputElement.selectionEnd;
-                    // Swap out the table component elements cleanly in the DOM hierarchy
+                    
+                    // 2. Substitui estritamente o nó da tabela, preservando o formulário pai intacto!
                     oldTable.parentNode.replaceChild(newTable, oldTable);
 
-                    // Find the input node inside the fresh DOM fragment and restore focus caret
+                    // Reasginal o foco e o cursor do usuário
                     var refreshedInputs = document.getElementsByName(activeInputName);
                     if (refreshedInputs && refreshedInputs.length > 0) {
                         var refreshedInput = refreshedInputs[0];
@@ -485,7 +476,6 @@ Click.filterTableAjax = function (inputElement, tableName, filterLinkName) {
                     }
                 }
             } else {
-                // 3. Log errors safely only AFTER the request has failed to complete properly
                 console.error("Table filter AJAX failed: " + request.status);
             }        
         }
