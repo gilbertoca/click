@@ -288,7 +288,39 @@ import org.apache.commons.lang3.StringUtils;
  * <td>/click-control.properties</td> <td>form and field messages and HTML, located under classpath</td>
  * </tr>
  * </table>
- *
+ * <p>
+ * <b>Note:</b> the layout options listed above have no effect when
+ * <a href="#setNoLayout(boolean)"><code>setNoLayout(true)</code></a>
+ * is activated. In that mode, all visual scaffolding is delegated to
+ * CSS Grid/Flexbox or to explicit markup in the template.
+ * </p>
+ * 
+ * <a name="no-layout"></a>
+ * <h4>No Layout (Modern Semantic Rendering)</h4>
+ * 
+ * To render the Form as a pure semantic data-submission boundary
+ * (<code>&lt;form&gt;...&lt;/form&gt;</code>) without any structural wrappers
+ * (such as table rows or div groups), call <a href="#setNoLayout(boolean)">
+ * <code>setNoLayout(true)</code></a>:
+ * 
+ * <pre class="prettyprint">
+ * Form form = new Form("contactForm");
+ * form.setNoLayout(true); // Renders children flatly, no wrappers
+ * </pre>
+ * 
+ * When <code>setNoLayout(true)</code> is activated, the Form delegates all
+ * visual scaffolding to CSS Grid/Flexbox or to explicit markup in the
+ * template (<code>.htm</code>). Validation errors are appended directly to
+ * the primitive control fields using the baseline classes
+ * (<code>a.error</code>, <code>input.error</code>, <code>span.error</code>),
+ * which activate Click's classic highlight colors during invalid request
+ * cycles.
+ * 
+ * This approach aligns with the WHATWG Living Standard: an HTML form is a
+ * data-submission boundary, not a layout container. It also ensures
+ * compatibility with complex controls (such as async-filtering Tables or
+ * custom Ajax behaviors) that need full control over the DOM.
+ * 
  * <a name="manual-layout"></a>
  * <h4>Manual Layout</h4>
  *
@@ -1771,9 +1803,12 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * CLK-62
-     * Return true if the form render no layout. False for table layout.
+     * Returns whether the Form renders its children flatly, without
+     * structural wrappers.
      *
-     * @return true if the form render no layout. False for table layout.
+     * @return {@code true} if the Form renders children flatly;
+     *     {@code false} if the default table-based layout is used
+     * @see #setNoLayout(boolean)
      */
     public boolean isNoLayout() {
         return noLayout;
@@ -1781,14 +1816,33 @@ public class Form extends AbstractContainer implements Stateful {
 
     /**
      * CLK-62
-     * Set the layout strategy used to render the form container.
-     * <p>
-     * Supported layout modes are:
-     * <ul>
-     * <li> FALSE - Legacy table-based grid rendering (default track for backward compatibility).</li>
-     * <li> TRUE  - Form should strictly handle logical boundaries, no layout.</li>
-     * </ul>
-     * @param noLayout the layout strategy flag
+     * Sets whether the Form should render its children flatly, without
+     * any structural wrappers (such as table rows or div groups).
+     *
+     * <p>When set to {@code true}, the Form acts purely as a semantic
+     * data-submission boundary ({@code <form>...</form>}), delegating
+     * all visual scaffolding to CSS Grid/Flexbox or to explicit markup
+     * in the template. Validation errors are appended directly to the
+     * primitive control fields using the baseline classes
+     * ({@code a.error}, {@code input.error}, {@code span.error}),
+     * which activate Click's classic highlight colors during invalid
+     * request cycles.</p>
+     *
+     * <p>This approach aligns with the WHATWG Living Standard: an HTML
+     * form is a data-submission boundary, not a layout container. It
+     * also ensures compatibility with complex controls (such as
+     * async-filtering Tables or custom Ajax behaviors) that need full
+     * control over the DOM.</p>
+     *
+     * <p><b>Note:</b> when {@code noLayout} is {@code true}, the
+     * following layout options have no effect: {@code columns},
+     * {@code buttonAlign}, {@code buttonStyle}, {@code errorsAlign},
+     * {@code errorsStyle}, {@code fieldStyle}, {@code labelAlign},
+     * {@code labelStyle}, and {@code labelsPosition}.</p>
+     *
+     * @param noLayout {@code true} to render children flatly without
+     *     structural wrappers; {@code false} to use the default
+     *     table-based layout engine
      */
     public void setNoLayout(boolean noLayout) {
         this.noLayout = noLayout;

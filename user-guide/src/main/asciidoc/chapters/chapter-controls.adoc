@@ -541,22 +541,29 @@ auto-layout approach is good enough. It is certainly very productive.
 ==== Layout Strategies
 
 By default, the Form control layout engine automatically arranges labels and 
-input fields inside an HTML `<table>` matrix structure to preserve backward 
+input fields inside an HTML <table> matrix structure to preserve backward 
 compatibility for legacy web applications.
-However, for modern micro-architectures or integration with contemporary CSS 
-utility frameworks (such as Bulma or Tailwind CSS), you can opt-in to clean, 
-semantic block-level markup by setting the layout property to `div`.
+
+For modern layouts, you can instruct the Form to render its children flatly, 
+without any structural wrappers, by calling form.setNoLayout(true):
 
 [source,java]
 ----
 Form form = new Form("contactForm");
-form.setLayout(Form.LAYOUT_DIV); // Instructs the engine to stream DIV blocks instead of Tables
+form.setNoLayout(true); // Renders children sequentially, no wrappers
 ----
 
-When `LAYOUT_DIV` is activated, the Form wraps error summaries, fields, and 
-action button components into accessible block elements (`<div>`, `<label>`) 
-using standard CSS class anchors (`click-form`, `form-field-group`), 
-unlocking effortless layout alignment via standard Flexbox or CSS Grid rules.
+When setNoLayout(true) is activated, the Form acts purely as a semantic 
+data-submission boundary (<form>...</form>), delegating all visual scaffolding 
+to CSS Grid/Flexbox or to explicit markup in the template (.htm). 
+Validation errors are appended directly to the primitive control fields using 
+the baseline classes (a.error, input.error, span.error), which activate 
+Click's classic highlight colors (#FFFF80) during invalid request cycles.
+
+This approach aligns with the WHATWG Living Standard: an HTML form is a 
+data-submission boundary, not a layout container. It also ensures compatibility 
+with complex controls (such as async-filtering Tables or custom Ajax behaviors) 
+that need full control over the DOM."
 
 However for custom or complex layouts, auto-layout is not always the
 best choice. There are two approaches for creating custom layouts.

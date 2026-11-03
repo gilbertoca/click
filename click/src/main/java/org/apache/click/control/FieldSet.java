@@ -60,6 +60,14 @@ import org.apache.click.util.HtmlStringBuffer;
  * FieldSet provides a container for laying out form <code>Field</code>
  * controls.
  *
+ * <p>
+ * <b>Note:</b> when the parent <a href="Form.html#setNoLayout(boolean)">
+ * <code>Form.setNoLayout(true)</code></a> is activated, the FieldSet also
+ * renders its children flatly (without structural wrappers), delegating
+ * all visual scaffolding to CSS Grid/Flexbox or to explicit markup in the
+ * template.
+ * </p>
+ * 
  * <h3>FieldSet Example</h3>
  *
  * An FieldSet example containing credit card payment details is provided below:
