@@ -550,6 +550,25 @@ public class ClickUtilsTest extends TestCase {
     }
 
     /**
+     * CLK-65 (evidence test): the "mime-type.properties" bundle defines the
+     * "svg" key twice ("svg=image/svg+xml" and later "svg=image/svg").
+     * java.util.Properties keeps the LAST value when loading, so
+     * ClickUtils.getMimeType("svg") currently returns "image/svg" — a MIME
+     * type browsers refuse for <img> (they require image/svg+xml), which
+     * breaks SVG images served through BasicResourceService.
+     *
+     * This test asserts the correct, de-duplicated behavior. It FAILS while
+     * the duplicate key exists; the fix is removing the second "svg" line
+     * (and correcting "svgz=image/svg" to "image/svg+xml") in
+     * click/src/main/java/org/apache/click/util/mime-type.properties.
+     */
+    public void testGetMimeTypeSvg() {
+        assertEquals("image/svg+xml", ClickUtils.getMimeType("svg"));
+        assertEquals("image/svg+xml", ClickUtils.getMimeType("icon.svg"));
+        assertEquals("image/svg+xml", ClickUtils.getMimeType("SVG"));
+    }
+
+    /**
      * Sanity checks for encoding and decoding a password in a cookie.
      */
     public void testCookiePassword() {
