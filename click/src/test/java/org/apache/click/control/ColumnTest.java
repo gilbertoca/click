@@ -18,6 +18,10 @@
  */
 package org.apache.click.control;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import junit.framework.TestCase;
 
 import org.apache.click.MockContext;
@@ -167,6 +171,98 @@ public class ColumnTest extends TestCase {
         @Override
         public String toString() {
             return "TextObject [ " + getName() + ", " + getValue() + "]";
+        }
+    }
+
+    /**
+     * CLK-64: Column.setFormat must render JSR-310 (java.time) values.
+     * MessageFormat only formats java.util.Date, so TemporalAccessor values
+     * are rendered through DateTimeFormatter using the pattern inside the
+     * "{0,date,PATTERN}" style.
+     */
+    public void testSetFormatWithTemporalAccessor() {
+        SampleRow row = new SampleRow();
+
+        // LocalDateTime — the case that used to throw
+        // "Cannot format given Object as a Date"
+        row.setDataHoraInicio(LocalDateTime.of(2026, 11, 13, 14, 0));
+        Column inicio = new Column("dataHoraInicio", "Data Hora Início");
+        inicio.setFormat("{0,date,dd/MM/yyyy HH:mm}");
+        HtmlStringBuffer buffer = new HtmlStringBuffer();
+        inicio.renderTableData(row, buffer, MockContext.initContext(), 0);
+        assertTrue(buffer.toString().contains("13/11/2026 14:00"));
+
+        // LocalDate
+        row.setDataNascimento(LocalDate.of(1990, 5, 10));
+        Column nascimento = new Column("dataNascimento", "Nascimento");
+        nascimento.setFormat("{0,date,dd/MM/yyyy}");
+        buffer = new HtmlStringBuffer();
+        nascimento.renderTableData(row, buffer, MockContext.initContext(), 0);
+        assertTrue(buffer.toString().contains("10/05/1990"));
+
+        // LocalTime
+        row.setHoraInicio(LocalTime.of(9, 30));
+        Column hora = new Column("horaInicio", "Hora");
+        hora.setFormat("{0,date,HH:mm}");
+        buffer = new HtmlStringBuffer();
+        hora.renderTableData(row, buffer, MockContext.initContext(), 0);
+        assertTrue(buffer.toString().contains("09:30"));
+    }
+
+    /**
+     * CLK-64 regression: legacy java.util.Date values keep rendering through
+     * MessageFormat untouched.
+     */
+    public void testSetFormatWithLegacyDate() {
+        SampleRow row = new SampleRow();
+        row.setDataLegada(java.sql.Timestamp.valueOf("2026-11-13 14:00:00"));
+
+        Column column = new Column("dataLegada", "Data");
+        column.setFormat("{0,date,dd/MM/yyyy HH:mm}");
+
+        HtmlStringBuffer buffer = new HtmlStringBuffer();
+        column.renderTableData(row, buffer, MockContext.initContext(), 0);
+        assertTrue(buffer.toString().contains("13/11/2026 14:00"));
+    }
+
+    /** CLK-64: row bean exposing java.time and legacy Date properties. */
+    public static class SampleRow {
+
+        private LocalDateTime dataHoraInicio;
+        private LocalDate dataNascimento;
+        private LocalTime horaInicio;
+        private java.util.Date dataLegada;
+
+        public LocalDateTime getDataHoraInicio() {
+            return dataHoraInicio;
+        }
+
+        public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
+            this.dataHoraInicio = dataHoraInicio;
+        }
+
+        public LocalDate getDataNascimento() {
+            return dataNascimento;
+        }
+
+        public void setDataNascimento(LocalDate dataNascimento) {
+            this.dataNascimento = dataNascimento;
+        }
+
+        public LocalTime getHoraInicio() {
+            return horaInicio;
+        }
+
+        public void setHoraInicio(LocalTime horaInicio) {
+            this.horaInicio = horaInicio;
+        }
+
+        public java.util.Date getDataLegada() {
+            return dataLegada;
+        }
+
+        public void setDataLegada(java.util.Date dataLegada) {
+            this.dataLegada = dataLegada;
         }
     }
 

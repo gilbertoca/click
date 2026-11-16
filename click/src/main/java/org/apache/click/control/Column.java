@@ -20,11 +20,15 @@ package org.apache.click.control;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.click.Context;
 import org.apache.click.service.ConfigService;
@@ -225,6 +229,13 @@ public class Column implements Serializable {
 
     /** The column message format pattern. */
     protected String format;
+
+    /**
+     * CLK-64: matches the "{0,date,PATTERN}" style accepted by
+     * {@link #setFormat(String)}, whose PATTERN is applied to JSR-310
+     * (java.time) values through {@link DateTimeFormatter}.
+     */
+    private static final Pattern DATE_STYLE_PATTERN = Pattern.compile("\\{0,date,([^}]*)\\}");
 
     /** The CSS class attribute of the column header. */
     protected String headerClass;
@@ -1420,6 +1431,38 @@ public class Column implements Serializable {
             if (columnValue != null) {
                 if (getAutolink() && renderLink(columnValue, buffer)) {
                     // Has been rendered
+
+                } else if (columnValue instanceof TemporalAccessor && getFormat() != null) {
+                    // CLK-64: MessageFormat only formats java.util.Date
+                    // ("Cannot format given Object as a Date"), so JSR-310
+                    // values (LocalDate, LocalDateTime, LocalTime, ...) are
+                    // rendered through DateTimeFormatter, with the pattern
+                    // extracted from the "{0,date,PATTERN}" style set via
+                    // setFormat(String). Sorting is unaffected: comparison
+                    // uses the raw column value.
+                    Matcher matcher = DATE_STYLE_PATTERN.matcher(getFormat());
+                    if (matcher.find()) {
+                        Locale locale = context != null ? context.getLocale() : Locale.getDefault();
+                        String value =
+                            DateTimeFormatter.ofPattern(matcher.group(1), locale)
+                                .format((TemporalAccessor) columnValue);
+
+                        if (getMaxLength() > 0) {
+                            value = ClickUtils.limitLength(value, getMaxLength());
+                        }
+
+                        if (getEscapeHtml()) {
+                            buffer.appendEscaped(value);
+                        } else {
+                            buffer.append(value);
+                        }
+
+                    } else {
+                        // No date style in the pattern (e.g. "{0,number,...}"):
+                        // render the ISO toString() instead of letting
+                        // MessageFormat throw.
+                        buffer.append(columnValue.toString());
+                    }
 
                 } else if (getMessageFormat() != null) {
                     Object[] args = new Object[] { columnValue };
